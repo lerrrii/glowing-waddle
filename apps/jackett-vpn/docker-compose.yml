@@ -1,7 +1,7 @@
 version: "3.7"
 services:
     wireguard:
-    image: linuxserver/wireguard:latest
+    image: linuxserver/wireguard:legacy
     container_name: jackett-wireguard-wg
     privileged: true
     cap_add:
