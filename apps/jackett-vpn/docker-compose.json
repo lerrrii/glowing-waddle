@@ -9,7 +9,7 @@
         "VPN_SERVICE_PROVIDER": "protonvpn",
         "VPN_TYPE": "wireguard",
         "WIREGUARD_PRIVATE_KEY": "${WIREGUARD_PRIVATE_KEY}",
-        "SERVER_COUNTRIES": "Netherlands,United States,Japan",
+        "SERVER_COUNTRIES": "Netherlands,UnitedStates,Japan",
         "FREE_ONLY": "on",
         "FIREWALL_VPN_INPUT_PORTS": "9117",
         "TZ": "${TZ}"
@@ -17,11 +17,15 @@
       "capabilities": ["NET_ADMIN"],
       "devices": ["/dev/net/tun:/dev/net/tun"],
       "volumes": [
-        {
-          "hostPath": "${APP_DATA_DIR}/gluetun",
-          "containerPath": "/gluetun"
-        }
-      ]
+        { "hostPath": "${APP_DATA_DIR}/gluetun", "containerPath": "/gluetun" }
+      ],
+      "healthcheck": {
+        "test": ["CMD-SHELL", "curl -f http://127.0.0.1:8888/status || exit 1"],
+        "interval": "15s",
+        "timeout": "10s",
+        "retries": 5,
+        "start_period": "30s"
+      }
     },
     {
       "name": "jackett",
@@ -35,17 +39,13 @@
         "AUTO_UPDATE": "true"
       },
       "volumes": [
-        {
-          "hostPath": "${APP_DATA_DIR}/jackett",
-          "containerPath": "/config"
-        },
-        {
-          "hostPath": "${ROOT_FOLDER_HOST}/media/torrents",
-          "containerPath": "/media/torrents"
-        }
+        { "hostPath": "${APP_DATA_DIR}/jackett", "containerPath": "/config" },
+        { "hostPath": "${ROOT_FOLDER_HOST}/media/torrents", "containerPath": "/media/torrents" }
       ],
       "networkMode": "service:gluetun",
-      "dependsOn": ["gluetun"]
+      "dependsOn": {
+        "gluetun": { "condition": "service_healthy" }
+      }
     }
   ]
 }
