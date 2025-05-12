@@ -2,24 +2,20 @@
   "$schema": "../dynamic-compose-schema.json",
   "services": [
     {
-      "name": "gluetun",
-      "image": "qmcgaw/gluetun:latest",
-      "internalPort": 9117,
+      "name": "wireguard",
+      "image": "linuxserver/wireguard:latest",
+      "internalPort": 51820,
       "environment": {
-        "VPN_SERVICE_PROVIDER": "protonvpn",
-        "VPN_TYPE": "wireguard",
-        "WIREGUARD_PRIVATE_KEY": "${WIREGUARD_PRIVATE_KEY}",
-        "SERVER_COUNTRIES": "Netherlands,United States,Japan",
-        "FREE_ONLY": "on",
-        "FIREWALL_VPN_INPUT_PORTS": "9117",
+        "PUID": "1000",
+        "PGID": "1000",
         "TZ": "${TZ}"
       },
       "capabilities": ["NET_ADMIN"],
       "devices": ["/dev/net/tun:/dev/net/tun"],
       "volumes": [
         {
-          "hostPath": "${APP_DATA_DIR}/gluetun",
-          "containerPath": "/gluetun"
+          "hostPath": "${APP_DATA_DIR}/wireguard",
+          "containerPath": "/config"
         }
       ]
     },
@@ -44,8 +40,7 @@
           "containerPath": "/media/torrents"
         }
       ],
-      "dependsOn": ["gluetun"],
-      "networkMode": "container:gluetun"
+      "networkMode": "service:wireguard"
     }
   ]
 }
