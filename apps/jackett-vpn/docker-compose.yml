@@ -1,17 +1,16 @@
 version: "3.7"
 services:
   wireguard:
-    image: linuxserver/wireguard:latest   # or :legacy to compile in-container
+    image: linuxserver/wireguard:latest    # or :legacy if host kernel unsupported
     container_name: jackett-wireguard-wg
-    privileged: true                       # or cap_add below:
     cap_add:
       - NET_ADMIN
-      - SYS_MODULE                         # allow module loading
     devices:
       - /dev/net/tun:/dev/net/tun
+    privileged: true                        # allow module load if needed
     volumes:
-      - ${APP_DATA_DIR}/wireguard:/config  # place wg0.conf here
-      - /lib/modules:/lib/modules:ro       # expose host’s modules
+      - ${APP_DATA_DIR}/wireguard:/config   # <- place wg0.conf here
+      - /lib/modules:/lib/modules:ro        # <- give access to host’s wireguard.ko
     environment:
       - PUID=1000
       - PGID=1000
@@ -23,7 +22,7 @@ services:
   jackett:
     image: lscr.io/linuxserver/jackett:latest
     container_name: jackett-wireguard
-    network_mode: service:wireguard
+    network_mode: service:wireguard         # piggy-back on wg0 namespace
     depends_on:
       - wireguard
     environment:
@@ -37,12 +36,45 @@ services:
     restart: unless-stopped
     labels:
       runtipi.managed: true
-            traefik.enable: true
+      traefik.enable: true
       traefik.http.middlewares.jackett-vpn-web-redirect.redirectscheme.scheme: https
       traefik.http.services.jackett-vpn.loadbalancer.server.port: 9117
-      # Web
+      # Insecure HTTP → redirect to HTTPS
       traefik.http.routers.jackett-vpn-insecure.rule: Host(`${APP_DOMAIN}`)
       traefik.http.routers.jackett-vpn-insecure.entrypoints: web
+      traefik.http.routers.jackett-vpn-insecure.middlewares: jackett-vpn-web-redirect
+      traefik.http.routers.jackett-vpn-insecure.service: jackett-vpn
+      # HTTPS
+      traefik.http.routers.jackett-vpn.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.jackett-vpn.entrypoints: websecure
+      traefik.http.routers.jackett-vpn.tls.certresolver: myresolver
+      traefik.http.routers.jackett-vpn.service: jackett-vpn
+      # Local domain (HTTP)
+      traefik.http.routers.jackett-vpn-local-insecure.rule: Host(`jackett-vpn.${LOCAL_DOMAIN}`)
+      traefik.http.routers.jackett-vpn-local-insecure.entrypoints: web
+      traefik.http.routers.jackett-vpn-local-insecure.middlewares: jackett-vpn-web-redirect
+      traefik.http.routers.jackett-vpn-local-insecure.service: jackett-vpn
+      # Local domain (HTTPS)
+      traefik.http.routers.jackett-vpn-local.rule: Host(`jackett-vpn.${LOCAL_DOMAIN}`)
+      traefik.http.routers.jackett-vpn-local.entrypoints: websecure
+      traefik.http.routers.jackett-vpn-local.tls: true
+      traefik.http.routers.jackett-vpn-local.service: jackett-vpn
+
+networks:
+  tipi_main_network:
+    external: true
+version: "3.7"
+services:
+  wireguard:
+    image: linuxserver/wireguard:latest   # or :legacy to compile in-container
+    container_name: jackett-wireguard-wg
+    privileged: true                       # or cap_add below:
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE                         # allow module loading
+    devices:
+      - /dev/net/tun:/dev/net/tun
+outers.jackett-vpn-insecure.entrypoints: web
       traefik.http.routers.jackett-vpn-insecure.service: jackett-vpn
       traefik.http.routers.jackett-vpn-insecure.middlewares: jackett-vpn-web-redirect
       # Websecure
