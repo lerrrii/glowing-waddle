@@ -1,23 +1,23 @@
 version: "3.7"
 services:
-  wireguard:
+    wireguard:
     image: linuxserver/wireguard:latest
     container_name: jackett-wireguard-wg
+    privileged: true
     cap_add:
       - NET_ADMIN
     devices:
       - /dev/net/tun:/dev/net/tun
+    volumes:
+      - ${APP_DATA_DIR}/wireguard:/config
+      - /lib/modules:/lib/modules:ro
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=${TZ}
-    volumes:
-      - ${APP_DATA_DIR}/wireguard:/config
     restart: unless-stopped
     networks:
       - tipi_main_network
-    labels:
-      runtipi.managed: true
 
   jackett:
     image: lscr.io/linuxserver/jackett:latest
