@@ -1,24 +1,18 @@
 version: "3.7"
 services:
-  gluetun:
-    image: qmcgaw/gluetun:latest
-    container_name: jackett-vpn-gluetun
+  wireguard:
+    image: linuxserver/wireguard:latest
+    container_name: jackett-wireguard-wg
     cap_add:
       - NET_ADMIN
     devices:
       - /dev/net/tun:/dev/net/tun
     environment:
-      - VPN_SERVICE_PROVIDER=protonvpn
-      - VPN_TYPE=wireguard
-      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
-      - SERVER_COUNTRIES=Netherlands,United States,Japan
-      - FREE_ONLY=on
-      - FIREWALL_VPN_INPUT_PORTS=9117
+      - PUID=1000
+      - PGID=1000
       - TZ=${TZ}
     volumes:
-      - ${APP_DATA_DIR}/gluetun:/gluetun
-    dns:
-      - ${DNS_IP}
+      - ${APP_DATA_DIR}/wireguard:/config
     restart: unless-stopped
     networks:
       - tipi_main_network
@@ -27,7 +21,10 @@ services:
 
   jackett:
     image: lscr.io/linuxserver/jackett:latest
-    container_name: jackett-vpn
+    container_name: jackett-wireguard
+    network_mode: service:wireguard
+    depends_on:
+      - wireguard
     environment:
       - PUID=1000
       - PGID=1000
@@ -36,13 +33,10 @@ services:
     volumes:
       - ${APP_DATA_DIR}/jackett:/config
       - ${ROOT_FOLDER_HOST}/media/torrents:/media/torrents
-    network_mode: service:gluetun
-    depends_on:
-      - gluetun
     restart: unless-stopped
     labels:
-      # Main
-      traefik.enable: true
+      runtipi.managed: true
+            traefik.enable: true
       traefik.http.middlewares.jackett-vpn-web-redirect.redirectscheme.scheme: https
       traefik.http.services.jackett-vpn.loadbalancer.server.port: 9117
       # Web
@@ -65,4 +59,6 @@ services:
       traefik.http.routers.jackett-vpn-local.entrypoints: websecure
       traefik.http.routers.jackett-vpn-local.service: jackett-vpn
       traefik.http.routers.jackett-vpn-local.tls: true
-      runtipi.managed: true
+networks:
+  tipi_main_network:
+    external: true
