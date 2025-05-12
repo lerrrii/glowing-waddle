@@ -1,27 +1,19 @@
 {
   "$schema": "../app-info-schema.json",
-  "name": "Jackett with VPN",
+  "name": "Jackett with ProtonVPN WireGuard",
   "available": true,
   "exposable": true,
   "dynamic_config": true,
   "port": 9117,
-  "id": "jackett-vpn",
+  "id": "jackett-wireguard",
   "tipi_version": 82,
   "version": "latest",
-  "description": "Jackett running through Gluetun VPN for secure torrent searches. Jackett works as a proxy server for torrent trackers, supporting apps like Sonarr, Radarr, etc.",
-  "short_desc": "Torrent indexer with ProtonVPN protection",
+  "description": "Jackett running through ProtonVPN via WireGuard, with kernel-level kill-switch.",
+  "short_desc": "Torrent indexer over ProtonVPN WireGuard",
   "categories": ["media", "utilities", "security"],
   "author": "",
   "source": "https://github.com/Jackett/Jackett",
-  "form_fields": [
-    {
-      "type": "password",
-      "label": "WireGuard Private Key",
-      "required": true,
-      "env_variable": "WIREGUARD_PRIVATE_KEY",
-      "description": "Your ProtonVPN WireGuard private key"
-    }
-  ],
+  "form_fields": [],
   "supported_architectures": ["arm64", "amd64"],
   "force_pull": true
 }
