@@ -17,8 +17,6 @@ services:
       - TZ=${TZ}
     volumes:
       - ${APP_DATA_DIR}/gluetun:/gluetun
-    dns:
-      - ${DNS_IP}
     restart: unless-stopped
     networks:
       - tipi_main_network
