@@ -44,7 +44,8 @@
           "containerPath": "/media/torrents"
         }
       ],
-      "networkMode": "service:gluetun"
+      "networkMode": "service:gluetun",
+      "dependsOn": ["gluetun"]
     }
   ]
 }
