@@ -2,7 +2,7 @@ version: "3.7"
 services:
   gluetun:
     image: qmcgaw/gluetun:latest
-    container_name: jackett-vpn-gluetun
+    # removed container_name here so the service name "gluetun" is used
     cap_add:
       - NET_ADMIN
     devices:
@@ -34,7 +34,7 @@ services:
     volumes:
       - ${APP_DATA_DIR}/jackett:/config
       - ${ROOT_FOLDER_HOST}/media/torrents:/media/torrents
-    network_mode: service:gluetun
+    network_mode: "service:gluetun"
     depends_on:
       - gluetun
     restart: unless-stopped
@@ -43,7 +43,7 @@ services:
       traefik.enable: true
       traefik.http.middlewares.jackett-vpn-web-redirect.redirectscheme.scheme: https
       traefik.http.services.jackett-vpn.loadbalancer.server.port: 9117
-      # Web
+      # Web (insecure)
       traefik.http.routers.jackett-vpn-insecure.rule: Host(`${APP_DOMAIN}`)
       traefik.http.routers.jackett-vpn-insecure.entrypoints: web
       traefik.http.routers.jackett-vpn-insecure.service: jackett-vpn
@@ -53,7 +53,7 @@ services:
       traefik.http.routers.jackett-vpn.entrypoints: websecure
       traefik.http.routers.jackett-vpn.service: jackett-vpn
       traefik.http.routers.jackett-vpn.tls.certresolver: myresolver
-      # Local domain
+      # Local domain (insecure)
       traefik.http.routers.jackett-vpn-local-insecure.rule: Host(`jackett-vpn.${LOCAL_DOMAIN}`)
       traefik.http.routers.jackett-vpn-local-insecure.entrypoints: web
       traefik.http.routers.jackett-vpn-local-insecure.service: jackett-vpn
@@ -64,3 +64,7 @@ services:
       traefik.http.routers.jackett-vpn-local.service: jackett-vpn
       traefik.http.routers.jackett-vpn-local.tls: true
       runtipi.managed: true
+
+networks:
+  tipi_main_network:
+    external: true
