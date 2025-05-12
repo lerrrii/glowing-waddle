@@ -1,0 +1,27 @@
+{
+  "$schema": "../app-info-schema.json",
+  "name": "Jackett with VPN",
+  "available": true,
+  "exposable": true,
+  "dynamic_config": true,
+  "port": 9117,
+  "id": "jackett-vpn",
+  "tipi_version": 82,
+  "version": "latest",
+  "description": "Jackett running through Gluetun VPN for secure torrent searches. Jackett works as a proxy server for torrent trackers, supporting apps like Sonarr, Radarr, etc.",
+  "short_desc": "Torrent indexer with ProtonVPN protection",
+  "categories": ["media", "utilities", "security"],
+  "author": "",
+  "source": "https://github.com/Jackett/Jackett",
+  "form_fields": [
+    {
+      "name": "WIREGUARD_PRIVATE_KEY",
+      "label": "WireGuard Private Key",
+      "type": "password",
+      "required": true,
+      "masked": true
+    }
+  ],
+  "supported_architectures": ["arm64", "amd64"],
+  "force_pull": true
+}
