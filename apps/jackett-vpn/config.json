@@ -17,6 +17,7 @@
     {
       "name": "WIREGUARD_PRIVATE_KEY",
       "label": "WireGuard Private Key",
+      "env_variable": "WIREGUARD_PRIVATE_KEY",     ←── add this
       "type": "password",
       "required": true,
       "masked": true
