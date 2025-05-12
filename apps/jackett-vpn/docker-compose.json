@@ -2,45 +2,41 @@
   "$schema": "../dynamic-compose-schema.json",
   "services": [
     {
-      "name": "wireguard",
-      "image": "linuxserver/wireguard:latest",
-      "internalPort": 51820,
-      "environment": {
-        "PUID": "1000",
-        "PGID": "1000",
-        "TZ": "${TZ}"
-      },
-      "capabilities": ["NET_ADMIN"],
-      "devices": ["/dev/net/tun:/dev/net/tun"],
-      "volumes": [
-        {
-          "hostPath": "${APP_DATA_DIR}/wireguard",
-          "containerPath": "/config"
-        }
-      ]
-    },
-    {
-      "name": "jackett",
-      "image": "lscr.io/linuxserver/jackett:latest",
+      "name": "jackett-vpn",
+      "image": "dyonr/jackettvpn:latest",
       "isMain": true,
       "internalPort": 9117,
       "environment": {
         "PUID": "1000",
         "PGID": "1000",
         "TZ": "${TZ}",
-        "AUTO_UPDATE": "true"
+        "VPN_ENABLED": "yes",
+        "VPN_TYPE": "wireguard",
+        "LAN_NETWORK": "${LAN_NETWORK:-192.168.0.0/16,172.16.0.0/12,10.0.0.0/8}"
       },
+      "capabilities": ["NET_ADMIN"],
+      "devices": ["/dev/net/tun:/dev/net/tun"],
+      "sysctls": [
+        {
+          "name": "net.ipv4.conf.all.src_valid_mark",
+          "value": "1"
+        }
+      ],
+      "privileged": true,
       "volumes": [
         {
-          "hostPath": "${APP_DATA_DIR}/jackett",
+          "hostPath": "${APP_DATA_DIR}/data",
           "containerPath": "/config"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/vpn",
+          "containerPath": "/config/wireguard"
         },
         {
           "hostPath": "${ROOT_FOLDER_HOST}/media/torrents",
           "containerPath": "/media/torrents"
         }
-      ],
-      "networkMode": "service:wireguard"
+      ]
     }
   ]
 }
