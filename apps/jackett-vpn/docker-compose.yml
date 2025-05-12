@@ -1,16 +1,17 @@
 version: "3.7"
 services:
-    wireguard:
-    image: linuxserver/wireguard:legacy
+  wireguard:
+    image: linuxserver/wireguard:latest   # or :legacy to compile in-container
     container_name: jackett-wireguard-wg
-    privileged: true
+    privileged: true                       # or cap_add below:
     cap_add:
       - NET_ADMIN
+      - SYS_MODULE                         # allow module loading
     devices:
       - /dev/net/tun:/dev/net/tun
     volumes:
-      - ${APP_DATA_DIR}/wireguard:/config
-      - /lib/modules:/lib/modules:ro
+      - ${APP_DATA_DIR}/wireguard:/config  # place wg0.conf here
+      - /lib/modules:/lib/modules:ro       # expose host’s modules
     environment:
       - PUID=1000
       - PGID=1000
