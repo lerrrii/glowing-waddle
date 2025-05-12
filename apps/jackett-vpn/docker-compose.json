@@ -2,30 +2,30 @@
   "$schema": "../dynamic-compose-schema.json",
   "services": [
     {
-      "name": "gluetun",
-      "image": "qmcgaw/gluetun:latest",
-      "internalPort": 9117,
+      "name": "wireguard",
+      "image": "linuxserver/wireguard:latest",
+      "internalPort": 51820,
       "environment": {
-        "VPN_SERVICE_PROVIDER": "protonvpn",
-        "VPN_TYPE": "wireguard",
-        "WIREGUARD_PRIVATE_KEY": "${WIREGUARD_PRIVATE_KEY}",
-        "SERVER_COUNTRIES": "Netherlands,UnitedStates,Japan",
-        "FREE_ONLY": "on",
-        "FIREWALL_VPN_INPUT_PORTS": "9117",
-        "TZ": "${TZ}"
+        "PUID": "1000",
+        "PGID": "1000",
+        "TZ": "${TZ}",
+        "SERVERURL": "wg0",
+        "SERVERPORT": "51820",
+        "PEERS": "1",
+        "PEERDNS": "auto"
       },
-      "capabilities": ["NET_ADMIN"],
+      "capabilities": ["NET_ADMIN", "SYS_MODULE"],
       "devices": ["/dev/net/tun:/dev/net/tun"],
       "volumes": [
-        { "hostPath": "${APP_DATA_DIR}/gluetun", "containerPath": "/gluetun" }
-      ],
-      "healthcheck": {
-        "test": ["CMD-SHELL", "curl -f http://127.0.0.1:8888/status || exit 1"],
-        "interval": "15s",
-        "timeout": "10s",
-        "retries": 5,
-        "start_period": "30s"
-      }
+        {
+          "hostPath": "${APP_DATA_DIR}/wireguard",
+          "containerPath": "/config"
+        },
+        {
+          "hostPath": "/lib/modules",
+          "containerPath": "/lib/modules"
+        }
+      ]
     },
     {
       "name": "jackett",
@@ -39,13 +39,16 @@
         "AUTO_UPDATE": "true"
       },
       "volumes": [
-        { "hostPath": "${APP_DATA_DIR}/jackett", "containerPath": "/config" },
-        { "hostPath": "${ROOT_FOLDER_HOST}/media/torrents", "containerPath": "/media/torrents" }
+        {
+          "hostPath": "${APP_DATA_DIR}/jackett",
+          "containerPath": "/config"
+        },
+        {
+          "hostPath": "${ROOT_FOLDER_HOST}/media/torrents",
+          "containerPath": "/media/torrents"
+        }
       ],
-      "networkMode": "service:gluetun",
-      "dependsOn": {
-        "gluetun": { "condition": "service_healthy" }
-      }
+      "networkMode": "service:wireguard"
     }
   ]
 }
