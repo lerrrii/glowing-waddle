@@ -1,29 +1,29 @@
 version: "3.7"
-
 services:
-  gluetun:
-    image: qmcgaw/gluetun:latest
-    # no container_name—use the service name for network_mode
+  wireguard:
+    image: linuxserver/wireguard:latest
+    container_name: jackett-vpn-wireguard
     cap_add:
       - NET_ADMIN
+      - SYS_MODULE
     devices:
       - /dev/net/tun:/dev/net/tun
     environment:
-      - VPN_SERVICE_PROVIDER=protonvpn
-      - VPN_TYPE=wireguard
-      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
-      - SERVER_COUNTRIES=Netherlands,United States,Japan
-      - FREE_ONLY=on
-      - FIREWALL_VPN_INPUT_PORTS=9117
+      - PUID=1000
+      - PGID=1000
       - TZ=${TZ}
+      - SERVERURL=wg0
+      - SERVERPORT=51820
+      - PEERS=1
+      - PEERDNS=auto
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - WIREGUARD_ADDRESS=${WIREGUARD_ADDRESS}
+      - WIREGUARD_ENDPOINT=${WIREGUARD_ENDPOINT}
     volumes:
-      - ${APP_DATA_DIR}/gluetun:/gluetun
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://127.0.0.1:8888/status || exit 1"]
-      interval: 15s
-      timeout: 10s
-      retries: 5
-      start_period: 30s
+      - ${APP_DATA_DIR}/wireguard:/config
+      - /lib/modules:/lib/modules
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
     restart: unless-stopped
     networks:
       - tipi_main_network
@@ -41,39 +41,33 @@ services:
     volumes:
       - ${APP_DATA_DIR}/jackett:/config
       - ${ROOT_FOLDER_HOST}/media/torrents:/media/torrents
-    network_mode: "service:gluetun"
+    network_mode: service:wireguard
     depends_on:
-      gluetun:
-        condition: service_healthy
+      - wireguard
     restart: unless-stopped
     labels:
-      # Traefik & runtipi labels...
+      # Main
       traefik.enable: true
       traefik.http.middlewares.jackett-vpn-web-redirect.redirectscheme.scheme: https
       traefik.http.services.jackett-vpn.loadbalancer.server.port: 9117
-
+      # Web
       traefik.http.routers.jackett-vpn-insecure.rule: Host(`${APP_DOMAIN}`)
       traefik.http.routers.jackett-vpn-insecure.entrypoints: web
-      traefik.http.routers.jackett-vpn-insecure.middlewares: jackett-vpn-web-redirect
       traefik.http.routers.jackett-vpn-insecure.service: jackett-vpn
-
+      traefik.http.routers.jackett-vpn-insecure.middlewares: jackett-vpn-web-redirect
+      # Websecure
       traefik.http.routers.jackett-vpn.rule: Host(`${APP_DOMAIN}`)
       traefik.http.routers.jackett-vpn.entrypoints: websecure
       traefik.http.routers.jackett-vpn.service: jackett-vpn
       traefik.http.routers.jackett-vpn.tls.certresolver: myresolver
-
+      # Local domain
       traefik.http.routers.jackett-vpn-local-insecure.rule: Host(`jackett-vpn.${LOCAL_DOMAIN}`)
       traefik.http.routers.jackett-vpn-local-insecure.entrypoints: web
-      traefik.http.routers.jackett-vpn-local-insecure.middlewares: jackett-vpn-web-redirect
       traefik.http.routers.jackett-vpn-local-insecure.service: jackett-vpn
-
+      traefik.http.routers.jackett-vpn-local-insecure.middlewares: jackett-vpn-web-redirect
+      # Local domain secure
       traefik.http.routers.jackett-vpn-local.rule: Host(`jackett-vpn.${LOCAL_DOMAIN}`)
       traefik.http.routers.jackett-vpn-local.entrypoints: websecure
       traefik.http.routers.jackett-vpn-local.service: jackett-vpn
       traefik.http.routers.jackett-vpn-local.tls: true
-
       runtipi.managed: true
-
-networks:
-  tipi_main_network:
-    external: true
