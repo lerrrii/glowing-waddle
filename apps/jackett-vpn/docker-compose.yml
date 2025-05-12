@@ -1,29 +1,24 @@
 version: "3.7"
 services:
-  wireguard:
-    image: linuxserver/wireguard:latest
-    container_name: jackett-vpn-wireguard
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: jackett-vpn-gluetun
     cap_add:
       - NET_ADMIN
-      - SYS_MODULE
     devices:
       - /dev/net/tun:/dev/net/tun
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=${TZ}
-      - SERVERURL=wg0
-      - SERVERPORT=51820
-      - PEERS=1
-      - PEERDNS=auto
+      - VPN_SERVICE_PROVIDER=protonvpn
+      - VPN_TYPE=wireguard
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
-      - WIREGUARD_ADDRESS=${WIREGUARD_ADDRESS}
-      - WIREGUARD_ENDPOINT=${WIREGUARD_ENDPOINT}
+      - SERVER_COUNTRIES=Netherlands,United States,Japan
+      - FREE_ONLY=on
+      - FIREWALL_VPN_INPUT_PORTS=9117
+      - TZ=${TZ}
     volumes:
-      - ${APP_DATA_DIR}/wireguard:/config
-      - /lib/modules:/lib/modules
-    sysctls:
-      - net.ipv4.conf.all.src_valid_mark=1
+      - ${APP_DATA_DIR}/gluetun:/gluetun
+    dns:
+      - ${DNS_IP}
     restart: unless-stopped
     networks:
       - tipi_main_network
@@ -41,9 +36,9 @@ services:
     volumes:
       - ${APP_DATA_DIR}/jackett:/config
       - ${ROOT_FOLDER_HOST}/media/torrents:/media/torrents
-    network_mode: service:wireguard
+    network_mode: service:gluetun
     depends_on:
-      - wireguard
+      - gluetun
     restart: unless-stopped
     labels:
       # Main
