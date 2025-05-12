@@ -15,12 +15,11 @@
   "source": "https://github.com/Jackett/Jackett",
   "form_fields": [
     {
-      "name": "WIREGUARD_PRIVATE_KEY",
-      "label": "WireGuard Private Key",
-      "env_variable": "WIREGUARD_PRIVATE_KEY",
       "type": "password",
+      "label": "WireGuard Private Key",
       "required": true,
-      "masked": true
+      "env_variable": "WIREGUARD_PRIVATE_KEY",
+      "description": "Your ProtonVPN WireGuard private key"
     }
   ],
   "supported_architectures": ["arm64", "amd64"],
