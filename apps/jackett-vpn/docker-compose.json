@@ -7,12 +7,16 @@
       "isMain": true,
       "internalPort": 9117,
       "environment": {
-        "PUID": "1000",
-        "PGID": "1000",
+        "PUID": "${PUID-1000}",
+        "PGID": "${PGID-1000}",
         "TZ": "${TZ}",
-        "VPN_ENABLED": "yes",
-        "VPN_TYPE": "wireguard",
-        "LAN_NETWORK": "${LAN_NETWORK:-192.168.0.0/16,172.16.0.0/12,10.0.0.0/8}"
+        "VPN_ENABLED": "${VPN_ENABLED-yes}",
+        "VPN_TYPE": "${VPN_TYPE-wireguard}",
+        "LAN_NETWORK": "${LAN_NETWORK-192.168.0.0/16,172.16.0.0/12,10.0.0.0/8}",
+        "NAME_SERVERS": "${NAME_SERVERS-1.1.1.1,1.0.0.1}",
+        "UMASK": "${UMASK-002}",
+        "VPN_USERNAME": "${VPN_USERNAME}",
+        "VPN_PASSWORD": "${VPN_PASSWORD}"
       },
       "capabilities": ["NET_ADMIN"],
       "devices": ["/dev/net/tun:/dev/net/tun"],
@@ -26,12 +30,16 @@
           "containerPath": "/config"
         },
         {
-          "hostPath": "${APP_DATA_DIR}/vpn",
+          "hostPath": "${APP_DATA_DIR}/data/wireguard",
           "containerPath": "/config/wireguard"
         },
         {
+          "hostPath": "${APP_DATA_DIR}/data/openvpn",
+          "containerPath": "/config/openvpn"
+        },
+        {
           "hostPath": "${ROOT_FOLDER_HOST}/media/torrents",
-          "containerPath": "/media/torrents"
+          "containerPath": "/blackhole"
         }
       ]
     }
