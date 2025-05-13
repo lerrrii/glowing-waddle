@@ -2,8 +2,8 @@
   "$schema": "../dynamic-compose-schema.json",
   "services": [
     {
-      "name": "jackett-vpn",
-      "image": "dyonr/jackettvpn:latest",
+      "name": "jackettvpn",
+      "image": "dyonr/jackettvpn:0.20.5138",
       "isMain": true,
       "internalPort": 9117,
       "environment": {
@@ -17,21 +17,22 @@
         "PUID": "${PUID-1000}",
         "PGID": "${PGID-1000}",
         "UMASK": "${UMASK-002}",
-        "WEBUI_PORT": "${WEBUI_PORT-9117}",
-        "HEALTH_CHECK_HOST": "${HEALTH_CHECK_HOST-1.1.1.1}",
         "HEALTH_CHECK_INTERVAL": "${HEALTH_CHECK_INTERVAL-300}",
         "HEALTH_CHECK_SILENT": "${HEALTH_CHECK_SILENT-1}",
         "ADDITIONAL_PORTS": "${ADDITIONAL_PORTS}"
       },
       "volumes": [
-        { "hostPath": "${APP_DATA_DIR}/config", "containerPath": "/config" },
-        { "hostPath": "${ROOT_FOLDER_HOST}/blackhole", "containerPath": "/blackhole" }
+        {"hostPath": "${APP_DATA_DIR}/data/config","containerPath": "/config"},
+        {"hostPath": "${APP_DATA_DIR}/data/blackhole","containerPath": "/blackhole"}
       ],
-      "ports": [
-        { "hostPort": "${APP_PORT}", "containerPort": 9117 }
-      ],
-      "logging": { "driver": "json-file", "options": { "max-size": "10m" } },
-      "restart": "unless-stopped"
+      "capAdd": ["NET_ADMIN"],
+      "devices": ["/dev/net/tun"],
+      "healthCheck": {
+        "test": "bash /usr/local/bin/healthcheck.sh",
+        "interval": "30s",
+        "timeout": "10s",
+        "retries": 3
+      }
     }
   ]
 }
