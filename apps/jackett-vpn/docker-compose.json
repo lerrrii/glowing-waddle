@@ -7,41 +7,31 @@
       "isMain": true,
       "internalPort": 9117,
       "environment": {
+        "VPN_ENABLED": "${VPN_ENABLED-yes}",
+        "VPN_TYPE": "${VPN_TYPE-openvpn}",
+        "VPN_USERNAME": "${VPN_USERNAME}",
+        "VPN_PASSWORD": "${VPN_PASSWORD}",
+        "WEBUI_PASSWORD": "${WEBUI_PASSWORD}",
+        "LAN_NETWORK": "${LAN_NETWORK}",
+        "NAME_SERVERS": "${NAME_SERVERS-1.1.1.1,1.0.0.1}",
         "PUID": "${PUID-1000}",
         "PGID": "${PGID-1000}",
-        "TZ": "${TZ}",
-        "VPN_ENABLED": "${VPN_ENABLED-yes}",
-        "VPN_TYPE": "${VPN_TYPE-wireguard}",
-        "LAN_NETWORK": "${LAN_NETWORK-192.168.0.0/16,172.16.0.0/12,10.0.0.0/8}",
-        "NAME_SERVERS": "${NAME_SERVERS-1.1.1.1,1.0.0.1}",
         "UMASK": "${UMASK-002}",
-        "VPN_USERNAME": "${VPN_USERNAME}",
-        "VPN_PASSWORD": "${VPN_PASSWORD}"
+        "WEBUI_PORT": "${WEBUI_PORT-9117}",
+        "HEALTH_CHECK_HOST": "${HEALTH_CHECK_HOST-1.1.1.1}",
+        "HEALTH_CHECK_INTERVAL": "${HEALTH_CHECK_INTERVAL-300}",
+        "HEALTH_CHECK_SILENT": "${HEALTH_CHECK_SILENT-1}",
+        "ADDITIONAL_PORTS": "${ADDITIONAL_PORTS}"
       },
-      "capabilities": ["NET_ADMIN"],
-      "devices": ["/dev/net/tun:/dev/net/tun"],
-      "sysctls": {
-        "net.ipv4.conf.all.src_valid_mark": 1
-      },
-      "privileged": true,
       "volumes": [
-        {
-          "hostPath": "${APP_DATA_DIR}/data",
-          "containerPath": "/config"
-        },
-        {
-          "hostPath": "${APP_DATA_DIR}/data/wireguard",
-          "containerPath": "/config/wireguard"
-        },
-        {
-          "hostPath": "${APP_DATA_DIR}/data/openvpn",
-          "containerPath": "/config/openvpn"
-        },
-        {
-          "hostPath": "${ROOT_FOLDER_HOST}/media/torrents",
-          "containerPath": "/blackhole"
-        }
-      ]
+        { "hostPath": "${APP_DATA_DIR}/config", "containerPath": "/config" },
+        { "hostPath": "${ROOT_FOLDER_HOST}/blackhole", "containerPath": "/blackhole" }
+      ],
+      "ports": [
+        { "hostPort": "${APP_PORT}", "containerPort": 9117 }
+      ],
+      "logging": { "driver": "json-file", "options": { "max-size": "10m" } },
+      "restart": "unless-stopped"
     }
   ]
 }
