@@ -1,62 +1,43 @@
-version: "3.7"
 services:
   jackett-vpn:
     image: dyonr/jackettvpn:latest
     container_name: jackett-vpn
+    privileged: true
     cap_add:
       - NET_ADMIN
     devices:
-      - /dev/net/tun:/dev/net/tun
-    sysctls:
-      - net.ipv4.conf.all.src_valid_mark=1
-    privileged: true
+      - /dev/net/tun
+    dns:
+      - ${NAME_SERVERS}
     environment:
-      - PUID=${PUID-1000}
-      - PGID=${PGID-1000}
-      - TZ=${TZ}
       - VPN_ENABLED=${VPN_ENABLED-yes}
-      - VPN_TYPE=${VPN_TYPE-wireguard}
-      - LAN_NETWORK=${LAN_NETWORK-192.168.0.0/16,172.16.0.0/12,10.0.0.0/8}
-      - NAME_SERVERS=${NAME_SERVERS-1.1.1.1,1.0.0.1}
-      - UMASK=${UMASK-002}
+      - VPN_TYPE=${VPN_TYPE-openvpn}
       - VPN_USERNAME=${VPN_USERNAME}
       - VPN_PASSWORD=${VPN_PASSWORD}
+      - WEBUI_PASSWORD=${WEBUI_PASSWORD}
+      - LAN_NETWORK=${LAN_NETWORK}
+      - NAME_SERVERS=${NAME_SERVERS-1.1.1.1,1.0.0.1}
+      - PUID=${PUID-1000}
+      - PGID=${PGID-1000}
+      - UMASK=${UMASK-002}
+      - WEBUI_PORT=${WEBUI_PORT-9117}
+      - HEALTH_CHECK_HOST=${HEALTH_CHECK_HOST-1.1.1.1}
+      - HEALTH_CHECK_INTERVAL=${HEALTH_CHECK_INTERVAL-300}
+      - HEALTH_CHECK_SILENT=${HEALTH_CHECK_SILENT-1}
+      - ADDITIONAL_PORTS=${ADDITIONAL_PORTS}
     volumes:
-      - /root/runtipi/app-data/my-store/jackett-vpn/data:/config
-      - /root/runtipi/app-data/my-store/jackett-vpn/data/wireguard:/etc/wireguard
-      - /root/runtipi/app-data/my-store/jackett-vpn/data/openvpn:/config/openvpn
-      - /root/runtipi/media/torrents:/blackhole
+      - ${APP_DATA_DIR}/config:/config
+      - ${ROOT_FOLDER_HOST}/blackhole:/blackhole
     ports:
-      - "${APP_PORT:-9117}:9117"
+      - "${APP_PORT}:9117"
     restart: unless-stopped
     networks:
       - tipi_main_network
     labels:
-      # Main
-      traefik.enable: "true"
-      traefik.http.middlewares.jackett-vpn-web-redirect.redirectscheme.scheme: https
-      traefik.http.services.jackett-vpn.loadbalancer.server.port: 9117
-      # Web (insecure)
-      traefik.http.routers.jackett-vpn-insecure.rule: Host(`${APP_DOMAIN}`)
-      traefik.http.routers.jackett-vpn-insecure.entrypoints: web
-      traefik.http.routers.jackett-vpn-insecure.service: jackett-vpn
-      traefik.http.routers.jackett-vpn-insecure.middlewares: jackett-vpn-web-redirect
-      # Websecure
-      traefik.http.routers.jackett-vpn.rule: Host(`${APP_DOMAIN}`)
-      traefik.http.routers.jackett-vpn.entrypoints: websecure
-      traefik.http.routers.jackett-vpn.service: jackett-vpn
-      traefik.http.routers.jackett-vpn.tls.certresolver: myresolver
-      # Local domain (insecure)
-      traefik.http.routers.jackett-vpn-local-insecure.rule: Host(`jackett-vpn.${LOCAL_DOMAIN}`)
-      traefik.http.routers.jackett-vpn-local-insecure.entrypoints: web
-      traefik.http.routers.jackett-vpn-local-insecure.service: jackett-vpn
-      traefik.http.routers.jackett-vpn-local-insecure.middlewares: jackett-vpn-web-redirect
-      # Local domain (secure)
-      traefik.http.routers.jackett-vpn-local.rule: Host(`jackett-vpn.${LOCAL_DOMAIN}`)
-      traefik.http.routers.jackett-vpn-local.entrypoints: websecure
-      traefik.http.routers.jackett-vpn-local.service: jackett-vpn
-      traefik.http.routers.jackett-vpn-local.tls: "true"
-      runtipi.managed: "true"
+      traefik.enable: true
+      traefik.http.routers.jackett.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.services.jackett.loadbalancer.server.port: 9117
+      runtipi.managed: true
 
 networks:
   tipi_main_network:
