@@ -2,7 +2,7 @@ version: "3.9"
 services:
   jackettvpn:
     container_name: jackettvpn
-    image: dyonr/jackettvpn:0.20.5138
+    image: dyonr/jackettvpn:latest
     restart: unless-stopped
     privileged: true
     cap_add:
