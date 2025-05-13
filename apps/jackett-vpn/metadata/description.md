@@ -1,29 +1,50 @@
 # Jackett VPN
 
-Docker container which runs the latest headless [Jackett](https://github.com/Jackett/Jackett) server while connecting to WireGuard or OpenVPN with an iptables killswitch to prevent IP leakage when the tunnel goes down.
+Jackett works as a proxy server: it translates queries from apps into tracker-site-specific http queries, parses the html response, and then sends results back. This implementation runs behind Gluetun VPN for privacy and security.
 
-![Jackett VPN Banner](https://raw.githubusercontent.com/dyonr/jackettvpn/main/banner_641x91.gif)
+## Features
+* Jackett torrent proxy running behind secure VPN connection
+* Support for multiple VPN providers 
+* Multiple countries selection for VPN connection
+* Enhanced firewall security
+* DNS leak protection
+* Works with traefik!
+* Pre-configured for Tipi
 
-**Features**
-- **VPN Support**: WireGuard or OpenVPN tunnel
-- **Killswitch**: Prevents traffic leak if VPN drops
-- **Configurable**: Custom PUID/PGID, UMASK, DNS, healthchecks
-- **WebUI**: Jackett's API and web interface with password protection
-- **Auto Healthcheck**: Interval-based connectivity tests
+## Why Use a VPN with Jackett?
+A VPN provides privacy and security when accessing torrent trackers:
+1. Hides your IP address from trackers
+2. Encrypts your internet traffic
+3. Prevents ISP monitoring and potential throttling
+4. Works around regional blocking for trackers
 
-**Documentation**
-- GitHub: https://github.com/dyonr/jackettvpn
-- Docker Hub: https://hub.docker.com/r/dyonr/jackettvpn
+## VPN Provider Configuration
+This container is configured to work with several popular VPN providers:
 
-**Usage example**:
-```bash
-$ docker run --privileged -d \
-    -v /your/config/path/:/config \
-    -v /your/blackhole/path/:/blackhole \
-    -e VPN_ENABLED=yes \
-    -e VPN_TYPE=wireguard \
-    -e WEBUI_PASSWORD=your_password \
-    -e LAN_NETWORK=192.168.0.0/24 \
-    -p 9117:9117 \
-    --restart unless-stopped \
-    dyonr/jackettvpn
+| VPN Provider | WireGuard Support | OpenVPN Support |
+|--------------|-------------------|-----------------|
+| ProtonVPN    | ✅                | ✅              |
+| Mullvad      | ✅                | ✅              |
+| NordVPN      | ✅                | ✅              |
+| PIA          | ✅                | ✅              |
+| Surfshark    | ✅                | ✅              |
+| IVPN         | ✅                | ✅              |
+| Windscribe   | ✅                | ✅              |
+
+## WireGuard Setup (Recommended)
+For WireGuard configurations:
+1. Generate a private key from your VPN provider
+2. Enter the private key in the configuration form
+3. Choose your preferred server countries (comma-separated)
+
+## Documentation
+For advanced configuration options, please refer to:
+- Gluetun documentation: https://github.com/qdm12/gluetun-wiki
+- Jackett documentation: https://github.com/Jackett/Jackett
+
+## Folder Information
+| Root Folder | Container Folder |
+|-------------|------------------|
+| /runtipi/app-data/jackett-vpn/data/config | /config |
+| /runtipi/app-data/jackett-vpn/data/downloads | /downloads |
+| /runtipi/app-data/jackett-vpn/data/gluetun | /gluetun |
