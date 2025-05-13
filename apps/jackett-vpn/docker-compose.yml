@@ -23,7 +23,7 @@ services:
       - VPN_PASSWORD=${VPN_PASSWORD}
     volumes:
       - /root/runtipi/app-data/my-store/jackett-vpn/data:/config
-      - /root/runtipi/app-data/my-store/jackett-vpn/data/wireguard:/config/wireguard
+      - /root/runtipi/app-data/my-store/jackett-vpn/data/wireguard:/etc/wireguard
       - /root/runtipi/app-data/my-store/jackett-vpn/data/openvpn:/config/openvpn
       - /root/runtipi/media/torrents:/blackhole
     ports:
