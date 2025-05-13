@@ -34,13 +34,12 @@
       "name": "jackett",
       "image": "linuxserver/jackett:latest",
       "isMain": true,
-      "internalPort": 9118,
+      "internalPort": 9117,
       "networkMode": "service:gluetun",
       "environment": {
         "PUID": "${JACKETT_PUID-1000}",
         "PGID": "${JACKETT_PGID-1000}",
-        "TZ": "${TZ-Europe/London}",
-        "RUN_OPTS": "--Port=9118"
+        "TZ": "${TZ-Europe/London}"
       },
       "volumes": [
         {
