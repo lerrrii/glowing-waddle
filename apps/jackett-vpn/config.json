@@ -7,7 +7,7 @@
   "dynamic_config": true,
   "port": 9117,
   "tipi_version": 9,
-  "version": "0.20.5138",
+  "version": "latest",
   "categories": ["network","utilities"],
   "short_desc": "Jackett search aggregator with VPN support.",
   "author": "dyonr",
