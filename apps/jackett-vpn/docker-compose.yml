@@ -46,7 +46,7 @@ services:
       traefik.enable: true
       traefik.http.middlewares.jackett-web-redirect.redirectscheme.scheme: https
       traefik.http.services.jackett.loadbalancer.server.scheme: http
-      traefik.http.services.jackett.loadbalancer.server.port: 9117
+      traefik.http.services.jackett.loadbalancer.server.port: 9118
       # Web
       traefik.http.routers.jackett-insecure.rule: Host(`${APP_DOMAIN}`)
       traefik.http.routers.jackett-insecure.entrypoints: web
