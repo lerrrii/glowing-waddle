@@ -1,32 +1,27 @@
-## Jackett + VPN (WireGuard/OpenVPN)
+## Jackett (VPN)
 
-This flavor of Jackett runs entirely over a WireGuard or OpenVPN tunnel, enforcing a true kernel-level VPN kill-switch. All DNS and torrent tracker queries from Jackett will go through the VPN interface; if the tunnel drops, traffic will be blocked.
+![JackettVPN Banner](https://raw.githubusercontent.com/dyonr/jackettvpn/master/banner.png)
 
-![Screenshot](https://raw.githubusercontent.com/Jackett/Jackett/master/.github/jackett-screenshot1.png)
+**This container runs Jackett behind a VPN tunnel (WireGuard or OpenVPN) with a killswitch.**
 
-## Setup Instructions
+| Feature                        | Supported | Notes                             |
+|--------------------------------|-----------|-----------------------------------|
+| WireGuard                      | Yes       | Place `wg0.conf` in `/config/wireguard` |
+| OpenVPN                        | Yes       | Place `.ovpn` files in `/config/openvpn` |
+| VPN Killswitch (iptables)      | Yes       | Prevents leaks when VPN drops    |
+| Custom UID/GID                 | Yes       | Via `PUID`/`PGID` env vars       |
+| Jackett WebUI Password         | Yes       | `WEBUI_PASSWORD` env var         |
 
-### For WireGuard
-1. Create a WireGuard configuration file named `wg0.conf`
-2. Place this file in `/runtipi/app-data/jackett-vpn/data/wireguard/`
-3. Make sure VPN Type is set to "wireguard" in the app settings
+## Usage
 
-### For OpenVPN
-1. Place your `.ovpn` configuration file in `/runtipi/app-data/jackett-vpn/data/openvpn/`
-2. Set VPN Type to "openvpn" in the app settings
-3. Enter your VPN username and password in the app settings
+This container requires at least one of WireGuard or OpenVPN configs under `/config`:
 
-## Features
-- Automatic kill-switch prevents IP leaks if VPN disconnects
-- Works with most VPN providers supporting WireGuard or OpenVPN
-- Easy setup with form-based configuration
-- All torrent queries safely routed through VPN
+- **WireGuard**: drop `wg0.conf` in `/config/wireguard/`
+- **OpenVPN**: drop your `.ovpn` and any certs in `/config/openvpn/`
 
-## Folder Info
+Then mount your download or blackhole directory to `/blackhole`.
 
-| Root Folder                              | Container Folder |
-|------------------------------------------|------------------|
-| /runtipi/app-data/jackett-vpn/data       | /config          |
-| /runtipi/app-data/jackett-vpn/data/wireguard | /config/wireguard |
-| /runtipi/app-data/jackett-vpn/data/openvpn  | /config/openvpn |
-| /runtipi/media/torrents                  | /blackhole       |
+## Documentation
+
+- [dyonr/jackettvpn on Docker Hub](https://hub.docker.com/r/dyonr/jackettvpn)
+- [GitHub Repository](https://github.com/dyonr/jackettvpn)
