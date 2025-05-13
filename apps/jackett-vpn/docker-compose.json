@@ -51,7 +51,7 @@
           "containerPath": "/downloads"
         }
       ],
-      "dependsOn": "gluetun"
+      "dependsOn": ["gluetun"]
     }
   ]
 }
