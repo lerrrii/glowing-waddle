@@ -34,7 +34,7 @@
       "name": "jackett",
       "image": "linuxserver/jackett:latest",
       "isMain": true,
-      "internalPort": 9117,
+      "internalPort": 9118,
       "networkMode": "service:gluetun",
       "environment": {
         "PUID": "${JACKETT_PUID-1000}",
