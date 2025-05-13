@@ -3,7 +3,7 @@
   "available": true,
   "exposable": true,
   "dynamic_config": true,
-  "port": 9118,
+  "port": 9117,
   "id": "jackett-vpn",
   "tipi_version": 1,
   "version": "latest",
