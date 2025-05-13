@@ -35,7 +35,6 @@ services:
       - PUID=${JACKETT_PUID-1000}
       - PGID=${JACKETT_PGID-1000}
       - TZ=${TZ-Europe/London}
-      - RUN_OPTS=--Port=9118
     volumes:
       - ${APP_DATA_DIR}/data/config:/config
       - ${APP_DATA_DIR}/data/downloads:/downloads
@@ -47,7 +46,7 @@ services:
       traefik.enable: true
       traefik.http.middlewares.jackett-web-redirect.redirectscheme.scheme: https
       traefik.http.services.jackett.loadbalancer.server.scheme: http
-      traefik.http.services.jackett.loadbalancer.server.port: 9118
+      traefik.http.services.jackett.loadbalancer.server.port: 9117
       # Web
       traefik.http.routers.jackett-insecure.rule: Host(`${APP_DOMAIN}`)
       traefik.http.routers.jackett-insecure.entrypoints: web
