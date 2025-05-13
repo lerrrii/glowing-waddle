@@ -11,16 +11,21 @@ services:
       - net.ipv4.conf.all.src_valid_mark=1
     privileged: true
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=${PUID-1000}
+      - PGID=${PGID-1000}
       - TZ=${TZ}
-      - VPN_ENABLED=yes
-      - VPN_TYPE=wireguard
-      - LAN_NETWORK=${LAN_NETWORK:-192.168.0.0/16,172.16.0.0/12,10.0.0.0/8}
+      - VPN_ENABLED=${VPN_ENABLED-yes}
+      - VPN_TYPE=${VPN_TYPE-wireguard}
+      - LAN_NETWORK=${LAN_NETWORK-192.168.0.0/16,172.16.0.0/12,10.0.0.0/8}
+      - NAME_SERVERS=${NAME_SERVERS-1.1.1.1,1.0.0.1}
+      - UMASK=${UMASK-002}
+      - VPN_USERNAME=${VPN_USERNAME}
+      - VPN_PASSWORD=${VPN_PASSWORD}
     volumes:
       - ${APP_DATA_DIR}/data:/config
-      - ${APP_DATA_DIR}/vpn:/config/wireguard
-      - ${ROOT_FOLDER_HOST}/media/torrents:/media/torrents
+      - ${APP_DATA_DIR}/data/wireguard:/config/wireguard
+      - ${APP_DATA_DIR}/data/openvpn:/config/openvpn
+      - ${ROOT_FOLDER_HOST}/media/torrents:/blackhole
     ports:
       - ${APP_PORT}:9117
     restart: unless-stopped
