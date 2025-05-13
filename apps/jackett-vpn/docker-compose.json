@@ -40,6 +40,7 @@
         "PUID": "${JACKETT_PUID-1000}",
         "PGID": "${JACKETT_PGID-1000}",
         "TZ": "${TZ-Europe/London}"
+        "RUN_OPTS": "--Port=9118"
       },
       "volumes": [
         {
