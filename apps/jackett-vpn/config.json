@@ -1,35 +1,111 @@
 {
-  "$schema": "../app-info-schema.json",
-  "name": "Jackett (VPN)",
-  "id": "jackettvpn",
+  "name": "Jackett VPN",
   "available": true,
   "exposable": true,
   "dynamic_config": true,
-  "port": 9117,
-  "tipi_version": 9,
+  "port": 9118,
+  "id": "jackett-vpn",
+  "tipi_version": 1,
   "version": "latest",
-  "categories": ["network","utilities"],
-  "short_desc": "Jackett search aggregator with VPN support.",
-  "author": "dyonr",
-  "source": "https://github.com/dyonr/jackettvpn",
+  "categories": ["utilities", "security"],
+  "description": "Jackett works as a proxy server, it translates queries from apps into tracker-site-specific http queries, parses the html response, and then sends results back. Running behind Gluetun VPN for privacy and security.",
+  "short_desc": "Jackett torrent proxy with Gluetun VPN support.",
+  "author": "qmcgaw and linuxserver.io",
+  "source": "https://github.com/qmcgaw/gluetun",
   "form_fields": [
-    {"type":"boolean","label":"Enable VPN","env_variable":"VPN_ENABLED","default":true},
-    {"type":"text","label":"VPN Type","env_variable":"VPN_TYPE","required":true,
-      "options":[{"label":"WireGuard","value":"wireguard"},{"label":"OpenVPN","value":"openvpn"}]},
-    {"type":"text","label":"VPN Username","env_variable":"VPN_USERNAME"},
-    {"type":"password","label":"VPN Password","env_variable":"VPN_PASSWORD"},
-    {"type":"password","label":"Jackett WebUI Password","env_variable":"WEBUI_PASSWORD","required":true},
-    {"type":"text","label":"Local Network CIDRs","env_variable":"LAN_NETWORK","required":true,
-      "placeholder":"192.168.0.0/24,10.0.0.0/16"},
-    {"type":"text","label":"Name Servers","env_variable":"NAME_SERVERS","placeholder":"1.1.1.1,1.0.0.1"},
-    {"type":"number","label":"PUID","env_variable":"PUID","default":1000},
-    {"type":"number","label":"PGID","env_variable":"PGID","default":1000},
-    {"type":"text","label":"UMASK","env_variable":"UMASK","default":"002"},
-    {"type":"number","label":"Healthcheck Interval (s)","env_variable":"HEALTH_CHECK_INTERVAL","default":300},
-    {"type":"boolean","label":"Healthcheck Silent","env_variable":"HEALTH_CHECK_SILENT","default":true},
-    {"type":"text","label":"Additional Ports","env_variable":"ADDITIONAL_PORTS","placeholder":"1234,8112"}
+    {
+      "type": "number",
+      "label": "Container > UserID (UID)",
+      "placeholder": "1000",
+      "env_variable": "JACKETT_PUID"
+    },
+    {
+      "type": "number",
+      "label": "Container > GroupID (PGID)",
+      "placeholder": "1000",
+      "env_variable": "JACKETT_PGID"
+    },
+    {
+      "label": "VPN > Service Provider",
+      "type": "text",
+      "required": true,
+      "options": [
+        {
+          "label": "ProtonVPN",
+          "value": "protonvpn"
+        },
+        {
+          "label": "Mullvad",
+          "value": "mullvad"
+        },
+        {
+          "label": "NordVPN",
+          "value": "nordvpn"
+        },
+        {
+          "label": "Private Internet Access",
+          "value": "private internet access"
+        },
+        {
+          "label": "Surfshark",
+          "value": "surfshark"
+        },
+        {
+          "label": "Ivpn",
+          "value": "ivpn"
+        },
+        {
+          "label": "Windscribe",
+          "value": "windscribe"
+        }
+      ],
+      "env_variable": "JACKETT_VPN_SERVICE_PROVIDER"
+    },
+    {
+      "label": "VPN > Type",
+      "type": "text",
+      "required": true,
+      "options": [
+        {
+          "label": "WireGuard",
+          "value": "wireguard"
+        },
+        {
+          "label": "OpenVPN",
+          "value": "openvpn"
+        }
+      ],
+      "env_variable": "JACKETT_VPN_TYPE"
+    },
+    {
+      "type": "password",
+      "label": "VPN > WireGuard Private Key",
+      "required": true,
+      "env_variable": "JACKETT_WIREGUARD_PRIVATE_KEY"
+    },
+    {
+      "type": "text",
+      "label": "VPN > Server Countries",
+      "placeholder": "Netherlands,United States,Japan",
+      "env_variable": "JACKETT_SERVER_COUNTRIES"
+    },
+    {
+      "type": "boolean",
+      "label": "VPN > Free Only",
+      "env_variable": "JACKETT_FREE_ONLY"
+    },
+    {
+      "type": "boolean",
+      "label": "Security > Enable Firewall",
+      "env_variable": "JACKETT_FIREWALL"
+    },
+    {
+      "type": "boolean",
+      "label": "Security > Enable DNS Protection",
+      "env_variable": "JACKETT_DNS"
+    }
   ],
-  "supported_architectures": ["arm64","amd64"],
-  "created_at": 1700000000000,
-  "updated_at": 1710000000000
+  "supported_architectures": ["arm64", "amd64"],
+  "created_at": 1715674338430,
+  "updated_at": 1715674338430
 }
