@@ -22,21 +22,21 @@ services:
       - VPN_USERNAME=${VPN_USERNAME}
       - VPN_PASSWORD=${VPN_PASSWORD}
     volumes:
-      - ${APP_DATA_DIR}/data:/config
-      - ${APP_DATA_DIR}/data/wireguard:/config/wireguard
-      - ${APP_DATA_DIR}/data/openvpn:/config/openvpn
-      - ${ROOT_FOLDER_HOST}/media/torrents:/blackhole
+      - /root/runtipi/app-data/my-store/jackett-vpn/data:/config
+      - /root/runtipi/app-data/my-store/jackett-vpn/data/wireguard:/config/wireguard
+      - /root/runtipi/app-data/my-store/jackett-vpn/data/openvpn:/config/openvpn
+      - /root/runtipi/media/torrents:/blackhole
     ports:
-      - ${APP_PORT}:9117
+      - "${APP_PORT:-9117}:9117"
     restart: unless-stopped
     networks:
       - tipi_main_network
     labels:
       # Main
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.middlewares.jackett-vpn-web-redirect.redirectscheme.scheme: https
       traefik.http.services.jackett-vpn.loadbalancer.server.port: 9117
-      # Web
+      # Web (insecure)
       traefik.http.routers.jackett-vpn-insecure.rule: Host(`${APP_DOMAIN}`)
       traefik.http.routers.jackett-vpn-insecure.entrypoints: web
       traefik.http.routers.jackett-vpn-insecure.service: jackett-vpn
@@ -46,17 +46,17 @@ services:
       traefik.http.routers.jackett-vpn.entrypoints: websecure
       traefik.http.routers.jackett-vpn.service: jackett-vpn
       traefik.http.routers.jackett-vpn.tls.certresolver: myresolver
-      # Local domain
+      # Local domain (insecure)
       traefik.http.routers.jackett-vpn-local-insecure.rule: Host(`jackett-vpn.${LOCAL_DOMAIN}`)
       traefik.http.routers.jackett-vpn-local-insecure.entrypoints: web
       traefik.http.routers.jackett-vpn-local-insecure.service: jackett-vpn
       traefik.http.routers.jackett-vpn-local-insecure.middlewares: jackett-vpn-web-redirect
-      # Local domain secure
+      # Local domain (secure)
       traefik.http.routers.jackett-vpn-local.rule: Host(`jackett-vpn.${LOCAL_DOMAIN}`)
       traefik.http.routers.jackett-vpn-local.entrypoints: websecure
       traefik.http.routers.jackett-vpn-local.service: jackett-vpn
-      traefik.http.routers.jackett-vpn-local.tls: true
-      runtipi.managed: true
+      traefik.http.routers.jackett-vpn-local.tls: "true"
+      runtipi.managed: "true"
 
 networks:
   tipi_main_network:
