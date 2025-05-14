@@ -3,7 +3,7 @@
     {
       "name": "gluetun",
       "image": "qmcgaw/gluetun:latest",
-      "isMain": true, 
+      "isMain": true,
       "internalPort": 9117,
       "capAdd": ["NET_ADMIN"],
       "devices": ["/dev/net/tun"],
@@ -17,7 +17,9 @@
         "FIREWALL_VPN_INPUT_PORTS": "9117",
         "FIREWALL_OUTBOUND_SUBNETS": "",
         "DNS": "${JACKETT_DNS-on}",
-        "DOT": "on"
+        "DOT": "on",
+        "DOT_FILTERING_BLOCK_ADS": "${JACKETT_BLOCK_ADS-off}",
+        "DOT_FILTERING_BLOCK_SURVEILLANCE": "${JACKETT_BLOCK_SURVEILLANCE-off}"
       },
       "volumes": [
         {
