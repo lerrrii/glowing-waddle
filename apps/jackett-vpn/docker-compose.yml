@@ -27,6 +27,9 @@ services:
       - PUBLICIP_ENABLED=on
       - PUBLICIP_API=ipinfo,ifconfigco,ip2location,cloudflare
       - WIREGUARD_MTU=${JACKETT_WIREGUARD_MTU-1320}
+      - HTTPPROXY=on
+      - HTTPPROXY_LISTENING_ADDRESS=:8888
+      - HTTPPROXY_LOG=on
     volumes:
       - ${APP_DATA_DIR}/data/gluetun:/gluetun
     networks:
