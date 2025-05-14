@@ -6,8 +6,6 @@ services:
       - NET_ADMIN
     devices: 
       - /dev/net/tun
-    ports:
-      - ${APP_PORT}:9117    # Explicitly expose port 9117 on the Gluetun container
     environment:
       - VPN_SERVICE_PROVIDER=${JACKETT_VPN_SERVICE_PROVIDER}
       - VPN_TYPE=${JACKETT_VPN_TYPE}
@@ -15,30 +13,20 @@ services:
       - SERVER_COUNTRIES=${JACKETT_SERVER_COUNTRIES-Netherlands,United States}
       - FREE_ONLY=${JACKETT_FREE_ONLY-on}
       - FIREWALL=${JACKETT_FIREWALL-on}
-      - FIREWALL_VPN_INPUT_PORTS=9117    # Explicitly set to 9117 instead of using a variable
+      - FIREWALL_VPN_INPUT_PORTS=9117
       - FIREWALL_OUTBOUND_SUBNETS=
       - DNS=${JACKETT_DNS-on}
       - DOT=on
-      - PUBLICIP=true               # Make sure public IP is accessible
-      - HTTPPROXY=on                # Enable HTTP proxy
-      - HTTPPROXY_PORT=8888         # Add HTTP proxy port
-      - HTTPPROXY_STEALTH=on        # Add stealth mode
-      - CONTROL_SERVER_PORT=8000    # Explicitly set control server port
-      - SHADOWSOCKS=off             # Make sure shadowsocks is off
-
-  jackett:
-    image: linuxserver/jackett:latest
-    container_name: jackett
-    network_mode: service:gluetun
-    environment:
-      - PUID=${JACKETT_PUID-1000}
-      - PGID=${JACKETT_PGID-1000}
-      - TZ=${TZ-Europe/London}
     volumes:
-      - ${APP_DATA_DIR}/data/config:/config
-      - ${APP_DATA_DIR}/data/downloads:/downloads
-    depends_on:
-      - gluetun
+      - ${APP_DATA_DIR}/data/gluetun:/gluetun
+    networks:
+      - tipi_main_network
+    ports:
+      - ${APP_PORT}:9117
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
     restart: unless-stopped
     labels:
       # Main
@@ -67,3 +55,18 @@ services:
       traefik.http.routers.jackett-local.service: jackett
       traefik.http.routers.jackett-local.tls: true
       runtipi.managed: true
+
+  jackett:
+    image: linuxserver/jackett:latest
+    container_name: jackett
+    network_mode: service:gluetun
+    environment:
+      - PUID=${JACKETT_PUID-1000}
+      - PGID=${JACKETT_PGID-1000}
+      - TZ=${TZ-Europe/London}
+    volumes:
+      - ${APP_DATA_DIR}/data/config:/config
+      - ${APP_DATA_DIR}/data/downloads:/downloads
+    depends_on:
+      - gluetun
+    restart: unless-stopped
