@@ -19,15 +19,12 @@ services:
       - FIREWALL_OUTBOUND_SUBNETS=
       - DNS=${JACKETT_DNS-on}
       - DOT=on
-    volumes:
-      - ${APP_DATA_DIR}/data/gluetun:/gluetun
-    networks:
-      - tipi_main_network
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-    restart: unless-stopped
+      - PUBLICIP=true               # Make sure public IP is accessible
+      - HTTPPROXY=on                # Enable HTTP proxy
+      - HTTPPROXY_PORT=8888         # Add HTTP proxy port
+      - HTTPPROXY_STEALTH=on        # Add stealth mode
+      - CONTROL_SERVER_PORT=8000    # Explicitly set control server port
+      - SHADOWSOCKS=off             # Make sure shadowsocks is off
 
   jackett:
     image: linuxserver/jackett:latest
