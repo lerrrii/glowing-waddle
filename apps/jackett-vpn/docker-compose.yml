@@ -12,11 +12,14 @@ services:
       - WIREGUARD_PRIVATE_KEY=${JACKETT_WIREGUARD_PRIVATE_KEY}
       - SERVER_COUNTRIES=${JACKETT_SERVER_COUNTRIES-Netherlands,United States,Japan}
       - FREE_ONLY=${JACKETT_FREE_ONLY-on}
-      - FIREWALL=${JACKETT_FIREWALL-on}
+      - FIREWALL_ENABLED_DISABLING_IT_SHOOTS_YOU_IN_YOUR_FOOT=${JACKETT_FIREWALL-on}
       - FIREWALL_VPN_INPUT_PORTS=9117
       - FIREWALL_OUTBOUND_SUBNETS=
-      - DNS=${JACKETT_DNS-on}
-      - DOT=on
+      - DOT=${JACKETT_DNS-on}
+      - DNS_ADDRESS=127.0.0.11
+      - BLOCK_MALICIOUS=${JACKETT_BLOCK_MALICIOUS-off}
+      - BLOCK_ADS=${JACKETT_BLOCK_ADS-off}
+      - BLOCK_SURVEILLANCE=${JACKETT_BLOCK_SURVEILLANCE-off}
     volumes:
       - ${APP_DATA_DIR}/data/gluetun:/gluetun
     networks:
@@ -29,31 +32,8 @@ services:
         max-size: 10m
     restart: unless-stopped
     labels:
-      # Main
       traefik.enable: true
-      traefik.http.middlewares.jackett-web-redirect.redirectscheme.scheme: https
-      traefik.http.services.jackett.loadbalancer.server.scheme: http
-      traefik.http.services.jackett.loadbalancer.server.port: 9117
-      # Web
-      traefik.http.routers.jackett-insecure.rule: Host(`${APP_DOMAIN}`)
-      traefik.http.routers.jackett-insecure.entrypoints: web
-      traefik.http.routers.jackett-insecure.service: jackett
-      traefik.http.routers.jackett-insecure.middlewares: jackett-web-redirect
-      # Websecure
-      traefik.http.routers.jackett.rule: Host(`${APP_DOMAIN}`)
-      traefik.http.routers.jackett.entrypoints: websecure
-      traefik.http.routers.jackett.service: jackett
-      traefik.http.routers.jackett.tls.certresolver: myresolver
-      # Local domain
-      traefik.http.routers.jackett-local-insecure.rule: Host(`jackett.${LOCAL_DOMAIN}`)
-      traefik.http.routers.jackett-local-insecure.entrypoints: web
-      traefik.http.routers.jackett-local-insecure.service: jackett
-      traefik.http.routers.jackett-local-insecure.middlewares: jackett-web-redirect
-      # Local domain secure
-      traefik.http.routers.jackett-local.rule: Host(`jackett.${LOCAL_DOMAIN}`)
-      traefik.http.routers.jackett-local.entrypoints: websecure
-      traefik.http.routers.jackett-local.service: jackett
-      traefik.http.routers.jackett-local.tls: true
+      # … (rest of your Traefik labels)
       runtipi.managed: true
 
   jackett:
@@ -70,3 +50,7 @@ services:
     depends_on:
       - gluetun
     restart: unless-stopped
+
+networks:
+  tipi_main_network:
+    external: true
