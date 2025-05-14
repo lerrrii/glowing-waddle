@@ -1,59 +1,74 @@
-{
-  "services": [
-    {
-      "name": "gluetun",
-      "image": "qmcgaw/gluetun:latest",
-      "isMain": true,
-      "internalPort": 9117,
-      "capAdd": ["NET_ADMIN"],
-      "devices": ["/dev/net/tun"],
-      "environment": {
-        "VPN_SERVICE_PROVIDER": "${JACKETT_VPN_SERVICE_PROVIDER}",
-        "VPN_TYPE": "${JACKETT_VPN_TYPE}",
-        "WIREGUARD_PRIVATE_KEY": "${JACKETT_WIREGUARD_PRIVATE_KEY}",
-        "SERVER_COUNTRIES": "${JACKETT_SERVER_COUNTRIES-Netherlands,United States,Japan}",
-        "FREE_ONLY": "${JACKETT_FREE_ONLY-on}",
-        "FIREWALL": "${JACKETT_FIREWALL-on}",
-        "FIREWALL_VPN_INPUT_PORTS": "9117",
-        "FIREWALL_OUTBOUND_SUBNETS": "",
-        "DNS": "${JACKETT_DNS-on}",
-        "DOT": "on",
-        "DOT_FILTERING_BLOCK_ADS": "${JACKETT_BLOCK_ADS-on}",
-        "DOT_FILTERING_BLOCK_SURVEILLANCE": "${JACKETT_BLOCK_SURVEILLANCE-on}"
-      },
-      "volumes": [
-        {
-          "hostPath": "${APP_DATA_DIR}/data/gluetun",
-          "containerPath": "/gluetun"
-        }
-      ],
-      "logging": {
-        "driver": "json-file",
-        "options": {
-          "max-size": "10m"
-        }
-      }
-    },
-    {
-      "name": "jackett",
-      "image": "linuxserver/jackett:latest",
-      "networkMode": "service:gluetun",
-      "environment": {
-        "PUID": "${JACKETT_PUID-1000}",
-        "PGID": "${JACKETT_PGID-1000}",
-        "TZ": "${TZ-Europe/London}"
-      },
-      "volumes": [
-        {
-          "hostPath": "${APP_DATA_DIR}/data/config",
-          "containerPath": "/config"
-        },
-        {
-          "hostPath": "${APP_DATA_DIR}/data/downloads",
-          "containerPath": "/downloads"
-        }
-      ],
-      "dependsOn": ["gluetun"]
-    }
-  ]
-}
+services:
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    devices: 
+      - /dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER=${JACKETT_VPN_SERVICE_PROVIDER}
+      - VPN_TYPE=${JACKETT_VPN_TYPE}
+      - WIREGUARD_PRIVATE_KEY=${JACKETT_WIREGUARD_PRIVATE_KEY}
+      - SERVER_COUNTRIES=${JACKETT_SERVER_COUNTRIES-Netherlands,United States,Japan}
+      - FREE_ONLY=${JACKETT_FREE_ONLY-on}
+      - FIREWALL=${JACKETT_FIREWALL-on}
+      - FIREWALL_VPN_INPUT_PORTS=9117
+      - FIREWALL_OUTBOUND_SUBNETS=
+      - DNS=${JACKETT_DNS-on}
+      - DOT=on
+      - DOT_FILTERING_BLOCK_ADS=${JACKETT_BLOCK_ADS-on}
+      - DOT_FILTERING_BLOCK_SURVEILLANCE=${JACKETT_BLOCK_SURVEILLANCE-on}
+    volumes:
+      - ${APP_DATA_DIR}/data/gluetun:/gluetun
+    networks:
+      - tipi_main_network
+    ports:
+      - ${APP_PORT}:9117
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+    restart: unless-stopped
+    labels:
+      # Main
+      traefik.enable: true
+      traefik.http.middlewares.jackett-web-redirect.redirectscheme.scheme: https
+      traefik.http.services.jackett.loadbalancer.server.scheme: http
+      traefik.http.services.jackett.loadbalancer.server.port: 9117
+      # Web
+      traefik.http.routers.jackett-insecure.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.jackett-insecure.entrypoints: web
+      traefik.http.routers.jackett-insecure.service: jackett
+      traefik.http.routers.jackett-insecure.middlewares: jackett-web-redirect
+      # Websecure
+      traefik.http.routers.jackett.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.jackett.entrypoints: websecure
+      traefik.http.routers.jackett.service: jackett
+      traefik.http.routers.jackett.tls.certresolver: myresolver
+      # Local domain
+      traefik.http.routers.jackett-local-insecure.rule: Host(`jackett.${LOCAL_DOMAIN}`)
+      traefik.http.routers.jackett-local-insecure.entrypoints: web
+      traefik.http.routers.jackett-local-insecure.service: jackett
+      traefik.http.routers.jackett-local-insecure.middlewares: jackett-web-redirect
+      # Local domain secure
+      traefik.http.routers.jackett-local.rule: Host(`jackett.${LOCAL_DOMAIN}`)
+      traefik.http.routers.jackett-local.entrypoints: websecure
+      traefik.http.routers.jackett-local.service: jackett
+      traefik.http.routers.jackett-local.tls: true
+      runtipi.managed: true
+ 
+  jackett:
+    image: linuxserver/jackett:latest
+    container_name: jackett
+    network_mode: service:gluetun
+    environment:
+      - PUID=${JACKETT_PUID-1000}
+      - PGID=${JACKETT_PGID-1000}
+      - TZ=${TZ-Europe/London}
+    volumes:
+      - ${APP_DATA_DIR}/data/config:/config
+      - ${APP_DATA_DIR}/data/downloads:/downloads
+    depends_on:
+      - gluetun
+    restart: unless-stopped
