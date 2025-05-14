@@ -1,130 +1,117 @@
-{
-  "name": "Jackett VPN",
-  "available": true,
-  "exposable": true,
-  "dynamic_config": true,
-  "port": 9117,
-  "id": "jackett-vpn",
-  "tipi_version": 1,
-  "version": "latest",
-  "categories": ["utilities", "security"],
-  "description": "Jackett works as a proxy server, it translates queries from apps into tracker-site-specific http queries, parses the html response, and then sends results back. Running behind Gluetun VPN for privacy and security.",
-  "short_desc": "Jackett torrent proxy with Gluetun VPN support.",
-  "author": "qmcgaw and linuxserver.io",
-  "source": "https://github.com/qmcgaw/gluetun",
-  "form_fields": [
-    {
-      "type": "number",
-      "label": "Container > UserID (UID)",
-      "placeholder": "1000",
-      "env_variable": "JACKETT_PUID"
-    },
-    {
-      "type": "number",
-      "label": "Container > GroupID (PGID)",
-      "placeholder": "1000",
-      "env_variable": "JACKETT_PGID"
-    },
-    {
-      "label": "VPN > Service Provider",
-      "type": "text",
-      "required": true,
-      "options": [
-        {
-          "label": "ProtonVPN",
-          "value": "protonvpn"
-        },
-        {
-          "label": "Mullvad",
-          "value": "mullvad"
-        },
-        {
-          "label": "NordVPN",
-          "value": "nordvpn"
-        },
-        {
-          "label": "Private Internet Access",
-          "value": "private internet access"
-        },
-        {
-          "label": "Surfshark",
-          "value": "surfshark"
-        },
-        {
-          "label": "Ivpn",
-          "value": "ivpn"
-        },
-        {
-          "label": "Windscribe",
-          "value": "windscribe"
-        }
-      ],
-      "env_variable": "JACKETT_VPN_SERVICE_PROVIDER"
-    },
-    {
-      "label": "VPN > Type",
-      "type": "text",
-      "required": true,
-      "options": [
-        {
-          "label": "WireGuard",
-          "value": "wireguard"
-        },
-        {
-          "label": "OpenVPN",
-          "value": "openvpn"
-        }
-      ],
-      "env_variable": "JACKETT_VPN_TYPE"
-    },
-    {
-      "type": "password",
-      "label": "VPN > WireGuard Private Key",
-      "env_variable": "JACKETT_WIREGUARD_PRIVATE_KEY"
-    },
-    {
-      "type": "text",
-      "label": "VPN > OpenVPN Username",
-      "env_variable": "JACKETT_OPENVPN_USERNAME"
-    },
-    {
-      "type": "password",
-      "label": "VPN > OpenVPN Password",
-      "env_variable": "JACKETT_OPENVPN_PASSWORD"
-    },
-    {
-      "type": "text",
-      "label": "VPN > Server Countries",
-      "placeholder": "Netherlands,United States,Japan",
-      "env_variable": "JACKETT_SERVER_COUNTRIES"
-    },
-    {
-      "type": "boolean",
-      "label": "VPN > Free Only",
-      "env_variable": "JACKETT_FREE_ONLY"
-    },
-    {
-      "type": "boolean",
-      "label": "Security > Enable Firewall",
-      "env_variable": "JACKETT_FIREWALL"
-    },
-    {
-      "type": "boolean",
-      "label": "Security > Enable DNS Protection",
-      "env_variable": "JACKETT_DNS"
-    },
-    {
-      "type": "boolean",
-      "label": "Security > Block Ads via DNS",
-      "env_variable": "JACKETT_BLOCK_ADS"
-    },
-    {
-      "type": "boolean",
-      "label": "Security > Block Surveillance via DNS",
-      "env_variable": "JACKETT_BLOCK_SURVEILLANCE"
-    }
-  ],
-  "supported_architectures": ["arm64", "amd64"],
-  "created_at": 1715674338430,
-  "updated_at": 1715674338430
-}
+"form_fields": [
+  {
+    "type": "number",
+    "label": "Container > UserID (UID)",
+    "placeholder": "1000",
+    "env_variable": "JACKETT_PUID"
+  },
+  {
+    "type": "number",
+    "label": "Container > GroupID (PGID)",
+    "placeholder": "1000",
+    "env_variable": "JACKETT_PGID"
+  },
+  {
+    "label": "VPN > Service Provider",
+    "type": "text",
+    "required": true,
+    "options": [
+      {
+        "label": "ProtonVPN",
+        "value": "protonvpn"
+      },
+      {
+        "label": "Mullvad",
+        "value": "mullvad"
+      },
+      {
+        "label": "NordVPN",
+        "value": "nordvpn"
+      },
+      {
+        "label": "Private Internet Access",
+        "value": "private internet access"
+      },
+      {
+        "label": "Surfshark",
+        "value": "surfshark"
+      },
+      {
+        "label": "Ivpn",
+        "value": "ivpn"
+      },
+      {
+        "label": "Windscribe",
+        "value": "windscribe"
+      }
+    ],
+    "env_variable": "JACKETT_VPN_SERVICE_PROVIDER"
+  },
+  {
+    "label": "VPN > Type",
+    "type": "text",
+    "required": true,
+    "options": [
+      {
+        "label": "WireGuard",
+        "value": "wireguard"
+      },
+      {
+        "label": "OpenVPN",
+        "value": "openvpn"
+      }
+    ],
+    "env_variable": "JACKETT_VPN_TYPE"
+  },
+  {
+    "type": "password",
+    "label": "VPN > WireGuard Private Key",
+    "env_variable": "JACKETT_WIREGUARD_PRIVATE_KEY"
+  },
+  {
+    "type": "text",
+    "label": "VPN > OpenVPN Username",
+    "env_variable": "JACKETT_OPENVPN_USERNAME"
+  },
+  {
+    "type": "password",
+    "label": "VPN > OpenVPN Password",
+    "env_variable": "JACKETT_OPENVPN_PASSWORD"
+  },
+  {
+    "type": "text",
+    "label": "VPN > Server Countries",
+    "placeholder": "Netherlands,United States,Japan",
+    "env_variable": "JACKETT_SERVER_COUNTRIES"
+  },
+  {
+    "type": "boolean",
+    "label": "VPN > Free Only",
+    "env_variable": "JACKETT_FREE_ONLY",
+    "default": false
+  },
+  {
+    "type": "boolean",
+    "label": "Security > Enable Firewall",
+    "env_variable": "JACKETT_FIREWALL",
+    "default": true
+  },
+  {
+    "type": "boolean",
+    "label": "Security > Enable DNS Protection",
+    "env_variable": "JACKETT_DNS",
+    "default": true
+  },
+  {
+    "type": "boolean",
+    "label": "Security > Block Ads via DNS",
+    "env_variable": "JACKETT_BLOCK_ADS",
+    "default": false
+  },
+  {
+    "type": "boolean",
+    "label": "Security > Block Surveillance via DNS",
+    "env_variable": "JACKETT_BLOCK_SURVEILLANCE",
+    "default": false
+  }
+]
