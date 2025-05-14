@@ -107,7 +107,7 @@
       "label": "DNS-over-TLS > Enable IPv6",
       "env_variable": "JACKETT_DOT_IPV6",
       "default": false
-    }
+    },
     {
       "type": "boolean",
       "label": "DNS Filtering > Block malicious",
