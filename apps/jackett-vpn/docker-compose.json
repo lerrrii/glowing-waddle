@@ -3,14 +3,10 @@
     {
       "name": "gluetun",
       "image": "qmcgaw/gluetun:latest",
+      "isMain": true, 
+      "internalPort": 9117,
       "capAdd": ["NET_ADMIN"],
       "devices": ["/dev/net/tun"],
-      "ports": [
-        {
-          "hostPort": "${APP_PORT}",
-          "containerPort": 9117
-        }
-      ],
       "environment": {
         "VPN_SERVICE_PROVIDER": "${JACKETT_VPN_SERVICE_PROVIDER}",
         "VPN_TYPE": "${JACKETT_VPN_TYPE}",
@@ -21,13 +17,7 @@
         "FIREWALL_VPN_INPUT_PORTS": "9117",
         "FIREWALL_OUTBOUND_SUBNETS": "",
         "DNS": "${JACKETT_DNS-on}",
-        "DOT": "on",
-        "PUBLICIP": "true",
-        "HTTPPROXY": "on",
-        "HTTPPROXY_PORT": "8888",
-        "HTTPPROXY_STEALTH": "on",
-        "CONTROL_SERVER_PORT": "8000",
-        "SHADOWSOCKS": "off"
+        "DOT": "on"
       },
       "volumes": [
         {
@@ -35,12 +25,6 @@
           "containerPath": "/gluetun"
         }
       ],
-      "healthcheck": {
-        "test": ["CMD", "curl", "-f", "http://localhost:8000/v1/publicip/ip"],
-        "interval": "30s",
-        "timeout": "10s",
-        "retries": 3
-      },
       "logging": {
         "driver": "json-file",
         "options": {
@@ -51,8 +35,6 @@
     {
       "name": "jackett",
       "image": "linuxserver/jackett:latest",
-      "isMain": true,
-      "internalPort": 9117,
       "networkMode": "service:gluetun",
       "environment": {
         "PUID": "${JACKETT_PUID-1000}",
