@@ -81,7 +81,31 @@
       "type": "password",
       "label": "VPN > WireGuard Private Key",
       "required": true,
-      "env_variable": "JACKETT_WIREGUARD_PRIVATE_KEY"
+      "env_variable": "JACKETT_WIREGUARD_PRIVATE_KEY",
+      "show_if": {
+        "field": "JACKETT_VPN_TYPE",
+        "value": "wireguard"
+      }
+    },
+    {
+      "type": "text",
+      "label": "VPN > OpenVPN Username",
+      "required": true,
+      "env_variable": "JACKETT_OPENVPN_USERNAME",
+      "show_if": {
+        "field": "JACKETT_VPN_TYPE",
+        "value": "openvpn"
+      }
+    },
+    {
+      "type": "password",
+      "label": "VPN > OpenVPN Password",
+      "required": true,
+      "env_variable": "JACKETT_OPENVPN_PASSWORD",
+      "show_if": {
+        "field": "JACKETT_VPN_TYPE",
+        "value": "openvpn"
+      }
     },
     {
       "type": "text",
