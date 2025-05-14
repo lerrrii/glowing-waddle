@@ -74,54 +74,64 @@
     {
       "type": "boolean",
       "label": "VPN > Free Only",
-      "env_variable": "JACKETT_FREE_ONLY"
+      "env_variable": "JACKETT_FREE_ONLY",
+      "default": false
     },
     {
       "type": "boolean",
       "label": "VPN > Enable Port Forwarding",
-      "env_variable": "JACKETT_VPN_PORT_FORWARDING"
+      "env_variable": "JACKETT_VPN_PORT_FORWARDING",
+      "default": false
     },
     {
       "type": "number",
       "label": "VPN > WireGuard MTU",
       "placeholder": "1320",
-      "env_variable": "JACKETT_WIREGUARD_MTU"
+      "env_variable": "JACKETT_WIREGUARD_MTU",
+      "default": 1320
     },
     {
       "type": "boolean",
       "label": "Security > Enable Firewall",
-      "env_variable": "JACKETT_FIREWALL"
+      "env_variable": "JACKETT_FIREWALL",
+      "default": true
     },
     {
       "type": "boolean",
       "label": "Security > Enable DNS over TLS",
-      "env_variable": "JACKETT_DNS"
+      "env_variable": "JACKETT_DNS",
+      "default": true
     },
     {
       "type": "boolean",
+      "label": "DNS-over-TLS > Enable IPv6",
+      "env_variable": "JACKETT_DOT_IPV6",
+      "default": false
+    }
+    {
+      "type": "boolean",
       "label": "DNS Filtering > Block malicious",
-      "env_variable": "JACKETT_BLOCK_MALICIOUS"
+      "env_variable": "JACKETT_BLOCK_MALICIOUS",
+      "default": true
     },
     {
       "type": "boolean",
       "label": "DNS Filtering > Block ads",
-      "env_variable": "JACKETT_BLOCK_ADS"
+      "env_variable": "JACKETT_BLOCK_ADS",
+      "default": true
     },
     {
       "type": "boolean",
       "label": "DNS Filtering > Block surveillance",
-      "env_variable": "JACKETT_BLOCK_SURVEILLANCE"
+      "env_variable": "JACKETT_BLOCK_SURVEILLANCE",
+      "default": true
     },
     {
       "type": "text",
       "label": "DNS Filtering > Update period",
       "placeholder": "24h",
-      "env_variable": "JACKETT_DNS_UPDATE_PERIOD"
-    },
-    {
-      "type": "boolean",
-      "label": "DNS-over-TLS > Enable IPv6",
-      "env_variable": "JACKETT_DOT_IPV6"
+      "env_variable": "JACKETT_DNS_UPDATE_PERIOD",
+      "default": "24h"
     }
   ],
   "supported_architectures": ["arm64", "amd64"],
