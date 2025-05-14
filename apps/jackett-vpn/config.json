@@ -112,6 +112,16 @@
       "type": "boolean",
       "label": "Security > Enable DNS Protection",
       "env_variable": "JACKETT_DNS"
+    },
+    {
+      "type": "boolean",
+      "label": "Security > Block Ads via DNS",
+      "env_variable": "JACKETT_BLOCK_ADS"
+    },
+    {
+      "type": "boolean",
+      "label": "Security > Block Surveillance via DNS",
+      "env_variable": "JACKETT_BLOCK_SURVEILLANCE"
     }
   ],
   "supported_architectures": ["arm64", "amd64"],
