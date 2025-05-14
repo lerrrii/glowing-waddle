@@ -4,7 +4,7 @@ services:
     container_name: gluetun
     cap_add:
       - NET_ADMIN
-    devices: 
+    devices:
       - /dev/net/tun
     environment:
       - VPN_SERVICE_PROVIDER=${JACKETT_VPN_SERVICE_PROVIDER}
@@ -16,10 +16,13 @@ services:
       - FIREWALL_VPN_INPUT_PORTS=9117
       - FIREWALL_OUTBOUND_SUBNETS=
       - DOT=${JACKETT_DNS-on}
-      - DNS_ADDRESS=127.0.0.11
+      - DNS_ADDRESS=127.0.0.1
+      - DNS_KEEP_NAMESERVER=off
       - BLOCK_MALICIOUS=${JACKETT_BLOCK_MALICIOUS-off}
       - BLOCK_ADS=${JACKETT_BLOCK_ADS-off}
       - BLOCK_SURVEILLANCE=${JACKETT_BLOCK_SURVEILLANCE-off}
+      - PUBLICIP_ENABLED=on
+      - PUBLICIP_API=ipinfo,ifconfigco,ip2location,cloudflare
     volumes:
       - ${APP_DATA_DIR}/data/gluetun:/gluetun
     networks:
@@ -33,7 +36,7 @@ services:
     restart: unless-stopped
     labels:
       traefik.enable: true
-      # … (rest of your Traefik labels)
+      # … your existing Traefik labels …
       runtipi.managed: true
 
   jackett:
