@@ -18,8 +18,8 @@
         "FIREWALL_OUTBOUND_SUBNETS": "",
         "DNS": "${JACKETT_DNS-on}",
         "DOT": "on",
-        "DOT_FILTERING_BLOCK_ADS": "${JACKETT_BLOCK_ADS-off}",
-        "DOT_FILTERING_BLOCK_SURVEILLANCE": "${JACKETT_BLOCK_SURVEILLANCE-off}"
+        "DOT_FILTERING_BLOCK_ADS": "on",
+        "DOT_FILTERING_BLOCK_SURVEILLANCE": "on"
       },
       "volumes": [
         {
