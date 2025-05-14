@@ -85,7 +85,7 @@
     {
       "type": "text",
       "label": "VPN > OpenVPN Username",
-      "env_variable": "JACKETT_OPENVPN_USERNAME"
+      "env_variable": "JACKETT_OPENVPN_USER"
     },
     {
       "type": "password",
