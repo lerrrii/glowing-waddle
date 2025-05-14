@@ -78,6 +78,17 @@
     },
     {
       "type": "boolean",
+      "label": "VPN > Enable Port Forwarding",
+      "env_variable": "JACKETT_VPN_PORT_FORWARDING"
+    },
+    {
+      "type": "number",
+      "label": "VPN > WireGuard MTU",
+      "placeholder": "1320",
+      "env_variable": "JACKETT_WIREGUARD_MTU"
+    },
+    {
+      "type": "boolean",
       "label": "Security > Enable Firewall",
       "env_variable": "JACKETT_FIREWALL"
     },
@@ -100,6 +111,17 @@
       "type": "boolean",
       "label": "DNS Filtering > Block surveillance",
       "env_variable": "JACKETT_BLOCK_SURVEILLANCE"
+    },
+    {
+      "type": "text",
+      "label": "DNS Filtering > Update period",
+      "placeholder": "24h",
+      "env_variable": "JACKETT_DNS_UPDATE_PERIOD"
+    },
+    {
+      "type": "boolean",
+      "label": "DNS-over-TLS > Enable IPv6",
+      "env_variable": "JACKETT_DOT_IPV6"
     }
   ],
   "supported_architectures": ["arm64", "amd64"],
