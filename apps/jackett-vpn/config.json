@@ -30,34 +30,13 @@
       "type": "text",
       "required": true,
       "options": [
-        {
-          "label": "ProtonVPN",
-          "value": "protonvpn"
-        },
-        {
-          "label": "Mullvad",
-          "value": "mullvad"
-        },
-        {
-          "label": "NordVPN",
-          "value": "nordvpn"
-        },
-        {
-          "label": "Private Internet Access",
-          "value": "private internet access"
-        },
-        {
-          "label": "Surfshark",
-          "value": "surfshark"
-        },
-        {
-          "label": "Ivpn",
-          "value": "ivpn"
-        },
-        {
-          "label": "Windscribe",
-          "value": "windscribe"
-        }
+        {"label": "ProtonVPN", "value": "protonvpn"},
+        {"label": "Mullvad",    "value": "mullvad"},
+        {"label": "NordVPN",    "value": "nordvpn"},
+        {"label": "PIA",        "value": "private internet access"},
+        {"label": "Surfshark",  "value": "surfshark"},
+        {"label": "Ivpn",       "value": "ivpn"},
+        {"label": "Windscribe", "value": "windscribe"}
       ],
       "env_variable": "JACKETT_VPN_SERVICE_PROVIDER"
     },
@@ -66,14 +45,8 @@
       "type": "text",
       "required": true,
       "options": [
-        {
-          "label": "WireGuard",
-          "value": "wireguard"
-        },
-        {
-          "label": "OpenVPN",
-          "value": "openvpn"
-        }
+        {"label": "WireGuard", "value": "wireguard"},
+        {"label": "OpenVPN",   "value": "openvpn"}
       ],
       "env_variable": "JACKETT_VPN_TYPE"
     },
@@ -110,8 +83,23 @@
     },
     {
       "type": "boolean",
-      "label": "Security > Enable DNS Protection",
+      "label": "Security > Enable DNS over TLS",
       "env_variable": "JACKETT_DNS"
+    },
+    {
+      "type": "boolean",
+      "label": "DNS Filtering > Block malicious",
+      "env_variable": "JACKETT_BLOCK_MALICIOUS"
+    },
+    {
+      "type": "boolean",
+      "label": "DNS Filtering > Block ads",
+      "env_variable": "JACKETT_BLOCK_ADS"
+    },
+    {
+      "type": "boolean",
+      "label": "DNS Filtering > Block surveillance",
+      "env_variable": "JACKETT_BLOCK_SURVEILLANCE"
     }
   ],
   "supported_architectures": ["arm64", "amd64"],
