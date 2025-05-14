@@ -22,7 +22,7 @@ A VPN provides privacy and security when accessing torrent trackers:
 This container is configured to work with several popular VPN providers:
 
 | VPN Provider | WireGuard Support | OpenVPN Support |
-|--------------|-------------------|-----------------|
+|--------------|-------------------|-----------------| 
 | ProtonVPN    | ✅                | ✅              |
 | Mullvad      | ✅                | ✅              |
 | NordVPN      | ✅                | ✅              |
@@ -36,6 +36,22 @@ For WireGuard configurations:
 1. Generate a private key from your VPN provider
 2. Enter the private key in the configuration form
 3. Choose your preferred server countries (comma-separated)
+
+## Enhanced Security Features
+
+This Jackett-VPN package includes several security enhancements:
+
+### DNS Protection
+When enabled, this ensures all DNS queries are sent through encrypted DNS-over-TLS to prevent DNS leaks.
+
+### Ad Blocking
+Optional DNS-level ad blocking that filters requests to known advertising domains. This can help reduce ads without requiring browser extensions.
+
+### Surveillance Blocking
+Optional DNS-level filtering that blocks requests to known tracking and telemetry services, enhancing your privacy while browsing.
+
+### Firewall Protection
+Enables a strict firewall that only allows traffic through the VPN tunnel, preventing any accidental leaks of your real IP address.
 
 ## Documentation
 For advanced configuration options, please refer to:
