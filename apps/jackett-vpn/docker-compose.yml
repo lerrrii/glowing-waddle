@@ -6,6 +6,8 @@ services:
       - NET_ADMIN
     devices: 
       - /dev/net/tun
+    ports:
+      - ${APP_PORT}:9117    # Explicitly expose port 9117 on the Gluetun container
     environment:
       - VPN_SERVICE_PROVIDER=${JACKETT_VPN_SERVICE_PROVIDER}
       - VPN_TYPE=${JACKETT_VPN_TYPE}
@@ -13,7 +15,7 @@ services:
       - SERVER_COUNTRIES=${JACKETT_SERVER_COUNTRIES-Netherlands,United States}
       - FREE_ONLY=${JACKETT_FREE_ONLY-on}
       - FIREWALL=${JACKETT_FIREWALL-on}
-      - FIREWALL_VPN_INPUT_PORTS=${APP_PORT}
+      - FIREWALL_VPN_INPUT_PORTS=9117    # Explicitly set to 9117 instead of using a variable
       - FIREWALL_OUTBOUND_SUBNETS=
       - DNS=${JACKETT_DNS-on}
       - DOT=on
