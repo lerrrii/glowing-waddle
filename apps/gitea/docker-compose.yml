@@ -12,7 +12,7 @@ services:
       - GITEA__database__PATH=/data/gitea/gitea.db
       # Other important settings
       - GITEA__server__HTTP_PORT=3000
-      - GITEA__server__ROOT_URL=http://${APP_DOMAIN}:${APP_PORT}/
+      - GITEA__server__ROOT_URL=http://${APP_DOMAIN}/
       - GITEA__server__DOMAIN=${APP_DOMAIN}
     restart: unless-stopped
     volumes:
