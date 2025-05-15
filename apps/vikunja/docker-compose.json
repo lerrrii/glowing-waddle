@@ -1,4 +1,5 @@
 {
+  "$schema": "../dynamic-compose-schema.json",
   "services": [
     {
       "name": "vikunja",
@@ -11,8 +12,8 @@
         "VIKUNJA_DATABASE_TYPE": "postgres",
         "VIKUNJA_DATABASE_USER": "tipi",
         "VIKUNJA_DATABASE_DATABASE": "vikunja",
-        "VIKUNJA_SERVICE_JWTSECRET": "${VIKUNJA_SERVICE_SECRET}",
-        "VIKUNJA_SERVICE_PUBLICURL": "${APP_PROTOCOL:-http}://${APP_DOMAIN}/"
+        "VIKUNJA_SERVICE_JWTSECRET": "${VIKUNJA_SERVICE_JWTSECRET}",
+        "VIKUNJA_SERVICE_PUBLICURL": "${APP_PROTOCOL:-http}://${APP_DOMAIN}:${APP_PORT}/"
       },
       "dependsOn": {
         "vikunja-db": {
@@ -47,6 +48,5 @@
         "test": "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"
       }
     }
-  ],
-  "$schema": "../dynamic-compose-schema.json"
+  ]
 }
