@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   gitea:
-    image: gitea/gitea:1.23.7
+    image: gitea/gitea:latest
     container_name: gitea
     environment:
       - USER_UID=1000
@@ -27,22 +27,22 @@ services:
       traefik.enable: true
       traefik.http.middlewares.gitea-web-redirect.redirectscheme.scheme: https
       traefik.http.services.gitea.loadbalancer.server.port: 3000
-      # Web
+      # Web (insecure)
       traefik.http.routers.gitea-insecure.rule: Host(`${APP_DOMAIN}`)
       traefik.http.routers.gitea-insecure.entrypoints: web
       traefik.http.routers.gitea-insecure.service: gitea
       traefik.http.routers.gitea-insecure.middlewares: gitea-web-redirect
-      # Websecure
+      # Websecure (public)
       traefik.http.routers.gitea.rule: Host(`${APP_DOMAIN}`)
       traefik.http.routers.gitea.entrypoints: websecure
       traefik.http.routers.gitea.service: gitea
       traefik.http.routers.gitea.tls.certresolver: myresolver
-      # Local domain
+      # Local domain (insecure)
       traefik.http.routers.gitea-local-insecure.rule: Host(`gitea.${LOCAL_DOMAIN}`)
       traefik.http.routers.gitea-local-insecure.entrypoints: web
       traefik.http.routers.gitea-local-insecure.service: gitea
       traefik.http.routers.gitea-local-insecure.middlewares: gitea-web-redirect
-      # Local domain secure
+      # Local domain (secure)
       traefik.http.routers.gitea-local.rule: Host(`gitea.${LOCAL_DOMAIN}`)
       traefik.http.routers.gitea-local.entrypoints: websecure
       traefik.http.routers.gitea-local.service: gitea
