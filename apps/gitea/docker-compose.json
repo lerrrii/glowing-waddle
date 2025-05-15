@@ -7,11 +7,11 @@
       "environment": {
         "USER_UID": "1000",
         "USER_GID": "1000",
-        "GITEA__database__DB_TYPE": "postgres",
-        "GITEA__database__DB_HOST": "gitea-db:5432",
-        "GITEA__database__DB_NAME": "gitea",
-        "GITEA__database__DB_USER": "gitea",
-        "GITEA__database__DB_PASSWD": "gitea"
+        "GITEA__database__DB_TYPE": "sqlite3",
+        "GITEA__database__PATH": "/data/gitea/gitea.db",
+        "GITEA__server__HTTP_PORT": "3000",
+        "GITEA__server__ROOT_URL": "http://${APP_DOMAIN}:${APP_PORT}/",
+        "GITEA__server__DOMAIN": "${APP_DOMAIN}"
       },
       "volumes": [
         {
@@ -26,23 +26,7 @@
           "containerPort": 22
         }
       ],
-      "dependsOn": ["gitea-db"],
       "isMain": true
-    },
-    {
-      "name": "gitea-db",
-      "image": "postgres:14",
-      "environment": {
-        "POSTGRES_USER": "gitea",
-        "POSTGRES_PASSWORD": "gitea",
-        "POSTGRES_DB": "gitea"
-      },
-      "volumes": [
-        {
-          "hostPath": "${APP_DATA_DIR}/data/postgres",
-          "containerPath": "/var/lib/postgresql/data"
-        }
-      ]
     }
   ]
 }
