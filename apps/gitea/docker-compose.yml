@@ -7,19 +7,19 @@ services:
     environment:
       - USER_UID=1000
       - USER_GID=1000
-      - GITEA__database__DB_TYPE=postgres
-      - GITEA__database__DB_HOST=gitea-db:5432
-      - GITEA__database__DB_NAME=gitea
-      - GITEA__database__DB_USER=gitea
-      - GITEA__database__DB_PASSWD=gitea
+      # SQLite configuration
+      - GITEA__database__DB_TYPE=sqlite3
+      - GITEA__database__PATH=/data/gitea/gitea.db
+      # Other important settings
+      - GITEA__server__HTTP_PORT=3000
+      - GITEA__server__ROOT_URL=http://${APP_DOMAIN}:${APP_PORT}/
+      - GITEA__server__DOMAIN=${APP_DOMAIN}
     restart: unless-stopped
     volumes:
       - ${APP_DATA_DIR}/data/gitea:/data
     ports:
       - ${APP_PORT}:3000
       - "222:22"
-    depends_on:
-      - gitea-db
     networks:
       - tipi_main_network
     labels:
@@ -47,18 +47,4 @@ services:
       traefik.http.routers.gitea-local.entrypoints: websecure
       traefik.http.routers.gitea-local.service: gitea
       traefik.http.routers.gitea-local.tls: true
-      runtipi.managed: true
-  gitea-db:
-    container_name: gitea-db
-    image: postgres:14
-    restart: unless-stopped
-    environment:
-      - POSTGRES_USER=gitea
-      - POSTGRES_PASSWORD=gitea
-      - POSTGRES_DB=gitea
-    volumes:
-      - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql/data
-    networks:
-      - tipi_main_network
-    labels:
       runtipi.managed: true
