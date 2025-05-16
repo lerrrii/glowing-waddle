@@ -11,25 +11,29 @@ services:
     container_name: watchtower
     restart: unless-stopped
 
-    # 1) Publish the UI port so host:8080 → container:8080
+    # 1) Publish the UI/API port
     ports:
       - "8080:8080"
 
     environment:
+      # labels & schedule
       - WATCHTOWER_LABEL_ENABLE=${WATCHTOWER_LABEL_ENABLE}
       - WATCHTOWER_SCHEDULE=${WATCHTOWER_SCHEDULE}
       - TZ=Europe/Prague
+
+      # flags to enable HTTP-API mode
+      - WATCHTOWER_HTTP_API_UPDATE=true            # enables /v1/update endpoint :contentReference[oaicite:0]{index=0}
+      - WATCHTOWER_HTTP_API_PERIODIC_POLLS=true     # keeps scheduled checks active :contentReference[oaicite:1]{index=1}
+
+      # 3) API token (required or Watchtower will exit) 
+      - WATCHTOWER_HTTP_API_TOKEN=${WATCHTOWER_HTTP_API_TOKEN}  # must match your .env :contentReference[oaicite:2]{index=2}
+
+      # cleanup, rollback, UI toggle
       - WATCHTOWER_CLEANUP=${WATCHTOWER_CLEANUP}
       - WATCHTOWER_ROLLBACK=${WATCHTOWER_ROLLBACK}
       - WATCHTOWER_UI=${WATCHTOWER_UI}
 
-      # 2) Enable HTTP API update endpoint
-      - WATCHTOWER_HTTP_API_UPDATE=true              # --http-api-update :contentReference[oaicite:5]{index=5}
-
-      # 3) Keep periodic polls even with HTTP API mode on
-      - WATCHTOWER_HTTP_API_PERIODIC_POLLS=true       # --http-api-periodic-polls :contentReference[oaicite:6]{index=6}
-
-      # Notifications & extra args (if any)
+      # notifications & extra args
       - WATCHTOWER_NOTIFICATIONS=${WATCHTOWER_NOTIFICATIONS}
       - WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL=${WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL}
       - WATCHTOWER_NOTIFICATION_MSTEAMS_HOOK_URL=${WATCHTOWER_NOTIFICATION_MSTEAMS_HOOK_URL}
@@ -46,7 +50,7 @@ services:
 
     labels:
       - "traefik.enable=${WATCHTOWER_UI}"
-      - "traefik.docker.network=tipi_main_network"               # let Traefik discover this service :contentReference[oaicite:7]{index=7}
+      - "traefik.docker.network=tipi_main_network"  
       - "traefik.http.routers.watchtower.rule=Host(`watchtower.${APP_DOMAIN}`)"
       - "traefik.http.routers.watchtower.entrypoints=websecure"
       - "traefik.http.routers.watchtower.tls=true"
