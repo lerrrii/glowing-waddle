@@ -13,18 +13,15 @@
         "WATCHTOWER_CLEANUP": "${WATCHTOWER_CLEANUP}",
         "WATCHTOWER_ROLLBACK": "${WATCHTOWER_ROLLBACK}",
         "WATCHTOWER_UI": "${WATCHTOWER_UI}",
-
         "WATCHTOWER_NOTIFICATIONS": "${WATCHTOWER_NOTIFICATIONS}",
         "WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL": "${WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL}",
         "WATCHTOWER_NOTIFICATION_MSTEAMS_HOOK_URL": "${WATCHTOWER_NOTIFICATION_MSTEAMS_HOOK_URL}",
         "WATCHTOWER_NOTIFICATION_GOTIFY_URL": "${WATCHTOWER_NOTIFICATION_GOTIFY_URL}",
-
         "WATCHTOWER_NOTIFICATION_EMAIL_FROM": "${WATCHTOWER_NOTIFICATION_EMAIL_FROM}",
         "WATCHTOWER_NOTIFICATION_EMAIL_TO": "${WATCHTOWER_NOTIFICATION_EMAIL_TO}",
         "WATCHTOWER_NOTIFICATION_EMAIL_SERVER": "${WATCHTOWER_NOTIFICATION_EMAIL_SERVER}",
         "WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER": "${WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER}",
         "WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD": "${WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD}",
-
         "WATCHTOWER_EXTRA_ARGS": "${WATCHTOWER_EXTRA_ARGS}"
       },
       "volumes": [
@@ -32,11 +29,11 @@
           "hostPath": "/var/run/docker.sock",
           "containerPath": "/var/run/docker.sock"
         },
-        {
-          "hostPath": "/etc/localtime",
-          "containerPath": "/etc/localtime",
-          "readOnly": true
-        }
++       {
++         "hostPath": "/etc/localtime",
++         "containerPath": "/etc/localtime",
++         "readOnly": true
++       }
       ]
     }
   ]
