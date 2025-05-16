@@ -29,13 +29,6 @@
       "default": "0 0 3 * * *"
     },
     {
-      "type": "text",
-      "label": "Time zone",
-      "placeholder": "Europe/Prague",
-      "env_variable": "TZ",
-      "default": "Europe/Prague"
-    },
-    {
       "type": "boolean",
       "label": "Cleanup old images",
       "env_variable": "WATCHTOWER_CLEANUP",
