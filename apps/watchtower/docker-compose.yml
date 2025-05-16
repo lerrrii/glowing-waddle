@@ -1,40 +1,48 @@
 version: "3.7"
 
+networks:
+  tipi_main_network:
+    external: true
+    name: tipi_main_network
+
 services:
   watchtower:
     image: containrrr/watchtower:latest
     container_name: watchtower
+    restart: unless-stopped
+
+    # Publish the UI port so you can browse http://<host>:8080 directly
+    ports:
+      - "8080:8080"
+
     environment:
       - WATCHTOWER_LABEL_ENABLE=${WATCHTOWER_LABEL_ENABLE}
       - WATCHTOWER_SCHEDULE=${WATCHTOWER_SCHEDULE}
-      - TZ="Europe/Prague"
+      - TZ=Europe/Prague                  # no extra quotes around the value
       - WATCHTOWER_CLEANUP=${WATCHTOWER_CLEANUP}
       - WATCHTOWER_ROLLBACK=${WATCHTOWER_ROLLBACK}
       - WATCHTOWER_UI=${WATCHTOWER_UI}
-
       - WATCHTOWER_NOTIFICATIONS=${WATCHTOWER_NOTIFICATIONS}
       - WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL=${WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL}
       - WATCHTOWER_NOTIFICATION_MSTEAMS_HOOK_URL=${WATCHTOWER_NOTIFICATION_MSTEAMS_HOOK_URL}
       - WATCHTOWER_NOTIFICATION_GOTIFY_URL=${WATCHTOWER_NOTIFICATION_GOTIFY_URL}
-
       - WATCHTOWER_NOTIFICATION_EMAIL_FROM=${WATCHTOWER_NOTIFICATION_EMAIL_FROM}
       - WATCHTOWER_NOTIFICATION_EMAIL_TO=${WATCHTOWER_NOTIFICATION_EMAIL_TO}
       - WATCHTOWER_NOTIFICATION_EMAIL_SERVER=${WATCHTOWER_NOTIFICATION_EMAIL_SERVER}
       - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER=${WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER}
       - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD=${WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD}
-
       - WATCHTOWER_EXTRA_ARGS=${WATCHTOWER_EXTRA_ARGS}
+
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
-    labels:
-      runtipi.managed: "true"
-      traefik.enable: "${WATCHTOWER_UI}"
-      traefik.http.routers.watchtower.rule: "Host(`watchtower.${APP_DOMAIN}`)"
-      traefik.http.routers.watchtower.entrypoints: websecure
-      traefik.http.routers.watchtower.tls.certresolver: myresolver
-      traefik.http.services.watchtower.loadbalancer.server.port: 8080
 
-networks:
-  default:
-    external: true
+    labels:
+      - "traefik.enable=${WATCHTOWER_UI}"
+      - "traefik.docker.network=tipi_main_network"             # so Traefik picks it up
+      - "traefik.http.routers.watchtower.rule=Host(`watchtower.${APP_DOMAIN}`)"
+      - "traefik.http.routers.watchtower.entrypoints=websecure"
+      - "traefik.http.routers.watchtower.tls=true"
+      - "traefik.http.services.watchtower.loadbalancer.server.port=8080"
+
+    networks:
+      - tipi_main_network
