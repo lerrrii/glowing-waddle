@@ -47,6 +47,20 @@
       "default": false
     },
     {
+      "type": "password",
+      "label": "HTTP-API token",
+      "hint": "Required for HTTP-API mode (update endpoint & UI).",
+      "env_variable": "WATCHTOWER_HTTP_API_TOKEN",
+      "required": true
+    },
+    {
+      "type": "boolean",
+      "label": "HTTP-API periodic polls",
+      "hint": "Keep cron polling active when HTTP-API is enabled.",
+      "env_variable": "WATCHTOWER_HTTP_API_PERIODIC_POLLS",
+      "default": true
+    },
+    {
       "type": "text",
       "label": "Notification type",
       "hint": "email, slack, msteams, gotify or leave empty",
