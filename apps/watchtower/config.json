@@ -31,9 +31,9 @@
     {
       "type": "text",
       "label": "Time zone",
-      "placeholder": "Europe/Rome",
+      "placeholder": "Europe/Prague",
       "env_variable": "TZ",
-      "default": "Europe/Rome"
+      "default": "Europe/Prague"
     },
     {
       "type": "boolean",
