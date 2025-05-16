@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: watchtower
+    environment:
+      - WATCHTOWER_LABEL_ENABLE=${WATCHTOWER_LABELS}
+      - WATCHTOWER_SCHEDULE=${WATCHTOWER_SCHEDULE}
+      - WATCHTOWER_CLEANUP=${WATCHTOWER_CLEANUP}
+      - WATCHTOWER_ROLLBACK=${WATCHTOWER_ROLLBACK}
+      - WATCHTOWER_UI=${WATCHTOWER_UI}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    labels:
+      runtipi.managed: true
+      traefik.enable: "${WATCHTOWER_UI}"
+      traefik.http.routers.watchtower.rule: "Host(`watchtower.${APP_DOMAIN}`)"
+      traefik.http.routers.watchtower.entrypoints: websecure
+      traefik.http.routers.watchtower.tls.certresolver: myresolver
+      traefik.http.services.watchtower.loadbalancer.server.port: 8080
+
+networks:
+  default:
+    external: true
