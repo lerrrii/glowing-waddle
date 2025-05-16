@@ -7,14 +7,22 @@
       "isMain": true,
       "internalPort": 8080,
       "environment": {
-        "WATCHTOWER_LABEL_ENABLE": "${WATCHTOWER_LABELS}",
         "WATCHTOWER_SCHEDULE": "${WATCHTOWER_SCHEDULE}",
         "WATCHTOWER_CLEANUP": "${WATCHTOWER_CLEANUP}",
-        "WATCHTOWER_ROLLBACK": "${WATCHTOWER_ROLLBACK}",
+        "WATCHTOWER_LABEL_ENABLE": "${WATCHTOWER_LABEL_ENABLE}",
         "WATCHTOWER_UI": "${WATCHTOWER_UI}"
       },
+      "command": [
+        "--schedule", "${WATCHTOWER_SCHEDULE}",
+        "--cleanup", "${WATCHTOWER_CLEANUP}",
+        "--label-enable", "${WATCHTOWER_LABEL_ENABLE}",
+        "${WATCHTOWER_UI:+--http-api-server}"
+      ],
       "volumes": [
-        {"hostPath": "/var/run/docker.sock", "containerPath": "/var/run/docker.sock"}
+        {
+          "hostPath": "/var/run/docker.sock",
+          "containerPath": "/var/run/docker.sock"
+        }
       ]
     }
   ]
