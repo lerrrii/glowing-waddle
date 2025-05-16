@@ -7,14 +7,19 @@
       "isMain": true,
       "internalPort": 8080,
       "environment": {
-        "WATCHTOWER_LABEL_ENABLE": "${WATCHTOWER_LABELS}",
+        "WATCHTOWER_LABEL_ENABLE": "${WATCHTOWER_LABEL_ENABLE}",
+        "WATCHTOWER_NOTIFICATIONS": "${WATCHTOWER_NOTIFICATIONS}",
+        "WATCHTOWER_NOTIFICATION_URL": "${WATCHTOWER_NOTIFICATION_URL}",
+        "WATCHTOWER_NOTIFICATION_EMAIL": "${WATCHTOWER_NOTIFICATION_EMAIL}",
         "WATCHTOWER_SCHEDULE": "${WATCHTOWER_SCHEDULE}",
+        "TZ": "${TZ}",
         "WATCHTOWER_CLEANUP": "${WATCHTOWER_CLEANUP}",
         "WATCHTOWER_ROLLBACK": "${WATCHTOWER_ROLLBACK}",
-        "WATCHTOWER_UI": "${WATCHTOWER_UI}"
+        "WATCHTOWER_UI": "${WATCHTOWER_UI}",
+        "WATCHTOWER_EXTRA_ARGS": "${WATCHTOWER_EXTRA_ARGS}"
       },
       "volumes": [
-        {"hostPath": "/var/run/docker.sock", "containerPath": "/var/run/docker.sock"}
+        { "hostPath": "/var/run/docker.sock", "containerPath": "/var/run/docker.sock" }
       ]
     }
   ]
