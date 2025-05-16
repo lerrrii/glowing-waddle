@@ -29,8 +29,7 @@
       },
       "volumes": [
         { "hostPath": "/var/run/docker.sock", "containerPath": "/var/run/docker.sock" },
-        { "hostPath": "/etc/localtime",      "containerPath": "/etc/localtime",      "readonly": true },
-        { "hostPath": "/etc/timezone",       "containerPath": "/etc/timezone",       "readonly": true }
+        { "hostPath": "/etc/localtime",      "containerPath": "/etc/localtime",      "readOnly": true }
       ]
     }
   ]
