@@ -2,25 +2,36 @@ version: "3.7"
 
 services:
   watchtower:
-    image: containrrr/watchtower:latest
     container_name: watchtower
+    image: containrrr/watchtower:latest
     environment:
-      - WATCHTOWER_LABEL_ENABLE=${WATCHTOWER_LABELS}
-      - WATCHTOWER_SCHEDULE=${WATCHTOWER_SCHEDULE}
-      - WATCHTOWER_CLEANUP=${WATCHTOWER_CLEANUP}
-      - WATCHTOWER_ROLLBACK=${WATCHTOWER_ROLLBACK}
-      - WATCHTOWER_UI=${WATCHTOWER_UI}
+      - WATCHTOWER_SCHEDULE=${WATCHTOWER_SCHEDULE:-0 2 * * *}
+      - WATCHTOWER_CLEANUP=${WATCHTOWER_CLEANUP:-true}
+      - WATCHTOWER_LABEL_ENABLE=${WATCHTOWER_LABEL_ENABLE:-true}
+      - WATCHTOWER_UI=${WATCHTOWER_UI:-false}
+    command:
+      - --schedule
+      - "${WATCHTOWER_SCHEDULE}"
+      - --cleanup
+      - "${WATCHTOWER_CLEANUP}"
+      - --label-enable
+      - "${WATCHTOWER_LABEL_ENABLE}"
+      # the following flag is only added if WATCHTOWER_UI=true
+      - ${WATCHTOWER_UI:+--http-api-server}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - ${APP_PORT}:8080
     restart: unless-stopped
+    networks:
+      - tipi_main_network
     labels:
       runtipi.managed: true
       traefik.enable: "${WATCHTOWER_UI}"
       traefik.http.routers.watchtower.rule: "Host(`watchtower.${APP_DOMAIN}`)"
       traefik.http.routers.watchtower.entrypoints: websecure
       traefik.http.routers.watchtower.tls.certresolver: myresolver
-      traefik.http.services.watchtower.loadbalancer.server.port: 8080
 
 networks:
-  default:
+  tipi_main_network:
     external: true
