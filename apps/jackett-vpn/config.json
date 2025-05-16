@@ -7,7 +7,7 @@
   "id": "jackett-vpn",
   "tipi_version": 1,
   "version": "latest",
-  "categories": ["utilities", "security"],
+  "categories": ["media", "utilities", "security"],
   "description": "Jackett works as a proxy server, it translates queries from apps into tracker-site-specific http queries, parses the html response, and then sends results back. Running behind Gluetun VPN for privacy and security.",
   "short_desc": "Jackett torrent proxy with Gluetun VPN support.",
   "author": "qmcgaw and linuxserver.io",
