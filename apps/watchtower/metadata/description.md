@@ -56,6 +56,6 @@ Reverse-proxy it with your existing Traefik setup—no extra service required.
 
 ## Quick Tips
 
-- **Build & Test**: Use Crontab.guru to draft your 6-field expression and verify it runs when you expect
+- **Build & Test**: Use [Crontab.guru](https://crontab.guru/) to draft your 6-field expression and verify it runs when you expect
 - **Time Zone**: Set TZ so your 03:00 means your local 3 AM, not UTC
 - **No Dual Modes**: Don’t combine --schedule and --interval—Watchtower honors only one 
