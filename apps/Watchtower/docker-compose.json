@@ -1,5 +1,4 @@
 {
-  "$schema": "../dynamic-compose-schema.json",
   "services": [
     {
       "name": "watchtower",
@@ -7,23 +6,24 @@
       "isMain": true,
       "internalPort": 8080,
       "environment": {
-        "WATCHTOWER_SCHEDULE": "${WATCHTOWER_SCHEDULE}",
-        "WATCHTOWER_CLEANUP": "${WATCHTOWER_CLEANUP}",
-        "WATCHTOWER_LABEL_ENABLE": "${WATCHTOWER_LABEL_ENABLE}",
-        "WATCHTOWER_UI": "${WATCHTOWER_UI}"
+        "WATCHTOWER_POLL_INTERVAL": "${WATCHTOWER_POLL_INTERVAL-300}",
+        "WATCHTOWER_INCLUDE_STOPPED": "${WATCHTOWER_INCLUDE_STOPPED-false}",
+        "WATCHTOWER_CLEANUP": "${WATCHTOWER_CLEANUP-true}",
+        "WATCHTOWER_NOTIFICATIONS": "${WATCHTOWER_NOTIFICATIONS-false}",
+        "WATCHTOWER_NOTIFICATION_EMAIL": "${WATCHTOWER_NOTIFICATION_EMAIL-}"
       },
-      "command": [
-        "--schedule", "${WATCHTOWER_SCHEDULE}",
-        "--cleanup", "${WATCHTOWER_CLEANUP}",
-        "--label-enable", "${WATCHTOWER_LABEL_ENABLE}",
-        "${WATCHTOWER_UI:+--http-api-server}"
-      ],
       "volumes": [
         {
           "hostPath": "/var/run/docker.sock",
           "containerPath": "/var/run/docker.sock"
         }
-      ]
+      ],
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m"
+        }
+      }
     }
   ]
 }
