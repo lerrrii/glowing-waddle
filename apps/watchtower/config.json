@@ -33,7 +33,7 @@
       "label": "Time zone",
       "placeholder": "Europe/Rome",
       "env_variable": "TZ",
-      "default": "UTC"
+      "default": "Europe/Rome"
     },
     {
       "type": "boolean",
