@@ -10,12 +10,14 @@
         "WATCHTOWER_LABEL_ENABLE": "${WATCHTOWER_LABEL_ENABLE}",
         "WATCHTOWER_SCHEDULE": "${WATCHTOWER_SCHEDULE}",
         "TZ": "Europe/Prague",
+
+        "WATCHTOWER_HTTP_API_UPDATE": "true",
+        "WATCHTOWER_HTTP_API_PERIODIC_POLLS": "${WATCHTOWER_HTTP_API_PERIODIC_POLLS}",
+        "WATCHTOWER_HTTP_API_TOKEN": "${WATCHTOWER_HTTP_API_TOKEN}",
+
         "WATCHTOWER_CLEANUP": "${WATCHTOWER_CLEANUP}",
         "WATCHTOWER_ROLLBACK": "${WATCHTOWER_ROLLBACK}",
         "WATCHTOWER_UI": "${WATCHTOWER_UI}",
-
-        "WATCHTOWER_HTTP_API_UPDATE": "true",
-        "WATCHTOWER_HTTP_API_PERIODIC_POLLS": "true",
 
         "WATCHTOWER_NOTIFICATIONS": "${WATCHTOWER_NOTIFICATIONS}",
         "WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL": "${WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL}",
@@ -31,7 +33,10 @@
         "WATCHTOWER_EXTRA_ARGS": "${WATCHTOWER_EXTRA_ARGS}"
       },
       "volumes": [
-        { "hostPath": "/var/run/docker.sock", "containerPath": "/var/run/docker.sock" }
+        {
+          "hostPath": "/var/run/docker.sock",
+          "containerPath": "/var/run/docker.sock"
+        }
       ]
     }
   ]
