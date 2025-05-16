@@ -9,7 +9,7 @@
       "environment": {
         "WATCHTOWER_LABEL_ENABLE": "${WATCHTOWER_LABEL_ENABLE}",
         "WATCHTOWER_SCHEDULE": "${WATCHTOWER_SCHEDULE}",
-        "TZ": "${TZ}",
+        "TZ": "Europe/Prague",
         "WATCHTOWER_CLEANUP": "${WATCHTOWER_CLEANUP}",
         "WATCHTOWER_ROLLBACK": "${WATCHTOWER_ROLLBACK}",
         "WATCHTOWER_UI": "${WATCHTOWER_UI}",
