@@ -1,6 +1,6 @@
 {
   "$schema": "../app-info-schema.json",
-  "name": "Vikunja",
+  "name": "Vikunja+",
   "available": true,
   "exposable": true,
   "dynamic_config": true,
