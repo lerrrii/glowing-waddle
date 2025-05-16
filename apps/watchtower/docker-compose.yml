@@ -7,7 +7,7 @@ services:
     environment:
       - WATCHTOWER_LABEL_ENABLE=${WATCHTOWER_LABEL_ENABLE}
       - WATCHTOWER_SCHEDULE=${WATCHTOWER_SCHEDULE}
-      - TZ=Europe/Prague
+      - TZ="Europe/Prague"
       - WATCHTOWER_CLEANUP=${WATCHTOWER_CLEANUP}
       - WATCHTOWER_ROLLBACK=${WATCHTOWER_ROLLBACK}
       - WATCHTOWER_UI=${WATCHTOWER_UI}
@@ -26,9 +26,6 @@ services:
       - WATCHTOWER_EXTRA_ARGS=${WATCHTOWER_EXTRA_ARGS}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-      - /usr/share/zoneinfo:/usr/share/zoneinfo:ro
     restart: unless-stopped
     labels:
       runtipi.managed: "true"
