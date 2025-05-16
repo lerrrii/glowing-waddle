@@ -11,17 +11,25 @@ services:
     container_name: watchtower
     restart: unless-stopped
 
-    # Publish the UI port so you can browse http://<host>:8080 directly
+    # 1) Publish the UI port so host:8080 → container:8080
     ports:
       - "8080:8080"
 
     environment:
       - WATCHTOWER_LABEL_ENABLE=${WATCHTOWER_LABEL_ENABLE}
       - WATCHTOWER_SCHEDULE=${WATCHTOWER_SCHEDULE}
-      - TZ=Europe/Prague                  # no extra quotes around the value
+      - TZ=Europe/Prague
       - WATCHTOWER_CLEANUP=${WATCHTOWER_CLEANUP}
       - WATCHTOWER_ROLLBACK=${WATCHTOWER_ROLLBACK}
       - WATCHTOWER_UI=${WATCHTOWER_UI}
+
+      # 2) Enable HTTP API update endpoint
+      - WATCHTOWER_HTTP_API_UPDATE=true              # --http-api-update :contentReference[oaicite:5]{index=5}
+
+      # 3) Keep periodic polls even with HTTP API mode on
+      - WATCHTOWER_HTTP_API_PERIODIC_POLLS=true       # --http-api-periodic-polls :contentReference[oaicite:6]{index=6}
+
+      # Notifications & extra args (if any)
       - WATCHTOWER_NOTIFICATIONS=${WATCHTOWER_NOTIFICATIONS}
       - WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL=${WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL}
       - WATCHTOWER_NOTIFICATION_MSTEAMS_HOOK_URL=${WATCHTOWER_NOTIFICATION_MSTEAMS_HOOK_URL}
@@ -38,7 +46,7 @@ services:
 
     labels:
       - "traefik.enable=${WATCHTOWER_UI}"
-      - "traefik.docker.network=tipi_main_network"             # so Traefik picks it up
+      - "traefik.docker.network=tipi_main_network"               # let Traefik discover this service :contentReference[oaicite:7]{index=7}
       - "traefik.http.routers.watchtower.rule=Host(`watchtower.${APP_DOMAIN}`)"
       - "traefik.http.routers.watchtower.entrypoints=websecure"
       - "traefik.http.routers.watchtower.tls=true"
