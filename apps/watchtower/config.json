@@ -9,24 +9,60 @@
   "tipi_version": 1,
   "version": "latest",
   "categories": ["utilities", "security"],
-  "description": "Automatic Docker container updater for Runtipi-managed services.",
-  "short_desc": "Watchtower auto-updates Docker containers.",
-  "author": "containrrr",
+  "description": "Automatic Docker container updater for Runtipi-managed services, with notifications and timezone support.",
+  "short_desc": "Watchtower auto-updates Docker containers with notifications.",
+  "author": "containrrr + Runtipi community",
   "source": "https://github.com/containrrr/watchtower",
   "form_fields": [
+    {
+      "type": "info",
+      "label": "⚙️ Label filtering",
+      "text": "If empty, all containers are monitored. Otherwise only containers with `LABEL=selector` are watched."
+    },
     {
       "type": "text",
       "label": "Label selector",
       "placeholder": "runtipi.managed=true",
-      "env_variable": "WATCHTOWER_LABELS",
+      "env_variable": "WATCHTOWER_LABEL_ENABLE",
       "default": "runtipi.managed=true"
     },
     {
+      "type": "select",
+      "label": "Notification type",
+      "env_variable": "WATCHTOWER_NOTIFICATIONS",
+      "options": ["", "email", "slack", "msteams", "gotify"],
+      "default": ""
+    },
+    {
       "type": "text",
-      "label": "Cron schedule",
-      "placeholder": "0 3 * * *",
+      "label": "Notification URL / Slack/Teams/Gotify hook",
+      "placeholder": "https://hooks.slack.com/services/…",
+      "env_variable": "WATCHTOWER_NOTIFICATION_URL",
+      "depends_on": [
+        { "field": "WATCHTOWER_NOTIFICATIONS", "value": ["slack","msteams","gotify"] }
+      ]
+    },
+    {
+      "type": "text",
+      "label": "Email settings (from,to,server:port,user,pass)",
+      "placeholder": "from@you.com,to@you.com,smtp.server.com:587,user,pass",
+      "env_variable": "WATCHTOWER_NOTIFICATION_EMAIL",
+      "depends_on": [
+        { "field": "WATCHTOWER_NOTIFICATIONS", "value": ["email"] }
+      ]
+    },
+    {
+      "type": "text",
+      "label": "Cron schedule (6 fields including seconds)",
+      "placeholder": "0 0 3 * * *",
       "env_variable": "WATCHTOWER_SCHEDULE",
-      "default": "0 3 * * *"
+      "default": "0 0 3 * * *"
+    },
+    {
+      "type": "text",
+      "label": "Log & Schedule Time Zone (e.g. Europe/Rome)",
+      "env_variable": "TZ",
+      "default": "UTC"
     },
     {
       "type": "boolean",
@@ -42,9 +78,16 @@
     },
     {
       "type": "boolean",
-      "label": "Expose UI",
+      "label": "Expose built-in UI",
       "env_variable": "WATCHTOWER_UI",
       "default": false
+    },
+    {
+      "type": "textarea",
+      "label": "Extra Watchtower args",
+      "placeholder": "--include-stopped --rolling-restart",
+      "env_variable": "WATCHTOWER_EXTRA_ARGS",
+      "default": ""
     }
   ],
   "supported_architectures": ["amd64", "arm64"],
