@@ -1,0 +1,21 @@
+{
+  "$schema": "../dynamic-compose-schema.json",
+  "services": [
+    {
+      "name": "watchtower",
+      "image": "containrrr/watchtower:latest",
+      "isMain": true,
+      "internalPort": 8080,
+      "environment": {
+        "WATCHTOWER_LABEL_ENABLE": "${WATCHTOWER_LABELS}",
+        "WATCHTOWER_SCHEDULE": "${WATCHTOWER_SCHEDULE}",
+        "WATCHTOWER_CLEANUP": "${WATCHTOWER_CLEANUP}",
+        "WATCHTOWER_ROLLBACK": "${WATCHTOWER_ROLLBACK}",
+        "WATCHTOWER_UI": "${WATCHTOWER_UI}"
+      },
+      "volumes": [
+        {"hostPath": "/var/run/docker.sock", "containerPath": "/var/run/docker.sock"}
+      ]
+    }
+  ]
+}
