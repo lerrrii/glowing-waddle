@@ -1,53 +1,45 @@
 {
   "$schema": "../app-info-schema.json",
-  "name": "Watchtower",
+  "name": "Watchtower Auto-Updater",
+  "id": "watchtower",
+  "version": "latest",
   "available": true,
   "exposable": true,
   "dynamic_config": true,
   "port": 8080,
-  "id": "watchtower",
-  "tipi_version": 1,
-  "version": "latest",
-  "categories": ["utilities", "security"],
-  "description": "Automatic Docker container updater for Runtipi-managed services.",
-  "short_desc": "Watchtower auto-updates Docker containers.",
-  "author": "containrrr",
+  "categories": ["utilities","infrastructure","devops"],
+  "description": "Automatically pulls and restarts Docker containers when new image versions are released.",
+  "short_desc": "Automated Docker image updater for all Runtipi apps.",
+  "author": "containrrr / Community",
   "source": "https://github.com/containrrr/watchtower",
   "form_fields": [
     {
       "type": "text",
-      "label": "Label selector",
-      "placeholder": "runtipi.managed=true",
-      "env_variable": "WATCHTOWER_LABELS",
-      "default": "runtipi.managed=true"
-    },
-    {
-      "type": "text",
-      "label": "Cron schedule",
-      "placeholder": "0 3 * * *",
+      "label": "Schedule (cron)",
       "env_variable": "WATCHTOWER_SCHEDULE",
-      "default": "0 3 * * *"
+      "default": "0 2 * * *",
+      "placeholder": "0 2 * * *"
     },
     {
       "type": "boolean",
-      "label": "Cleanup old images",
+      "label": "Enable Cleanup of Old Images",
       "env_variable": "WATCHTOWER_CLEANUP",
       "default": true
     },
     {
       "type": "boolean",
-      "label": "Rollback on failure",
-      "env_variable": "WATCHTOWER_ROLLBACK",
-      "default": false
+      "label": "Enable Label Filtering",
+      "env_variable": "WATCHTOWER_LABEL_ENABLE",
+      "default": true
     },
     {
       "type": "boolean",
-      "label": "Expose UI",
+      "label": "Expose Web UI",
       "env_variable": "WATCHTOWER_UI",
       "default": false
     }
   ],
-  "supported_architectures": ["amd64", "arm64"],
-  "created_at": 1740000000000,
-  "updated_at": 1740000000000
+  "supported_architectures": ["arm64","amd64"],
+  "created_at": 1710000000000,
+  "updated_at": 1710000000000
 }
