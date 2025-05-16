@@ -28,7 +28,25 @@
         "WATCHTOWER_EXTRA_ARGS": "${WATCHTOWER_EXTRA_ARGS}"
       },
       "volumes": [
-        { "hostPath": "/var/run/docker.sock", "containerPath": "/var/run/docker.sock" }
+        {
+          "hostPath": "/var/run/docker.sock",
+          "containerPath": "/var/run/docker.sock"
+        },
+        {
+          "hostPath": "/etc/localtime",
+          "containerPath": "/etc/localtime",
+          "readOnly": true
+        },
+        {
+          "hostPath": "/etc/timezone",
+          "containerPath": "/etc/timezone",
+          "readOnly": true
+        },
+        {
+          "hostPath": "/usr/share/zoneinfo",
+          "containerPath": "/usr/share/zoneinfo",
+          "readOnly": true
+        }
       ]
     }
   ]
