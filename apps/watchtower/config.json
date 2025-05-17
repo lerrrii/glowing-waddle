@@ -48,6 +48,54 @@
       "default": ""
     },
     {
+      "type": "url",
+      "label": "Slack webhook URL",
+      "env_variable": "WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL",
+      "required": false
+    },
+    {
+      "type": "url",
+      "label": "MS Teams webhook URL",
+      "env_variable": "WATCHTOWER_NOTIFICATION_MSTEAMS_HOOK_URL",
+      "required": false
+    },
+    {
+      "type": "url",
+      "label": "Gotify URL",
+      "env_variable": "WATCHTOWER_NOTIFICATION_GOTIFY_URL",
+      "required": false
+    },
+    {
+      "type": "email",
+      "label": "Email from",
+      "env_variable": "WATCHTOWER_NOTIFICATION_EMAIL_FROM",
+      "required": false
+    },
+    {
+      "type": "email",
+      "label": "Email to",
+      "env_variable": "WATCHTOWER_NOTIFICATION_EMAIL_TO",
+      "required": false
+    },
+    {
+      "type": "fqdnip",
+      "label": "SMTP server (host:port)",
+      "env_variable": "WATCHTOWER_NOTIFICATION_EMAIL_SERVER",
+      "required": false
+    },
+    {
+      "type": "text",
+      "label": "SMTP username",
+      "env_variable": "WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER",
+      "required": false
+    },
+    {
+      "type": "password",
+      "label": "SMTP password",
+      "env_variable": "WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD",
+      "required": false
+    },
+    {
       "type": "text",
       "label": "Extra Watchtower args",
       "hint": "e.g. --include-stopped --rolling-restart",
