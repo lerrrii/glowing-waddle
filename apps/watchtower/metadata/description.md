@@ -106,6 +106,40 @@ WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD=secret
 
 ---
 
+## Disabling Containers Explicitly
+
+If you want Watchtower to watch **all containers except** those you explicitly skip, you can use a built‑in disable label.
+
+* **Built‑in disable key**: `com.centurylinklabs.watchtower.enable=false`
+* **How to use**: add this label to any service you want Watchtower to ignore.
+
+```yaml
+services:
+  redis:
+    image: redis:latest
+    labels:
+      runtipi.managed: "true"
+      com.centurylinklabs.watchtower.enable: "false"
+```
+
+Alternatively, you can define your own disable key via the `--label-disable` flag in **Extra Watchtower args**:
+
+```text
+# In the Runtipi UI under "Extra Watchtower args":
+--label-disable custom.skip.update
+```
+
+Then tag services to skip with your custom key:
+
+```yaml
+services:
+  old_service:
+    labels:
+      custom.skip.update: "true"
+```
+
+---
+
 ## Cron Expression Reference
 
 | Position | Field        | Allowed Values             |
