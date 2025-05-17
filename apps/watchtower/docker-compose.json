@@ -6,6 +6,14 @@
       "image": "containrrr/watchtower:latest",
       "isMain": true,
       "internalPort": 8080,
+      "addPorts": [
+        {
+          "containerPort": 8080,
+          "hostPort": 8080,
+          "tcp": true,
+          "udp": false
+        }
+      ],
       "environment": {
         "WATCHTOWER_LABEL_ENABLE": "${WATCHTOWER_LABEL_ENABLE}",
         "WATCHTOWER_SCHEDULE": "${WATCHTOWER_SCHEDULE}",
