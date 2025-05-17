@@ -18,21 +18,9 @@
     { "type": "text", "label": "Cron schedule (6 fields)", "env_variable": "WATCHTOWER_SCHEDULE", "default": "0 0 3 * * *" },
     { "type": "boolean", "label": "Cleanup old images", "env_variable": "WATCHTOWER_CLEANUP", "default": true },
     { "type": "boolean", "label": "Rollback on failure", "env_variable": "WATCHTOWER_ROLLBACK", "default": false },
-    { "type": "boolean", "label": "Expose built-in UI", "env_variable": "WATCHTOWER_UI", "default": false },
-    {
-      "type": "password",
-      "label": "HTTP-API token",
-      "hint": "Required for HTTP-API mode (update endpoint & UI).",
-      "env_variable": "WATCHTOWER_HTTP_API_TOKEN",
-      "required": true
-    },
-    {
-      "type": "boolean",
-      "label": "HTTP-API periodic polls",
-      "hint": "Keep cron polling active when HTTP-API is enabled.",
-      "env_variable": "WATCHTOWER_HTTP_API_PERIODIC_POLLS",
-      "default": true
-    },
+    { "type": "boolean", "label": "Expose built-in UI", "env_variable": "WATCHTOWER_UI", "default": true },
+    { "type": "password", "label": "HTTP-API token", "hint": "Required for HTTP-API mode (update endpoint & UI)", "env_variable": "WATCHTOWER_HTTP_API_TOKEN", "required": true },
+    { "type": "boolean", "label": "HTTP-API periodic polls", "hint": "Keep cron polling active when HTTP-API is enabled.", "env_variable": "WATCHTOWER_HTTP_API_PERIODIC_POLLS", "default": true },
     { "type": "text", "label": "Notification type", "env_variable": "WATCHTOWER_NOTIFICATIONS", "default": "" },
     { "type": "url", "label": "Slack webhook URL", "env_variable": "WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL" },
     { "type": "url", "label": "MS Teams webhook URL", "env_variable": "WATCHTOWER_NOTIFICATION_MSTEAMS_HOOK_URL" },
