@@ -10,7 +10,6 @@ services:
       - TZ=Europe/Prague
       - WATCHTOWER_CLEANUP=${WATCHTOWER_CLEANUP}
       - WATCHTOWER_ROLLBACK=${WATCHTOWER_ROLLBACK}
-      - WATCHTOWER_UI=${WATCHTOWER_UI}
 
       - WATCHTOWER_NOTIFICATIONS=${WATCHTOWER_NOTIFICATIONS}
       - WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL=${WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL}
@@ -24,14 +23,15 @@ services:
       - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD=${WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD}
 
       - WATCHTOWER_EXTRA_ARGS=${WATCHTOWER_EXTRA_ARGS}
+
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+
     restart: unless-stopped
-    expose:
-      - "8080"
+
     labels:
       runtipi.managed: "true"
-      traefik.enable: "${WATCHTOWER_UI}"
+      traefik.enable: "true"
       traefik.http.routers.watchtower.rule: "Host(`watchtower.${APP_DOMAIN}`)"
       traefik.http.routers.watchtower.entrypoints: websecure
       traefik.http.routers.watchtower.tls.certresolver: myresolver
