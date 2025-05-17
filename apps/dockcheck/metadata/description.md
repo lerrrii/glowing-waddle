@@ -35,37 +35,3 @@ These variables are exposed in the Runtipi dashboard for easy adjustment.
 | **Auto-prune images**                | `AUTO_PRUNE`         | `true` or `false`        | If `true`, unused (dangling) Docker images will be removed automatically post-update. Saves disk space.                                      |
 | **Extra dockcheck flags (optional)** | `EXTRA_FLAGS`        | `--dry-run`, `--retry 2` | Insert advanced CLI options for Dockcheck, such as enabling dry runs or setting retry counts.                                                |
 | **Traefik hostnames**                | `TRAEFIK_HOSTS`      | `dockcheck.mydomain.com` | Comma-separated list of domains to serve the Dockcheck dashboard via Traefik. Must be configured in your DNS.                                |
-
----
-
-## Corrections Needed
-
-Yes, there was one small issue in the `docker-compose.yml`:
-
-* **Text environment defaults were using escape characters improperly.** For text variables like `EXCLUDE_CONTAINERS`, use this syntax:
-
-  ```yaml
-  EXCLUDE_CONTAINERS: "${EXCLUDE_CONTAINERS-}"
-  ONLY_LABEL: "${ONLY_LABEL-}"
-  EXTRA_FLAGS: "${EXTRA_FLAGS-}"
-  ```
-
-  This avoids injecting empty strings with extra characters (`\"`) that could interfere with `dockcheck.sh` parsing.
-
-Update your compose file if you had used `"${EXCLUDE_CONTAINERS-}\""` or similar.
-
----
-
-## How it Works in Runtipi
-
-* The `config.json` defines the available settings in the Runtipi app dashboard.
-* The `docker-compose.json` and `.yml` define the container and how flags are constructed.
-* At runtime, `dockcheck.sh` is fetched and executed inside a minimal Alpine container.
-* Flags are dynamically constructed from environment variables.
-* All key settings are configurable without editing the script or compose file.
-
----
-
-With these settings and corrections, Dockcheck is fully compatible with Runtipi and ready for both casual users and advanced automation workflows.
-
-For more details, see: [Dockcheck GitHub](https://github.com/mag37/dockcheck)
