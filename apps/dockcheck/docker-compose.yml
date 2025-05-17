@@ -19,10 +19,10 @@ services:
       EXTRA_FLAGS: "${EXTRA_FLAGS-}"
       DOCKCHECK_FLAGS: >
         $${AUTO_MODE:+-a} \
-        -x $${MAX_ASYNC} \
-        -d $${DAYS_OLD} \
-        -e $${EXCLUDE_CONTAINERS} \
-        -l $${ONLY_LABEL} \
+        $${MAX_ASYNC:+-x $${MAX_ASYNC}} \
+        $${DAYS_OLD:+-d $${DAYS_OLD}} \
+        $${EXCLUDE_CONTAINERS:+-e $${EXCLUDE_CONTAINERS}} \
+        $${ONLY_LABEL:+-l} \
         $${AUTO_PRUNE:+-p} \
         $${EXTRA_FLAGS}
     volumes:
