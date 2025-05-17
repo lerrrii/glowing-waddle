@@ -8,7 +8,7 @@
   "port": 8080,
   "tipi_version": 1,
   "version": "latest",
-  "categories": ["utilities", "security"],
+  "categories": ["utilities", "automation", "security"],
   "author": "containrrr + Runtipi community",
   "description": "Auto-update Docker containers with cron, time-zone, notifications and optional UI.",
   "short_desc": "Docker auto-updater with notifications.",
