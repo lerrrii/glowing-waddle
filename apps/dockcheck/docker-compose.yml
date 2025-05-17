@@ -3,7 +3,7 @@ services:
   dockcheck:
     image: alpine:latest
     container_name: dockcheck
-    user: root
+    user: "0:0"
     cap_add:
       - NET_ADMIN
     command: >-
@@ -13,6 +13,7 @@ services:
       curl -L https://raw.githubusercontent.com/mag37/dockcheck/main/dockcheck.sh \
       -o /usr/local/bin/dockcheck.sh && \
       chmod +x /usr/local/bin/dockcheck.sh && \
+      chmod 666 /var/run/docker.sock && \
       exec dockcheck.sh $${DOCKCHECK_FLAGS}"
     environment:
       AUTO_MODE: "${AUTO_MODE-false}"
@@ -48,4 +49,4 @@ services:
 
 networks:
   tipi_main_network:
-    external: truehttps://github.com/regclient/regclient/releases/latest/download/regctl-linux-amd64
+    external: true
