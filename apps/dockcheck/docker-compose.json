@@ -6,6 +6,7 @@
       "image": "alpine:latest",
       "isMain": true,
       "internalPort": 8080,
+      "user": "root",
       "capAdd": ["NET_ADMIN"],
       "command": [
         "sh",
@@ -20,7 +21,7 @@
         "ONLY_LABEL": "${ONLY_LABEL}",
         "AUTO_PRUNE": "${AUTO_PRUNE}",
         "EXTRA_FLAGS": "${EXTRA_FLAGS}",
-        "DOCKCHECK_FLAGS": "$${AUTO_MODE:+-a} $${MAX_ASYNC:+-x $${MAX_ASYNC}} $${DAYS_OLD:+-d $${DAYS_OLD}} $${EXCLUDE_CONTAINERS:+-e $${EXCLUDE_CONTAINERS}} $${ONLY_LABEL:+-l} $${AUTO_PRUNE:+-p} $${EXTRA_FLAGS}"
+        "DOCKCHECK_FLAGS": "${DOCKCHECK_FLAGS}"
       },
       "volumes": [
         {
