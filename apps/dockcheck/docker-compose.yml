@@ -23,7 +23,8 @@ services:
       DOCKCHECK_FLAGS: |
         $${AUTO_MODE:+-a} $${MAX_ASYNC:+-x $${MAX_ASYNC}} $${DAYS_OLD:+-d $${DAYS_OLD}} $${EXCLUDE_CONTAINERS:+-e $${EXCLUDE_CONTAINERS}} $${ONLY_LABEL:+-l} $${AUTO_PRUNE:+-p} $${EXTRA_FLAGS}
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    user: root
     labels:
       traefik.enable: "true"
       traefik.http.routers.dockcheck.rule: "Host(${TRAEFIK_HOSTS})"
