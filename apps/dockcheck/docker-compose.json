@@ -6,7 +6,7 @@
       "image": "alpine:latest",
       "isMain": true,
       "internalPort": 8080,
-      "user": "root",
+      "capAdd": ["NET_ADMIN"],
       "command": [
         "sh",
         "-c",
@@ -25,8 +25,11 @@
       "volumes": [
         {
           "hostPath": "/var/run/docker.sock",
-          "containerPath": "/var/run/docker.sock",
-          "mode": "rw"
+          "containerPath": "/var/run/docker.sock"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/data",
+          "containerPath": "/data"
         }
       ],
       "labels": {
@@ -34,9 +37,12 @@
         "traefik.http.routers.dockcheck.rule": "Host({{TRAEFIK_HOSTS}})",
         "traefik.http.routers.dockcheck.entrypoints": "websecure",
         "traefik.http.routers.dockcheck.tls.certresolver": "myresolver",
-        "traefik.http.services.dockcheck.loadbalancer.server.port": "8080"
+        "traefik.http.services.dockcheck.loadbalancer.server.port": "8080",
+        "runtipi.managed": "true"
       },
-      "restart": "on-failure",
+      "networks": ["tipi_main_network"],
+      "ports": ["${APP_PORT}:8080"],
+      "restart": "unless-stopped",
       "logging": {
         "driver": "json-file",
         "options": {
@@ -45,5 +51,10 @@
         }
       }
     }
-  ]
+  ],
+  "networks": {
+    "tipi_main_network": {
+      "external": true
+    }
+  }
 }
