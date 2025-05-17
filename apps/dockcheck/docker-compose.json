@@ -7,21 +7,21 @@
       "isMain": true,
       "internalPort": 8080,
       "command": [
-        "sh",
-        "-c",
-        "apk add --no-cache bash jq curl && curl -L https://raw.githubusercontent.com/mag37/dockcheck/main/dockcheck.sh -o /usr/local/bin/dockcheck.sh && chmod +x /usr/local/bin/dockcheck.sh && exec dockcheck.sh $${DOCKCHECK_FLAGS}"
+        "sh", "-c",
+        "apk add --no-cache bash jq curl && \
+         curl -L https://raw.githubusercontent.com/mag37/dockcheck/main/dockcheck.sh -o /usr/local/bin/dockcheck.sh && \
+         chmod +x /usr/local/bin/dockcheck.sh && \
+         exec dockcheck.sh $${DOCKCHECK_FLAGS}"
       ],
       "environment": {
         "AUTO_MODE": "${AUTO_MODE}",
-        "NOTIFY": "${NOTIFY}",
-        "AUTO_PRUNE": "${AUTO_PRUNE}",
-        "AUTO_SELF_UPDATE": "${AUTO_SELF_UPDATE}",
         "MAX_ASYNC": "${MAX_ASYNC}",
         "DAYS_OLD": "${DAYS_OLD}",
         "EXCLUDE_CONTAINERS": "${EXCLUDE_CONTAINERS}",
         "ONLY_LABEL": "${ONLY_LABEL}",
+        "AUTO_PRUNE": "${AUTO_PRUNE}",
         "EXTRA_FLAGS": "${EXTRA_FLAGS}",
-        "DOCKCHECK_FLAGS": "-a $${AUTO_MODE:+-a} $${NOTIFY:+-i} $${AUTO_PRUNE:+-p} $${AUTO_SELF_UPDATE:+-u} -x $${MAX_ASYNC} -d $${DAYS_OLD} -e $${EXCLUDE_CONTAINERS} -l $${ONLY_LABEL} $${EXTRA_FLAGS}"
+        "DOCKCHECK_FLAGS": "-a $${AUTO_MODE:+-a} -x $${MAX_ASYNC} -d $${DAYS_OLD} -e $${EXCLUDE_CONTAINERS} -l $${ONLY_LABEL} $${AUTO_PRUNE:+-p} $${EXTRA_FLAGS}"
       },
       "volumes": [
         { "hostPath": "/var/run/docker.sock", "containerPath": "/var/run/docker.sock" }
@@ -33,12 +33,8 @@
         "traefik.http.routers.dockcheck.tls.certresolver": "myresolver",
         "traefik.http.services.dockcheck.loadbalancer.server.port": "8080"
       },
-      "workingDir": "/",
       "restart": "on-failure",
-      "logging": {
-        "driver": "json-file",
-        "options": { "max-size": "5m", "max-file": "3" }
-      }
+      "logging": { "driver": "json-file", "options": { "max-size": "5m", "max-file": "3" } }
     }
   ]
 }
