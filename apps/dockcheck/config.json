@@ -9,7 +9,7 @@
   "exposable": true,
   "dynamic_config": true,
   "categories": ["utilities", "automation"],
-  "description": "Core Docker image update checks with simple toggles.",
+  "description": "Core Docker update checks with simple toggles.",
   "short_desc": "Simple Docker updater",
   "author": "mag37",
   "source": "https://github.com/mag37/dockcheck",
@@ -23,7 +23,7 @@
     { "type": "text",    "label": "Exclude containers (comma)", "env_variable": "EXCLUDE_CONTAINERS" },
     { "type": "text",    "label": "Only update if label present", "env_variable": "ONLY_LABEL" },
     { "type": "boolean", "label": "Auto-prune images", "env_variable": "AUTO_PRUNE" },
-    { "type": "text",    "label": "Extra dockcheck flags", "env_variable": "EXTRA_FLAGS" },
+    { "type": "text",    "label": "Extra dockcheck flags (optional)", "env_variable": "EXTRA_FLAGS" },
     { "type": "text",    "label": "Traefik hostnames (comma)", "env_variable": "TRAEFIK_HOSTS" }
   ]
 }
