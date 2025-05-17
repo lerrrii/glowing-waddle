@@ -23,15 +23,30 @@ Runs on-demand or via scheduler. Requires read-only access to `/var/run/docker.s
 
 ## Settings, Defaults & Examples
 
-Configure each variable in the Runtipi dashboard. If left blank, the default value applies.
+### Variables & Defaults
 
-| Setting                              | Variable             | Default | Example                  | Description                                                                                                      |
-| ------------------------------------ | -------------------- | ------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| **Automatic updates**                | `AUTO_MODE`          | `false` | `true` or `false`        | Set `true` to automatically update all eligible containers. `false` runs in audit mode only.                     |
-| **Max parallel checks**              | `MAX_ASYNC`          | `1`     | `1` to `32`              | Number of concurrent image checks. Increase for large hosts; default `1` conserves resources.                    |
-| **Min image age (days)**             | `DAYS_OLD`           | `0`     | `0`, `3`, `7`, etc.      | Skip images younger than this many days. Prevents updating freshly deployed images.                              |
-| **Exclude containers**               | `EXCLUDE_CONTAINERS` | (empty) | `nginx,db,portainer`     | Comma-separated list of container names to skip. Default empty (no exclusions).                                  |
-| **Only update if label present**     | `ONLY_LABEL`         | (empty) | `autoupdate`             | Only update containers with this label. Default empty (disable label filter).                                    |
-| **Auto-prune images**                | `AUTO_PRUNE`         | `false` | `true` or `false`        | `true` removes dangling images post-update; `false` leaves them for manual inspection.                           |
-| **Extra dockcheck flags (optional)** | `EXTRA_FLAGS`        | (empty) | `--dry-run`, `--retry 2` | Additional CLI flags for `dockcheck.sh`. Default empty (no extras).                                              |
-| **Traefik hostnames**                | `TRAEFIK_HOSTS`      | (empty) | `dockcheck.mydomain.com` | Comma-separated domains for Traefik routing. Default empty—dashboard will not be exposed via Traefik unless set. |
+| Setting                   | Variable             | Default   |
+| ------------------------- | -------------------- | --------- |
+| **Automatic updates**     | `AUTO_MODE`          | `false`   |
+| **Max parallel checks**   | `MAX_ASYNC`          | `1`       |
+| **Min image age (days)**  | `DAYS_OLD`           | `0`       |
+| **Exclude containers**    | `EXCLUDE_CONTAINERS` | *(empty)* |
+| **Only update if label**  | `ONLY_LABEL`         | *(empty)* |
+| **Auto-prune images**     | `AUTO_PRUNE`         | `false`   |
+| **Extra dockcheck flags** | `EXTRA_FLAGS`        | *(empty)* |
+| **Traefik hostnames**     | `TRAEFIK_HOSTS`      | *(empty)* |
+
+---
+
+### Examples & Descriptions
+
+| Setting                   | Example                  | Description                                                                                       |
+| ------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------- |
+| **Automatic updates**     | `true` or `false`        | `true` to automatically update all eligible containers; `false` runs in audit mode only.          |
+| **Max parallel checks**   | `1`–`32`                 | Number of concurrent image checks. Increase for large hosts; default `1` conserves resources.     |
+| **Min image age (days)**  | `0`, `3`, `7`, etc.      | Skip images younger than this many days. Prevents updating freshly deployed images.               |
+| **Exclude containers**    | `nginx,db,portainer`     | Comma-separated list of container names to skip. Default empty (no exclusions).                   |
+| **Only update if label**  | `autoupdate`             | Only update containers with this label. Default empty (disable label filter).                     |
+| **Auto-prune images**     | `true` or `false`        | `true` removes dangling images post-update; `false` leaves them for manual inspection.            |
+| **Extra dockcheck flags** | `--dry-run`, `--retry 2` | Additional CLI flags for `dockcheck.sh`. Default empty (no extras).                               |
+| **Traefik hostnames**     | `dockcheck.mydomain.com` | Comma-separated domains for Traefik routing. Default empty—dashboard won’t be exposed unless set. |
