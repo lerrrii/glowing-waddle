@@ -1,11 +1,17 @@
 # Dockcheck
 
-**Automate Docker image update checks**
+**Automate Docker image update checks with full control and notifications**
 
-- Selective updates: choose which containers to update
-- Notifications: email, ntfy, Gotify, Telegram, Discord, Slack, etc.
-- Auto-prune dangling images
-- Self-update the script
-- Integrates with Traefik for UI exposure
+Dockcheck is a lightweight CLI tool—fully integrated into Runtipi—to help you stay on top of Docker image updates safely and automatically. Whether you need non‑interactive bulk pulls, selective updates by label or name, or detailed change notifications, Dockcheck has you covered.
 
-Runs on-demand or via Runtipi scheduler. Requires access to `/var/run/docker.sock`.
+## Key Features
+
+- **Automatic & Interactive Modes**: Choose between fully unattended updates or a guided selection UI.
+- **Selective Updates**: Filter containers by name, label, or age (only pull if newer than N days).
+- **Parallel Checks**: Speed up registry queries with configurable concurrency (1–32 processes).
+- **Comprehensive Notifications**: Plug into email, ntfy, Gotify, Telegram, Discord, Slack, and more via customizable templates.
+- **Post‑Update Cleanup**: Auto‑prune dangling images to reclaim space after updates.
+- **Self‑Update**: Keep Dockcheck itself fresh by auto‑pulling the latest script before running checks.
+- **Traefik Integration**: Expose Dockcheck’s web dashboard using Traefik labels, with easy hostname configuration.
+
+Runs on‑demand or scheduled via Runtipi; requires read access to `/var/run/docker.sock` to inspect and pull images.
