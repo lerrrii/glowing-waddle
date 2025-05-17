@@ -3,6 +3,7 @@ services:
   dockcheck:
     image: alpine:latest
     container_name: dockcheck
+    user: root
     cap_add:
       - NET_ADMIN
     command: >-
@@ -47,4 +48,4 @@ services:
 
 networks:
   tipi_main_network:
-    external: true
+    external: truehttps://github.com/regclient/regclient/releases/latest/download/regctl-linux-amd64
