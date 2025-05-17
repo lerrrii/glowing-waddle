@@ -21,11 +21,11 @@
     { "type": "boolean", "label": "Notify on updates", "env_variable": "NOTIFY" },
     { "type": "boolean", "label": "Auto-prune after updates", "env_variable": "AUTO_PRUNE" },
     { "type": "boolean", "label": "Auto self-update dockcheck.sh", "env_variable": "AUTO_SELF_UPDATE" },
-    { "type": "number",  "label": "Max async checks", "placeholder": "1-32", "env_variable": "MAX_ASYNC" },
-    { "type": "number",  "label": "Min age of images to update (days)", "placeholder": "0", "env_variable": "DAYS_OLD" },
-    { "type": "text",    "label": "Exclude containers (comma)", "env_variable": "EXCLUDE_CONTAINERS" },
-    { "type": "text",    "label": "Include only label", "env_variable": "ONLY_LABEL" },
-    { "type": "text",    "label": "Additional dockcheck flags", "env_variable": "EXTRA_FLAGS" },
-    { "type": "text",    "label": "Traefik router hostnames (comma)", "env_variable": "TRAEFIK_HOSTS" }
+    { "type": "number", "label": "Max async checks", "placeholder": "1-32", "env_variable": "MAX_ASYNC" },
+    { "type": "number", "label": "Min age of images to update (days)", "placeholder": "0", "env_variable": "DAYS_OLD" },
+    { "type": "text", "label": "Exclude containers (comma)", "env_variable": "EXCLUDE_CONTAINERS" },
+    { "type": "text", "label": "Include only label", "env_variable": "ONLY_LABEL" },
+    { "type": "text", "label": "Additional dockcheck flags", "env_variable": "EXTRA_FLAGS" },
+    { "type": "text", "label": "Traefik router hostnames (comma)", "env_variable": "TRAEFIK_HOSTS" }
   ]
 }
