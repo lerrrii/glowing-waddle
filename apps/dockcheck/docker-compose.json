@@ -11,7 +11,7 @@
         "apk add --no-cache bash jq curl && \
          curl -L https://raw.githubusercontent.com/mag37/dockcheck/main/dockcheck.sh -o /usr/local/bin/dockcheck.sh && \
          chmod +x /usr/local/bin/dockcheck.sh && \
-         exec dockcheck.sh \"$$(echo $${DOCKCHECK_FLAGS})\""
+         exec dockcheck.sh $${DOCKCHECK_FLAGS}"
       ],
       "environment": {
         "AUTO_MODE": "${AUTO_MODE}",
