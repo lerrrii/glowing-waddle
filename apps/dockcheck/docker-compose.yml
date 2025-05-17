@@ -13,10 +13,11 @@ services:
       AUTO_MODE: "${AUTO_MODE-false}"
       MAX_ASYNC: "${MAX_ASYNC-1}"
       DAYS_OLD: "${DAYS_OLD-0}"
-      EXCLUDE_CONTAINERS: "${EXCLUDE_CONTAINERS-}\""
-      ONLY_LABEL: "${ONLY_LABEL-}\""
+      EXCLUDE_CONTAINERS: "${EXCLUDE_CONTAINERS-}"
+      ONLY_LABEL: "${ONLY_LABEL-}"
       AUTO_PRUNE: "${AUTO_PRUNE-false}"
-      EXTRA_FLAGS: "${EXTRA_FLAGS-}\""
+      EXTRA_FLAGS: "${EXTRA_FLAGS-}"
+      TRAEFIK_HOSTS: "${TRAEFIK_HOSTS-}"
       DOCKCHECK_FLAGS: |
         $${AUTO_MODE:+-a}
         $${MAX_ASYNC:+-x $${MAX_ASYNC}}
