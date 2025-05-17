@@ -11,15 +11,16 @@ services:
     container_name: watchtower
     restart: unless-stopped
 
-    ports:
-      - "8080:8080"
+    # Use `expose` instead of `ports` to let Traefik (Runtipi) handle external routing
+    expose:
+      - "8080"
 
     environment:
       - WATCHTOWER_LABEL_ENABLE=${WATCHTOWER_LABEL_ENABLE}
       - WATCHTOWER_SCHEDULE=${WATCHTOWER_SCHEDULE}
       - TZ=Europe/Prague
       - WATCHTOWER_HTTP_API_UPDATE=true
-      - WATCHTOWER_HTTP_API_PERIODIC_POLLS=true
+      - WATCHTOWER_HTTP_API_PERIODIC_POLLS=${WATCHTOWER_HTTP_API_PERIODIC_POLLS}
       - WATCHTOWER_HTTP_API_TOKEN=${WATCHTOWER_HTTP_API_TOKEN}
       - WATCHTOWER_CLEANUP=${WATCHTOWER_CLEANUP}
       - WATCHTOWER_ROLLBACK=${WATCHTOWER_ROLLBACK}
