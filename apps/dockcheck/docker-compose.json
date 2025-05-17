@@ -6,12 +6,12 @@
       "image": "alpine:latest",
       "isMain": true,
       "internalPort": 8080,
-      "user": "root",
+      "user": "0:0",
       "capAdd": ["NET_ADMIN"],
       "command": [
         "sh",
         "-c",
-        "apk add --no-cache bash jq curl && curl -L https://github.com/regclient/regclient/releases/latest/download/regctl-linux-amd64 -o /usr/local/bin/regctl && chmod +x /usr/local/bin/regctl && curl -L https://raw.githubusercontent.com/mag37/dockcheck/main/dockcheck.sh -o /usr/local/bin/dockcheck.sh && chmod +x /usr/local/bin/dockcheck.sh && exec dockcheck.sh $${DOCKCHECK_FLAGS}"
+        "apk add --no-cache bash jq curl && curl -L https://github.com/regclient/regclient/releases/latest/download/regctl-linux-amd64 -o /usr/local/bin/regctl && chmod +x /usr/local/bin/regctl && curl -L https://raw.githubusercontent.com/mag37/dockcheck/main/dockcheck.sh -o /usr/local/bin/dockcheck.sh && chmod +x /usr/local/bin/dockcheck.sh && chmod 666 /var/run/docker.sock && exec dockcheck.sh $${DOCKCHECK_FLAGS}"
       ],
       "environment": {
         "AUTO_MODE": "${AUTO_MODE}",
@@ -21,7 +21,7 @@
         "ONLY_LABEL": "${ONLY_LABEL}",
         "AUTO_PRUNE": "${AUTO_PRUNE}",
         "EXTRA_FLAGS": "${EXTRA_FLAGS}",
-        "DOCKCHECK_FLAGS": "${DOCKCHECK_FLAGS}"
+        "DOCKCHECK_FLAGS": "$${AUTO_MODE:+-a} $${MAX_ASYNC:+-x $${MAX_ASYNC}} $${DAYS_OLD:+-d $${DAYS_OLD}} $${EXCLUDE_CONTAINERS:+-e $${EXCLUDE_CONTAINERS}} $${ONLY_LABEL:+-l} $${AUTO_PRUNE:+-p} $${EXTRA_FLAGS}"
       },
       "volumes": [
         {
