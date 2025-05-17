@@ -3,6 +3,8 @@ services:
   dockcheck:
     image: alpine:latest
     container_name: dockcheck
+    cap_add:
+      - NET_ADMIN
     command: >-
       sh -c "apk add --no-cache bash jq curl && \
       curl -L https://github.com/regclient/regclient/releases/latest/download/regctl-linux-amd64 -o /usr/local/bin/regctl && \
@@ -23,17 +25,26 @@ services:
       DOCKCHECK_FLAGS: |
         $${AUTO_MODE:+-a} $${MAX_ASYNC:+-x $${MAX_ASYNC}} $${DAYS_OLD:+-d $${DAYS_OLD}} $${EXCLUDE_CONTAINERS:+-e $${EXCLUDE_CONTAINERS}} $${ONLY_LABEL:+-l} $${AUTO_PRUNE:+-p} $${EXTRA_FLAGS}
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:rw
-    user: root
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${APP_DATA_DIR}/data:/data
+    networks:
+      - tipi_main_network
+    ports:
+      - ${APP_PORT}:8080
+    restart: unless-stopped
     labels:
-      traefik.enable: "true"
+      traefik.enable: true
       traefik.http.routers.dockcheck.rule: "Host(${TRAEFIK_HOSTS})"
       traefik.http.routers.dockcheck.entrypoints: websecure
       traefik.http.routers.dockcheck.tls.certresolver: myresolver
       traefik.http.services.dockcheck.loadbalancer.server.port: "8080"
-    restart: on-failure
+      runtipi.managed: true
     logging:
       driver: json-file
       options:
         max-size: "5m"
         max-file: "3"
+
+networks:
+  tipi_main_network:
+    external: true
