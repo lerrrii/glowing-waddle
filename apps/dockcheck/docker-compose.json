@@ -9,7 +9,16 @@
       "command": [
         "sh",
         "-c",
-        "apk add --no-cache bash jq curl && curl -L https://raw.githubusercontent.com/mag37/dockcheck/main/dockcheck.sh -o /usr/local/bin/dockcheck.sh && chmod +x /usr/local/bin/dockcheck.sh && exec dockcheck.sh $${DOCKCHECK_FLAGS}"
+        "apk add --no-cache bash jq curl && \
+ARCH=$(uname -m) && \
+case \"$ARCH\" in \
+  x86_64) BIN=regctl-linux-amd64;; \
+  aarch64) BIN=regctl-linux-arm64;; \
+  *) BIN=regctl-linux-amd64;; \
+esac && \
+curl -L https://github.com/regclient/regclient/releases/latest/download/$BIN -o /usr/local/bin/regctl && chmod +x /usr/local/bin/regctl && \
+curl -L https://raw.githubusercontent.com/mag37/dockcheck/main/dockcheck.sh -o /usr/local/bin/dockcheck.sh && chmod +x /usr/local/bin/dockcheck.sh && \
+exec dockcheck.sh $${DOCKCHECK_FLAGS}"
       ],
       "environment": {
         "AUTO_MODE": "${AUTO_MODE}",
@@ -35,4 +44,4 @@
       "logging": { "driver": "json-file", "options": { "max-size": "5m", "max-file": "3" } }
     }
   ]
-}
+    }
