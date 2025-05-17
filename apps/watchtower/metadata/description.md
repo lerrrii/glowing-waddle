@@ -1,5 +1,3 @@
-# File: metadata/description.md
-
 # Watchtower Auto-Updater
 
 Watchtower is a Docker container that automatically monitors and updates your running containers whenever their images change. Integrate it with Runtipi to keep all Runtipi-managed services (and any other labeled containers) up to date.
