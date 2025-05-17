@@ -2,7 +2,7 @@
   "$schema": "../app-info-schema.json",
   "id": "dockcheck",
   "name": "Dockcheck+",
-  "version": "0.6.4",
+  "version": "latest",
   "tipi_version": 1,
   "port": 8080,
   "available": true,
