@@ -6,37 +6,28 @@
       "image": "containrrr/watchtower:latest",
       "isMain": true,
       "internalPort": 8080,
-      "addPorts": [
-        {
-          "containerPort": 8080,
-          "hostPort": 8080,
-          "tcp": true,
-          "udp": false
-        }
-      ],
       "environment": {
         "WATCHTOWER_LABEL_ENABLE": "${WATCHTOWER_LABEL_ENABLE}",
         "WATCHTOWER_SCHEDULE": "${WATCHTOWER_SCHEDULE}",
         "TZ": "Europe/Prague",
         "WATCHTOWER_CLEANUP": "${WATCHTOWER_CLEANUP}",
         "WATCHTOWER_ROLLBACK": "${WATCHTOWER_ROLLBACK}",
-        "WATCHTOWER_UI": "${WATCHTOWER_UI}",
-
         "WATCHTOWER_NOTIFICATIONS": "${WATCHTOWER_NOTIFICATIONS}",
         "WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL": "${WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL}",
         "WATCHTOWER_NOTIFICATION_MSTEAMS_HOOK_URL": "${WATCHTOWER_NOTIFICATION_MSTEAMS_HOOK_URL}",
         "WATCHTOWER_NOTIFICATION_GOTIFY_URL": "${WATCHTOWER_NOTIFICATION_GOTIFY_URL}",
-
         "WATCHTOWER_NOTIFICATION_EMAIL_FROM": "${WATCHTOWER_NOTIFICATION_EMAIL_FROM}",
         "WATCHTOWER_NOTIFICATION_EMAIL_TO": "${WATCHTOWER_NOTIFICATION_EMAIL_TO}",
         "WATCHTOWER_NOTIFICATION_EMAIL_SERVER": "${WATCHTOWER_NOTIFICATION_EMAIL_SERVER}",
         "WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER": "${WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER}",
         "WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD": "${WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD}",
-
         "WATCHTOWER_EXTRA_ARGS": "${WATCHTOWER_EXTRA_ARGS}"
       },
       "volumes": [
-        { "hostPath": "/var/run/docker.sock", "containerPath": "/var/run/docker.sock" }
+        {
+          "hostPath": "/var/run/docker.sock",
+          "containerPath": "/var/run/docker.sock"
+        }
       ]
     }
   ]
