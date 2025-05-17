@@ -3,6 +3,8 @@
   "id": "dockcheck",
   "name": "Dockcheck",
   "version": "0.6.4",
+  "tipi_version": 1,
+  "port": 8080,
   "available": true,
   "exposable": true,
   "dynamic_config": true,
@@ -13,6 +15,7 @@
   "source": "https://github.com/mag37/dockcheck",
   "created_at": 1742179200000,
   "updated_at": 1742179200000,
+  "supported_architectures": ["amd64", "arm64"],
   "form_fields": [
     { "type": "boolean", "label": "Auto-mode (no interaction)", "env_variable": "AUTO_MODE" },
     { "type": "boolean", "label": "Notify on updates", "env_variable": "NOTIFY" },
