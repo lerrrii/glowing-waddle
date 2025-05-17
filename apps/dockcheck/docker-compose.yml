@@ -10,18 +10,43 @@ services:
              chmod +x /usr/local/bin/dockcheck.sh && \
              exec dockcheck.sh $${DOCKCHECK_FLAGS}"
     environment:
+      TIMEOUT: "${TIMEOUT-10}"
+      MAX_ASYNC: "${MAX_ASYNC-1}"
+      BAR_WIDTH: "${BAR_WIDTH-50}"
       AUTO_MODE: "${AUTO_MODE-false}"
-      NOTIFY: "${NOTIFY-false}"
+      DONT_UPDATE: "${DONT_UPDATE-false}"
       AUTO_PRUNE: "${AUTO_PRUNE-false}"
       AUTO_SELF_UPDATE: "${AUTO_SELF_UPDATE-false}"
-      MAX_ASYNC: "${MAX_ASYNC-1}"
-      DAYS_OLD: "${DAYS_OLD-0}"
+      NOTIFY: "${NOTIFY-false}"
+      INCLUDE_STOPPED: "${INCLUDE_STOPPED-false}"
+      ONLY_LABEL: "${ONLY_LABEL-false}"
+      FORCE_STACK: "${FORCE_STACK-false}"
+      ONLY_SPECIFIC: "${ONLY_SPECIFIC-false}"
+      MONO_MODE: "${MONO_MODE-false}"
+      PRINT_URL: "${PRINT_URL-false}"
+      PRINT_MARKDOWN: "${PRINT_MARKDOWN-false}"
       EXCLUDE_CONTAINERS: "${EXCLUDE_CONTAINERS-}"
-      ONLY_LABEL: "${ONLY_LABEL-}"
+      ONLY_LABEL_NAME: "${ONLY_LABEL_NAME-}"
       EXTRA_FLAGS: "${EXTRA_FLAGS-}"
-      DOCKCHECK_FLAGS: |
-        $${AUTO_MODE:+-a} $${NOTIFY:+-i} $${AUTO_PRUNE:+-p} $${AUTO_SELF_UPDATE:+-u} \
-        -x $${MAX_ASYNC} -d $${DAYS_OLD} -e $${EXCLUDE_CONTAINERS} -l $${ONLY_LABEL} $${EXTRA_FLAGS}
+      DOCKCHECK_FLAGS: |-
+        $${TIMEOUT:+-t $${TIMEOUT}} \
+        $${MAX_ASYNC:+-x $${MAX_ASYNC}} \
+        $${BAR_WIDTH:+-b $${BAR_WIDTH}} \
+        $${AUTO_MODE:+-a} \
+        $${DONT_UPDATE:+-n} \
+        $${NOTIFY:+-i} \
+        $${AUTO_PRUNE:+-p} \
+        $${AUTO_SELF_UPDATE:+-u} \
+        $${INCLUDE_STOPPED:+-s} \
+        $${ONLY_LABEL:+-l} \
+        $${FORCE_STACK:+-f} \
+        $${ONLY_SPECIFIC:+-F} \
+        $${MONO_MODE:+-m} \
+        $${PRINT_URL:+-I} \
+        $${PRINT_MARKDOWN:+-M} \
+        -e $${EXCLUDE_CONTAINERS} \
+        -L $${ONLY_LABEL_NAME} \
+        $${EXTRA_FLAGS}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
