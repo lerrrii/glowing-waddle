@@ -14,23 +14,58 @@
   "short_desc": "Docker auto-updater with notifications.",
   "source": "https://github.com/containrrr/watchtower",
   "form_fields": [
-    { "type": "text", "label": "Label selector", "env_variable": "WATCHTOWER_LABEL_ENABLE", "default": "runtipi.managed=true" },
-    { "type": "text", "label": "Cron schedule (6 fields)", "env_variable": "WATCHTOWER_SCHEDULE", "default": "0 0 3 * * *" },
-    { "type": "boolean", "label": "Cleanup old images", "env_variable": "WATCHTOWER_CLEANUP", "default": true },
-    { "type": "boolean", "label": "Rollback on failure", "env_variable": "WATCHTOWER_ROLLBACK", "default": false },
-    { "type": "boolean", "label": "Expose built-in UI", "env_variable": "WATCHTOWER_UI", "default": true },
-    { "type": "password", "label": "HTTP-API token", "hint": "Required for HTTP-API mode (update endpoint & UI)", "env_variable": "WATCHTOWER_HTTP_API_TOKEN", "required": true },
-    { "type": "boolean", "label": "HTTP-API periodic polls", "hint": "Keep cron polling active when HTTP-API is enabled.", "env_variable": "WATCHTOWER_HTTP_API_PERIODIC_POLLS", "default": true },
-    { "type": "text", "label": "Notification type", "env_variable": "WATCHTOWER_NOTIFICATIONS", "default": "" },
-    { "type": "url", "label": "Slack webhook URL", "env_variable": "WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL" },
-    { "type": "url", "label": "MS Teams webhook URL", "env_variable": "WATCHTOWER_NOTIFICATION_MSTEAMS_HOOK_URL" },
-    { "type": "url", "label": "Gotify URL", "env_variable": "WATCHTOWER_NOTIFICATION_GOTIFY_URL" },
-    { "type": "email", "label": "Email from", "env_variable": "WATCHTOWER_NOTIFICATION_EMAIL_FROM" },
-    { "type": "email", "label": "Email to", "env_variable": "WATCHTOWER_NOTIFICATION_EMAIL_TO" },
-    { "type": "fqdnip", "label": "SMTP server (host:port)", "env_variable": "WATCHTOWER_NOTIFICATION_EMAIL_SERVER" },
-    { "type": "text", "label": "SMTP username", "env_variable": "WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER" },
-    { "type": "password", "label": "SMTP password", "env_variable": "WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD" },
-    { "type": "text", "label": "Extra Watchtower args", "env_variable": "WATCHTOWER_EXTRA_ARGS", "default": "" }
+    {
+      "type": "text",
+      "label": "Label selector",
+      "hint": "Only containers with this label=true will be watched; leave empty to watch all.",
+      "env_variable": "WATCHTOWER_LABEL_ENABLE",
+      "default": "runtipi.managed=true"
+    },
+    {
+      "type": "text",
+      "label": "Cron schedule (6 fields)",
+      "placeholder": "0 0 3 * * *",
+      "env_variable": "WATCHTOWER_SCHEDULE",
+      "default": "0 0 3 * * *"
+    },
+    {
+      "type": "boolean",
+      "label": "Cleanup old images",
+      "env_variable": "WATCHTOWER_CLEANUP",
+      "default": true
+    },
+    {
+      "type": "boolean",
+      "label": "Rollback on failure",
+      "env_variable": "WATCHTOWER_ROLLBACK",
+      "default": false
+    },
+    {
+      "type": "boolean",
+      "label": "Expose built-in UI",
+      "env_variable": "WATCHTOWER_UI",
+      "default": false
+    },
+
+    { "type": "text",     "label": "Notification type",       "hint": "email, slack, msteams, gotify or leave empty", "env_variable": "WATCHTOWER_NOTIFICATIONS", "default": "" },
+
+    { "type": "url",      "label": "Slack webhook URL",       "env_variable": "WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL",     "required": false },
+    { "type": "url",      "label": "MS Teams webhook URL",     "env_variable": "WATCHTOWER_NOTIFICATION_MSTEAMS_HOOK_URL",  "required": false },
+    { "type": "url",      "label": "Gotify URL",              "env_variable": "WATCHTOWER_NOTIFICATION_GOTIFY_URL",       "required": false },
+
+    { "type": "email",    "label": "Email from",              "env_variable": "WATCHTOWER_NOTIFICATION_EMAIL_FROM",       "required": false },
+    { "type": "email",    "label": "Email to",                "env_variable": "WATCHTOWER_NOTIFICATION_EMAIL_TO",         "required": false },
+    { "type": "fqdnip",   "label": "SMTP server (host:port)",  "env_variable": "WATCHTOWER_NOTIFICATION_EMAIL_SERVER",     "required": false },
+    { "type": "text",     "label": "SMTP username",           "env_variable": "WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER", "required": false },
+    { "type": "password", "label": "SMTP password",           "env_variable": "WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD", "required": false },
+
+    {
+      "type": "text",
+      "label": "Extra Watchtower args",
+      "hint": "e.g. --include-stopped --rolling-restart",
+      "env_variable": "WATCHTOWER_EXTRA_ARGS",
+      "default": ""
+    }
   ],
   "supported_architectures": ["amd64", "arm64"],
   "created_at": 1740000000000,
