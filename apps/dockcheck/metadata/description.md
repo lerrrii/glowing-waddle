@@ -52,8 +52,19 @@ Dockcheck invokes your custom `notify.sh` template when `-i` is set. Runtipi doe
 When enabled, Dockcheck runs `docker ps -a` (not just `docker ps`), so it will list and update containers regardless of their running state. Runtipi’s dashboard stopped/running UI state does not affect this: it uses the underlying Docker API.
 
 ### What are "Additional flags" for?  
-Use this free‑form field to pass any valid `dockcheck.sh` flags Runtipi doesn’t expose individually. For example, `-r` checks and updates images for containers started with plain `docker run`, or `-F` to only recreate the specific container instead of the full stack.
+Use this free-form field to pass any valid `dockcheck.sh` flags Runtipi doesn’t expose individually. For example, `-r` checks and updates images for containers started with plain `docker run`, or `-F` to only recreate the specific container instead of the full stack.
 
 ### How do Traefik hostnames work?  
 This sets the `Host(...)` rule in the Traefik labels, binding your chosen domain(s) to Dockcheck’s UI. Enter one or more hostnames (comma‑separated) and Runtipi will replace `{{TRAEFIK_HOSTS}}` in the label rule automatically.
- text     | Comma‑separated hostnames. E.g. **dock.example.com** sets UI URL.|
+
+---
+
+## Prerequisites & Setup Steps
+
+Before using Dockcheck in Runtipi, ensure the following are in place:
+
+1. **`notify.sh` Template**: Copy and customize a notification template from the `notify_templates/` directory into the same folder as `dockcheck.sh`. Confirm it’s executable and correctly configured (SMTP credentials, webhook URLs, etc.).
+2. **Docker Permissions**: Runtipi must run with permission to read and create containers—ensure the service account has access to `/var/run/docker.sock`.
+3. **Auxiliary Binaries**: Dockcheck may prompt to install or download `jq`, `regctl` (or `regclient`), and `curl` at startup. Verify your Alpine image or base container includes these, or that internet access is available to fetch them.
+4. **Optional Plugins**: For advanced metrics or integrations (Prometheus export, Zabbix, Synology DSM), follow Dockcheck’s own README to provide the required directory paths (e.g., `-c /path/to/textfile-collector`).
+5. **Testing**: After installing, run a manual check via the Runtipi CLI (`tipi exec dockcheck -- -n`) to confirm flags and notifications work before scheduling.
