@@ -29,7 +29,7 @@ Each setting below appears when installing or editing Dockcheck. Values map dire
 | **Auto‑prune images**       | boolean  | Prune dangling images post‑update. **On** → `-p`.                |
 | **Auto‑self‑update**        | boolean  | Self‑update the script before runs. **On** → `-u`.              |
 | **Notify on updates**       | boolean  | Send notification when updates found. **On** → `-i`.            |
-| **Include stopped**         | boolean  | Also check stopped containers. **On** → `-s`.                   |
+| **Include stopped**         | boolean  | Also check stopped containers (docker ps -a). **On** → `-s`.   |
 | **Only if label exists**    | boolean  | Only update containers marked with a label. **On** → `-l`.       |
 | **Force restart stack**     | boolean  | Stop+start full compose stack on update. **On** → `-f`.         |
 | **Only specific container** | boolean  | Recreate only the updated container (not full stack). **On** → `-F`. |
@@ -38,5 +38,22 @@ Each setting below appears when installing or editing Dockcheck. Values map dire
 | **Print Markdown URLs**     | boolean  | Show release URLs in Markdown. **On** → `-M`.                   |
 | **Exclude containers**      | text     | Comma‑separated names to skip. E.g. **redis,db** → `-e redis,db`.|
 | **Include only label name** | text     | Only containers with this label key. E.g. **auto** → `-l`.       |
-| **Additional flags**        | text     | Free‑form extra flags. E.g. **-r** → allow `docker run` images.  |
-| **Traefik hostnames**       | text     | Comma‑separated hostnames. E.g. **dock.example.com** sets UI URL.|
+| **Additional flags**        | text     | Any extra `dockcheck.sh` flags. E.g. **-r** → include `docker run` containers (images from standalone containers).  |
+| **Traefik hostnames**       | text     | Comma‑separated hostnames for UI. E.g. **dock.example.com** sets the HTTP host rule for Traefik labels.|
+
+---
+
+## FAQ & Advanced Setup
+
+### How do notifications work?  
+Dockcheck invokes your custom `notify.sh` template when `-i` is set. Runtipi does **not** configure the email client for you—you must place and configure a `notify.sh` script (from `notify_templates/`) alongside your `dockcheck.sh`.  That script handles sending via SMTP, ntfy, Gotify, Telegram, Discord, Slack, etc., based on your template settings.
+
+### What does "Include stopped containers" check?  
+When enabled, Dockcheck runs `docker ps -a` (not just `docker ps`), so it will list and update containers regardless of their running state. Runtipi’s dashboard stopped/running UI state does not affect this: it uses the underlying Docker API.
+
+### What are "Additional flags" for?  
+Use this free‑form field to pass any valid `dockcheck.sh` flags Runtipi doesn’t expose individually. For example, `-r` checks and updates images for containers started with plain `docker run`, or `-F` to only recreate the specific container instead of the full stack.
+
+### How do Traefik hostnames work?  
+This sets the `Host(...)` rule in the Traefik labels, binding your chosen domain(s) to Dockcheck’s UI. Enter one or more hostnames (comma‑separated) and Runtipi will replace `{{TRAEFIK_HOSTS}}` in the label rule automatically.
+ text     | Comma‑separated hostnames. E.g. **dock.example.com** sets UI URL.|
