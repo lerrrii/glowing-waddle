@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  dockcheck:
+    image: alpine:latest
+    container_name: dockcheck
+    command: >-
+      sh -c "apk add --no-cache bash jq curl && \
+             curl -L https://raw.githubusercontent.com/mag37/dockcheck/main/dockcheck.sh \
+               -o /usr/local/bin/dockcheck.sh && \
+             chmod +x /usr/local/bin/dockcheck.sh && \
+             exec dockcheck.sh $${DOCKCHECK_FLAGS}"
+    environment:
+      AUTO_MODE: "${AUTO_MODE-false}"
+      NOTIFY: "${NOTIFY-false}"
+      AUTO_PRUNE: "${AUTO_PRUNE-false}"
+      AUTO_SELF_UPDATE: "${AUTO_SELF_UPDATE-false}"
+      MAX_ASYNC: "${MAX_ASYNC-1}"
+      DAYS_OLD: "${DAYS_OLD-0}"
+      EXCLUDE_CONTAINERS: "${EXCLUDE_CONTAINERS-}"
+      ONLY_LABEL: "${ONLY_LABEL-}"
+      EXTRA_FLAGS: "${EXTRA_FLAGS-}"
+      DOCKCHECK_FLAGS: |
+        $${AUTO_MODE:+-a} $${NOTIFY:+-i} $${AUTO_PRUNE:+-p} $${AUTO_SELF_UPDATE:+-u} \
+        -x $${MAX_ASYNC} -d $${DAYS_OLD} -e $${EXCLUDE_CONTAINERS} -l $${ONLY_LABEL} $${EXTRA_FLAGS}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.dockcheck.rule: "Host(`${TRAEFIK_HOSTS}`)"
+      traefik.http.routers.dockcheck.entrypoints: websecure
+      traefik.http.routers.dockcheck.tls.certresolver: myresolver
+      traefik.http.services.dockcheck.loadbalancer.server.scheme: http
+      traefik.http.services.dockcheck.loadbalancer.server.port: "8080"
+    restart: on-failure
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "3"
