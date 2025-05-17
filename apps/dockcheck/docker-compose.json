@@ -7,50 +7,21 @@
       "isMain": true,
       "internalPort": 8080,
       "command": [
-        "sh", "-c",
-        "apk add --no-cache bash jq curl && \
-         curl -L https://raw.githubusercontent.com/mag37/dockcheck/main/dockcheck.sh -o /usr/local/bin/dockcheck.sh && \
-         chmod +x /usr/local/bin/dockcheck.sh && \
-         exec dockcheck.sh $${DOCKCHECK_FLAGS}"
+        "sh",
+        "-c",
+        "apk add --no-cache bash jq curl && curl -L https://raw.githubusercontent.com/mag37/dockcheck/main/dockcheck.sh -o /usr/local/bin/dockcheck.sh && chmod +x /usr/local/bin/dockcheck.sh && exec dockcheck.sh $${DOCKCHECK_FLAGS}"
       ],
       "environment": {
-        "TIMEOUT": "${TIMEOUT-10}",
-        "MAX_ASYNC": "${MAX_ASYNC-1}",
-        "BAR_WIDTH": "${BAR_WIDTH-50}",
-        "AUTO_MODE": "${AUTO_MODE-false}",
-        "DONT_UPDATE": "${DONT_UPDATE-false}",
-        "AUTO_PRUNE": "${AUTO_PRUNE-false}",
-        "AUTO_SELF_UPDATE": "${AUTO_SELF_UPDATE-false}",
-        "NOTIFY": "${NOTIFY-false}",
-        "INCLUDE_STOPPED": "${INCLUDE_STOPPED-false}",
-        "ONLY_LABEL": "${ONLY_LABEL-false}",
-        "FORCE_STACK": "${FORCE_STACK-false}",
-        "ONLY_SPECIFIC": "${ONLY_SPECIFIC-false}",
-        "MONO_MODE": "${MONO_MODE-false}",
-        "PRINT_URL": "${PRINT_URL-false}",
-        "PRINT_MARKDOWN": "${PRINT_MARKDOWN-false}",
-        "EXCLUDE_CONTAINERS": "${EXCLUDE_CONTAINERS-}",
-        "ONLY_LABEL_NAME": "${ONLY_LABEL_NAME-}",
-        "EXTRA_FLAGS": "${EXTRA_FLAGS-}",
-        "DOCKCHECK_FLAGS": "\
-          $${TIMEOUT:+-t $${TIMEOUT}} \
-          $${MAX_ASYNC:+-x $${MAX_ASYNC}} \  
-          $${BAR_WIDTH:+-b $${BAR_WIDTH}} \   
-          $${AUTO_MODE:+-a} \         
-          $${DONT_UPDATE:+-n} \      
-          $${NOTIFY:+-i} \          
-          $${AUTO_PRUNE:+-p} \      
-          $${AUTO_SELF_UPDATE:+-u} \
-          $${INCLUDE_STOPPED:+-s} \
-          $${ONLY_LABEL:+-l} \     
-          $${FORCE_STACK:+-f} \     
-          $${ONLY_SPECIFIC:+-F} \   
-          $${MONO_MODE:+-m} \       
-          $${PRINT_URL:+-I} \      
-          $${PRINT_MARKDOWN:+-M} \  
-          -e $${EXCLUDE_CONTAINERS} \  
-          -L $${ONLY_LABEL_NAME} \  
-          $${EXTRA_FLAGS}"  
+        "AUTO_MODE": "${AUTO_MODE}",
+        "NOTIFY": "${NOTIFY}",
+        "AUTO_PRUNE": "${AUTO_PRUNE}",
+        "AUTO_SELF_UPDATE": "${AUTO_SELF_UPDATE}",
+        "MAX_ASYNC": "${MAX_ASYNC}",
+        "DAYS_OLD": "${DAYS_OLD}",
+        "EXCLUDE_CONTAINERS": "${EXCLUDE_CONTAINERS}",
+        "ONLY_LABEL": "${ONLY_LABEL}",
+        "EXTRA_FLAGS": "${EXTRA_FLAGS}",
+        "DOCKCHECK_FLAGS": "-a $${AUTO_MODE:+-a} $${NOTIFY:+-i} $${AUTO_PRUNE:+-p} $${AUTO_SELF_UPDATE:+-u} -x $${MAX_ASYNC} -d $${DAYS_OLD} -e $${EXCLUDE_CONTAINERS} -l $${ONLY_LABEL} $${EXTRA_FLAGS}"
       },
       "volumes": [
         { "hostPath": "/var/run/docker.sock", "containerPath": "/var/run/docker.sock" }
