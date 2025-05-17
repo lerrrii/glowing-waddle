@@ -20,44 +20,66 @@
     {
       "type": "boolean",
       "label": "Automatic updates",
-      "env_variable": "AUTO_MODE"
+      "env_variable": "AUTO_MODE",
+      "default": false,
+      "placeholder": "false (default: false)",
+      "hint": "If true, Dockcheck will pull updated images automatically; if false, it will only report what’s available."
     },
     {
       "type": "number",
       "label": "Max parallel checks",
-      "placeholder": "1-32",
-      "env_variable": "MAX_ASYNC"
+      "env_variable": "MAX_ASYNC",
+      "default": 1,
+      "placeholder": "1–32 (default: 1)",
+      "hint": "How many image checks to run in parallel. Increase for large fleets; default conserves resources."
     },
     {
       "type": "number",
       "label": "Min image age (days)",
-      "placeholder": "0",
-      "env_variable": "DAYS_OLD"
+      "env_variable": "DAYS_OLD",
+      "default": 0,
+      "placeholder": "0, 3, 7 (default: 0)",
+      "hint": "Skip images pulled more recently than this number of days to avoid re-updating fresh deployments."
     },
     {
       "type": "text",
-      "label": "Exclude containers (comma)",
-      "env_variable": "EXCLUDE_CONTAINERS"
+      "label": "Exclude containers (comma-sep)",
+      "env_variable": "EXCLUDE_CONTAINERS",
+      "default": "",
+      "placeholder": "nginx,db,portainer (default: none)",
+      "hint": "List container names to skip, separated by commas (e.g. \"nginx,db,portainer\")."
     },
     {
       "type": "text",
       "label": "Only update if label present",
-      "env_variable": "ONLY_LABEL"
+      "env_variable": "ONLY_LABEL",
+      "default": "",
+      "placeholder": "autoupdate=true (default: none)",
+      "hint": "Only update containers that have this label set; leave empty to update all."
     },
     {
       "type": "boolean",
       "label": "Auto-prune images",
-      "env_variable": "AUTO_PRUNE"
+      "env_variable": "AUTO_PRUNE",
+      "default": false,
+      "placeholder": "false (default: false)",
+      "hint": "If true, removes dangling images after updates to reclaim disk space."
     },
     {
       "type": "text",
-      "label": "Extra dockcheck flags (optional)",
-      "env_variable": "EXTRA_FLAGS"
+      "label": "Extra dockcheck flags",
+      "env_variable": "EXTRA_FLAGS",
+      "default": "",
+      "placeholder": "--dry-run --retry 2 (default: none)",
+      "hint": "Any additional flags for dockcheck.sh; leave empty for none."
     },
     {
       "type": "text",
-      "label": "Traefik hostnames (comma)",
-      "env_variable": "TRAEFIK_HOSTS"
+      "label": "Traefik hostnames",
+      "env_variable": "TRAEFIK_HOSTS",
+      "default": "",
+      "placeholder": "dockcheck.example.com (default: none)",
+      "hint": "Comma-separated domains for Traefik routing."
     }
   ]
 }
