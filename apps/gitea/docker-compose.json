@@ -1,0 +1,32 @@
+{
+  "$schema": "../dynamic-compose-schema.json",
+  "services": [
+    {
+      "name": "gitea",
+      "image": "gitea/gitea:latest",
+      "environment": {
+        "USER_UID": "1000",
+        "USER_GID": "1000",
+        "GITEA__database__DB_TYPE": "sqlite3",
+        "GITEA__database__PATH": "/data/gitea/gitea.db",
+        "GITEA__server__HTTP_PORT": "3000",
+        "GITEA__server__ROOT_URL": "http://${APP_DOMAIN}/",
+        "GITEA__server__DOMAIN": "${APP_DOMAIN}"
+      },
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/gitea",
+          "containerPath": "/data"
+        }
+      ],
+      "internalPort": 3000,
+      "addPorts": [
+        {
+          "hostPort": 222,
+          "containerPort": 22
+        }
+      ],
+      "isMain": true
+    }
+  ]
+}
