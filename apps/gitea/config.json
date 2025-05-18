@@ -4,6 +4,7 @@
   "port": 8108,
   "available": true,
   "exposable": true,
+  "id": "dddddd",
   "tipi_version": 42,
   "version": "latest",
   "categories": ["development"],
