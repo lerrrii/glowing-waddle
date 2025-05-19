@@ -24,9 +24,9 @@
     {
       "type": "text",
       "label": "Cron schedule (6 fields)",
-      "placeholder": "0 0 3 * * *",
+      "placeholder": "(empty → 24 h rolling interval)",
       "env_variable": "WATCHTOWER_SCHEDULE",
-      "default": "0 0 3 * * *"
+      "default": ""
     },
     {
       "type": "boolean",
