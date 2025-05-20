@@ -8,18 +8,18 @@
   "exposable": true,
   "dynamic_config": true,
   "port": 3000,
-  "categories": ["media","ai"],
+  "categories": ["media"],
   "author": "viren070 + Runtipi community",
   "description": "Aggregate and filter multiple Stremio addons and debrid services in one addon.",
   "short_desc": "Unified Stremio addon interface with advanced filtering.",
   "source": "https://github.com/Viren070/AIOStreams",
   "form_fields": [
-    { "type":"text",    "label":"Addon Name",                 "env_variable":"ADDON_NAME",               "placeholder":"AIOStreams" },
-    { "type":"text",    "label":"Addon ID",                   "env_variable":"ADDON_ID",                 "placeholder":"aiostreams.viren070.com" },
+    { "type":"text",    "label":"Addon Name",                 "env_variable":"ADDON_NAME",               "default":"AIOStreams" },
+    { "type":"text",    "label":"Addon ID",                   "env_variable":"ADDON_ID",                 "default":"aiostreams.viren070.com" },
     { "type":"boolean", "label":"Deterministic Addon ID",     "env_variable":"DETERMINISTIC_ADDON_ID",   "default":true },
     { "type":"number",  "label":"Port",                       "env_variable":"PORT",                     "default":3000 },
     { "type":"password","label":"Secret Key (64-hex chars)",  "env_variable":"SECRET_KEY",               "placeholder":"" },
-    { "type":"text",    "label":"API Key (for regex filters)", "env_variable":"API_KEY",                  "placeholder":"" },
+    { "type":"text",    "label":"API Key (for regex filters)", "env_variable":"API_KEY",                "placeholder":"" },
     { "type":"boolean", "label":"Show Dice Emoji",            "env_variable":"SHOW_DIE",                 "default":false },
     { "type":"text",    "label":"Log Level",                  "env_variable":"LOG_LEVEL",                "default":"info",  "hint":"debug, info, warn or error" },
     { "type":"text",    "label":"Log Format",                 "env_variable":"LOG_FORMAT",               "default":"text",  "hint":"text or json" },
@@ -68,6 +68,6 @@
     { "type":"number",  "label":"Stremio GDrive Timeout (ms)", "env_variable":"DEFAULT_STREMIO_GDRIVE_TIMEOUT","default":15000 }
   ],
   "supported_architectures":["amd64","arm64"],
-  "created_at":1750000000000,
-  "updated_at":1750000000000
+  "created_at":1716899794000,
+  "updated_at":1716899794000
 }
