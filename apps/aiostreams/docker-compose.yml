@@ -1,0 +1,52 @@
+version: '3.7'
+
+services:
+  aiostreams:
+    image: ghcr.io/viren070/aiostreams:latest
+    container_name: aiostreams
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    volumes:
+      - ${APP_DATA_DIR}/aiostreams_config:/config
+    healthcheck:
+      test: ["CMD","wget","-qO-","http://localhost:3000/health"]
+      interval: 1m
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+    labels:
+      runtipi.managed: "true"
+      # Traefik HTTP → HTTPS redirect
+      traefik.enable: "true"
+      traefik.http.middlewares.aiostreams-redirect.redirectscheme.scheme: https
+
+      # Insecure router (HTTP)
+      traefik.http.routers.aiostreams-insecure.rule: "Host(`${APP_DOMAIN}`)"
+      traefik.http.routers.aiostreams-insecure.entrypoints: web
+      traefik.http.routers.aiostreams-insecure.service: aiostreams
+      traefik.http.routers.aiostreams-insecure.middlewares: aiostreams-redirect
+
+      # Secure router (HTTPS)
+      traefik.http.routers.aiostreams.rule: "Host(`${APP_DOMAIN}`)"
+      traefik.http.routers.aiostreams.entrypoints: websecure
+      traefik.http.routers.aiostreams.service: aiostreams
+      traefik.http.routers.aiostreams.tls.certresolver: myresolver
+
+      # Local insecure router (HTTP)
+      traefik.http.routers.aiostreams-local-insecure.rule: "Host(`aiostreams.${LOCAL_DOMAIN}`)"
+      traefik.http.routers.aiostreams-local-insecure.entrypoints: web
+      traefik.http.routers.aiostreams-local-insecure.service: aiostreams
+      traefik.http.routers.aiostreams-local-insecure.middlewares: aiostreams-redirect
+
+      # Local secure router (HTTPS)
+      traefik.http.routers.aiostreams-local.rule: "Host(`aiostreams.${LOCAL_DOMAIN}`)"
+      traefik.http.routers.aiostreams-local.entrypoints: websecure
+      traefik.http.routers.aiostreams-local.service: aiostreams
+      traefik.http.routers.aiostreams-local.tls: true
+
+networks:
+  tipi_main_network:
+    external: true
