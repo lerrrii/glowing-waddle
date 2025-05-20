@@ -5,9 +5,6 @@ services:
     image: ghcr.io/viren070/aiostreams:latest
     container_name: aiostreams
     restart: unless-stopped
-    command:
-      - "--port"
-      - "3000"
     env_file:
       - .env
     healthcheck:
