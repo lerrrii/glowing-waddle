@@ -102,17 +102,4 @@
         "DEFAULT_EASYNEWS_TIMEOUT": "${DEFAULT_EASYNEWS_TIMEOUT}",
 
         "DEBRIDIO_URL": "${DEBRIDIO_URL}",
-        "DEFAULT_DEBRIDIO_TIMEOUT": "${DEFAULT_DEBRIDIO_TIMEOUT}",
-
-        "DEFAULT_DMM_CAST_TIMEOUT": "${DEFAULT_DMM_CAST_TIMEOUT}",
-        "DEFAULT_STREMIO_GDRIVE_TIMEOUT": "${DEFAULT_STREMIO_GDRIVE_TIMEOUT}"
-      },
-      "volumes": [
-        {
-          "hostPath": "${APP_DATA_DIR}/aiostreams",
-          "containerPath": "/app/data"
-        }
-      ]
-    }
-  ]
-}
+        "DEFAULT_DEBRIDIO_TIMEOUT
