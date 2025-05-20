@@ -14,8 +14,8 @@ Aggregate and filter multiple Stremio addons and debrid services into one config
 
 | Field                          | Type      | Default                                                      | Rationale / Example                                                 |
 | ------------------------------ | --------- | ------------------------------------------------------------ | -------------------------------------------------------------------- |
-| **Addon Name**                 | text      | *(blank)*                                                    | Friendly label — e.g. `AIOStreams`                                   |
-| **Addon ID**                   | text      | *(blank)*                                                    | Unique ID — e.g. `aiostreams.viren070.com`                           |
+| **Addon Name**                 | text      | `AIOStreams`                                                 | Friendly label — e.g. `AIOStreams`                                   |
+| **Addon ID**                   | text      | `aiostreams.viren070.com`                                    | Unique ID — e.g. `aiostreams.viren070.com`                           |
 | **Deterministic Addon ID**     | boolean   | `true`                                                       | Predictable IDs for repeat installs                                  |
 | **Port**                       | number    | `3000`                                                       | Service listen port                                                  |
 | **Secret Key**                 | password  | *(blank)*                                                    | 64-char hex; auto-generated if blank                                  |
@@ -66,5 +66,3 @@ Aggregate and filter multiple Stremio addons and debrid services into one config
 | **Debridio Timeout**           | number    | `15000`                                                      | Timeout for Debridio (ms)                                             |
 | **DMM Cast Timeout**           | number    | `15000`                                                      | Timeout for DMM Cast (ms)                                             |
 | **Stremio GDrive Timeout**     | number    | `15000`                                                      | Timeout for Stremio-GDrive (ms)                                       |
-
-*(Covers every `ADDON_*`, proxy, limit, and default timeout variable.)*
