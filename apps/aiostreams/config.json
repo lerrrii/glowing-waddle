@@ -72,8 +72,8 @@
     { "type":"text",    "label":"Force JackettIO Protocol",      "env_variable":"FORCE_JACKETTIO_PROTOCOL",  "placeholder":"" },
 
     { "type":"url",     "label":"Stremio-Jackett URL",           "env_variable":"STREMIO_JACKETT_URL",       "default":"https://stremio-jackett.elfhosted.com/" },
-    { "type":"url",     "label":"Default Stremio-Jackett's Jackett URL","env_variable":"DEFAULT_STREMIO_JACKETT_JACKETT_URL","placeholder":"" },
-    { "type":"text",    "label":"Default Stremio-Jackett's Jackett API Key","env_variable":"DEFAULT_STREMIO_JACKETT_JACKETT_API_KEY","placeholder":"" },
+    { "type":"url",     "label":"Default Stremio-Jackett’s Jackett URL","env_variable":"DEFAULT_STREMIO_JACKETT_JACKETT_URL","placeholder":"" },
+    { "type":"text",    "label":"Default Stremio-Jackett’s Jackett API Key","env_variable":"DEFAULT_STREMIO_JACKETT_JACKETT_API_KEY","placeholder":"" },
     { "type":"text",    "label":"Default Stremio-Jackett TMDB API Key","env_variable":"DEFAULT_STREMIO_JACKETT_TMDB_API_KEY","placeholder":"" },
     { "type":"number",  "label":"Default Stremio-Jackett Timeout (ms)","env_variable":"DEFAULT_STREMIO_JACKETT_TIMEOUT","placeholder":"" },
 
@@ -81,31 +81,31 @@
     { "type":"number",  "label":"StremThru Store Timeout (ms)",   "env_variable":"DEFAULT_STREMTHRU_STORE_TIMEOUT","default":15000 },
 
     { "type":"url",     "label":"Torrentio URL",                 "env_variable":"TORRENTIO_URL",             "default":"https://torrentio.strem.fun/" },
-    { "type":"number",  "label":"Default Torrentio Timeout (ms)","env_variable":"DEFAULT_TORRENTIO_TIMEOUT", "default":15000 },
+    { "type":"number",  "label":"Default Torrentio Timeout (ms)", "env_variable":"DEFAULT_TORRENTIO_TIMEOUT",  "placeholder":"" },
 
     { "type":"url",     "label":"TorBox Stremio URL",            "env_variable":"TORBOX_STREMIO_URL",        "default":"https://stremio.torbox.app/" },
     { "type":"number",  "label":"Default TorBox Stremio Timeout (ms)","env_variable":"DEFAULT_TORBOX_STREMIO_TIMEOUT","placeholder":"" },
 
     { "type":"url",     "label":"Peerflix URL",                  "env_variable":"PEERFLIX_URL",              "default":"https://peerflix-addon.onrender.com/" },
-    { "type":"number",  "label":"Default Peerflix Timeout (ms)", "env_variable":"DEFAULT_PEERFLIX_TIMEOUT",  "default":15000 },
+    { "type":"number",  "label":"Default Peerflix Timeout (ms)", "env_variable":"DEFAULT_PEERFLIX_TIMEOUT",  "placeholder":"" },
 
     { "type":"url",     "label":"Easynews+ URL",                 "env_variable":"EASYNEWS_PLUS_URL",         "default":"https://b89262c192b0-stremio-easynews-addon.baby-beamup.club/" },
-    { "type":"number",  "label":"Default Easynews+ Timeout (ms)","env_variable":"DEFAULT_EASYNEWS_PLUS_TIMEOUT","default":15000 },
+    { "type":"number",  "label":"Default Easynews+ Timeout (ms)","env_variable":"DEFAULT_EASYNEWS_PLUS_TIMEOUT","placeholder":"" },
 
     { "type":"url",     "label":"Easynews++ URL",                "env_variable":"EASYNEWS_PLUS_PLUS_URL",    "default":"https://easynews-cloudflare-worker.jqrw92fchz.workers.dev/" },
-    { "type":"number",  "label":"Default Easynews++ Timeout (ms)","env_variable":"DEFAULT_EASYNEWS_PLUS_PLUS_TIMEOUT","default":15000 },
+    { "type":"number",  "label":"Default Easynews++ Timeout (ms)","env_variable":"DEFAULT_EASYNEWS_PLUS_PLUS_TIMEOUT","placeholder":"" },
 
     { "type":"url",     "label":"Orion Stremio Addon URL",       "env_variable":"ORION_STREMIO_ADDON_URL",   "default":"https://5a0d1888fa64-orion.baby-beamup.club/" },
-    { "type":"number",  "label":"Default Orion Timeout (ms)",   "env_variable":"DEFAULT_ORION_STREMIO_ADDON_TIMEOUT","default":15000 },
+    { "type":"number",  "label":"Default Orion Timeout (ms)",   "env_variable":"DEFAULT_ORION_STREMIO_ADDON_TIMEOUT","placeholder":"" },
 
     { "type":"url",     "label":"Easynews URL",                  "env_variable":"EASYNEWS_URL",              "default":"https://ea627ddf0ee7-easynews.baby-beamup.club/" },
-    { "type":"number",  "label":"Default Easynews Timeout (ms)","env_variable":"DEFAULT_EASYNEWS_TIMEOUT",   "default":15000 },
+    { "type":"number",  "label":"Default Easynews Timeout (ms)","env_variable":"DEFAULT_EASYNEWS_TIMEOUT",   "placeholder":"" },
 
     { "type":"url",     "label":"Debridio URL",                  "env_variable":"DEBRIDIO_URL",              "default":"https://debridio.adobotec.com/" },
-    { "type":"number",  "label":"Default Debridio Timeout (ms)","env_variable":"DEFAULT_DEBRIDIO_TIMEOUT",  "default":15000 },
+    { "type":"number",  "label":"Default Debridio Timeout (ms)","env_variable":"DEFAULT_DEBRIDIO_TIMEOUT",  "placeholder":"" },
 
-    { "type":"number",  "label":"Default DMM Cast Timeout (ms)","env_variable":"DEFAULT_DMM_CAST_TIMEOUT",  "default":15000 },
-    { "type":"number",  "label":"Default Stremio GDrive Timeout (ms)","env_variable":"DEFAULT_STREMIO_GDRIVE_TIMEOUT","default":15000 }
+    { "type":"number","label":"Default DMM Cast Timeout (ms)","env_variable":"DEFAULT_DMM_CAST_TIMEOUT","placeholder":""},
+    { "type":"number","label":"Default Stremio GDrive Timeout (ms)","env_variable":"DEFAULT_STREMIO_GDRIVE_TIMEOUT","placeholder":""}
   ],
   "supported_architectures":["amd64","arm64"],
   "created_at":1716899794000,
