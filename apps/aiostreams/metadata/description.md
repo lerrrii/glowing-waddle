@@ -34,6 +34,9 @@ Aggregate and filter multiple Stremio addons and debrid services into one config
 | **Max Override Timeout**       | number    | `50000`                                                      | Max overrideable timeout (ms)                                         |
 | **Min Override Timeout**       | number    | `1000`                                                       | Min overrideable timeout (ms)                                         |
 | **Default Timeout**            | number    | `15000`                                                      | Fallback timeout (ms)                                                 |
+| **Default Regex Exclude Pattern** | text   | *(blank)*                                                    | Filter out streams matching pattern                                   |
+| **Default Regex Include Pattern** | text   | *(blank)*                                                    | Only include streams matching pattern                                 |
+| **Default Regex Sort Patterns**   | text   | *(blank)*                                                    | Custom regex-based ordering                                           |
 | **MediaFlow IP Timeout**       | number    | `30000`                                                      | Timeout for MediaFlow IP lookups (ms)                                 |
 | **Default MediaFlow URL**      | url       | `https://mediaflow.elfhosted.com/`                           | Built-in default; override if self-hosted                             |
 | **Default MediaFlow API Pass** | text      | *(blank)*                                                    | When auto-configuring via MediaFusion                                 |
@@ -45,24 +48,43 @@ Aggregate and filter multiple Stremio addons and debrid services into one config
 | **Default StremThru Public IP**| text      | *(blank)*                                                    | Public IP for StremThru proxy                                         |
 | **Encrypt StremThru URLs**     | boolean   | `true`                                                       | Encrypt StremThru links                                               |
 | **Comet URL**                  | url       | `https://comet.elfhosted.com/`                               | Built-in default                                                      |
+| **Default Comet Timeout**      | number    | *(blank)*                                                    | Timeout for Comet requests (ms)                                       |
+| **Force Comet Hostname**       | text      | *(blank)*                                                    | Override hostname in Comet URLs                                       |
+| **Force Comet Port**           | text      | *(blank)*                                                    | Override port in Comet URLs                                           |
+| **Force Comet Protocol**       | text      | *(blank)*                                                    | Override protocol in Comet URLs                                       |
 | **MediaFusion URL**            | url       | `https://mediafusion.elfhosted.com/`                         | Built-in default                                                      |
+| **Default MediaFusion Timeout**| number    | *(blank)*                                                    | Timeout for MediaFusion requests (ms)                                 |
+| **MediaFusion Config Timeout** | number    | `5000`                                                       | Timeout for MediaFusion config-related endpoints (ms)                 |
+| **MediaFusion API Password**   | text      | *(blank)*                                                    | Password for self-hosted MediaFusion                                  |
 | **JackettIO URL**              | url       | `https://jackettio.elfhosted.com/`                           | Built-in default                                                      |
 | **Default JackettIO Indexers** | text      | `["bitsearch","eztv","thepiratebay","therarbg","yts"]`       | JSON array string                                                     |
-| **Torrentio URL**              | url       | `https://torrentio.strem.fun/`                               | Built-in default                                                      |
-| **Default Torrentio Timeout**  | number    | `15000`                                                      | Timeout for Torrentio (ms)                                            |
+| **Default JackettIO Timeout**  | number    | *(blank)*                                                    | Timeout for JackettIO requests (ms)                                   |
+| **Default JackettIO StremThru URL** | url  | `https://stremthru.13377001.xyz`                             | StremThru proxy URL for JackettIO                                     |
+| **Force JackettIO Hostname**   | text      | *(blank)*                                                    | Override hostname in JackettIO URLs                                   |
+| **Force JackettIO Port**       | text      | *(blank)*                                                    | Override port in JackettIO URLs                                       |
+| **Force JackettIO Protocol**   | text      | *(blank)*                                                    | Override protocol in JackettIO URLs                                   |
+| **Stremio-Jackett URL**        | url       | `https://stremio-jackett.elfhosted.com/`                     | Built-in default                                                      |
+| **Default Stremio-Jackett's Jackett URL** | url | *(blank)*                                               | URL for Jackett service used by Stremio-Jackett                       |
+| **Default Stremio-Jackett's Jackett API Key** | text | *(blank)*                                          | API key for Jackett service                                           |
+| **Default Stremio-Jackett TMDB API Key** | text | *(blank)*                                               | TMDB API key for Stremio-Jackett metadata                             |
+| **Default Stremio-Jackett Timeout** | number | *(blank)*                                                  | Timeout for Stremio-Jackett requests (ms)                             |
 | **StremThru Store URL**        | url       | `https://stremthru.elfhosted.com/stremio/store/`             | Built-in store proxy URL                                              |
 | **StremThru Store Timeout**    | number    | `15000`                                                      | Timeout for StremThru store (ms)                                      |
+| **Torrentio URL**              | url       | `https://torrentio.strem.fun/`                               | Built-in default                                                      |
+| **Default Torrentio Timeout**  | number    | `15000`                                                      | Timeout for Torrentio (ms)                                            |
+| **TorBox Stremio URL**         | url       | `https://stremio.torbox.app/`                                | Built-in default                                                      |
+| **Default TorBox Stremio Timeout** | number | *(blank)*                                                   | Timeout for TorBox Stremio requests (ms)                              |
 | **Peerflix URL**               | url       | `https://peerflix-addon.onrender.com/`                       | Built-in default                                                      |
-| **Peerflix Timeout**           | number    | `15000`                                                      | Timeout for Peerflix (ms)                                             |
+| **Default Peerflix Timeout**   | number    | `15000`                                                      | Timeout for Peerflix (ms)                                            |
 | **Easynews+ URL**              | url       | `https://b89262c192b0-stremio-easynews-addon.baby-beamup.club/` | Built-in default                                                  |
-| **Easynews+ Timeout**          | number    | `15000`                                                      | Timeout for Easynews+ (ms)                                            |
+| **Default Easynews+ Timeout**  | number    | `15000`                                                      | Timeout for Easynews+ (ms)                                            |
 | **Easynews++ URL**             | url       | `https://easynews-cloudflare-worker.jqrw92fchz.workers.dev/` | Built-in default                                                  |
-| **Easynews++ Timeout**         | number    | `15000`                                                      | Timeout for Easynews++ (ms)                                           |
+| **Default Easynews++ Timeout** | number    | `15000`                                                      | Timeout for Easynews++ (ms)                                           |
 | **Orion Stremio Addon URL**    | url       | `https://5a0d1888fa64-orion.baby-beamup.club/`               | Built-in default                                                      |
-| **Orion Timeout**              | number    | `15000`                                                      | Timeout for Orion addon (ms)                                          |
+| **Default Orion Timeout**      | number    | `15000`                                                      | Timeout for Orion addon (ms)                                          |
 | **Easynews URL**               | url       | `https://ea627ddf0ee7-easynews.baby-beamup.club/`            | Built-in default                                                      |
-| **Easynews Timeout**           | number    | `15000`                                                      | Timeout for Easynews (ms)                                             |
+| **Default Easynews Timeout**   | number    | `15000`                                                      | Timeout for Easynews (ms)                                             |
 | **Debridio URL**               | url       | `https://debridio.adobotec.com/`                             | Built-in default                                                      |
-| **Debridio Timeout**           | number    | `15000`                                                      | Timeout for Debridio (ms)                                             |
+| **Default Debridio Timeout**   | number    | `15000`                                                      | Timeout for Debridio (ms)                                             |
 | **DMM Cast Timeout**           | number    | `15000`                                                      | Timeout for DMM Cast (ms)                                             |
 | **Stremio GDrive Timeout**     | number    | `15000`                                                      | Timeout for Stremio-GDrive (ms)                                       |
