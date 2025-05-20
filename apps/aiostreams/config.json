@@ -34,36 +34,75 @@
     { "type":"number",  "label":"Max Override Timeout (ms)",  "env_variable":"MAX_TIMEOUT",              "default":50000 },
     { "type":"number",  "label":"Min Override Timeout (ms)",  "env_variable":"MIN_TIMEOUT",              "default":1000 },
     { "type":"number",  "label":"Default Timeout (ms)",       "env_variable":"DEFAULT_TIMEOUT",          "default":15000 },
+    
+    { "type":"text",    "label":"Default Regex Exclude Pattern", "env_variable":"DEFAULT_REGEX_EXCLUDE_PATTERN", "placeholder":"" },
+    { "type":"text",    "label":"Default Regex Include Pattern", "env_variable":"DEFAULT_REGEX_INCLUDE_PATTERN", "placeholder":"" },
+    { "type":"text",    "label":"Default Regex Sort Patterns",   "env_variable":"DEFAULT_REGEX_SORT_PATTERNS",   "placeholder":"" },
+    
     { "type":"number",  "label":"MediaFlow IP Timeout (ms)",  "env_variable":"MEDIAFLOW_IP_TIMEOUT",     "default":30000 },
     { "type":"url",     "label":"Default MediaFlow URL",      "env_variable":"DEFAULT_MEDIAFLOW_URL",    "default":"https://mediaflow.elfhosted.com/" },
     { "type":"text",    "label":"Default MediaFlow API Password", "env_variable":"DEFAULT_MEDIAFLOW_API_PASSWORD", "placeholder":"" },
     { "type":"text",    "label":"Default MediaFlow Public IP","env_variable":"DEFAULT_MEDIAFLOW_PUBLIC_IP","placeholder":"" },
     { "type":"boolean", "label":"Encrypt MediaFlow URLs",      "env_variable":"ENCRYPT_MEDIAFLOW_URLS",   "default":true },
+    
     { "type":"number",  "label":"StremThru Timeout (ms)",      "env_variable":"STREMTHRU_TIMEOUT",        "default":30000 },
     { "type":"url",     "label":"Default StremThru URL",      "env_variable":"DEFAULT_STREMTHRU_URL",    "placeholder":"" },
     { "type":"text",    "label":"Default StremThru Credential","env_variable":"DEFAULT_STREMTHRU_CREDENTIAL","placeholder":"" },
     { "type":"text",    "label":"Default StremThru Public IP", "env_variable":"DEFAULT_STREMTHRU_PUBLIC_IP","placeholder":"" },
     { "type":"boolean", "label":"Encrypt StremThru URLs",      "env_variable":"ENCRYPT_STREMTHRU_URLS",   "default":true },
+    
     { "type":"url",     "label":"Comet URL",                  "env_variable":"COMET_URL",                "default":"https://comet.elfhosted.com/" },
+    { "type":"number",  "label":"Default Comet Timeout (ms)",  "env_variable":"DEFAULT_COMET_TIMEOUT",    "placeholder":"" },
+    { "type":"text",    "label":"Force Comet Hostname",       "env_variable":"FORCE_COMET_HOSTNAME",     "placeholder":"" },
+    { "type":"text",    "label":"Force Comet Port",           "env_variable":"FORCE_COMET_PORT",         "placeholder":"" },
+    { "type":"text",    "label":"Force Comet Protocol",       "env_variable":"FORCE_COMET_PROTOCOL",     "placeholder":"" },
+    
     { "type":"url",     "label":"MediaFusion URL",            "env_variable":"MEDIAFUSION_URL",          "default":"https://mediafusion.elfhosted.com/" },
+    { "type":"number",  "label":"Default MediaFusion Timeout (ms)", "env_variable":"DEFAULT_MEDIAFUSION_TIMEOUT", "placeholder":"" },
+    { "type":"number",  "label":"MediaFusion Config Timeout (ms)", "env_variable":"MEDIAFUSION_CONFIG_TIMEOUT", "default":5000 },
+    { "type":"text",    "label":"MediaFusion API Password",   "env_variable":"MEDIAFUSION_API_PASSWORD", "placeholder":"" },
+    
     { "type":"url",     "label":"JackettIO URL",              "env_variable":"JACKETTIO_URL",            "default":"https://jackettio.elfhosted.com/" },
     { "type":"text",    "label":"Default JackettIO Indexers (JSON)","env_variable":"DEFAULT_JACKETTIO_INDEXERS","default":"[\"bitsearch\",\"eztv\",\"thepiratebay\",\"therarbg\",\"yts\"]" },
-    { "type":"url",     "label":"Torrentio URL",              "env_variable":"TORRENTIO_URL",            "default":"https://torrentio.strem.fun/" },
-    { "type":"number",  "label":"Torrentio Timeout (ms)",      "env_variable":"DEFAULT_TORRENTIO_TIMEOUT","default":15000 },
+    { "type":"number",  "label":"Default JackettIO Timeout (ms)","env_variable":"DEFAULT_JACKETTIO_TIMEOUT","placeholder":"" },
+    { "type":"url",     "label":"Default JackettIO StremThru URL","env_variable":"DEFAULT_JACKETTIO_STREMTHRU_URL","default":"https://stremthru.13377001.xyz" },
+    { "type":"text",    "label":"Force JackettIO Hostname",   "env_variable":"FORCE_JACKETTIO_HOSTNAME", "placeholder":"" },
+    { "type":"text",    "label":"Force JackettIO Port",       "env_variable":"FORCE_JACKETTIO_PORT",     "placeholder":"" },
+    { "type":"text",    "label":"Force JackettIO Protocol",   "env_variable":"FORCE_JACKETTIO_PROTOCOL", "placeholder":"" },
+    
+    { "type":"url",     "label":"Stremio-Jackett URL",        "env_variable":"STREMIO_JACKETT_URL",      "default":"https://stremio-jackett.elfhosted.com/" },
+    { "type":"url",     "label":"Default Stremio-Jackett's Jackett URL", "env_variable":"DEFAULT_STREMIO_JACKETT_JACKETT_URL", "placeholder":"" },
+    { "type":"text",    "label":"Default Stremio-Jackett's Jackett API Key", "env_variable":"DEFAULT_STREMIO_JACKETT_JACKETT_API_KEY", "placeholder":"" },
+    { "type":"text",    "label":"Default Stremio-Jackett TMDB API Key", "env_variable":"DEFAULT_STREMIO_JACKETT_TMDB_API_KEY", "placeholder":"" },
+    { "type":"number",  "label":"Default Stremio-Jackett Timeout (ms)", "env_variable":"DEFAULT_STREMIO_JACKETT_TIMEOUT", "placeholder":"" },
+    
     { "type":"url",     "label":"StremThru Store URL",        "env_variable":"STREMTHRU_STORE_URL",      "default":"https://stremthru.elfhosted.com/stremio/store/" },
     { "type":"number",  "label":"StremThru Store Timeout (ms)","env_variable":"DEFAULT_STREMTHRU_STORE_TIMEOUT","default":15000 },
+    
+    { "type":"url",     "label":"Torrentio URL",              "env_variable":"TORRENTIO_URL",            "default":"https://torrentio.strem.fun/" },
+    { "type":"number",  "label":"Torrentio Timeout (ms)",      "env_variable":"DEFAULT_TORRENTIO_TIMEOUT","default":15000 },
+    
+    { "type":"url",     "label":"TorBox Stremio URL",         "env_variable":"TORBOX_STREMIO_URL",       "default":"https://stremio.torbox.app/" },
+    { "type":"number",  "label":"TorBox Stremio Timeout (ms)", "env_variable":"DEFAULT_TORBOX_STREMIO_TIMEOUT", "placeholder":"" },
+    
     { "type":"url",     "label":"Peerflix URL",               "env_variable":"PEERFLIX_URL",             "default":"https://peerflix-addon.onrender.com/" },
     { "type":"number",  "label":"Peerflix Timeout (ms)",       "env_variable":"DEFAULT_PEERFLIX_TIMEOUT", "default":15000 },
+    
     { "type":"url",     "label":"Easynews+ URL",              "env_variable":"EASYNEWS_PLUS_URL",        "default":"https://b89262c192b0-stremio-easynews-addon.baby-beamup.club/" },
     { "type":"number",  "label":"Easynews+ Timeout (ms)",      "env_variable":"DEFAULT_EASYNEWS_PLUS_TIMEOUT","default":15000 },
+    
     { "type":"url",     "label":"Easynews++ URL",             "env_variable":"EASYNEWS_PLUS_PLUS_URL",   "default":"https://easynews-cloudflare-worker.jqrw92fchz.workers.dev/" },
     { "type":"number",  "label":"Easynews++ Timeout (ms)",     "env_variable":"DEFAULT_EASYNEWS_PLUS_PLUS_TIMEOUT","default":15000 },
+    
     { "type":"url",     "label":"Orion Stremio Addon URL",    "env_variable":"ORION_STREMIO_ADDON_URL",  "default":"https://5a0d1888fa64-orion.baby-beamup.club/" },
     { "type":"number",  "label":"Orion Timeout (ms)",          "env_variable":"DEFAULT_ORION_STREMIO_ADDON_TIMEOUT","default":15000 },
+    
     { "type":"url",     "label":"Easynews URL",               "env_variable":"EASYNEWS_URL",             "default":"https://ea627ddf0ee7-easynews.baby-beamup.club/" },
     { "type":"number",  "label":"Easynews Timeout (ms)",       "env_variable":"DEFAULT_EASYNEWS_TIMEOUT", "default":15000 },
+    
     { "type":"url",     "label":"Debridio URL",               "env_variable":"DEBRIDIO_URL",             "default":"https://debridio.adobotec.com/" },
     { "type":"number",  "label":"Debridio Timeout (ms)",       "env_variable":"DEFAULT_DEBRIDIO_TIMEOUT", "default":15000 },
+    
     { "type":"number",  "label":"DMM Cast Timeout (ms)",       "env_variable":"DEFAULT_DMM_CAST_TIMEOUT", "default":15000 },
     { "type":"number",  "label":"Stremio GDrive Timeout (ms)", "env_variable":"DEFAULT_STREMIO_GDRIVE_TIMEOUT","default":15000 }
   ],
