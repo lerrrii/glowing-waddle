@@ -16,8 +16,6 @@
         "ADDON_NAME":             "${ADDON_NAME}",
         "ADDON_ID":               "${ADDON_ID}",
         "DETERMINISTIC_ADDON_ID": "${DETERMINISTIC_ADDON_ID}",
-        "SECRET_KEY":             "${SECRET_KEY}",
-        "API_KEY":                "${API_KEY}",
         "SHOW_DIE":               "${SHOW_DIE}",
         "LOG_LEVEL":              "${LOG_LEVEL}",
         "ADDON_PROXY":            "${ADDON_PROXY}",
