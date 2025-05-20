@@ -27,8 +27,8 @@ Aggregate and filter multiple Stremio addons and debrid services into one config
 | **Addon Proxy URL**                    | url       | *(blank)*                                                    | e.g. `http://warp:1080`                                              |
 | **Proxy Rules**                        | text      | *(blank)*                                                    | e.g. `*:false,*.strem.fun:true`                                      |
 | **Max Addons**                         | number    | `15`                                                         | Upper bound on aggregated addons                                     |
-| **Max Keyword Filters**                | number    | `30`                                                         | Maximum keyword-filter entries                                        |
-| **Max Regex Sort Patterns**            | number    | `30`                                                         | Max custom regex sorting rules                                        |
+| **Max Keyword Filters**                | number    | `30`                                                         | Maximum keyword-filter entries                                       |
+| **Max Regex Sort Patterns**            | number    | `30`                                                         | Max custom regex sorting rules                                       |
 | **Max Movie Size**                     | number    | `161061273600`                                               | 150 GiB in bytes                                                     |
 | **Max Episode Size**                   | number    | `161061273600`                                               | 150 GiB in bytes                                                     |
 | **Max Override Timeout**               | number    | `50000`                                                      | Max overrideable timeout (ms)                                        |
@@ -71,20 +71,20 @@ Aggregate and filter multiple Stremio addons and debrid services into one config
 | **StremThru Store URL**                | url       | `https://stremthru.elfhosted.com/stremio/store/`             | Built-in store proxy URL                                             |
 | **StremThru Store Timeout**            | number    | `15000`                                                      | Timeout for StremThru store (ms)                                     |
 | **Torrentio URL**                      | url       | `https://torrentio.strem.fun/`                               | Built-in default                                                     |
-| **Default Torrentio Timeout**          | number    | `15000`                                                      | Timeout for Torrentio (ms)                                           |
+| **Default Torrentio Timeout**          | number    | *(blank)*                                                    | Timeout for Torrentio (ms)                                           |
 | **TorBox Stremio URL**                 | url       | `https://stremio.torbox.app/`                                | Built-in default                                                     |
 | **Default TorBox Stremio Timeout**     | number    | *(blank)*                                                    | Timeout for TorBox Stremio requests (ms)                             |
 | **Peerflix URL**                       | url       | `https://peerflix-addon.onrender.com/`                       | Built-in default                                                     |
-| **Default Peerflix Timeout**           | number    | `15000`                                                      | Timeout for Peerflix (ms)                                            |
+| **Default Peerflix Timeout**           | number    | *(blank)*                                                    | Timeout for Peerflix (ms)                                            |
 | **Easynews+ URL**                      | url       | `https://b89262c192b0-stremio-easynews-addon.baby-beamup.club/` | Built-in default                                                |
-| **Default Easynews+ Timeout**          | number    | `15000`                                                      | Timeout for Easynews+ (ms)                                           |
+| **Default Easynews+ Timeout**          | number    | *(blank)*                                                    | Timeout for Easynews+ (ms)                                           |
 | **Easynews++ URL**                     | url       | `https://easynews-cloudflare-worker.jqrw92fchz.workers.dev/` | Built-in default                                                 |
-| **Default Easynews++ Timeout**         | number    | `15000`                                                      | Timeout for Easynews++ (ms)                                          |
+| **Default Easynews++ Timeout**         | number    | *(blank)*                                                    | Timeout for Easynews++ (ms)                                          |
 | **Orion Stremio Addon URL**            | url       | `https://5a0d1888fa64-orion.baby-beamup.club/`               | Built-in default                                                     |
-| **Default Orion Timeout**              | number    | `15000`                                                      | Timeout for Orion addon (ms)                                         |
+| **Default Orion Timeout**              | number    | *(blank)*                                                    | Timeout for Orion addon (ms)                                         |
 | **Easynews URL**                       | url       | `https://ea627ddf0ee7-easynews.baby-beamup.club/`            | Built-in default                                                     |
-| **Default Easynews Timeout**           | number    | `15000`                                                      | Timeout for Easynews (ms)                                            |
+| **Default Easynews Timeout**           | number    | *(blank)*                                                    | Timeout for Easynews (ms)                                            |
 | **Debridio URL**                       | url       | `https://debridio.adobotec.com/`                             | Built-in default                                                     |
-| **Default Debridio Timeout**           | number    | `15000`                                                      | Timeout for Debridio (ms)                                            |
-| **DMM Cast Timeout**                   | number    | `15000`                                                      | Timeout for DMM Cast (ms)                                            |
-| **Stremio GDrive Timeout**             | number    | `15000`                                                      | Timeout for Stremio-GDrive (ms)                                      |
+| **Default Debridio Timeout**           | number    | *(blank)*                                                    | Timeout for Debridio (ms)                                            |
+| **DMM Cast Timeout**                   | number    | *(blank)*                                                    | Timeout for DMM Cast (ms)                                            |
+| **Stremio GDrive Timeout**             | number    | *(blank)*                                                    | Timeout for Stremio-GDrive (ms)                                      |
