@@ -105,7 +105,7 @@
     { "type":"number",  "label":"Default Debridio Timeout (ms)",       "env_variable":"DEFAULT_DEBRIDIO_TIMEOUT",      "placeholder":"Inherit DEFAULT_TIMEOUT" },
 
     { "type":"number",  "label":"Default DMM Cast Timeout (ms)",       "env_variable":"DEFAULT_DMM_CAST_TIMEOUT",      "placeholder":"Inherit DEFAULT_TIMEOUT" },
-    { "type":"number",  "label":"Default Stremio GDrive Timeout (ms)", "env_variable":"DEFAULT_ST_REMIO_GDRIVE_TIMEOUT","placeholder":"Inherit DEFAULT_TIMEOUT" }
+    { "type":"number",  "label":"Default Stremio GDrive Timeout (ms)", "env_variable":"DEFAULT_STREMIO_GDRIVE_TIMEOUT","placeholder":"Inherit DEFAULT_TIMEOUT" }
   ],
   "supported_architectures": ["amd64","arm64"],
   "created_at": 1716899794000,
