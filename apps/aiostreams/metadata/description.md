@@ -1,47 +1,70 @@
 # AIOStreams
 
-AIOStreams consolidates multiple Stremio addons and debrid services into a single, easily configurable addon. It allows highly customizable filtering, sorting, and formatting of results, and supports proxying all your streams through MediaFlow Proxy or StremThru for enhanced compatibility and IP restriction bypass.
+Aggregate and filter multiple Stremio addons and debrid services into one configurable addon.
 
-## Features
+## Key Features
 
-- **Unified Interface**: Aggregate results from various addons into a single, streamlined list.
-- **Advanced Filtering**: By resolution, quality, visual/audio tags, keywords, and custom regex patterns.
-- **Sophisticated Sorting**: Prioritize by quality, size, cached status, seeders, and custom regex rules.
-- **Proxy Integration**: Route streams through MediaFlow or StremThru for IP bypass and improved playback.
-- **Extensive Limits & Controls**: Set caps on addons, filters, regex patterns, file sizes, and timeouts.
-- **Comprehensive Addon Support**: Out-of-the-box configs for Torrentio, MediaFusion, Comet, Jackettio, Stremio-Jackett, StremThru Store, Easynews, Easynews++, Debridio, Peerflix, DMM Cast, Orion, Torbox, and more.
-
-> **Note:** All environment variables are configurable via the Runtipi UI. Deploy then visit `/configure` to tune settings.
+- **Unified Interface** across all upstream addons  
+- **Advanced Filtering & Sorting** (regex, size, quality, language, etc.)  
+- **Proxy Integration** via MediaFlow or StremThru  
+- **Result Deduplication** and Limiting  
+- **Custom Formatters** for output styling  
 
 ## Configuration Reference
 
-Below is a quick reference to all form fields you’ll see in the Runtipi UI, including type, default value, and rationale or example usage.
+| Field                          | Type      | Default                                                      | Rationale / Example                                                 |
+| ------------------------------ | --------- | ------------------------------------------------------------ | -------------------------------------------------------------------- |
+| **Addon Name**                 | text      | *(blank)*                                                    | Friendly label — e.g. `AIOStreams`                                   |
+| **Addon ID**                   | text      | *(blank)*                                                    | Unique ID — e.g. `aiostreams.viren070.com`                           |
+| **Deterministic Addon ID**     | boolean   | `true`                                                       | Predictable IDs for repeat installs                                  |
+| **Port**                       | number    | `3000`                                                       | Service listen port                                                  |
+| **Secret Key**                 | password  | *(blank)*                                                    | 64-char hex; auto-generated if blank                                  |
+| **API Key**                    | text      | *(blank)*                                                    | Required for regex filters; blank → disabled                         |
+| **Show Dice Emoji**            | boolean   | `false`                                                      | Toggle 🎲 in results                                                  |
+| **Log Level**                  | text      | `info`                                                       | One of `debug`/`info`/`warn`/`error`                                 |
+| **Log Format**                 | text      | `text`                                                       | `text` or `json`                                                     |
+| **Log Sensitive Info**         | boolean   | `true`                                                       | Toggle logging of secrets                                             |
+| **Addon Proxy URL**            | url       | *(blank)*                                                    | e.g. `http://warp:1080`                                               |
+| **Proxy Rules**                | text      | *(blank)*                                                    | e.g. `*:false,*.strem.fun:true`                                       |
+| **Max Addons**                 | number    | `15`                                                         | Upper bound on aggregated addons                                      |
+| **Max Keyword Filters**        | number    | `30`                                                         | Maximum keyword-filter entries                                        |
+| **Max Regex Sort Patterns**    | number    | `30`                                                         | Max custom regex sorting rules                                        |
+| **Max Movie Size**             | number    | `161061273600`                                               | 150 GiB in bytes                                                      |
+| **Max Episode Size**           | number    | `161061273600`                                               | 150 GiB in bytes                                                      |
+| **Max Override Timeout**       | number    | `50000`                                                      | Max overrideable timeout (ms)                                         |
+| **Min Override Timeout**       | number    | `1000`                                                       | Min overrideable timeout (ms)                                         |
+| **Default Timeout**            | number    | `15000`                                                      | Fallback timeout (ms)                                                 |
+| **MediaFlow IP Timeout**       | number    | `30000`                                                      | Timeout for MediaFlow IP lookups (ms)                                 |
+| **Default MediaFlow URL**      | url       | `https://mediaflow.elfhosted.com/`                           | Built-in default; override if self-hosted                             |
+| **Default MediaFlow API Pass** | text      | *(blank)*                                                    | When auto-configuring via MediaFusion                                 |
+| **Default MediaFlow Public IP**| text      | *(blank)*                                                    | Public IP for MediaFlow proxy                                         |
+| **Encrypt MediaFlow URLs**     | boolean   | `true`                                                       | Wrap each URL in encryption                                           |
+| **StremThru Timeout**          | number    | `30000`                                                      | Proxy timeout for StremThru (ms)                                      |
+| **Default StremThru URL**      | url       | *(blank)*                                                    | e.g. `https://stremthru.myhost.com/`                                  |
+| **Default StremThru Creds**    | text      | *(blank)*                                                    | `username:password` or base64                                         |
+| **Default StremThru Public IP**| text      | *(blank)*                                                    | Public IP for StremThru proxy                                         |
+| **Encrypt StremThru URLs**     | boolean   | `true`                                                       | Encrypt StremThru links                                               |
+| **Comet URL**                  | url       | `https://comet.elfhosted.com/`                               | Built-in default                                                      |
+| **MediaFusion URL**            | url       | `https://mediafusion.elfhosted.com/`                         | Built-in default                                                      |
+| **JackettIO URL**              | url       | `https://jackettio.elfhosted.com/`                           | Built-in default                                                      |
+| **Default JackettIO Indexers** | text      | `["bitsearch","eztv","thepiratebay","therarbg","yts"]`       | JSON array string                                                     |
+| **Torrentio URL**              | url       | `https://torrentio.strem.fun/`                               | Built-in default                                                      |
+| **Default Torrentio Timeout**  | number    | `15000`                                                      | Timeout for Torrentio (ms)                                            |
+| **StremThru Store URL**        | url       | `https://stremthru.elfhosted.com/stremio/store/`             | Built-in store proxy URL                                              |
+| **StremThru Store Timeout**    | number    | `15000`                                                      | Timeout for StremThru store (ms)                                      |
+| **Peerflix URL**               | url       | `https://peerflix-addon.onrender.com/`                       | Built-in default                                                      |
+| **Peerflix Timeout**           | number    | `15000`                                                      | Timeout for Peerflix (ms)                                             |
+| **Easynews+ URL**              | url       | `https://b89262c192b0-stremio-easynews-addon.baby-beamup.club/` | Built-in default                                                  |
+| **Easynews+ Timeout**          | number    | `15000`                                                      | Timeout for Easynews+ (ms)                                            |
+| **Easynews++ URL**             | url       | `https://easynews-cloudflare-worker.jqrw92fchz.workers.dev/` | Built-in default                                                  |
+| **Easynews++ Timeout**         | number    | `15000`                                                      | Timeout for Easynews++ (ms)                                           |
+| **Orion Stremio Addon URL**    | url       | `https://5a0d1888fa64-orion.baby-beamup.club/`               | Built-in default                                                      |
+| **Orion Timeout**              | number    | `15000`                                                      | Timeout for Orion addon (ms)                                          |
+| **Easynews URL**               | url       | `https://ea627ddf0ee7-easynews.baby-beamup.club/`            | Built-in default                                                      |
+| **Easynews Timeout**           | number    | `15000`                                                      | Timeout for Easynews (ms)                                             |
+| **Debridio URL**               | url       | `https://debridio.adobotec.com/`                             | Built-in default                                                      |
+| **Debridio Timeout**           | number    | `15000`                                                      | Timeout for Debridio (ms)                                             |
+| **DMM Cast Timeout**           | number    | `15000`                                                      | Timeout for DMM Cast (ms)                                             |
+| **Stremio GDrive Timeout**     | number    | `15000`                                                      | Timeout for Stremio-GDrive (ms)                                       |
 
-| Field                       | Type     | Default          | Rationale / Example                                      |
-| --------------------------- | -------- | ---------------- | -------------------------------------------------------- |
-| **Addon Name**              | text     | `AIOStreams`     | Friendly label; change if you host multiple instances.  |
-| **Addon ID**                | text     | `aiostreams.my-domain.com` | Unique DNS-style identifier; must be globally unique.    |
-| **Deterministic Addon ID**  | boolean  | `true`           | Ensures predictable IDs across restarts/installations.   |
-| **Port**                    | number   | `3000`           | Port where the service listens; matches container port. |
-| **Secret Key**              | password | *(empty)*        | 64-hex string for encryption; auto-generated if left blank.  |
-| **API Key**                 | text     | *(empty)*        | Required for regex filters; leave empty for none.       |
-| **Show Dice Emoji**         | boolean  | `false`          | Toggle 🎲 icon in results; off by default.               |
-| **Log Sensitive Info**      | boolean  | `true`           | Logs API keys/credentials for debugging; can be toggled off. |
-| **Default Timeout (ms)**    | number   | `15000` ms       | HTTP/request timeout; adjust if upstream is slow.        |
-| **Max Addons**              | number   | `15`             | Limit number of upstream addons to prevent overload.     |
-| **Max Keyword Filters**     | number   | `30`             | Limit keyword filters for performance.                   |
-| **Max Regex Sort Patterns** | number   | `30`             | Limit regex sort patterns to control complexity.         |
-| **Max Movie Size (bytes)**  | number   | `161061273600`   | Movie size cap (150 GiB); adjust if you have larger files. |
-| **Max Episode Size (bytes)**| number   | `161061273600`   | Episode size cap; adjust as needed.                      |
-| **MediaFlow URL**           | url      | `https://mediafusion.elfhosted.com/` | Default proxy for streams; override if you self-host. |
-| **MediaFlow IP Timeout (ms)**| number  | `30000` ms       | Timeout fetching IP from MediaFlow; increase if needed.  |
-| **StremThru URL**           | url      | *(empty)*        | Optional proxy; provide URL to enable.                   |
-| **StremThru Timeout (ms)**  | number   | `30000` ms       | Request timeout for StremThru; same as MediaFlow.        |
-| **Torrentio URL**           | url      | `https://torrentio.strem.fun/` | Built-in torrent source; change if forked.         |
-| **Orion Addon URL**         | url      | *(empty)*        | Provide a custom Orion addon endpoint if used.           |
-| **Peerflix URL**            | url      | *(empty)*        | Provide if you use Peerflix addon.                       |
-| **Torbox Addon URL**        | url      | *(empty)*        | Provide if you use Torbox addon.                         |
-| **Easynews URL**            | url      | *(empty)*        | Provide if you use Easynews addon.                       |
-| **Debridio URL**            | url      | *(empty)*        | Provide if you use Debridio addon.                       |
-| **DMM Cast URL**            | text     | *(empty)*        | Provide if you use DMM Cast addon.                       |
-| **Stremio GDrive URL**      | text     | *(empty)*        | Provide if you use Stremio GDrive addon.                 |
+*(Covers every `ADDON_*`, proxy, limit, and default timeout variable.)*
