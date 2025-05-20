@@ -12,41 +12,59 @@ services:
       - WATCHTOWER_HTTP_API_UPDATE=true
       - WATCHTOWER_LABEL_ENABLE=${WATCHTOWER_LABEL_ENABLE}
       - WATCHTOWER_SCHEDULE=${WATCHTOWER_SCHEDULE}
+      - TZ=Europe/Prague
       - WATCHTOWER_CLEANUP=${WATCHTOWER_CLEANUP}
       - WATCHTOWER_ROLLBACK=${WATCHTOWER_ROLLBACK}
       - WATCHTOWER_NOTIFICATIONS=${WATCHTOWER_NOTIFICATIONS}
-      - TZ=Europe/Prague
+      - WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL=${WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL}
+      - WATCHTOWER_NOTIFICATION_MSTEAMS_HOOK_URL=${WATCHTOWER_NOTIFICATION_MSTEAMS_HOOK_URL}
+      - WATCHTOWER_NOTIFICATION_GOTIFY_URL=${WATCHTOWER_NOTIFICATION_GOTIFY_URL}
+      - WATCHTOWER_NOTIFICATION_EMAIL_FROM=${WATCHTOWER_NOTIFICATION_EMAIL_FROM}
+      - WATCHTOWER_NOTIFICATION_EMAIL_TO=${WATCHTOWER_NOTIFICATION_EMAIL_TO}
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER=${WATCHTOWER_NOTIFICATION_EMAIL_SERVER}
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER=${WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER}
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD=${WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD}
+      - WATCHTOWER_EXTRA_ARGS=${WATCHTOWER_EXTRA_ARGS}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - tipi_main_network
     restart: unless-stopped
-
     labels:
+      # Enable Traefik discovery
       traefik.enable: "true"
+      
+      # Redirect HTTP → HTTPS
       traefik.http.middlewares.watchtower-redirect.redirectscheme.scheme: https
+
+      # Internal port
       traefik.http.services.watchtower.loadbalancer.server.port: "8080"
 
+      # HTTP router (insecure)
       traefik.http.routers.watchtower-insecure.rule: "Host(`${APP_DOMAIN}`)"
       traefik.http.routers.watchtower-insecure.entrypoints: "web"
       traefik.http.routers.watchtower-insecure.service: "watchtower"
       traefik.http.routers.watchtower-insecure.middlewares: "watchtower-redirect"
 
+      # HTTPS router (secure)
       traefik.http.routers.watchtower.rule: "Host(`${APP_DOMAIN}`)"
       traefik.http.routers.watchtower.entrypoints: "websecure"
       traefik.http.routers.watchtower.service: "watchtower"
       traefik.http.routers.watchtower.tls.certresolver: "myresolver"
 
+      # Local HTTP (insecure)
       traefik.http.routers.watchtower-local-insecure.rule: "Host(`watchtower.${LOCAL_DOMAIN}`)"
       traefik.http.routers.watchtower-local-insecure.entrypoints: "web"
       traefik.http.routers.watchtower-local-insecure.service: "watchtower"
       traefik.http.routers.watchtower-local-insecure.middlewares: "watchtower-redirect"
 
+      # Local HTTPS (secure)
       traefik.http.routers.watchtower-local.rule: "Host(`watchtower.${LOCAL_DOMAIN}`)"
       traefik.http.routers.watchtower-local.entrypoints: "websecure"
       traefik.http.routers.watchtower-local.service: "watchtower"
       traefik.http.routers.watchtower-local.tls: "true"
 
+      # Mark as managed by Runtipi
       runtipi.managed: "true"
 
 networks:
