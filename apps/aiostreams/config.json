@@ -82,7 +82,7 @@
       "type": "text",
       "label": "Log Format",
       "env_variable": "LOG_FORMAT",
-      "default": text,
+      "default": "text",
       "placeholder": "text",
       "hint": "Log output format: json or text."
     },
