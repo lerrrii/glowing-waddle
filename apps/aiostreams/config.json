@@ -53,8 +53,7 @@
       "label": "Secret Key (64-hex chars)",
       "env_variable": "SECRET_KEY",
       "placeholder": "(auto-generated if blank)",
-      "hint": "64-char hex string to encrypt config; generate via openssl rand -hex 32.",
-      "required": true
+      "hint": "64-char hex string to encrypt config; generate via openssl rand -hex 32."
     },
     {
       "type": "text",
@@ -85,8 +84,7 @@
       "env_variable": "LOG_FORMAT",
       "default": "text",
       "placeholder": "text",
-      "hint": "Log output format: json or text.",
-      "required": true
+      "hint": "Log output format: json or text."
     },
     {
       "type": "boolean",
@@ -116,8 +114,7 @@
       "env_variable": "MAX_ADDONS",
       "default": 15,
       "placeholder": "15",
-      "hint": "Max number of addons per instance.",
-      "required": true
+      "hint": "Max number of addons per instance."
     },
     {
       "type": "number",
@@ -125,8 +122,7 @@
       "env_variable": "MAX_KEYWORD_FILTERS",
       "default": 30,
       "placeholder": "30",
-      "hint": "Max keyword filters allowed.",
-      "required": true
+      "hint": "Max keyword filters allowed."
     },
     {
       "type": "number",
@@ -135,7 +131,6 @@
       "default": 30,
       "placeholder": "30",
       "hint": "Max regex patterns for sorting."
-      "required": true
     },
     {
       "type": "number",
@@ -143,8 +138,7 @@
       "env_variable": "MAX_MOVIE_SIZE",
       "default": 161061273600,
       "placeholder": "161061273600",
-      "hint": "Upper byte limit for movie size slider.",
-      "required": true
+      "hint": "Upper byte limit for movie size slider."
     },
     {
       "type": "number",
@@ -152,8 +146,7 @@
       "env_variable": "MAX_EPISODE_SIZE",
       "default": 161061273600,
       "placeholder": "161061273600",
-      "hint": "Upper byte limit for episode size slider.",
-      "required": true
+      "hint": "Upper byte limit for episode size slider."
     },
     {
       "type": "number",
@@ -161,8 +154,7 @@
       "env_variable": "MAX_TIMEOUT",
       "default": 50000,
       "placeholder": "50000",
-      "hint": "Maximum overrideable timeout in ms.",
-      "required": true
+      "hint": "Maximum overrideable timeout in ms."
     },
     {
       "type": "number",
@@ -296,24 +288,21 @@
       "label": "Force Comet Hostname",
       "env_variable": "FORCE_COMET_HOSTNAME",
       "placeholder": "(blank)",
-      "hint": "Public hostname for internal Comet URL configurations.",
-      "required": true
+      "hint": "Public hostname for internal Comet URL configurations."
     },
     {
       "type": "text",
       "label": "Force Comet Port",
       "env_variable": "FORCE_COMET_PORT",
       "placeholder": "(blank)",
-      "hint": "Public port for internal Comet URL configurations.",
-      "required": true
+      "hint": "Public port for internal Comet URL configurations."
     },
     {
       "type": "text",
       "label": "Force Comet Protocol",
       "env_variable": "FORCE_COMET_PROTOCOL",
       "placeholder": "(blank)",
-      "hint": "Public protocol (http/https) for internal Comet.",
-      "required": true
+      "hint": "Public protocol (http/https) for internal Comet."
     },
     {
       "type": "url",
@@ -359,8 +348,7 @@
       "env_variable": "DEFAULT_JACKETTIO_INDEXERS",
       "default": "[\"bitsearch\",\"eztv\",\"thepiratebay\",\"therarbg\",\"yts\"]",
       "placeholder": "[\"bitsearch\",\"eztv\",\"thepiratebay\",\"therarbg\",\"yts\"]",
-      "hint": "JSON array of default JackettIO indexers.",
-      "required": true
+      "hint": "JSON array of default JackettIO indexers."
     },
     {
       "type": "number",
@@ -382,8 +370,7 @@
       "label": "Force JackettIO Hostname",
       "env_variable": "FORCE_JACKETTIO_HOSTNAME",
       "placeholder": "(blank)",
-      "hint": "Public hostname for internal JackettIO URLs.",
-      "required": true
+      "hint": "Public hostname for internal JackettIO URLs."
     },
     {
       "type": "text",
@@ -397,8 +384,7 @@
       "label": "Force JackettIO Protocol",
       "env_variable": "FORCE_JACKETTIO_PROTOCOL",
       "placeholder": "(blank)",
-      "hint": "Public protocol for internal JackettIO URLs.",
-      "required": true
+      "hint": "Public protocol for internal JackettIO URLs."
     },
     {
       "type": "url",
