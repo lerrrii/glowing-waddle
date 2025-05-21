@@ -122,9 +122,10 @@
       "type": "number",
       "label": "Max Keyword Filters",
       "env_variable": "MAX_KEYWORD_FILTERS",
-      "default": "30",
+      "default": 30,
       "placeholder": "30",
       "hint": "Max keyword filters allowed.",
+      "required": true
     },
     {
       "type": "number",
@@ -133,6 +134,7 @@
       "default": 30,
       "placeholder": "30",
       "hint": "Max regex patterns for sorting."
+      "required": true
     },
     {
       "type": "number",
@@ -140,7 +142,8 @@
       "env_variable": "MAX_MOVIE_SIZE",
       "default": 161061273600,
       "placeholder": "161061273600",
-      "hint": "Upper byte limit for movie size slider."
+      "hint": "Upper byte limit for movie size slider.",
+      "required": true
     },
     {
       "type": "number",
@@ -157,7 +160,8 @@
       "env_variable": "MAX_TIMEOUT",
       "default": 50000,
       "placeholder": "50000",
-      "hint": "Maximum overrideable timeout in ms."
+      "hint": "Maximum overrideable timeout in ms.",
+      "required": true
     },
     {
       "type": "number",
@@ -200,7 +204,7 @@
       "type": "number",
       "label": "MediaFlow IP Timeout (ms)",
       "env_variable": "MEDIAFLOW_IP_TIMEOUT",
-      "default": 30000,
+      "default": "30000",
       "placeholder": "30000",
       "hint": "Timeout for fetching IP from MediaFlow before error."
     },
