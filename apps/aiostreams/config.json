@@ -41,6 +41,30 @@
       "hint": "Generate a deterministic addon ID based on config; useful for multiple installs."
     },
     {
+      "type": "number",
+      "label": "Port",
+      "env_variable": "PORT",
+      "default": 3000,
+      "placeholder": "3000",
+      "hint": "Port on which the addon listens.",
+      "required": true
+    },
+    {
+      "type": "password",
+      "label": "Secret Key (64-hex chars)",
+      "env_variable": "SECRET_KEY",
+      "placeholder": "(auto-generated if blank)",
+      "hint": "64-char hex string to encrypt config; generate via openssl rand -hex 32.",
+      "required": true
+    },
+    {
+      "type": "text",
+      "label": "API Key (for regex filters)",
+      "env_variable": "API_KEY",
+      "placeholder": "(leave blank to disable)",
+      "hint": "API key for installing/using the addon; leave blank to disable."
+    },
+    {
       "type": "boolean",
       "label": "Show Dice Emoji",
       "env_variable": "SHOW_DIE",
@@ -72,6 +96,20 @@
       "default": true,
       "placeholder": "true",
       "hint": "Whether to log sensitive details like API keys."
+    },
+    {
+      "type": "url",
+      "label": "Addon Proxy URL",
+      "env_variable": "ADDON_PROXY",
+      "placeholder": "(e.g. http://warp:1080)",
+      "hint": "Proxy URL for upstream addon requests when needed."
+    },
+    {
+      "type": "text",
+      "label": "Proxy Rules",
+      "env_variable": "ADDON_PROXY_CONFIG",
+      "placeholder": "(e.g. *:false,*.strem.fun:true)",
+      "hint": "Comma-separated domain:boolean proxy rules; wildcards supported."
     },
     {
       "type": "number",
@@ -146,6 +184,27 @@
       "required": true
     },
     {
+      "type": "text",
+      "label": "Default Regex Exclude Pattern",
+      "env_variable": "DEFAULT_REGEX_EXCLUDE_PATTERN",
+      "placeholder": "(blank = no filter)",
+      "hint": "Regex between single quotes to exclude streams, e.g. '/b(0neshot)\\b'."
+    },
+    {
+      "type": "text",
+      "label": "Default Regex Include Pattern",
+      "env_variable": "DEFAULT_REGEX_INCLUDE_PATTERN",
+      "placeholder": "(blank = include all)",
+      "hint": "Regex between single quotes to include streams, e.g. '/b(3L)\\b'."
+    },
+    {
+      "type": "text",
+      "label": "Default Regex Sort Patterns",
+      "env_variable": "DEFAULT_REGEX_SORT_PATTERNS",
+      "placeholder": "(blank = no custom sort)",
+      "hint": "Single-quoted regex patterns for custom sort order."
+    },
+    {
       "type": "number",
       "label": "MediaFlow IP Timeout (ms)",
       "env_variable": "MEDIAFLOW_IP_TIMEOUT",
@@ -161,6 +220,20 @@
       "default": "https://mediaflow.elfhosted.com/",
       "placeholder": "https://mediaflow.elfhosted.com/",
       "hint": "Default MediaFlow URL, forces use if set."
+    },
+    {
+      "type": "text",
+      "label": "Default MediaFlow API Password",
+      "env_variable": "DEFAULT_MEDIAFLOW_API_PASSWORD",
+      "placeholder": "(blank)",
+      "hint": "API password for default MediaFlow instance."
+    },
+    {
+      "type": "text",
+      "label": "Default MediaFlow Public IP",
+      "env_variable": "DEFAULT_MEDIAFLOW_PUBLIC_IP",
+      "placeholder": "(blank)",
+      "hint": "Public IP for default MediaFlow instance."
     },
     {
       "type": "boolean",
@@ -180,6 +253,27 @@
       "required": true
     },
     {
+      "type": "url",
+      "label": "Default StremThru URL",
+      "env_variable": "DEFAULT_STREMTHRU_URL",
+      "placeholder": "(blank)",
+      "hint": "Default StremThru URL, forces use if set."
+    },
+    {
+      "type": "text",
+      "label": "Default StremThru Credential",
+      "env_variable": "DEFAULT_STREMTHRU_CREDENTIAL",
+      "placeholder": "(blank)",
+      "hint": "Credential (plain or base64) for default StremThru."
+    },
+    {
+      "type": "text",
+      "label": "Default StremThru Public IP",
+      "env_variable": "DEFAULT_STREMTHRU_PUBLIC_IP",
+      "placeholder": "(blank)",
+      "hint": "Public IP for default StremThru."
+    },
+    {
       "type": "boolean",
       "label": "Encrypt StremThru URLs",
       "env_variable": "ENCRYPT_STREMTHRU_URLS",
@@ -196,6 +290,38 @@
       "hint": "Base Comet API URL; must end with trailing slash."
     },
     {
+      "type": "number",
+      "label": "Default Comet Timeout (ms)",
+      "env_variable": "DEFAULT_COMET_TIMEOUT",
+      "placeholder": "(inherits DEFAULT_TIMEOUT)",
+      "hint": "Default timeout for Comet API requests.",
+      "required": true
+    },
+    {
+      "type": "text",
+      "label": "Force Comet Hostname",
+      "env_variable": "FORCE_COMET_HOSTNAME",
+      "placeholder": "(blank)",
+      "hint": "Public hostname for internal Comet URL configurations.",
+      "required": true
+    },
+    {
+      "type": "text",
+      "label": "Force Comet Port",
+      "env_variable": "FORCE_COMET_PORT",
+      "placeholder": "(blank)",
+      "hint": "Public port for internal Comet URL configurations.",
+      "required": true
+    },
+    {
+      "type": "text",
+      "label": "Force Comet Protocol",
+      "env_variable": "FORCE_COMET_PROTOCOL",
+      "placeholder": "(blank)",
+      "hint": "Public protocol (http/https) for internal Comet.",
+      "required": true
+    },
+    {
       "type": "url",
       "label": "MediaFusion URL",
       "env_variable": "MEDIAFUSION_URL",
@@ -205,12 +331,27 @@
     },
     {
       "type": "number",
+      "label": "Default MediaFusion Timeout (ms)",
+      "env_variable": "DEFAULT_MEDIAFUSION_TIMEOUT",
+      "placeholder": "(inherits DEFAULT_TIMEOUT)",
+      "hint": "Timeout for MediaFusion requests.",
+      "required": true
+    },
+    {
+      "type": "number",
       "label": "MediaFusion Config Timeout (ms)",
       "env_variable": "MEDIAFUSION_CONFIG_TIMEOUT",
       "default": 5000,
       "placeholder": "5000",
       "hint": "Timeout for /encrypt-user-data endpoint.",
       "required": true
+    },
+    {
+      "type": "text",
+      "label": "MediaFusion API Password",
+      "env_variable": "MEDIAFUSION_API_PASSWORD",
+      "placeholder": "(blank)",
+      "hint": "API password for MediaFusion instance."
     },
     {
       "type": "url",
@@ -230,12 +371,44 @@
       "required": true
     },
     {
+      "type": "number",
+      "label": "Default JackettIO Timeout (ms)",
+      "env_variable": "DEFAULT_JACKETTIO_TIMEOUT",
+      "placeholder": "(inherits DEFAULT_TIMEOUT)",
+      "hint": "Timeout for JackettIO API requests.",
+      "required": true
+    },
+    {
       "type": "url",
       "label": "Default JackettIO StremThru URL",
       "env_variable": "DEFAULT_JACKETTIO_STREMTHRU_URL",
       "default": "https://stremthru.13377001.xyz",
       "placeholder": "https://stremthru.13377001.xyz",
       "hint": "Default StremThru proxy for JackettIO."
+    },
+    {
+      "type": "text",
+      "label": "Force JackettIO Hostname",
+      "env_variable": "FORCE_JACKETTIO_HOSTNAME",
+      "placeholder": "(blank)",
+      "hint": "Public hostname for internal JackettIO URLs.",
+      "required": true
+    },
+    {
+      "type": "text",
+      "label": "Force JackettIO Port",
+      "env_variable": "FORCE_JACKETTIO_PORT",
+      "placeholder": "(blank)",
+      "hint": "Public port for internal JackettIO URLs.",
+      "required": true
+    },
+    {
+      "type": "text",
+      "label": "Force JackettIO Protocol",
+      "env_variable": "FORCE_JACKETTIO_PROTOCOL",
+      "placeholder": "(blank)",
+      "hint": "Public protocol for internal JackettIO URLs.",
+      "required": true
     },
     {
       "type": "url",
@@ -247,11 +420,49 @@
     },
     {
       "type": "url",
+      "label": "Default Stremio-Jackett's Jackett URL",
+      "env_variable": "DEFAULT_STREMIO_JACKETT_JACKETT_URL",
+      "placeholder": "(blank)",
+      "hint": "URL of upstream Jackett instance for Stremio-Jackett."
+    },
+    {
+      "type": "text",
+      "label": "Default Stremio-Jackett's Jackett API Key",
+      "env_variable": "DEFAULT_STREMIO_JACKETT_JACKETT_API_KEY",
+      "placeholder": "(blank)",
+      "hint": "API key for upstream Jackett in Stremio-Jackett config."
+    },
+    {
+      "type": "text",
+      "label": "Default Stremio-Jackett TMDB API Key",
+      "env_variable": "DEFAULT_STREMIO_JACKETT_TMDB_API_KEY",
+      "placeholder": "(blank)",
+      "hint": "TMDB API key for metadata in Stremio-Jackett."
+    },
+    {
+      "type": "number",
+      "label": "Default Stremio-Jackett Timeout (ms)",
+      "env_variable": "DEFAULT_STREMIO_JACKETT_TIMEOUT",
+      "placeholder": "(inherits DEFAULT_TIMEOUT)",
+      "hint": "Timeout for Stremio-Jackett API requests.",
+      "required": true
+    },
+    {
+      "type": "url",
       "label": "StremThru Store URL",
       "env_variable": "STREMTHRU_STORE_URL",
       "default": "https://stremthru.elfhosted.com/stremio/store/",
       "placeholder": "https://stremthru.elfhosted.com/stremio/store/",
       "hint": "URL for StremThru store addon; trailing slash required."
+    },
+    {
+      "type": "number",
+      "label": "StremThru Store Timeout (ms)",
+      "env_variable": "DEFAULT_STREMTHRU_STORE_TIMEOUT",
+      "default": 15000,
+      "placeholder": "15000",
+      "hint": "Timeout for StremThru store addon.",
+      "required": true
     },
     {
       "type": "url",
@@ -262,12 +473,26 @@
       "hint": "URL for Torrentio addon; trailing slash required."
     },
     {
+      "type": "number",
+      "label": "Default Torrentio Timeout (ms)",
+      "env_variable": "DEFAULT_TORRENTIO_TIMEOUT",
+      "placeholder": "(inherits DEFAULT_TIMEOUT)",
+      "hint": "Timeout for Torrentio API requests."
+    },
+    {
       "type": "url",
       "label": "TorBox Stremio URL",
       "env_variable": "TORBOX_STREMIO_URL",
       "default": "https://stremio.torbox.app/",
       "placeholder": "https://stremio.torbox.app/",
       "hint": "URL for TorBox addon; trailing slash required."
+    },
+    {
+      "type": "number",
+      "label": "Default TorBox Stremio Timeout (ms)",
+      "env_variable": "DEFAULT_TORBOX_STREMIO_TIMEOUT",
+      "placeholder": "(inherits DEFAULT_TIMEOUT)",
+      "hint": "Timeout for TorBox addon requests."
     },
     {
       "type": "url",
@@ -278,12 +503,28 @@
       "hint": "URL for Peerflix addon; trailing slash required."
     },
     {
+      "type": "number",
+      "label": "Default Peerflix Timeout (ms)",
+      "env_variable": "DEFAULT_PEERFLIX_TIMEOUT",
+      "placeholder": "(inherits DEFAULT_TIMEOUT)",
+      "hint": "Timeout for Peerflix addon requests.",
+      "required": true
+    },
+    {
       "type": "url",
       "label": "Easynews+ URL",
       "env_variable": "EASYNEWS_PLUS_URL",
       "default": "https://b89262c192b0-stremio-easynews-addon.baby-beamup.club/",
       "placeholder": "https://b89262c192b0-stremio-easynews-addon.baby-beamup.club/",
       "hint": "URL for Easynews+ addon; trailing slash required."
+    },
+    {
+      "type": "number",
+      "label": "Default Easynews+ Timeout (ms)",
+      "env_variable": "DEFAULT_EASYNEWS_PLUS_TIMEOUT",
+      "placeholder": "(inherits DEFAULT_TIMEOUT)",
+      "hint": "Timeout for Easynews+ addon.",
+      "required": true
     },
     {
       "type": "url",
@@ -294,12 +535,27 @@
       "hint": "URL for Easynews++ addon; trailing slash required."
     },
     {
+      "type": "number",
+      "label": "Default Easynews++ Timeout (ms)",
+      "env_variable": "DEFAULT_EASYNEWS_PLUS_PLUS_TIMEOUT",
+      "placeholder": "(inherits DEFAULT_TIMEOUT)",
+      "hint": "Timeout for Easynews++ addon.",
+      "required": true
+    },
+    {
       "type": "url",
       "label": "Orion Stremio Addon URL",
       "env_variable": "ORION_STREMIO_ADDON_URL",
       "default": "https://5a0d1888fa64-orion.baby-beamup.club/",
       "placeholder": "https://5a0d1888fa64-orion.baby-beamup.club/",
       "hint": "URL for Orion addon; trailing slash required."
+    },
+    {
+      "type": "number",
+      "label": "Default Orion Timeout (ms)",
+      "env_variable": "DEFAULT_ORION_STREMIO_ADDON_TIMEOUT",
+      "placeholder": "(inherits DEFAULT_TIMEOUT)",
+      "hint": "Timeout for Orion addon."
     },
     {
       "type": "url",
@@ -310,12 +566,43 @@
       "hint": "URL for Easynews addon; trailing slash required."
     },
     {
+      "type": "number",
+      "label": "Default Easynews Timeout (ms)",
+      "env_variable": "DEFAULT_EASYNEWS_TIMEOUT",
+      "placeholder": "(inherits DEFAULT_TIMEOUT)",
+      "hint": "Timeout for Easynews addon.",
+      "required": true
+    },
+    {
       "type": "url",
       "label": "Debridio URL",
       "env_variable": "DEBRIDIO_URL",
       "default": "https://debridio.adobotec.com/",
       "placeholder": "https://debridio.adobotec.com/",
       "hint": "URL for Debridio addon; trailing slash required."
+    },
+    {
+      "type": "number",
+      "label": "Default Debridio Timeout (ms)",
+      "env_variable": "DEFAULT_DEBRIDIO_TIMEOUT",
+      "placeholder": "(inherits DEFAULT_TIMEOUT)",
+      "hint": "Timeout for Debridio addon.",
+      "required": true      
+    },
+    {
+      "type": "number",
+      "label": "Default DMM Cast Timeout (ms)",
+      "env_variable": "DEFAULT_DMM_CAST_TIMEOUT",
+      "placeholder": "(inherits DEFAULT_TIMEOUT)",
+      "hint": "Timeout for DMM Cast addon.",
+      "required": true
+    },
+    {
+      "type": "number",
+      "label": "Default Stremio GDrive Timeout (ms)",
+      "env_variable": "DEFAULT_STREMIO_GDRIVE_TIMEOUT",
+      "placeholder": "(inherits DEFAULT_TIMEOUT)",
+      "hint": "Timeout for GDrive addon."
     }
   ],
   "supported_architectures": [
