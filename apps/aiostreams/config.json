@@ -346,7 +346,7 @@
       "type": "text",
       "label": "Default JackettIO Indexers (JSON)",
       "env_variable": "DEFAULT_JACKETTIO_INDEXERS",
-      "default": "["bitsearch", "eztv", "thepiratebay", "therarbg", "yts"]",
+      "default": "["bitsearch","eztv","thepiratebay","therarbg","yts"]",
       "placeholder": "[\"bitsearch\",\"eztv\",\"thepiratebay\",\"therarbg\",\"yts\"]",
       "hint": "JSON array of default JackettIO indexers."
     },
