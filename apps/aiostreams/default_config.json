@@ -366,7 +366,7 @@
       "label": "Default JackettIO Indexers (JSON)",
       "env_variable": "DEFAULT_JACKETTIO_INDEXERS",
       "default": "[\"bitsearch\",\"eztv\",\"thepiratebay\",\"therarbg\",\"yts\"]",
-      "placeholder": "[...]",
+      "placeholder": "[\"bitsearch\",\"eztv\",\"thepiratebay\",\"therarbg\",\"yts\"]",
       "hint": "JSON array of default JackettIO indexers.",
       "required": true
     },
@@ -515,7 +515,7 @@
       "label": "Easynews+ URL",
       "env_variable": "EASYNEWS_PLUS_URL",
       "default": "https://b89262c192b0-stremio-easynews-addon.baby-beamup.club/",
-      "placeholder": "https://...",
+      "placeholder": "https://b89262c192b0-stremio-easynews-addon.baby-beamup.club/",
       "hint": "URL for Easynews+ addon; trailing slash required."
     },
     {
@@ -531,7 +531,7 @@
       "label": "Easynews++ URL",
       "env_variable": "EASYNEWS_PLUS_PLUS_URL",
       "default": "https://easynews-cloudflare-worker.jqrw92fchz.workers.dev/",
-      "placeholder": "https://...",
+      "placeholder": "https://easynews-cloudflare-worker.jqrw92fchz.workers.dev/",
       "hint": "URL for Easynews++ addon; trailing slash required."
     },
     {
@@ -547,7 +547,7 @@
       "label": "Orion Stremio Addon URL",
       "env_variable": "ORION_STREMIO_ADDON_URL",
       "default": "https://5a0d1888fa64-orion.baby-beamup.club/",
-      "placeholder": "https://...",
+      "placeholder": "https://5a0d1888fa64-orion.baby-beamup.club/",
       "hint": "URL for Orion addon; trailing slash required."
     },
     {
@@ -562,7 +562,7 @@
       "label": "Easynews URL",
       "env_variable": "EASYNEWS_URL",
       "default": "https://ea627ddf0ee7-easynews.baby-beamup.club/",
-      "placeholder": "https://...",
+      "placeholder": "https://ea627ddf0ee7-easynews.baby-beamup.club/",
       "hint": "URL for Easynews addon; trailing slash required."
     },
     {
@@ -578,7 +578,7 @@
       "label": "Debridio URL",
       "env_variable": "DEBRIDIO_URL",
       "default": "https://debridio.adobotec.com/",
-      "placeholder": "https://...",
+      "placeholder": "https://debridio.adobotec.com/",
       "hint": "URL for Debridio addon; trailing slash required."
     },
     {
