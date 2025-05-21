@@ -46,8 +46,7 @@
       "env_variable": "PORT",
       "default": 3000,
       "placeholder": "3000",
-      "hint": "Port on which the addon listens.",
-      "required": true
+      "hint": "Port on which the addon listens."
     },
     {
       "type": "password",
@@ -86,8 +85,7 @@
       "env_variable": "LOG_FORMAT",
       "default": "text",
       "placeholder": "text",
-      "hint": "Log output format: json or text.",
-      "required": true
+      "hint": "Log output format: json or text."
     },
     {
       "type": "boolean",
@@ -117,8 +115,7 @@
       "env_variable": "MAX_ADDONS",
       "default": 15,
       "placeholder": "15",
-      "hint": "Max number of addons per instance.",
-      "required": true
+      "hint": "Max number of addons per instance."
     },
     {
       "type": "number",
@@ -126,8 +123,7 @@
       "env_variable": "MAX_KEYWORD_FILTERS",
       "default": 30,
       "placeholder": "30",
-      "hint": "Max keyword filters allowed.",
-      "required": true
+      "hint": "Max keyword filters allowed."
     },
     {
       "type": "number",
@@ -135,8 +131,7 @@
       "env_variable": "MAX_REGEX_SORT_PATTERNS",
       "default": 30,
       "placeholder": "30",
-      "hint": "Max regex patterns for sorting.",
-      "required": true
+      "hint": "Max regex patterns for sorting."
     },
     {
       "type": "number",
@@ -144,8 +139,7 @@
       "env_variable": "MAX_MOVIE_SIZE",
       "default": 161061273600,
       "placeholder": "161061273600",
-      "hint": "Upper byte limit for movie size slider.",
-      "required": true
+      "hint": "Upper byte limit for movie size slider."
     },
     {
       "type": "number",
@@ -153,8 +147,7 @@
       "env_variable": "MAX_EPISODE_SIZE",
       "default": 161061273600,
       "placeholder": "161061273600",
-      "hint": "Upper byte limit for episode size slider.",
-      "required": true
+      "hint": "Upper byte limit for episode size slider."
     },
     {
       "type": "number",
@@ -162,8 +155,7 @@
       "env_variable": "MAX_TIMEOUT",
       "default": 50000,
       "placeholder": "50000",
-      "hint": "Maximum overrideable timeout in ms.",
-      "required": true
+      "hint": "Maximum overrideable timeout in ms."
     },
     {
       "type": "number",
@@ -171,8 +163,7 @@
       "env_variable": "MIN_TIMEOUT",
       "default": 1000,
       "placeholder": "1000",
-      "hint": "Minimum overrideable timeout in ms.",
-      "required": true
+      "hint": "Minimum overrideable timeout in ms."
     },
     {
       "type": "number",
@@ -180,8 +171,7 @@
       "env_variable": "DEFAULT_TIMEOUT",
       "default": 15000,
       "placeholder": "15000",
-      "hint": "Default request timeout if not overridden.",
-      "required": true
+      "hint": "Default request timeout if not overridden."
     },
     {
       "type": "text",
@@ -210,8 +200,7 @@
       "env_variable": "MEDIAFLOW_IP_TIMEOUT",
       "default": 30000,
       "placeholder": "30000",
-      "hint": "Timeout for fetching IP from MediaFlow before error.",
-      "required": true
+      "hint": "Timeout for fetching IP from MediaFlow before error."
     },
     {
       "type": "url",
@@ -249,8 +238,7 @@
       "env_variable": "STREMTHRU_TIMEOUT",
       "default": 30000,
       "placeholder": "30000",
-      "hint": "Timeout for requests to StremThru instance.",
-      "required": true
+      "hint": "Timeout for requests to StremThru instance."
     },
     {
       "type": "url",
@@ -343,8 +331,7 @@
       "env_variable": "MEDIAFUSION_CONFIG_TIMEOUT",
       "default": 5000,
       "placeholder": "5000",
-      "hint": "Timeout for /encrypt-user-data endpoint.",
-      "required": true
+      "hint": "Timeout for /encrypt-user-data endpoint."
     },
     {
       "type": "text",
@@ -367,8 +354,7 @@
       "env_variable": "DEFAULT_JACKETTIO_INDEXERS",
       "default": "[\"bitsearch\",\"eztv\",\"thepiratebay\",\"therarbg\",\"yts\"]",
       "placeholder": "[\"bitsearch\",\"eztv\",\"thepiratebay\",\"therarbg\",\"yts\"]",
-      "hint": "JSON array of default JackettIO indexers.",
-      "required": true
+      "hint": "JSON array of default JackettIO indexers."
     },
     {
       "type": "number",
@@ -461,8 +447,7 @@
       "env_variable": "DEFAULT_STREMTHRU_STORE_TIMEOUT",
       "default": 15000,
       "placeholder": "15000",
-      "hint": "Timeout for StremThru store addon.",
-      "required": true
+      "hint": "Timeout for StremThru store addon."
     },
     {
       "type": "url",
