@@ -84,7 +84,8 @@
       "env_variable": "LOG_FORMAT",
       "default": "text",
       "placeholder": "text",
-      "hint": "Log output format: json or text."
+      "hint": "Log output format: json or text.",
+      "required": true
     },
     {
       "type": "boolean",
@@ -114,15 +115,16 @@
       "env_variable": "MAX_ADDONS",
       "default": 15,
       "placeholder": "15",
-      "hint": "Max number of addons per instance."
+      "hint": "Max number of addons per instance.",
+      "required": true
     },
     {
       "type": "number",
       "label": "Max Keyword Filters",
       "env_variable": "MAX_KEYWORD_FILTERS",
-      "default": 30,
+      "default": "30",
       "placeholder": "30",
-      "hint": "Max keyword filters allowed."
+      "hint": "Max keyword filters allowed.",
     },
     {
       "type": "number",
@@ -146,7 +148,8 @@
       "env_variable": "MAX_EPISODE_SIZE",
       "default": 161061273600,
       "placeholder": "161061273600",
-      "hint": "Upper byte limit for episode size slider."
+      "hint": "Upper byte limit for episode size slider.",
+      "required": true
     },
     {
       "type": "number",
