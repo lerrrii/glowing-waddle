@@ -53,8 +53,7 @@
       "label": "Secret Key (64-hex chars)",
       "env_variable": "SECRET_KEY",
       "placeholder": "(auto-generated if blank)",
-      "hint": "64-char hex string to encrypt config; generate via openssl rand -hex 32.",
-      "required": true
+      "hint": "64-char hex string to encrypt config; generate via openssl rand -hex 32."
     },
     {
       "type": "text",
@@ -282,32 +281,28 @@
       "label": "Default Comet Timeout (ms)",
       "env_variable": "DEFAULT_COMET_TIMEOUT",
       "placeholder": "(inherits DEFAULT_TIMEOUT)",
-      "hint": "Default timeout for Comet API requests.",
-      "required": true
+      "hint": "Default timeout for Comet API requests."
     },
     {
       "type": "text",
       "label": "Force Comet Hostname",
       "env_variable": "FORCE_COMET_HOSTNAME",
       "placeholder": "(blank)",
-      "hint": "Public hostname for internal Comet URL configurations.",
-      "required": true
+      "hint": "Public hostname for internal Comet URL configurations."
     },
     {
       "type": "text",
       "label": "Force Comet Port",
       "env_variable": "FORCE_COMET_PORT",
       "placeholder": "(blank)",
-      "hint": "Public port for internal Comet URL configurations.",
-      "required": true
+      "hint": "Public port for internal Comet URL configurations."
     },
     {
       "type": "text",
       "label": "Force Comet Protocol",
       "env_variable": "FORCE_COMET_PROTOCOL",
       "placeholder": "(blank)",
-      "hint": "Public protocol (http/https) for internal Comet.",
-      "required": true
+      "hint": "Public protocol (http/https) for internal Comet."
     },
     {
       "type": "url",
@@ -322,8 +317,7 @@
       "label": "Default MediaFusion Timeout (ms)",
       "env_variable": "DEFAULT_MEDIAFUSION_TIMEOUT",
       "placeholder": "(inherits DEFAULT_TIMEOUT)",
-      "hint": "Timeout for MediaFusion requests.",
-      "required": true
+      "hint": "Timeout for MediaFusion requests."
     },
     {
       "type": "number",
@@ -361,8 +355,7 @@
       "label": "Default JackettIO Timeout (ms)",
       "env_variable": "DEFAULT_JACKETTIO_TIMEOUT",
       "placeholder": "(inherits DEFAULT_TIMEOUT)",
-      "hint": "Timeout for JackettIO API requests.",
-      "required": true
+      "hint": "Timeout for JackettIO API requests."
     },
     {
       "type": "url",
@@ -377,24 +370,21 @@
       "label": "Force JackettIO Hostname",
       "env_variable": "FORCE_JACKETTIO_HOSTNAME",
       "placeholder": "(blank)",
-      "hint": "Public hostname for internal JackettIO URLs.",
-      "required": true
+      "hint": "Public hostname for internal JackettIO URLs."
     },
     {
       "type": "text",
       "label": "Force JackettIO Port",
       "env_variable": "FORCE_JACKETTIO_PORT",
       "placeholder": "(blank)",
-      "hint": "Public port for internal JackettIO URLs.",
-      "required": true
+      "hint": "Public port for internal JackettIO URLs."
     },
     {
       "type": "text",
       "label": "Force JackettIO Protocol",
       "env_variable": "FORCE_JACKETTIO_PROTOCOL",
       "placeholder": "(blank)",
-      "hint": "Public protocol for internal JackettIO URLs.",
-      "required": true
+      "hint": "Public protocol for internal JackettIO URLs."
     },
     {
       "type": "url",
@@ -430,8 +420,7 @@
       "label": "Default Stremio-Jackett Timeout (ms)",
       "env_variable": "DEFAULT_STREMIO_JACKETT_TIMEOUT",
       "placeholder": "(inherits DEFAULT_TIMEOUT)",
-      "hint": "Timeout for Stremio-Jackett API requests.",
-      "required": true
+      "hint": "Timeout for Stremio-Jackett API requests."
     },
     {
       "type": "url",
@@ -492,8 +481,7 @@
       "label": "Default Peerflix Timeout (ms)",
       "env_variable": "DEFAULT_PEERFLIX_TIMEOUT",
       "placeholder": "(inherits DEFAULT_TIMEOUT)",
-      "hint": "Timeout for Peerflix addon requests.",
-      "required": true
+      "hint": "Timeout for Peerflix addon requests."
     },
     {
       "type": "url",
@@ -508,8 +496,7 @@
       "label": "Default Easynews+ Timeout (ms)",
       "env_variable": "DEFAULT_EASYNEWS_PLUS_TIMEOUT",
       "placeholder": "(inherits DEFAULT_TIMEOUT)",
-      "hint": "Timeout for Easynews+ addon.",
-      "required": true
+      "hint": "Timeout for Easynews+ addon."
     },
     {
       "type": "url",
@@ -524,8 +511,7 @@
       "label": "Default Easynews++ Timeout (ms)",
       "env_variable": "DEFAULT_EASYNEWS_PLUS_PLUS_TIMEOUT",
       "placeholder": "(inherits DEFAULT_TIMEOUT)",
-      "hint": "Timeout for Easynews++ addon.",
-      "required": true
+      "hint": "Timeout for Easynews++ addon."
     },
     {
       "type": "url",
@@ -555,8 +541,7 @@
       "label": "Default Easynews Timeout (ms)",
       "env_variable": "DEFAULT_EASYNEWS_TIMEOUT",
       "placeholder": "(inherits DEFAULT_TIMEOUT)",
-      "hint": "Timeout for Easynews addon.",
-      "required": true
+      "hint": "Timeout for Easynews addon."
     },
     {
       "type": "url",
@@ -571,16 +556,14 @@
       "label": "Default Debridio Timeout (ms)",
       "env_variable": "DEFAULT_DEBRIDIO_TIMEOUT",
       "placeholder": "(inherits DEFAULT_TIMEOUT)",
-      "hint": "Timeout for Debridio addon.",
-      "required": true      
+      "hint": "Timeout for Debridio addon."
     },
     {
       "type": "number",
       "label": "Default DMM Cast Timeout (ms)",
       "env_variable": "DEFAULT_DMM_CAST_TIMEOUT",
       "placeholder": "(inherits DEFAULT_TIMEOUT)",
-      "hint": "Timeout for DMM Cast addon.",
-      "required": true
+      "hint": "Timeout for DMM Cast addon."
     },
     {
       "type": "number",
