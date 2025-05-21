@@ -82,7 +82,7 @@
       "type": "text",
       "label": "Log Format",
       "env_variable": "LOG_FORMAT",
-      "default": "text",
+      "default": text,
       "placeholder": "text",
       "hint": "Log output format: json or text."
     },
@@ -288,7 +288,8 @@
       "label": "Force Comet Hostname",
       "env_variable": "FORCE_COMET_HOSTNAME",
       "placeholder": "(blank)",
-      "hint": "Public hostname for internal Comet URL configurations."
+      "hint": "Public hostname for internal Comet URL configurations.",
+      "required": true
     },
     {
       "type": "text",
@@ -302,7 +303,8 @@
       "label": "Force Comet Protocol",
       "env_variable": "FORCE_COMET_PROTOCOL",
       "placeholder": "(blank)",
-      "hint": "Public protocol (http/https) for internal Comet."
+      "hint": "Public protocol (http/https) for internal Comet.",
+      "required": true
     },
     {
       "type": "url",
@@ -348,7 +350,8 @@
       "env_variable": "DEFAULT_JACKETTIO_INDEXERS",
       "default": "[\"bitsearch\",\"eztv\",\"thepiratebay\",\"therarbg\",\"yts\"]",
       "placeholder": "[\"bitsearch\",\"eztv\",\"thepiratebay\",\"therarbg\",\"yts\"]",
-      "hint": "JSON array of default JackettIO indexers."
+      "hint": "JSON array of default JackettIO indexers.",
+      "required": true
     },
     {
       "type": "number",
@@ -370,7 +373,8 @@
       "label": "Force JackettIO Hostname",
       "env_variable": "FORCE_JACKETTIO_HOSTNAME",
       "placeholder": "(blank)",
-      "hint": "Public hostname for internal JackettIO URLs."
+      "hint": "Public hostname for internal JackettIO URLs.",
+      "required": true
     },
     {
       "type": "text",
@@ -384,7 +388,8 @@
       "label": "Force JackettIO Protocol",
       "env_variable": "FORCE_JACKETTIO_PROTOCOL",
       "placeholder": "(blank)",
-      "hint": "Public protocol for internal JackettIO URLs."
+      "hint": "Public protocol for internal JackettIO URLs.",
+      "required": true
     },
     {
       "type": "url",
