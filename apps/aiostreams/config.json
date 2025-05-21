@@ -53,7 +53,8 @@
       "label": "Secret Key (64-hex chars)",
       "env_variable": "SECRET_KEY",
       "placeholder": "(auto-generated if blank)",
-      "hint": "64-char hex string to encrypt config; generate via openssl rand -hex 32."
+      "hint": "64-char hex string to encrypt config; generate via openssl rand -hex 32.",
+      "required": true
     },
     {
       "type": "text",
@@ -204,7 +205,7 @@
       "type": "number",
       "label": "MediaFlow IP Timeout (ms)",
       "env_variable": "MEDIAFLOW_IP_TIMEOUT",
-      "default": "30000",
+      "default": 30000,
       "placeholder": "30000",
       "hint": "Timeout for fetching IP from MediaFlow before error."
     },
@@ -303,7 +304,8 @@
       "label": "Force Comet Port",
       "env_variable": "FORCE_COMET_PORT",
       "placeholder": "(blank)",
-      "hint": "Public port for internal Comet URL configurations."
+      "hint": "Public port for internal Comet URL configurations.",
+      "required": true
     },
     {
       "type": "text",
