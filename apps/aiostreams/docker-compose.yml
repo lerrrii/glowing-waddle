@@ -6,7 +6,7 @@ services:
     container_name: aiostreams
     restart: unless-stopped
     env_file:
-      - .env
+      - ./app.env
     healthcheck:
       test: ["CMD-SHELL","wget -qO- http://localhost:3000/health || exit 1"]
       interval: 1m
