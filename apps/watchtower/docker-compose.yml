@@ -4,10 +4,6 @@ services:
   watchtower:
     image: containrrr/watchtower:latest
     container_name: watchtower
-    command:
-      - --http-api-update
-      - --cleanup
-      - --rollback-on-update-error
     environment:
       - WATCHTOWER_HTTP_API_UPDATE=true
       - WATCHTOWER_LABEL_ENABLE=${WATCHTOWER_LABEL_ENABLE}
