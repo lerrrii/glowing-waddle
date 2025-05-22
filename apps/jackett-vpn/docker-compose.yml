@@ -57,42 +57,6 @@ services:
     depends_on:
       - gluetun
     restart: unless-stopped
-    labels:
-      # Enable Traefik on this service
-      traefik.enable: true
-
-      # Redirect HTTP → HTTPS middleware
-      traefik.http.middlewares.jackett-web-redirect.redirectscheme.scheme: https
-
-      # Traefik service definition (exposes container port 9117)
-      traefik.http.services.jackett.loadbalancer.server.port: 9117
-
-      # Insecure router (HTTP)
-      traefik.http.routers.jackett-insecure.rule: Host(`${APP_DOMAIN}`)
-      traefik.http.routers.jackett-insecure.entrypoints: web
-      traefik.http.routers.jackett-insecure.service: jackett
-      traefik.http.routers.jackett-insecure.middlewares: jackett-web-redirect
-
-      # Secure router (HTTPS)
-      traefik.http.routers.jackett.rule: Host(`${APP_DOMAIN}`)
-      traefik.http.routers.jackett.entrypoints: websecure
-      traefik.http.routers.jackett.service: jackett
-      traefik.http.routers.jackett.tls.certresolver: myresolver
-
-      # Local (insecure) router for LAN access
-      traefik.http.routers.jackett-local-insecure.rule: Host(`jackett.${LOCAL_DOMAIN}`)
-      traefik.http.routers.jackett-local-insecure.entrypoints: web
-      traefik.http.routers.jackett-local-insecure.service: jackett
-      traefik.http.routers.jackett-local-insecure.middlewares: jackett-web-redirect
-
-      # Local (secure) router for LAN access
-      traefik.http.routers.jackett-local.rule: Host(`jackett.${LOCAL_DOMAIN}`)
-      traefik.http.routers.jackett-local.entrypoints: websecure
-      traefik.http.routers.jackett-local.service: jackett
-      traefik.http.routers.jackett-local.tls: true
-
-      # Managed marker
-      runtipi.managed: true
 
 networks:
   tipi_main_network:
