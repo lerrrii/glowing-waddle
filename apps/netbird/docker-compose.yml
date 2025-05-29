@@ -4,6 +4,7 @@ services:
     image: netbirdio/netbird:latest
     environment:
       - NB_SETUP_KEY=${NB_SETUP_KEY}
+      - NB_DNS_LABELS=${NB_DNS_LABELS}
       - NB_LOG_LEVEL=${NB_LOG_LEVEL-info}
     cap_add:
       - NET_ADMIN
