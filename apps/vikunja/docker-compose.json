@@ -10,8 +10,7 @@
       "environment": {
         "VIKUNJA_DATABASE_TYPE": "sqlite",
         "VIKUNJA_DATABASE_PATH": "/app/vikunja/files/vikunja.db",
-        "VIKUNJA_SERVICE_JWTSECRET": "${VIKUNJA_SERVICE_JWTSECRET}",
-        "VIKUNJA_SERVICE_PUBLICURL": "http://${SERVER_IP}:3456/"
+        "VIKUNJA_SERVICE_JWTSECRET": "${VIKUNJA_SERVICE_JWTSECRET}"
       },
       "volumes": [
         {
