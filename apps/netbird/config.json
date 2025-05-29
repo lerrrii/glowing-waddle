@@ -1,0 +1,43 @@
+{
+  "$schema": "../app-info-schema.json",
+  "name": "NetBird",
+  "available": true,
+  "exposable": false,
+  "dynamic_config": true,
+  "no_gui": true,
+  "port": 8080,
+  "id": "netbird",
+  "tipi_version": 1,
+  "version": "latest",
+  "categories": ["network", "security"],
+  "description": "Connect your devices into a single secure private WireGuard®-based mesh network with SSO/MFA and simple access controls.",
+  "short_desc": "Zero-config WireGuard®-based mesh VPN with centralized access control.",
+  "author": "NetBird",
+  "source": "https://github.com/netbirdio/netbird",
+  "website": "https://netbird.io/",
+  "form_fields": [
+    {
+      "type": "text",
+      "label": "Setup Key > Get this from your NetBird dashboard at app.netbird.io",
+      "placeholder": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+      "env_variable": "NB_SETUP_KEY",
+      "required": true
+    },
+    {
+      "type": "text",
+      "label": "DNS Labels > Comma-separated list of DNS labels (e.g., runtipi,homeserver,media)",
+      "placeholder": "runtipi,homeserver",
+      "env_variable": "NB_DNS_LABELS"
+    },
+    {
+      "type": "text",
+      "label": "Log Level > Set logging level (error, warn, info, debug, trace)",
+      "placeholder": "info",
+      "env_variable": "NB_LOG_LEVEL",
+      "default": "info"
+    }
+  ],
+  "supported_architectures": ["arm64", "amd64"],
+  "created_at": 1691943801422,
+  "updated_at": 1743944098000
+}
