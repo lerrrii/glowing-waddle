@@ -4,22 +4,17 @@ services:
   vikunja:
     container_name: vikunja
     image: vikunja/vikunja:latest
+    user: "0:0"
     environment:
-      VIKUNJA_DATABASE_HOST: vikunja-db
-      VIKUNJA_DATABASE_PASSWORD: ${VIKUNJA_DB_PASSWORD}
-      VIKUNJA_DATABASE_TYPE: postgres
-      VIKUNJA_DATABASE_USER: tipi
-      VIKUNJA_DATABASE_DATABASE: vikunja
+      VIKUNJA_DATABASE_TYPE: sqlite
+      VIKUNJA_DATABASE_PATH: /app/vikunja/files/vikunja.db
       VIKUNJA_SERVICE_JWTSECRET: ${VIKUNJA_SERVICE_JWTSECRET}
-      VIKUNJA_SERVICE_PUBLICURL: ${APP_PROTOCOL:-http}://${APP_DOMAIN}/
+      VIKUNJA_SERVICE_PUBLICURL: http://${SERVER_IP}:3456/
     volumes:
       - ${APP_DATA_DIR}/data/files:/app/vikunja/files
     restart: unless-stopped
     ports:
       - ${APP_PORT}:3456
-    depends_on:
-      vikunja-db:
-        condition: service_healthy
     networks:
       - tipi_main_network
     labels:
@@ -47,23 +42,4 @@ services:
       traefik.http.routers.vikunja-local.entrypoints: websecure
       traefik.http.routers.vikunja-local.service: vikunja
       traefik.http.routers.vikunja-local.tls: true
-      runtipi.managed: true
-
-  vikunja-db:
-    container_name: vikunja-db
-    image: postgres:14
-    environment:
-      POSTGRES_PASSWORD: ${VIKUNJA_DB_PASSWORD}
-      POSTGRES_USER: tipi
-      POSTGRES_DB: vikunja
-    volumes:
-      - ${APP_DATA_DIR}/data/db:/var/lib/postgresql/data
-    healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    networks:
-      - tipi_main_network
-    labels:
       runtipi.managed: true
