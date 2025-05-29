@@ -25,12 +25,6 @@
     },
     {
       "type": "text",
-      "label": "DNS Labels > Comma-separated list of DNS labels (e.g., runtipi,homeserver,media)",
-      "placeholder": "runtipi,homeserver",
-      "env_variable": "NB_DNS_LABELS"
-    },
-    {
-      "type": "text",
       "label": "Log Level > Set logging level (error, warn, info, debug, trace)",
       "placeholder": "info",
       "env_variable": "NB_LOG_LEVEL",
