@@ -4,10 +4,16 @@ services:
   netbird:
     container_name: netbird
     image: netbirdio/netbird:latest
-    # use host networking so WG interface is shared with the host
+
+    # share host network so WireGuard interfaces work seamlessly
     network_mode: host
 
-    # inject upstream DNS servers into the container
+    # 1) Mount host's resolv.conf (read-only) so NetBird sees your DNS
+    volumes:
+      - ${APP_DATA_DIR}/data:/etc/netbird
+      - /etc/resolv.conf:/etc/resolv.conf:ro
+
+    # 2) (Optional) Explicit DNS fallback if you prefer:
     dns:
       - 1.1.1.1
       - 8.8.8.8
@@ -22,11 +28,9 @@ services:
       - SYS_ADMIN
       - SYS_RESOURCE
 
-    # persist NetBird state across restarts
-    volumes:
-      - ${APP_DATA_DIR}/data:/etc/netbird
-
     restart: unless-stopped
-    # your custom Docker label is fine but not required for DNS:
+
+    # your own label for Docker metadata — not needed for DNS,
+    # but kept here for any downstream automation
     labels:
       runtipi.managed: "true"
