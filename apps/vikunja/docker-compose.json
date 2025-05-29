@@ -6,19 +6,12 @@
       "image": "vikunja/vikunja:latest",
       "isMain": true,
       "internalPort": 3456,
+      "user": "0:0",
       "environment": {
-        "VIKUNJA_DATABASE_HOST": "vikunja-db",
-        "VIKUNJA_DATABASE_PASSWORD": "${VIKUNJA_DB_PASSWORD}",
-        "VIKUNJA_DATABASE_TYPE": "postgres",
-        "VIKUNJA_DATABASE_USER": "tipi",
-        "VIKUNJA_DATABASE_DATABASE": "vikunja",
+        "VIKUNJA_DATABASE_TYPE": "sqlite",
+        "VIKUNJA_DATABASE_PATH": "/app/vikunja/files/vikunja.db",
         "VIKUNJA_SERVICE_JWTSECRET": "${VIKUNJA_SERVICE_JWTSECRET}",
-        "VIKUNJA_SERVICE_PUBLICURL": "${APP_PROTOCOL:-http}://${APP_DOMAIN}/"
-      },
-      "dependsOn": {
-        "vikunja-db": {
-          "condition": "service_healthy"
-        }
+        "VIKUNJA_SERVICE_PUBLICURL": "http://${SERVER_IP}:3456/"
       },
       "volumes": [
         {
@@ -26,27 +19,6 @@
           "containerPath": "/app/vikunja/files"
         }
       ]
-    },
-    {
-      "name": "vikunja-db",
-      "image": "postgres:14",
-      "environment": {
-        "POSTGRES_PASSWORD": "${VIKUNJA_DB_PASSWORD}",
-        "POSTGRES_USER": "tipi",
-        "POSTGRES_DB": "vikunja"
-      },
-      "volumes": [
-        {
-          "hostPath": "${APP_DATA_DIR}/data/db",
-          "containerPath": "/var/lib/postgresql/data"
-        }
-      ],
-      "healthCheck": {
-        "interval": "5s",
-        "timeout": "5s",
-        "retries": 5,
-        "test": "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"
-      }
     }
   ]
 }
