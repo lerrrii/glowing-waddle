@@ -16,7 +16,7 @@
   "website": "https://netbird.io/",
   "form_fields": [
     {
-      "type": "text",
+      "type": "password",
       "label": "Setup Key > Get this from your NetBird dashboard at app.netbird.io",
       "placeholder": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
       "env_variable": "NB_SETUP_KEY",
