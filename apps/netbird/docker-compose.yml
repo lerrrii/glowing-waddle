@@ -1,36 +1,17 @@
-version: "3.8"
-
 services:
   netbird:
     container_name: netbird
     image: netbirdio/netbird:latest
-
-    # share host network so WireGuard interfaces work seamlessly
-    network_mode: host
-
-    # 1) Mount host's resolv.conf (read-only) so NetBird sees your DNS
-    volumes:
-      - ${APP_DATA_DIR}/data:/etc/netbird
-      - /etc/resolv.conf:/etc/resolv.conf:ro
-
-    # 2) (Optional) Explicit DNS fallback if you prefer:
-    dns:
-      - 1.1.1.1
-      - 8.8.8.8
-
     environment:
       - NB_SETUP_KEY=${NB_SETUP_KEY}
-      - NB_DNS_LABELS=${NB_DNS_LABELS}       # e.g. "runtipi"
       - NB_LOG_LEVEL=${NB_LOG_LEVEL-info}
-
     cap_add:
       - NET_ADMIN
       - SYS_ADMIN
       - SYS_RESOURCE
-
+    network_mode: host
     restart: unless-stopped
-
-    # your own label for Docker metadata — not needed for DNS,
-    # but kept here for any downstream automation
+    volumes:
+      - ${APP_DATA_DIR}/data:/etc/netbird
     labels:
-      runtipi.managed: "true"
+      runtipi.managed: true
