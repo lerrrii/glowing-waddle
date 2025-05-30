@@ -20,6 +20,8 @@ services:
       - ${APP_DATA_DIR}/data/tmp:/tmp
       - ${APP_DATA_DIR}/data/userdata:/userdata
       - ${APP_DATA_DIR}/data/repos:/repos
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     networks:
       - tipi_main_network
     ports:
