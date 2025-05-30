@@ -5,60 +5,26 @@ services:
     hostname: ${KOPIA_HOSTNAME:-kopia-server}
     environment:
       - KOPIA_PASSWORD=${KOPIA_PASSWORD}
-      - USER=${KOPIA_PUID:-1000}
       - PUID=${KOPIA_PUID:-1000}
       - PGID=${KOPIA_PGID:-1000}
-      - KOPIA_SERVER_USERNAME=${KOPIA_SERVER_USERNAME:-admin}
-      - KOPIA_SERVER_PASSWORD=${KOPIA_SERVER_PASSWORD}
-      - KOPIA_SERVER_CONTROL_USERNAME=${KOPIA_SERVER_CONTROL_USERNAME:-control}
-      - KOPIA_SERVER_CONTROL_PASSWORD=${KOPIA_SERVER_CONTROL_PASSWORD:-}
-      - KOPIA_DATA_PATH=${KOPIA_DATA_PATH:-/data}
-      - KOPIA_REPO_TYPE=${KOPIA_REPO_TYPE:-filesystem}
-      - KOPIA_DISABLE_CSRF=${KOPIA_DISABLE_CSRF:-false}
-      - KOPIA_ENABLE_TLS=${KOPIA_ENABLE_TLS:-false}
-      - KOPIA_TLS_CERT_FILE=${KOPIA_TLS_CERT_FILE:-}
-      - KOPIA_TLS_KEY_FILE=${KOPIA_TLS_KEY_FILE:-}
-      - KOPIA_LOG_DEBUG=${KOPIA_LOG_DEBUG:-false}
-      - KOPIA_DEFAULT_COMPRESSION=${KOPIA_DEFAULT_COMPRESSION:-zstd}
-      - KOPIA_AUTO_MAINTENANCE=${KOPIA_AUTO_MAINTENANCE:-true}
-    command: |
-      sh -c '
-        # Initialize repository if it doesn't exist
-        if [ ! -f /app/config/repository.config ]; then
-          echo "Initializing repository..."
-          if [ "$${KOPIA_REPO_TYPE}" = "filesystem" ]; then
-            kopia repository create filesystem --path=/repository --password="$${KOPIA_PASSWORD}" --config-file=/app/config/repository.config
-          fi
-        else
-          echo "Repository already exists, connecting..."
-          kopia repository connect filesystem --path=/repository --password="$${KOPIA_PASSWORD}" --config-file=/app/config/repository.config
-        fi
-        
-        # Build server command dynamically
-        CMD="kopia server start --address=0.0.0.0:51515 --config-file=/app/config/repository.config"
-        CMD="$${CMD} --server-username=$${KOPIA_SERVER_USERNAME:-admin}"
-        CMD="$${CMD} --server-password=$${KOPIA_SERVER_PASSWORD}"
-        CMD="$${CMD} --server-control-username=$${KOPIA_SERVER_CONTROL_USERNAME:-control}"
-        CMD="$${CMD} --cache-directory=/app/cache"
-        CMD="$${CMD} --persistent-logs=true --ui=true"
-        
-        # Add optional parameters
-        [ "$${KOPIA_SERVER_CONTROL_PASSWORD:-}" != "" ] && CMD="$${CMD} --server-control-password=$${KOPIA_SERVER_CONTROL_PASSWORD}"
-        [ "$${KOPIA_DISABLE_CSRF:-false}" = "true" ] && CMD="$${CMD} --disable-csrf-token-checks"
-        [ "$${KOPIA_ENABLE_TLS:-false}" = "false" ] && CMD="$${CMD} --insecure"
-        [ "$${KOPIA_ENABLE_TLS:-false}" = "true" ] && [ "$${KOPIA_TLS_CERT_FILE:-}" != "" ] && CMD="$${CMD} --tls-cert-file=$${KOPIA_TLS_CERT_FILE}"
-        [ "$${KOPIA_ENABLE_TLS:-false}" = "true" ] && [ "$${KOPIA_TLS_KEY_FILE:-}" != "" ] && CMD="$${CMD} --tls-key-file=$${KOPIA_TLS_KEY_FILE}"
-        [ "$${KOPIA_LOG_DEBUG:-false}" = "true" ] && CMD="$${CMD} --log-level=debug"
-        
-        echo "Starting Kopia server with: $${CMD}"
-        exec $${CMD}
-      '
+      - TZ=Europe/Prague
+    entrypoint: 
+      - /app/kopia
+      - server
+      - start
+      - --insecure
+      - --address=0.0.0.0:51515
+      - --server-username=${KOPIA_SERVER_USERNAME:-admin}
+      - --server-password=${KOPIA_SERVER_PASSWORD}
+      - --server-control-username=${KOPIA_SERVER_CONTROL_USERNAME:-control}
+      - --server-control-password=${KOPIA_SERVER_CONTROL_PASSWORD:-}
+      - --override-hostname=${KOPIA_HOSTNAME:-kopia-server}
+      - --override-username=kopia@${KOPIA_HOSTNAME:-kopia-server}
     volumes:
       - ${APP_DATA_DIR}/data/config:/app/config
       - ${APP_DATA_DIR}/data/cache:/app/cache
       - ${APP_DATA_DIR}/data/logs:/app/logs
       - ${APP_DATA_DIR}/data/repository:/repository
-      - ${APP_DATA_DIR}/data/snapshots:/app/snapshots
       - /:${KOPIA_DATA_PATH:-/data}:ro
     networks:
       - tipi_main_network
@@ -71,7 +37,6 @@ services:
         max-file: "3"
     restart: unless-stopped
     labels:
-      # Traefik labels remain the same...
       traefik.enable: true
       traefik.http.middlewares.kopia-web-redirect.redirectscheme.scheme: https
       traefik.http.services.kopia.loadbalancer.server.port: 51515
