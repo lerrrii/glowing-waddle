@@ -39,6 +39,16 @@ After installation, access the web interface to:
 4. Browse and restore files
 5. Monitor backup status and maintenance
 
+## Backup Path Configuration
+This container is configured to mount the entire host filesystem for maximum flexibility. When creating snapshots in the web UI, you can access any system directory by prefixing paths with `/data/`:
+
+**Examples:**
+- To backup `/home/dietpi/Documents` → enter `/data/home/dietpi/Documents`
+- To backup `/media/usb-drive` → enter `/data/media/usb-drive`
+- To backup `/opt/applications` → enter `/data/opt/applications`
+
+The filesystem is mounted read-only for security, so Kopia can only read files for backup purposes.
+
 ## Documentation
 For detailed configuration and usage instructions:
 - Official Documentation: https://kopia.io/docs/
@@ -51,4 +61,5 @@ For detailed configuration and usage instructions:
 | /runtipi/app-data/kopia/data/cache | /app/cache | Local cache for performance |
 | /runtipi/app-data/kopia/data/logs | /app/logs | Application logs |
 | /runtipi/app-data/kopia/data/repository | /repository | Local repository storage (if used) |
-| /runtipi/app-data/kopia/data/snapshots | /snapshots | Mounted snapshots for browsing |
+| /runtipi/app-data/kopia/data/snapshots | /tmp | Mounted snapshots for browsing |
+| / | /data | Entire host filesystem (read-only access) |
