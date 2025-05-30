@@ -1,0 +1,75 @@
+services:
+  kopia:
+    image: kopia/kopia:latest
+    container_name: kopia
+    hostname: ${KOPIA_HOSTNAME:-kopia-server}
+    environment:
+      - KOPIA_PASSWORD=${KOPIA_PASSWORD}
+      - USER=${KOPIA_PUID:-1000}
+      - PUID=${KOPIA_PUID:-1000}
+      - PGID=${KOPIA_PGID:-1000}
+    command:
+      - server
+      - start
+      - --disable-csrf-token-checks
+      - --insecure
+      - --address=0.0.0.0:51515
+      - --server-username=${KOPIA_SERVER_USERNAME:-admin}
+      - --server-password=${KOPIA_SERVER_PASSWORD}
+    volumes:
+      - ${APP_DATA_DIR}/data/config:/app/config
+      - ${APP_DATA_DIR}/data/cache:/app/cache
+      - ${APP_DATA_DIR}/data/logs:/app/logs
+      - ${APP_DATA_DIR}/data/repository:/repository
+      - ${APP_DATA_DIR}/data/snapshots:/tmp:shared
+      - ${KOPIA_DATA_PATH:-/data}:/data:ro
+    networks:
+      - tipi_main_network
+    ports:
+      - ${APP_PORT}:51515
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+    restart: unless-stopped
+    labels:
+      # Enable Traefik
+      traefik.enable: true
+      
+      # HTTP to HTTPS redirect
+      traefik.http.middlewares.kopia-web-redirect.redirectscheme.scheme: https
+      
+      # Service definition
+      traefik.http.services.kopia.loadbalancer.server.port: 51515
+      
+      # Insecure router (HTTP)
+      traefik.http.routers.kopia-insecure.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.kopia-insecure.entrypoints: web
+      traefik.http.routers.kopia-insecure.service: kopia
+      traefik.http.routers.kopia-insecure.middlewares: kopia-web-redirect
+      
+      # Secure router (HTTPS)
+      traefik.http.routers.kopia.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.kopia.entrypoints: websecure
+      traefik.http.routers.kopia.service: kopia
+      traefik.http.routers.kopia.tls.certresolver: myresolver
+      
+      # Local insecure router
+      traefik.http.routers.kopia-local-insecure.rule: Host(`kopia.${LOCAL_DOMAIN}`)
+      traefik.http.routers.kopia-local-insecure.entrypoints: web
+      traefik.http.routers.kopia-local-insecure.service: kopia
+      traefik.http.routers.kopia-local-insecure.middlewares: kopia-web-redirect
+      
+      # Local secure router
+      traefik.http.routers.kopia-local.rule: Host(`kopia.${LOCAL_DOMAIN}`)
+      traefik.http.routers.kopia-local.entrypoints: websecure
+      traefik.http.routers.kopia-local.service: kopia
+      traefik.http.routers.kopia-local.tls: true
+      
+      # Management marker
+      runtipi.managed: true
+
+networks:
+  tipi_main_network:
+    external: true

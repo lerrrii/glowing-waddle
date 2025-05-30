@@ -1,0 +1,137 @@
+{
+  "name": "Kopia",
+  "available": true,
+  "exposable": true,
+  "dynamic_config": true,
+  "port": 51515,
+  "id": "kopia",
+  "tipi_version": 1,
+  "version": "latest",
+  "categories": ["utilities", "data"],
+  "description": "Fast and secure open-source backup/restore tool with encryption, deduplication, and compression. Supports multiple storage backends with web-based GUI.",
+  "short_desc": "Encrypted, deduplicated backup solution with web interface.",
+  "author": "Kopia Project",
+  "source": "https://github.com/kopia/kopia",
+  "form_fields": [
+    {
+      "type": "number",
+      "label": "Container > UserID (UID)",
+      "placeholder": "1000",
+      "env_variable": "KOPIA_PUID",
+      "default": 1000
+    },
+    {
+      "type": "number",
+      "label": "Container > GroupID (PGID)", 
+      "placeholder": "1000",
+      "env_variable": "KOPIA_PGID",
+      "default": 1000
+    },
+    {
+      "type": "password",
+      "label": "Repository > Master Password",
+      "required": true,
+      "placeholder": "Strong password for repository encryption",
+      "env_variable": "KOPIA_PASSWORD"
+    },
+    {
+      "type": "text",
+      "label": "Server > Username",
+      "required": true,
+      "placeholder": "admin",
+      "env_variable": "KOPIA_SERVER_USERNAME",
+      "default": "admin"
+    },
+    {
+      "type": "password",
+      "label": "Server > Password",
+      "required": true,
+      "placeholder": "Password for web interface access",
+      "env_variable": "KOPIA_SERVER_PASSWORD"
+    },
+    {
+      "type": "text",
+      "label": "Server > Hostname",
+      "placeholder": "kopia-server",
+      "env_variable": "KOPIA_HOSTNAME",
+      "default": "kopia-server"
+    },
+    {
+      "type": "boolean",
+      "label": "Security > Disable CSRF Token Checks",
+      "env_variable": "KOPIA_DISABLE_CSRF",
+      "default": false
+    },
+    {
+      "type": "boolean",
+      "label": "Security > Enable TLS/HTTPS",
+      "env_variable": "KOPIA_ENABLE_TLS",
+      "default": false
+    },
+    {
+      "type": "text",
+      "label": "TLS > Certificate File Path",
+      "placeholder": "/app/config/server.crt",
+      "env_variable": "KOPIA_TLS_CERT_FILE",
+      "default": ""
+    },
+    {
+      "type": "text", 
+      "label": "TLS > Private Key File Path",
+      "placeholder": "/app/config/server.key",
+      "env_variable": "KOPIA_TLS_KEY_FILE",
+      "default": ""
+    },
+    {
+      "type": "boolean",
+      "label": "Logging > Enable Debug Mode",
+      "env_variable": "KOPIA_LOG_DEBUG",
+      "default": false
+    },
+    {
+      "type": "text",
+      "label": "Repository > Default Compression",
+      "placeholder": "zstd",
+      "options": [
+        {"label": "None", "value": "none"},
+        {"label": "GZIP", "value": "gzip"},
+        {"label": "ZSTD (Recommended)", "value": "zstd"},
+        {"label": "LZ4", "value": "lz4"},
+        {"label": "Deflate", "value": "deflate"}
+      ],
+      "env_variable": "KOPIA_DEFAULT_COMPRESSION",
+      "default": "zstd"
+    },
+    {
+      "type": "boolean",
+      "label": "Repository > Auto-maintenance",
+      "env_variable": "KOPIA_AUTO_MAINTENANCE",
+      "default": true
+    },
+    {
+      "type": "text",
+      "label": "Backup > Data Directory to Mount",
+      "placeholder": "/data",
+      "env_variable": "KOPIA_DATA_PATH",
+      "default": "/data"
+    },
+    {
+      "type": "text",
+      "label": "Repository > Type",
+      "options": [
+        {"label": "Local Filesystem", "value": "filesystem"},
+        {"label": "Amazon S3", "value": "s3"},
+        {"label": "Google Cloud Storage", "value": "gcs"},
+        {"label": "Azure Blob Storage", "value": "azure"},
+        {"label": "Backblaze B2", "value": "b2"},
+        {"label": "SFTP", "value": "sftp"},
+        {"label": "WebDAV", "value": "webdav"}
+      ],
+      "env_variable": "KOPIA_REPO_TYPE",
+      "default": "filesystem"
+    }
+  ],
+  "supported_architectures": ["arm64", "amd64"],
+  "created_at": 1735564800000,
+  "updated_at": 1735564800000
+}
