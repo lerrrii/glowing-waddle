@@ -7,26 +7,22 @@
       "internalPort": 51515,
       "environment": {
         "KOPIA_PASSWORD": "${KOPIA_PASSWORD}",
-        "USER": "${KOPIA_PUID:-1000}",
         "PUID": "${KOPIA_PUID:-1000}",
         "PGID": "${KOPIA_PGID:-1000}",
-        "KOPIA_SERVER_USERNAME": "${KOPIA_SERVER_USERNAME:-admin}",
-        "KOPIA_SERVER_PASSWORD": "${KOPIA_SERVER_PASSWORD}",
-        "KOPIA_SERVER_CONTROL_USERNAME": "${KOPIA_SERVER_CONTROL_USERNAME:-control}",
-        "KOPIA_SERVER_CONTROL_PASSWORD": "${KOPIA_SERVER_CONTROL_PASSWORD:-}",
-        "KOPIA_DATA_PATH": "${KOPIA_DATA_PATH:-/data}",
-        "KOPIA_REPO_TYPE": "${KOPIA_REPO_TYPE:-filesystem}",
-        "KOPIA_DISABLE_CSRF": "${KOPIA_DISABLE_CSRF:-false}",
-        "KOPIA_ENABLE_TLS": "${KOPIA_ENABLE_TLS:-false}",
-        "KOPIA_TLS_CERT_FILE": "${KOPIA_TLS_CERT_FILE:-}",
-        "KOPIA_TLS_KEY_FILE": "${KOPIA_TLS_KEY_FILE:-}",
-        "KOPIA_LOG_DEBUG": "${KOPIA_LOG_DEBUG:-false}",
-        "KOPIA_DEFAULT_COMPRESSION": "${KOPIA_DEFAULT_COMPRESSION:-zstd}",
-        "KOPIA_AUTO_MAINTENANCE": "${KOPIA_AUTO_MAINTENANCE:-true}"
+        "TZ": "Europe/Prague"
       },
-      "command": [
-        "sh", "-c",
-        "if [ ! -f /app/config/repository.config ]; then echo 'Initializing repository...'; kopia repository create filesystem --path=/repository --password=\"$KOPIA_PASSWORD\" --config-file=/app/config/repository.config; else echo 'Repository exists, connecting...'; kopia repository connect filesystem --path=/repository --password=\"$KOPIA_PASSWORD\" --config-file=/app/config/repository.config; fi && exec kopia server start --address=0.0.0.0:51515 --config-file=/app/config/repository.config --server-username=\"${KOPIA_SERVER_USERNAME:-admin}\" --server-password=\"$KOPIA_SERVER_PASSWORD\" --server-control-username=\"${KOPIA_SERVER_CONTROL_USERNAME:-control}\" --cache-directory=/app/cache --persistent-logs=true --ui=true $([ \"${KOPIA_SERVER_CONTROL_PASSWORD:-}\" != \"\" ] && echo \"--server-control-password=$KOPIA_SERVER_CONTROL_PASSWORD\") $([ \"${KOPIA_DISABLE_CSRF:-false}\" = \"true\" ] && echo \"--disable-csrf-token-checks\") $([ \"${KOPIA_ENABLE_TLS:-false}\" = \"false\" ] && echo \"--insecure\") $([ \"${KOPIA_LOG_DEBUG:-false}\" = \"true\" ] && echo \"--log-level=debug\")"
+      "entrypoint": [
+        "/app/kopia",
+        "server", 
+        "start",
+        "--insecure",
+        "--address=0.0.0.0:51515",
+        "--server-username=${KOPIA_SERVER_USERNAME:-admin}",
+        "--server-password=${KOPIA_SERVER_PASSWORD}",
+        "--server-control-username=${KOPIA_SERVER_CONTROL_USERNAME:-control}",
+        "--server-control-password=${KOPIA_SERVER_CONTROL_PASSWORD:-}",
+        "--override-hostname=${KOPIA_HOSTNAME:-kopia-server}",
+        "--override-username=kopia@${KOPIA_HOSTNAME:-kopia-server}"
       ],
       "volumes": [
         {
@@ -44,10 +40,6 @@
         {
           "hostPath": "${APP_DATA_DIR}/data/repository",
           "containerPath": "/repository"
-        },
-        {
-          "hostPath": "${APP_DATA_DIR}/data/snapshots",
-          "containerPath": "/app/snapshots"
         },
         {
           "hostPath": "/",
