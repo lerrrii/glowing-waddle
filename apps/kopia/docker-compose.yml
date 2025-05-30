@@ -8,27 +8,57 @@ services:
       - USER=${KOPIA_PUID:-1000}
       - PUID=${KOPIA_PUID:-1000}
       - PGID=${KOPIA_PGID:-1000}
+      - KOPIA_SERVER_USERNAME=${KOPIA_SERVER_USERNAME:-admin}
+      - KOPIA_SERVER_PASSWORD=${KOPIA_SERVER_PASSWORD}
+      - KOPIA_SERVER_CONTROL_USERNAME=${KOPIA_SERVER_CONTROL_USERNAME:-control}
       - KOPIA_SERVER_CONTROL_PASSWORD=${KOPIA_SERVER_CONTROL_PASSWORD:-}
       - KOPIA_DATA_PATH=${KOPIA_DATA_PATH:-/data}
-    command:
-      - server
-      - start
-      - --disable-csrf-token-checks
-      - --insecure
-      - --address=0.0.0.0:51515
-      - --server-username=${KOPIA_SERVER_USERNAME:-admin}
-      - --server-password=${KOPIA_SERVER_PASSWORD}
-      - --server-control-username=${KOPIA_SERVER_CONTROL_USERNAME:-control}
-      - --server-control-password=${KOPIA_SERVER_CONTROL_PASSWORD:-}
-      - --cache-directory=/app/cache
-      - --persistent-logs=true
-      - --ui=true
+      - KOPIA_REPO_TYPE=${KOPIA_REPO_TYPE:-filesystem}
+      - KOPIA_DISABLE_CSRF=${KOPIA_DISABLE_CSRF:-false}
+      - KOPIA_ENABLE_TLS=${KOPIA_ENABLE_TLS:-false}
+      - KOPIA_TLS_CERT_FILE=${KOPIA_TLS_CERT_FILE:-}
+      - KOPIA_TLS_KEY_FILE=${KOPIA_TLS_KEY_FILE:-}
+      - KOPIA_LOG_DEBUG=${KOPIA_LOG_DEBUG:-false}
+      - KOPIA_DEFAULT_COMPRESSION=${KOPIA_DEFAULT_COMPRESSION:-zstd}
+      - KOPIA_AUTO_MAINTENANCE=${KOPIA_AUTO_MAINTENANCE:-true}
+    command: |
+      sh -c '
+        # Initialize repository if it doesn't exist
+        if [ ! -f /app/config/repository.config ]; then
+          echo "Initializing repository..."
+          if [ "$${KOPIA_REPO_TYPE}" = "filesystem" ]; then
+            kopia repository create filesystem --path=/repository --password="$${KOPIA_PASSWORD}" --config-file=/app/config/repository.config
+          fi
+        else
+          echo "Repository already exists, connecting..."
+          kopia repository connect filesystem --path=/repository --password="$${KOPIA_PASSWORD}" --config-file=/app/config/repository.config
+        fi
+        
+        # Build server command dynamically
+        CMD="kopia server start --address=0.0.0.0:51515 --config-file=/app/config/repository.config"
+        CMD="$${CMD} --server-username=$${KOPIA_SERVER_USERNAME:-admin}"
+        CMD="$${CMD} --server-password=$${KOPIA_SERVER_PASSWORD}"
+        CMD="$${CMD} --server-control-username=$${KOPIA_SERVER_CONTROL_USERNAME:-control}"
+        CMD="$${CMD} --cache-directory=/app/cache"
+        CMD="$${CMD} --persistent-logs=true --ui=true"
+        
+        # Add optional parameters
+        [ "$${KOPIA_SERVER_CONTROL_PASSWORD:-}" != "" ] && CMD="$${CMD} --server-control-password=$${KOPIA_SERVER_CONTROL_PASSWORD}"
+        [ "$${KOPIA_DISABLE_CSRF:-false}" = "true" ] && CMD="$${CMD} --disable-csrf-token-checks"
+        [ "$${KOPIA_ENABLE_TLS:-false}" = "false" ] && CMD="$${CMD} --insecure"
+        [ "$${KOPIA_ENABLE_TLS:-false}" = "true" ] && [ "$${KOPIA_TLS_CERT_FILE:-}" != "" ] && CMD="$${CMD} --tls-cert-file=$${KOPIA_TLS_CERT_FILE}"
+        [ "$${KOPIA_ENABLE_TLS:-false}" = "true" ] && [ "$${KOPIA_TLS_KEY_FILE:-}" != "" ] && CMD="$${CMD} --tls-key-file=$${KOPIA_TLS_KEY_FILE}"
+        [ "$${KOPIA_LOG_DEBUG:-false}" = "true" ] && CMD="$${CMD} --log-level=debug"
+        
+        echo "Starting Kopia server with: $${CMD}"
+        exec $${CMD}
+      '
     volumes:
       - ${APP_DATA_DIR}/data/config:/app/config
       - ${APP_DATA_DIR}/data/cache:/app/cache
       - ${APP_DATA_DIR}/data/logs:/app/logs
       - ${APP_DATA_DIR}/data/repository:/repository
-      - ${APP_DATA_DIR}/data/snapshots:/tmp:shared
+      - ${APP_DATA_DIR}/data/snapshots:/app/snapshots
       - /:${KOPIA_DATA_PATH:-/data}:ro
     networks:
       - tipi_main_network
@@ -41,40 +71,26 @@ services:
         max-file: "3"
     restart: unless-stopped
     labels:
-      # Enable Traefik
+      # Traefik labels remain the same...
       traefik.enable: true
-      
-      # HTTP to HTTPS redirect
       traefik.http.middlewares.kopia-web-redirect.redirectscheme.scheme: https
-      
-      # Service definition
       traefik.http.services.kopia.loadbalancer.server.port: 51515
-      
-      # Insecure router (HTTP)
       traefik.http.routers.kopia-insecure.rule: Host(`${APP_DOMAIN}`)
       traefik.http.routers.kopia-insecure.entrypoints: web
       traefik.http.routers.kopia-insecure.service: kopia
       traefik.http.routers.kopia-insecure.middlewares: kopia-web-redirect
-      
-      # Secure router (HTTPS)
       traefik.http.routers.kopia.rule: Host(`${APP_DOMAIN}`)
       traefik.http.routers.kopia.entrypoints: websecure
       traefik.http.routers.kopia.service: kopia
       traefik.http.routers.kopia.tls.certresolver: myresolver
-      
-      # Local insecure router
       traefik.http.routers.kopia-local-insecure.rule: Host(`kopia.${LOCAL_DOMAIN}`)
       traefik.http.routers.kopia-local-insecure.entrypoints: web
       traefik.http.routers.kopia-local-insecure.service: kopia
       traefik.http.routers.kopia-local-insecure.middlewares: kopia-web-redirect
-      
-      # Local secure router
       traefik.http.routers.kopia-local.rule: Host(`kopia.${LOCAL_DOMAIN}`)
       traefik.http.routers.kopia-local.entrypoints: websecure
       traefik.http.routers.kopia-local.service: kopia
       traefik.http.routers.kopia-local.tls: true
-      
-      # Management marker
       runtipi.managed: true
 
 networks:
