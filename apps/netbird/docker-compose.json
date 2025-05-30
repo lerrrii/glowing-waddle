@@ -7,7 +7,8 @@
       "isMain": true,
       "environment": {
         "NB_SETUP_KEY": "${NB_SETUP_KEY}",
-        "NB_LOG_LEVEL": "${NB_LOG_LEVEL-info}"
+        "NB_LOG_LEVEL": "${NB_LOG_LEVEL-info}",
+        "NB_DNS_RESOLVER_ADDRESS": "${NB_DNS_RESOLVER_ADDRESS}"
       },
       "volumes": [
         {
