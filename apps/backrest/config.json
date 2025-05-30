@@ -7,7 +7,7 @@
   "id": "backrest",
   "tipi_version": 1,
   "version": "latest",
-  "categories": ["backup", "utilities"],
+  "categories": ["utilities", "data"],
   "description": "Backrest is a web-accessible backup solution built on top of restic. Provides a WebUI for easy backup management, scheduling, and restoration with support for multiple storage backends.",
   "short_desc": "Web-based backup solution with restic backend and automated scheduling.",
   "author": "garethgeorge",
