@@ -6,13 +6,13 @@
       "isMain": true,
       "internalPort": 51515,
       "environment": {
+        "TZ": "${TZ:-Europe/Prague}",
         "KOPIA_PASSWORD": "${KOPIA_PASSWORD}",
-        "USER": "${KOPIA_PUID:-1000}",
         "PUID": "${KOPIA_PUID:-1000}",
         "PGID": "${KOPIA_PGID:-1000}"
       },
       "command": [
-        "server", 
+        "server",
         "start",
         "--disable-csrf-token-checks",
         "--insecure",
@@ -26,7 +26,7 @@
           "containerPath": "/app/config"
         },
         {
-          "hostPath": "${APP_DATA_DIR}/data/cache", 
+          "hostPath": "${APP_DATA_DIR}/data/cache",
           "containerPath": "/app/cache"
         },
         {
