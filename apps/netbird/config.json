@@ -32,9 +32,9 @@
     {
       "type": "text",
       "label": "DNS Resolver Address > Override default DNS port if needed",
-      "placeholder": "Leave empty (uses port 53, fallback 5053) OR set 127.0.0.1:5053 for Pi-hole/AdGuard",
+      "placeholder": "Default :53, use 127.0.0.1:5053",
       "env_variable": "NB_DNS_RESOLVER_ADDRESS",
-      "hint": "Default: NetBird tries port 53, auto-fallback to 5053. Set 127.0.0.1:5053 only if you need to force port 5053 for Pi-hole/AdGuard conflicts"
+      "hint": "Leave empty to use port 53 with auto-fallback to 5053. Set 127.0.0.1:5053 for Pi-hole/AdGuard conflics."
     }
   ],
   "supported_architectures": ["arm64", "amd64"],
