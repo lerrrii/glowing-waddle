@@ -1,4 +1,5 @@
 {
+  "$schema": "../app-info-schema.json",
   "name": "Kopia+",
   "available": true,
   "exposable": true,
@@ -100,11 +101,11 @@
       "label": "Repository > Default Compression",
       "placeholder": "zstd",
       "options": [
-        {"label": "None", "value": "none"},
-        {"label": "GZIP", "value": "gzip"},
-        {"label": "ZSTD (Recommended)", "value": "zstd"},
-        {"label": "LZ4", "value": "lz4"},
-        {"label": "Deflate", "value": "deflate"}
+        { "label": "None", "value": "none" },
+        { "label": "GZIP", "value": "gzip" },
+        { "label": "ZSTD (Recommended)", "value": "zstd" },
+        { "label": "LZ4", "value": "lz4" },
+        { "label": "Deflate", "value": "deflate" }
       ],
       "env_variable": "KOPIA_DEFAULT_COMPRESSION",
       "default": "zstd"
@@ -126,13 +127,13 @@
       "type": "text",
       "label": "Repository > Type",
       "options": [
-        {"label": "Local Filesystem", "value": "filesystem"},
-        {"label": "Amazon S3", "value": "s3"},
-        {"label": "Google Cloud Storage", "value": "gcs"},
-        {"label": "Azure Blob Storage", "value": "azure"},
-        {"label": "Backblaze B2", "value": "b2"},
-        {"label": "SFTP", "value": "sftp"},
-        {"label": "WebDAV", "value": "webdav"}
+        { "label": "Local Filesystem", "value": "filesystem" },
+        { "label": "Amazon S3", "value": "s3" },
+        { "label": "Google Cloud Storage", "value": "gcs" },
+        { "label": "Azure Blob Storage", "value": "azure" },
+        { "label": "Backblaze B2", "value": "b2" },
+        { "label": "SFTP", "value": "sftp" },
+        { "label": "WebDAV", "value": "webdav" }
       ],
       "env_variable": "KOPIA_REPO_TYPE",
       "default": "filesystem"
