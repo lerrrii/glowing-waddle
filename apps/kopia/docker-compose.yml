@@ -8,8 +8,7 @@ services:
       - PUID=${KOPIA_PUID:-1000}
       - PGID=${KOPIA_PGID:-1000}
       - TZ=Europe/Prague
-    entrypoint: 
-      - /app/kopia
+    command:
       - server
       - start
       - --insecure
@@ -20,6 +19,9 @@ services:
       - --server-control-password=${KOPIA_SERVER_CONTROL_PASSWORD:-}
       - --override-hostname=${KOPIA_HOSTNAME:-kopia-server}
       - --override-username=kopia@${KOPIA_HOSTNAME:-kopia-server}
+      - --config-file=/app/config/repository.config
+      - --cache-directory=/app/cache
+      - --log-dir=/app/logs
     volumes:
       - ${APP_DATA_DIR}/data/config:/app/config
       - ${APP_DATA_DIR}/data/cache:/app/cache
