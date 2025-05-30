@@ -57,6 +57,19 @@
       "default": "kopia-server"
     },
     {
+      "type": "text",
+      "label": "Server Control > Username",
+      "placeholder": "control",
+      "env_variable": "KOPIA_SERVER_CONTROL_USERNAME",
+      "default": "control"
+    },
+    {
+      "type": "password",
+      "label": "Server Control > Password",
+      "placeholder": "Password for server control API (optional)",
+      "env_variable": "KOPIA_SERVER_CONTROL_PASSWORD"
+    },
+    {
       "type": "boolean",
       "label": "Security > Disable CSRF Token Checks",
       "env_variable": "KOPIA_DISABLE_CSRF",
