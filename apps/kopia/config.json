@@ -22,10 +22,17 @@
     },
     {
       "type": "number",
-      "label": "Container > GroupID (PGID)", 
+      "label": "Container > GroupID (PGID)",
       "placeholder": "1000",
       "env_variable": "KOPIA_PGID",
       "default": 1000
+    },
+    {
+      "type": "text",
+      "label": "Server > Timezone",
+      "placeholder": "Europe/Prague",
+      "env_variable": "TZ",
+      "default": "Europe/Prague"
     },
     {
       "type": "password",
@@ -76,7 +83,7 @@
       "default": ""
     },
     {
-      "type": "text", 
+      "type": "text",
       "label": "TLS > Private Key File Path",
       "placeholder": "/app/config/server.key",
       "env_variable": "KOPIA_TLS_KEY_FILE",
