@@ -40,16 +40,6 @@
         {
           "hostPath": "${APP_DATA_DIR}/data/repos",
           "containerPath": "/repos"
-        },
-        {
-          "hostPath": "/etc/localtime",
-          "containerPath": "/etc/localtime",
-          "readonly": true
-        },
-        {
-          "hostPath": "/etc/timezone",
-          "containerPath": "/etc/timezone",
-          "readonly": true
         }
       ],
       "logging": {
