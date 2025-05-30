@@ -1,5 +1,5 @@
 {
-  "name": "Backrest",
+  "name": "Backrest+",
   "available": true,
   "exposable": true,
   "dynamic_config": true,
@@ -18,7 +18,7 @@
       "label": "Container > UserID (UID)",
       "placeholder": "1000",
       "hint": "User ID for file permissions. Use 'id -u' command to find your user ID.",
-      "env_variable": "BACKREST_PUID",
+      "env_variable": "PUID",
       "default": 1000
     },
     {
@@ -26,8 +26,24 @@
       "label": "Container > GroupID (PGID)",
       "placeholder": "1000",
       "hint": "Group ID for file permissions. Use 'id -g' command to find your group ID.",
-      "env_variable": "BACKREST_PGID",
+      "env_variable": "PGID",
       "default": 1000
+    },
+    {
+      "type": "text",
+      "label": "System > Timezone",
+      "placeholder": "Europe/Prague",
+      "hint": "Timezone for scheduled backups and logs. Use format like 'America/New_York' or 'Europe/London'.",
+      "env_variable": "TZ",
+      "default": "Europe/Prague"
+    },
+    {
+      "type": "text",
+      "label": "Backrest > Port Bind Address",
+      "placeholder": "0.0.0.0:9898",
+      "hint": "Address and port for Backrest to bind to. Use 0.0.0.0:9898 for all interfaces.",
+      "env_variable": "BACKREST_PORT",
+      "default": "0.0.0.0:9898"
     },
     {
       "type": "text",
@@ -67,14 +83,6 @@
       "placeholder": "Leave empty for auto-managed restic",
       "hint": "Custom path to restic binary. Leave empty to use Backrest's auto-managed restic version (recommended).",
       "env_variable": "BACKREST_RESTIC_COMMAND"
-    },
-    {
-      "type": "text",
-      "label": "System > Timezone",
-      "placeholder": "America/Los_Angeles",
-      "hint": "Timezone for scheduled backups and logs. Use format like 'America/New_York' or 'Europe/London'.",
-      "env_variable": "TZ",
-      "default": "Europe/Prague"
     }
   ],
   "supported_architectures": ["arm64", "amd64"],
