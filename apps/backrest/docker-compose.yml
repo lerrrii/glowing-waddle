@@ -6,7 +6,7 @@ services:
     environment:
       - PUID=${PUID-1000}
       - PGID=${PGID-1000}
-      - TZ=${TZ-Europe/Prague}
+      - TZ=Europe/Prague
       - BACKREST_PORT=${BACKREST_PORT-0.0.0.0:9898}
       - BACKREST_DATA=${BACKREST_DATA-/data}
       - BACKREST_CONFIG=${BACKREST_CONFIG-/config/config.json}
