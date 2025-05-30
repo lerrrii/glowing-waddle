@@ -70,78 +70,11 @@
       "env_variable": "KOPIA_SERVER_CONTROL_PASSWORD"
     },
     {
-      "type": "boolean",
-      "label": "Security > Disable CSRF Token Checks",
-      "env_variable": "KOPIA_DISABLE_CSRF",
-      "default": false
-    },
-    {
-      "type": "boolean",
-      "label": "Security > Enable TLS/HTTPS",
-      "env_variable": "KOPIA_ENABLE_TLS",
-      "default": false
-    },
-    {
-      "type": "text",
-      "label": "TLS > Certificate File Path",
-      "placeholder": "/app/config/server.crt",
-      "env_variable": "KOPIA_TLS_CERT_FILE",
-      "default": ""
-    },
-    {
-      "type": "text", 
-      "label": "TLS > Private Key File Path",
-      "placeholder": "/app/config/server.key",
-      "env_variable": "KOPIA_TLS_KEY_FILE",
-      "default": ""
-    },
-    {
-      "type": "boolean",
-      "label": "Logging > Enable Debug Mode",
-      "env_variable": "KOPIA_LOG_DEBUG",
-      "default": false
-    },
-    {
-      "type": "text",
-      "label": "Repository > Default Compression",
-      "placeholder": "zstd",
-      "options": [
-        {"label": "None", "value": "none"},
-        {"label": "GZIP", "value": "gzip"},
-        {"label": "ZSTD (Recommended)", "value": "zstd"},
-        {"label": "LZ4", "value": "lz4"},
-        {"label": "Deflate", "value": "deflate"}
-      ],
-      "env_variable": "KOPIA_DEFAULT_COMPRESSION",
-      "default": "zstd"
-    },
-    {
-      "type": "boolean",
-      "label": "Repository > Auto-maintenance",
-      "env_variable": "KOPIA_AUTO_MAINTENANCE",
-      "default": true
-    },
-    {
       "type": "text",
       "label": "Backup > Data Directory to Mount",
       "placeholder": "/data",
       "env_variable": "KOPIA_DATA_PATH",
       "default": "/data"
-    },
-    {
-      "type": "text",
-      "label": "Repository > Type",
-      "options": [
-        {"label": "Local Filesystem", "value": "filesystem"},
-        {"label": "Amazon S3", "value": "s3"},
-        {"label": "Google Cloud Storage", "value": "gcs"},
-        {"label": "Azure Blob Storage", "value": "azure"},
-        {"label": "Backblaze B2", "value": "b2"},
-        {"label": "SFTP", "value": "sftp"},
-        {"label": "WebDAV", "value": "webdav"}
-      ],
-      "env_variable": "KOPIA_REPO_TYPE",
-      "default": "filesystem"
     }
   ],
   "supported_architectures": ["arm64", "amd64"],
