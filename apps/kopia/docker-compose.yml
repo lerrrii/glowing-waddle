@@ -8,6 +8,8 @@ services:
       - USER=${KOPIA_PUID:-1000}
       - PUID=${KOPIA_PUID:-1000}
       - PGID=${KOPIA_PGID:-1000}
+      - KOPIA_SERVER_CONTROL_PASSWORD=${KOPIA_SERVER_CONTROL_PASSWORD:-}
+      - KOPIA_DATA_PATH=${KOPIA_DATA_PATH:-/data}
     command:
       - server
       - start
@@ -16,13 +18,18 @@ services:
       - --address=0.0.0.0:51515
       - --server-username=${KOPIA_SERVER_USERNAME:-admin}
       - --server-password=${KOPIA_SERVER_PASSWORD}
+      - --server-control-username=${KOPIA_SERVER_CONTROL_USERNAME:-control}
+      - --server-control-password=${KOPIA_SERVER_CONTROL_PASSWORD:-}
+      - --cache-directory=/app/cache
+      - --persistent-logs=true
+      - --ui=true
     volumes:
       - ${APP_DATA_DIR}/data/config:/app/config
       - ${APP_DATA_DIR}/data/cache:/app/cache
       - ${APP_DATA_DIR}/data/logs:/app/logs
       - ${APP_DATA_DIR}/data/repository:/repository
       - ${APP_DATA_DIR}/data/snapshots:/tmp:shared
-      - /:/data:ro
+      - /:${KOPIA_DATA_PATH:-/data}:ro
     networks:
       - tipi_main_network
     ports:
