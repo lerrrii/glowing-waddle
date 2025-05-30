@@ -22,7 +22,7 @@ services:
       - ${APP_DATA_DIR}/data/logs:/app/logs
       - ${APP_DATA_DIR}/data/repository:/repository
       - ${APP_DATA_DIR}/data/snapshots:/tmp:shared
-      - ${KOPIA_DATA_PATH:-/data}:/data:ro
+      - /:/data:ro
     networks:
       - tipi_main_network
     ports:
