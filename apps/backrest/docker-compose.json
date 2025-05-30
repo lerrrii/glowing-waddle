@@ -6,14 +6,15 @@
       "isMain": true,
       "internalPort": 9898,
       "environment": {
-        "PUID": "${BACKREST_PUID-1000}",
-        "PGID": "${BACKREST_PGID-1000}",
+        "PUID": "${PUID-1000}",
+        "PGID": "${PGID-1000}",
+        "TZ": "${TZ-Europe/Prague}",
+        "BACKREST_PORT": "${BACKREST_PORT-0.0.0.0:9898}",
         "BACKREST_DATA": "${BACKREST_DATA-/data}",
         "BACKREST_CONFIG": "${BACKREST_CONFIG-/config/config.json}",
         "XDG_CACHE_HOME": "${XDG_CACHE_HOME-/cache}",
         "TMPDIR": "${TMPDIR-/tmp}",
-        "BACKREST_RESTIC_COMMAND": "${BACKREST_RESTIC_COMMAND}",
-        "TZ": "${TZ-Europe/Prague}"
+        "BACKREST_RESTIC_COMMAND": "${BACKREST_RESTIC_COMMAND}"
       },
       "volumes": [
         {
