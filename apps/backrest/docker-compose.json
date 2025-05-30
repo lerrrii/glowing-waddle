@@ -1,0 +1,52 @@
+{
+  "services": [
+    {
+      "name": "backrest",
+      "image": "garethgeorge/backrest:latest",
+      "isMain": true,
+      "internalPort": 9898,
+      "environment": {
+        "PUID": "${BACKREST_PUID-1000}",
+        "PGID": "${BACKREST_PGID-1000}",
+        "BACKREST_DATA": "${BACKREST_DATA-/data}",
+        "BACKREST_CONFIG": "${BACKREST_CONFIG-/config/config.json}",
+        "XDG_CACHE_HOME": "${XDG_CACHE_HOME-/cache}",
+        "TMPDIR": "${TMPDIR-/tmp}",
+        "BACKREST_RESTIC_COMMAND": "${BACKREST_RESTIC_COMMAND}",
+        "TZ": "${TZ-Europe/Prague}"
+      },
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/data",
+          "containerPath": "/data"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/data/config",
+          "containerPath": "/config"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/data/cache",
+          "containerPath": "/cache"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/data/tmp",
+          "containerPath": "/tmp"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/data/userdata",
+          "containerPath": "/userdata"
+        },
+        {
+          "hostPath": "${APP_DATA_DIR}/data/repos",
+          "containerPath": "/repos"
+        }
+      ],
+      "logging": {
+        "driver": "json-file",
+        "options": {
+          "max-size": "10m"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+services:
+  backrest:
+    image: garethgeorge/backrest:latest
+    container_name: backrest
+    hostname: backrest
+    environment:
+      - PUID=${BACKREST_PUID-1000}
+      - PGID=${BACKREST_PGID-1000}
+      - BACKREST_DATA=${BACKREST_DATA-/data}
+      - BACKREST_CONFIG=${BACKREST_CONFIG-/config/config.json}
+      - XDG_CACHE_HOME=${XDG_CACHE_HOME-/cache}
+      - TMPDIR=${TMPDIR-/tmp}
+      - BACKREST_RESTIC_COMMAND=${BACKREST_RESTIC_COMMAND}
+      - TZ=${TZ-Europe/London}
+    volumes:
+      - ${APP_DATA_DIR}/data/data:/data
+      - ${APP_DATA_DIR}/data/config:/config
+      - ${APP_DATA_DIR}/data/cache:/cache
+      - ${APP_DATA_DIR}/data/tmp:/tmp
+      - ${APP_DATA_DIR}/data/userdata:/userdata
+      - ${APP_DATA_DIR}/data/repos:/repos
+    networks:
+      - tipi_main_network
+    ports:
+      - ${APP_PORT}:9898
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+    restart: unless-stopped
+    labels:
+      # Enable Traefik on this service
+      traefik.enable: true
+
+      # Redirect HTTP → HTTPS middleware
+      traefik.http.middlewares.backrest-web-redirect.redirectscheme.scheme: https
+
+      # Traefik service definition (exposes container port 9898)
+      traefik.http.services.backrest.loadbalancer.server.port: 9898
+
+      # Insecure router (HTTP)
+      traefik.http.routers.backrest-insecure.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.backrest-insecure.entrypoints: web
+      traefik.http.routers.backrest-insecure.service: backrest
+      traefik.http.routers.backrest-insecure.middlewares: backrest-web-redirect
+
+      # Secure router (HTTPS)
+      traefik.http.routers.backrest.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.backrest.entrypoints: websecure
+      traefik.http.routers.backrest.service: backrest
+      traefik.http.routers.backrest.tls.certresolver: myresolver
+
+      # Local (insecure) router for LAN access
+      traefik.http.routers.backrest-local-insecure.rule: Host(`backrest.${LOCAL_DOMAIN}`)
+      traefik.http.routers.backrest-local-insecure.entrypoints: web
+      traefik.http.routers.backrest-local-insecure.service: backrest
+      traefik.http.routers.backrest-local-insecure.middlewares: backrest-web-redirect
+
+      # Local (secure) router for LAN access
+      traefik.http.routers.backrest-local.rule: Host(`backrest.${LOCAL_DOMAIN}`)
+      traefik.http.routers.backrest-local.entrypoints: websecure
+      traefik.http.routers.backrest-local.service: backrest
+      traefik.http.routers.backrest-local.tls: true
+
+      # Managed marker
+      runtipi.managed: true
+
+networks:
+  tipi_main_network:
+    external: true
