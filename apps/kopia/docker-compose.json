@@ -43,7 +43,7 @@
           "options": "shared"
         },
         {
-          "hostPath": "${KOPIA_DATA_PATH:-/data}",
+          "hostPath": "/",
           "containerPath": "/data",
           "options": "ro"
         }
