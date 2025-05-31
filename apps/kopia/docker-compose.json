@@ -51,16 +51,7 @@
       "command": [
         "sh",
         "-c",
-        "set -e; \
-         echo \"${KOPIA_PASSWORD}\" > /tmp/kopia_pass && chmod 600 /tmp/kopia_pass; \
-         FLAGS=\"\"; \
-         if [ \"${KOPIA_ENABLE_TLS}\" = \"true\" ]; then \
-           FLAGS=\"$FLAGS --tls-cert-file=${KOPIA_TLS_CERT_FILE} --tls-key-file=${KOPIA_TLS_KEY_FILE}\"; \
-         else \
-           FLAGS=\"$FLAGS --insecure\"; \
-         fi; \
-         [ \"${KOPIA_LOG_DEBUG}\" = \"true\" ] && FLAGS=\"$FLAGS --log-level=debug\"; \
-         exec kopia server start $FLAGS --address=0.0.0.0:51515 --server-username=\"${KOPIA_SERVER_USERNAME}\" --server-password=\"${KOPIA_SERVER_PASSWORD}\""
+        "set -e; echo \\\"${KOPIA_PASSWORD}\\\" > /tmp/kopia_pass && chmod 600 /tmp/kopia_pass; FLAGS=\\\"\\\"; if [ \\\"${KOPIA_ENABLE_TLS}\\\" = \\\"true\\\" ]; then FLAGS=\\\"$FLAGS --tls-cert-file=${KOPIA_TLS_CERT_FILE} --tls-key-file=${KOPIA_TLS_KEY_FILE}\\\"; else FLAGS=\\\"$FLAGS --insecure\\\"; fi; [ \\\"${KOPIA_LOG_DEBUG}\\\" = \\\"true\\\" ] && FLAGS=\\\"$FLAGS --log-level=debug\\\"; exec kopia server start $FLAGS --address=0.0.0.0:51515 --server-username=\\\"${KOPIA_SERVER_USERNAME}\\\" --server-password=\\\"${KOPIA_SERVER_PASSWORD}\\\""
       ],
       "logging": {
         "driver": "json-file",
