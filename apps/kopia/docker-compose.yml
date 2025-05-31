@@ -4,186 +4,62 @@ services:
   kopia:
     image: kopia/kopia:latest
     container_name: kopia-server
-    hostname: ${KOPIA_HOSTNAME:-kopia-server}    # Docker container’s hostname
+    hostname: ${KOPIA_HOSTNAME:-kopia-server}
     restart: unless-stopped
 
     environment:
       # ───── Core “run-as” variables ─────
-      - PUID=${KOPIA_PUID:-1000}                   # Host UID that Kopia will run as inside container
-      - PGID=${KOPIA_PGID:-1000}                   # Host GID that Kopia will run as
-      - TZ=${TZ:-Europe/Prague}                    # Timezone (default Europe/Prague)
+      - PUID=${KOPIA_PUID:-1000}
+      - PGID=${KOPIA_PGID:-1000}
+      - TZ=${TZ:-Europe/Prague}
 
-      # ───── Repo & HTTP UI credentials ─────
-      - KOPIA_PASSWORD=${KOPIA_PASSWORD}           # ❗ Repo encryption master password (required)
-      - KOPIA_SERVER_USERNAME=${KOPIA_SERVER_USERNAME:-admin}  # HTTP UI login username (default “admin”)
-      - KOPIA_SERVER_PASSWORD=${KOPIA_SERVER_PASSWORD}         # ❗ HTTP UI login password (required)
+      # ───── Repo & Web UI credentials ─────
+      - KOPIA_PASSWORD=${KOPIA_PASSWORD}             # Repository encryption passphrase
+      - KOPIA_SERVER_USERNAME=${KOPIA_SERVER_USERNAME:-admin}
+      - KOPIA_SERVER_PASSWORD=${KOPIA_SERVER_PASSWORD}
 
-      # ───── Security / TLS / Debug ─────
-      - KOPIA_DISABLE_CSRF=${KOPIA_DISABLE_CSRF:-false}    # If true, skips CSRF checks (not recommended for public)
-      - KOPIA_ENABLE_TLS=${KOPIA_ENABLE_TLS:-false}        # If true, Kopia serves HTTPS instead of HTTP
-      - KOPIA_TLS_CERT_FILE=${KOPIA_TLS_CERT_FILE:-}       # Path inside container to TLS cert (e.g. /app/config/server.crt)
-      - KOPIA_TLS_KEY_FILE=${KOPIA_TLS_KEY_FILE:-}         # Path inside container to TLS key (e.g. /app/config/server.key)
-      - KOPIA_LOG_DEBUG=${KOPIA_LOG_DEBUG:-false}          # If true, enables debug-level logging
-
-      # ───── Repository behavior ─────
-      - KOPIA_DEFAULT_COMPRESSION=${KOPIA_DEFAULT_COMPRESSION:-zstd}   # none, gzip, zstd, lz4, deflate
-      - KOPIA_AUTO_MAINTENANCE=${KOPIA_AUTO_MAINTENANCE:-true}         # If true, enables auto-maintenance
+      # ───── TLS / Debug (optional) ─────
+      - KOPIA_ENABLE_TLS=${KOPIA_ENABLE_TLS:-false}   # true → Kopia serves HTTPS
+      - KOPIA_TLS_CERT_FILE=${KOPIA_TLS_CERT_FILE:-}  # e.g. /app/config/server.crt
+      - KOPIA_TLS_KEY_FILE=${KOPIA_TLS_KEY_FILE:-}    # e.g. /app/config/server.key
+      - KOPIA_LOG_DEBUG=${KOPIA_LOG_DEBUG:-false}     # true → `--log-level=debug`
 
       # ───── Backup scope ─────
-      - KOPIA_DATA_PATH=${KOPIA_DATA_PATH:-/}            # Which host path is bind-mounted read-only (default “/”)
-
-      # ───── Repository backend & cloud creds ─────
-      - KOPIA_REPO_TYPE=${KOPIA_REPO_TYPE:-filesystem}   # filesystem, s3, gcs, azure, b2, sftp, webdav
-
-      # S3-specific (if KOPIA_REPO_TYPE="s3")
-      - KOPIA_S3_BUCKET=${KOPIA_S3_BUCKET:-}             # e.g. "my-s3-bucket"
-      - KOPIA_S3_PREFIX=${KOPIA_S3_PREFIX:-}             # e.g. "kopia/repo/"
-      - KOPIA_S3_REGION=${KOPIA_S3_REGION:-}             # e.g. "us-east-1"
-
-      # GCS-specific (if KOPIA_REPO_TYPE="gcs")
-      - KOPIA_GCS_BUCKET=${KOPIA_GCS_BUCKET:-}           # e.g. "my-gcs-bucket"
-      - KOPIA_GCS_PREFIX=${KOPIA_GCS_PREFIX:-}           # e.g. "kopia/repo/"
-
-      # Azure-specific (if KOPIA_REPO_TYPE="azure")
-      - KOPIA_AZURE_ACCOUNT=${KOPIA_AZURE_ACCOUNT:-}     # e.g. "myazureaccount"
-      - KOPIA_AZURE_CONTAINER=${KOPIA_AZURE_CONTAINER:-} # e.g. "kopia-backups"
-
-      # B2-specific (if KOPIA_REPO_TYPE="b2")
-      - KOPIA_B2_BUCKET=${KOPIA_B2_BUCKET:-}             # e.g. "my-b2-bucket"
-      - KOPIA_B2_PREFIX=${KOPIA_B2_PREFIX:-}             # e.g. "kopia/repo/"
-
-      # SFTP-specific (if KOPIA_REPO_TYPE="sftp")
-      - KOPIA_SFTP_HOST=${KOPIA_SFTP_HOST:-}             # e.g. "sftp.example.com"
-      - KOPIA_SFTP_PORT=${KOPIA_SFTP_PORT:-22}           # e.g. "22"
-      - KOPIA_SFTP_USER=${KOPIA_SFTP_USER:-}             # e.g. "sftpuser"
-      - KOPIA_SFTP_KEYFILE=${KOPIA_SFTP_KEYFILE:-}       # e.g. "/app/config/id_rsa"
-      - KOPIA_SFTP_PATH=${KOPIA_SFTP_PATH:-}             # e.g. "/home/sftpuser/kopia"
-
-      # WebDAV-specific (if KOPIA_REPO_TYPE="webdav")
-      - KOPIA_WEBDAV_URL=${KOPIA_WEBDAV_URL:-}           # e.g. "https://nas.example.com/remote.php/webdav/kopia"
-      - KOPIA_WEBDAV_USER=${KOPIA_WEBDAV_USER:-}         # e.g. "webdavuser"
-      - KOPIA_WEBDAV_PASSWORD=${KOPIA_WEBDAV_PASSWORD:-} # e.g. "webdavpass"
-      - KOPIA_WEBDAV_PATH=${KOPIA_WEBDAV_PATH:-}         # e.g. "/remote.php/webdav/kopia"
+      - KOPIA_DATA_PATH=${KOPIA_DATA_PATH:-/}         # Which host path to mount read-only at /data
 
     ports:
-      - "${APP_PORT:-51515}:51515"   # Expose port 51515 (Kopia web UI)
+      - "${APP_PORT:-51515}:51515"
 
     volumes:
-      - "${APP_DATA_DIR}/data/config:/app/config"       # Kopia config (may contain TLS certs, SSH keys, etc.)
-      - "${APP_DATA_DIR}/data/cache:/app/cache"         # Kopia local cache
-      - "${APP_DATA_DIR}/data/logs:/app/logs"           # Kopia logs
-      - "${APP_DATA_DIR}/data/repository:/repository"   # Local‐fs repository (if using filesystem backend)
-      - "${APP_DATA_DIR}/data/snapshots:/tmp:shared"    # Temporary mount for browsing/restores
-      - "/:${KOPIA_DATA_PATH}:ro"                       # Bind‐mount the host path you want to back up, read-only
+      - "${APP_DATA_DIR}/data/config:/app/config"       # (1) TLS certs, future configs
+      - "${APP_DATA_DIR}/data/cache:/app/cache"         # (2) Kopia local cache
+      - "${APP_DATA_DIR}/data/logs:/app/logs"           # (3) Kopia logs
+      - "${APP_DATA_DIR}/data/repository:/repository"   # (4) Initially empty—Web UI will Create/Connect here
+      - "${APP_DATA_DIR}/data/snapshots:/tmp:shared"    # (5) Needed to browse mounted snapshots
+      - "/:${KOPIA_DATA_PATH}:ro"                       # (6) Host path (e.g. `/home/dietpi`) to back up
 
     command: >
       sh -c "
       set -e;
-      # (A) Write the master password into a restricted file
       echo \"${KOPIA_PASSWORD}\" > /tmp/kopia_pass && chmod 600 /tmp/kopia_pass;
-
-      # (B) If '/repository' is missing or empty, create/connect the repo
-      if [ ! -d /repository ] || [ -z \"$(ls -A /repository)\" ]; then
-        echo \"→ Initializing Kopia repo: type='${KOPIA_REPO_TYPE}'\";
-        case \"${KOPIA_REPO_TYPE}\" in
-
-          filesystem)
-            kopia repository create filesystem \
-              --path=/repository \
-              --encryption=passphrase \
-              --master-password-file=/tmp/kopia_pass \
-              --default-compression=\"${KOPIA_DEFAULT_COMPRESSION}\" \
-              $( [ \"${KOPIA_AUTO_MAINTENANCE}\" = \"true\" ] && echo \"--auto-maintenance\" );
-            ;;
-
-          s3)
-            kopia repository create s3 \
-              --bucket=\"${KOPIA_S3_BUCKET}\" \
-              --prefix=\"${KOPIA_S3_PREFIX}\" \
-              --region=\"${KOPIA_S3_REGION}\" \
-              --encryption=passphrase \
-              --master-password-file=/tmp/kopia_pass;
-            ;;
-
-          gcs)
-            kopia repository create gcs \
-              --bucket=\"${KOPIA_GCS_BUCKET}\" \
-              --prefix=\"${KOPIA_GCS_PREFIX}\" \
-              --encryption=passphrase \
-              --master-password-file=/tmp/kopia_pass;
-            ;;
-
-          azure)
-            kopia repository create azure \
-              --account-name=\"${KOPIA_AZURE_ACCOUNT}\" \
-              --container=\"${KOPIA_AZURE_CONTAINER}\" \
-              --encryption=passphrase \
-              --master-password-file=/tmp/kopia_pass;
-            ;;
-
-          b2)
-            kopia repository create b2 \
-              --bucket=\"${KOPIA_B2_BUCKET}\" \
-              --prefix=\"${KOPIA_B2_PREFIX}\" \
-              --encryption=passphrase \
-              --master-password-file=/tmp/kopia_pass;
-            ;;
-
-          sftp)
-            kopia repository create sftp \
-              --host=\"${KOPIA_SFTP_HOST}\" \
-              --port=\"${KOPIA_SFTP_PORT}\" \
-              --username=\"${KOPIA_SFTP_USER}\" \
-              --ssh-key-file=\"${KOPIA_SFTP_KEYFILE}\" \
-              --path=\"${KOPIA_SFTP_PATH}\" \
-              --encryption=passphrase \
-              --master-password-file=/tmp/kopia_pass;
-            ;;
-
-          webdav)
-            kopia repository create webdav \
-              --url=\"${KOPIA_WEBDAV_URL}\" \
-              --username=\"${KOPIA_WEBDAV_USER}\" \
-              --password=\"${KOPIA_WEBDAV_PASSWORD}\" \
-              --path=\"${KOPIA_WEBDAV_PATH}\" \
-              --encryption=passphrase \
-              --master-password-file=/tmp/kopia_pass;
-            ;;
-
-          *)
-            echo \"ERROR: Unsupported KOPIA_REPO_TYPE='${KOPIA_REPO_TYPE}'\" >&2;
-            exit 1;
-            ;;
-        esac
-      fi
-
-      # (C) Build flags for ‘kopia server start’
       FLAGS=\"\";
-      [ \"${KOPIA_DISABLE_CSRF}\" = \"true\" ] && FLAGS=\"$FLAGS --disable-csrf-token-checks\";
-
       if [ \"${KOPIA_ENABLE_TLS}\" = \"true\" ]; then
         FLAGS=\"$FLAGS --tls-cert-file=${KOPIA_TLS_CERT_FILE} --tls-key-file=${KOPIA_TLS_KEY_FILE}\";
       else
         FLAGS=\"$FLAGS --insecure\";
-      fi
-
+      fi;
       [ \"${KOPIA_LOG_DEBUG}\" = \"true\" ] && FLAGS=\"$FLAGS --log-level=debug\";
+      exec kopia server start $FLAGS --address=0.0.0.0:51515 --server-username=\"${KOPIA_SERVER_USERNAME}\" --server-password=\"${KOPIA_SERVER_PASSWORD}\""
 
-      echo \"→ Starting Kopia server with flags:${FLAGS}\";
-
-      # (D) Finally exec the Kopia server
-      exec kopia server start \
-        $FLAGS \
-        --address=0.0.0.0:51515 \
-        --server-username=\"${KOPIA_SERVER_USERNAME}\" \
-        --server-password=\"${KOPIA_SERVER_PASSWORD}\""
     logging:
       driver: json-file
       options:
         max-size: "10m"
         max-file: "3"
+
     networks:
       - tipi_main_network
+
     labels:
       traefik.enable: true
 
