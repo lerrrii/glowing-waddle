@@ -1,46 +1,65 @@
 # Kopia Backup
 
-Kopia is a fast and secure open-source backup/restore tool that allows you to create encrypted, deduplicated, and compressed backups of your files and directories. It supports multiple storage backends and provides both a web-based GUI and a CLI.
+Kopia is a fast and secure open-source backup/restore tool that allows you to create encrypted, deduplicated, and compressed backups of your files and directories. It supports multiple storage backends and provides both web UI and CLI interfaces.
 
 ## Features
-- Fast, encrypted, deduplicated, and compressed backups
-- Multiple storage backends (local filesystem, S3, GCS, Azure, Backblaze B2, SFTP, WebDAV, etc.)
-- Web-based GUI for easy management
-- Automatic snapshot scheduling
-- Incremental backups with deduplication
-- Cross-platform support (Windows, macOS, Linux)
-- Repository encryption and compression
-- Snapshot browsing and restoration
-- Maintenance automation
-- **Timezone configuration** via `TZ` environment variable (defaults to Europe/Prague)
+* Fast, encrypted, deduplicated, and compressed backups
+* Multiple storage backends (local, cloud, network)
+* Web-based GUI for easy management
+* Automatic snapshot scheduling
+* Incremental backups with deduplication
+* Cross-platform support
+* Repository encryption and compression
+* Snapshot browsing and restoration
+* Maintenance automation
 
-## Simple Docker Setup
+## Storage Backends Supported
+* Local filesystem
+* Amazon S3 and S3-compatible storage
+* Google Cloud Storage
+* Azure Blob Storage
+* Backblaze B2
+* SFTP
+* WebDAV
+* And many more
 
-This container is designed so that **all** repository creation and configuration (compression, snapshot scheduling, retention policies, etc.) is done **in the Kopia Web UI** after the container starts. You only need to supply:
+## Key Benefits
+1. **Deduplication**: Only stores unique data blocks, saving space
+2. **Encryption**: All data is encrypted before leaving your machine
+3. **Compression**: Reduces backup size with built-in compression
+4. **Incremental**: Only backs up changed data after initial backup
+5. **Cross-platform**: Works on Windows, macOS, and Linux
+6. **Reliable**: Designed for long-term data preservation
 
-1. **Repository master password** (`KOPIA_PASSWORD`)  
-2. **Web UI username/password** (`KOPIA_SERVER_USERNAME`, `KOPIA_SERVER_PASSWORD`)  
-3. *(Optional)* `TZ` for logs/timestamp timezone  
-4. *(Optional)* `KOPIA_ENABLE_TLS`, plus your TLS certificate/key (if you want HTTPS)  
-5. *(Optional)* `KOPIA_LOG_DEBUG` (enable debug logging)  
-6. *(Optional)* `KOPIA_DATA_PATH` to restrict what host path is visible to Kopia (default is `/`)
+## Usage
+After installation, access the web interface to:
+1. Create or connect to a repository
+2. Set up backup policies and schedules
+3. Create manual snapshots
+4. Browse and restore files
+5. Monitor backup status and maintenance
 
-After deployment, simply open your browser to `http://<your-domain>:51515/` (or `https://…` if TLS is enabled), log in, and click **“Create new repository”**. From there, choose “Local filesystem” or any of the supported backends (S3, GCS, Azure, B2, SFTP, WebDAV) and fill in the details. Once the repository exists, use the Web UI to set up backup policies, schedules, and to browse/restore snapshots.
+## Backup Path Configuration
+This container is configured to mount the entire host filesystem for maximum flexibility. When creating snapshots in the web UI, you can access any system directory by prefixing paths with `/data/`:
 
-> **Tip:** If you only want to back up a subfolder (e.g. `/home/dietpi`), set `KOPIA_DATA_PATH=/home/dietpi` in your environment. Then Kopia will only see `/home/dietpi` (read-only) instead of the entire root.
+**Examples:**
+- To backup `/home/dietpi/Documents` → enter `/data/home/dietpi/Documents`
+- To backup `/media/usb-drive` → enter `/data/media/usb-drive`
+- To backup `/opt/applications` → enter `/data/opt/applications`
 
-## Volumes & Paths
+The filesystem is mounted read-only for security, so Kopia can only read files for backup purposes.
 
-| Host Folder                             | Container Folder | Purpose                                                                                                     |
-|-----------------------------------------|------------------|-------------------------------------------------------------------------------------------------------------|
-| `${APP_DATA_DIR}/data/config`           | `/app/config`    | Kopia configuration (e.g. TLS certs, future CLI configs)                                                    |
-| `${APP_DATA_DIR}/data/cache`            | `/app/cache`     | Local cache for performance                                                                                |
-| `${APP_DATA_DIR}/data/logs`             | `/app/logs`      | Kopia server logs                                                                                           |
-| `${APP_DATA_DIR}/data/repository`       | `/repository`    | Filesystem repository (initially empty; created via the Web UI)                                             |
-| `${APP_DATA_DIR}/data/snapshots`        | `/tmp`           | Mounted snapshots for browsing/restore tests                                                                |
-| *Host path defined by* `KOPIA_DATA_PATH` | `/data`          | Whatever host path you want Kopia to back up (read-only). Default `/` mounts entire host filesystem. |
-
-## Documentation & Links
-
-- Official Documentation: https://kopia.io/docs/  
+## Documentation
+For detailed configuration and usage instructions:
+- Official Documentation: https://kopia.io/docs/
 - GitHub Repository: https://github.com/kopia/kopia
+
+## Folder Information
+| Root Folder | Container Folder | Purpose |
+|-------------|------------------|---------|
+| /runtipi/app-data/kopia/data/config | /app/config | Kopia configuration files |
+| /runtipi/app-data/kopia/data/cache | /app/cache | Local cache for performance |
+| /runtipi/app-data/kopia/data/logs | /app/logs | Application logs |
+| /runtipi/app-data/kopia/data/repository | /repository | Local repository storage (if used) |
+| /runtipi/app-data/kopia/data/snapshots | /tmp | Mounted snapshots for browsing |
+| / | /data | Entire host filesystem (read-only access) |
