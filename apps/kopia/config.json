@@ -21,18 +21,18 @@
     },
     {
       "type": "text",
-      "label": "Username",
+      "label": "Server Username",
       "required": true,
       "placeholder": "admin",
-      "env_variable": "KOPIA_USERNAME",
+      "env_variable": "KOPIA_SERVER_USERNAME",
       "default": "admin"
     },
     {
       "type": "password",
-      "label": "Password",
+      "label": "Server Password",
       "required": true,
       "placeholder": "Password for web interface access",
-      "env_variable": "KOPIA_USER_PASSWORD"
+      "env_variable": "KOPIA_SERVER_PASSWORD"
     }
   ],
   "supported_architectures": ["arm64", "amd64"]
