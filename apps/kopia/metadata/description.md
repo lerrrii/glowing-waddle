@@ -38,32 +38,31 @@ After installation, access the web interface to:
 2. Set up backup policies and schedules  
 3. Create manual snapshots  
 4. Browse and restore files  
-5. Monitor backup status and maintenance
+5. Monitor backup status and maintenance  
 
-> **Tip:** If you need your logs and timestamps to align with a different timezone, set the `TZ` variable in your container environment (e.g. `TZ=America/New_York`), otherwise it defaults to `Europe/Prague`.
+> **Tip:** If you need your logs and timestamps to align with a different timezone, set the `TZ` variable in your container environment (e.g. `TZ=America/New_York`), otherwise it defaults to `Europe/Prague`.  
 
 ## Backup Path Configuration
-This container is configured to mount the entire host filesystem for maximum flexibility. When creating snapshots in the web UI, you can access any system directory by prefixing paths with `/data/`:
-
+This container is configured to mount the host path you specify via `KOPIA_DATA_PATH` (default is `/`, i.e. “back up the entire host filesystem”). When creating snapshots in the web UI, you can access any system directory by prefixing paths with `/data/` (or whatever `KOPIA_DATA_PATH` you set):  
 **Examples:**  
-- To backup `/home/dietpi/Documents` → enter `/data/home/dietpi/Documents`  
-- To backup `/media/usb-drive` → enter `/data/media/usb-drive`  
-- To backup `/opt/applications` → enter `/data/opt/applications`
+- To back up `/home/dietpi/Documents` → enter `/data/home/dietpi/Documents`  
+- To back up `/media/usb-drive` → enter `/data/media/usb-drive`  
+- To back up `/opt/applications` → enter `/data/opt/applications`  
 
 The filesystem is mounted read-only for security, so Kopia can only read files for backup purposes.
 
 ## Documentation
 For detailed configuration and usage instructions:  
 - Official Documentation: https://kopia.io/docs/  
-- GitHub Repository: https://github.com/kopia/kopia
+- GitHub Repository: https://github.com/kopia/kopia  
 
 ## Folder Information
 
-| Root Folder                                    | Container Folder | Purpose                                  |
-|----------------------------------------------- |-----------------|------------------------------------------|
-| `/runtipi/app-data/kopia/data/config`          | `/app/config`   | Kopia configuration files                |
-| `/runtipi/app-data/kopia/data/cache`           | `/app/cache`    | Local cache for performance              |
-| `/runtipi/app-data/kopia/data/logs`            | `/app/logs`     | Application logs                         |
-| `/runtipi/app-data/kopia/data/repository`      | `/repository`   | Local repository storage (if used)       |
-| `/runtipi/app-data/kopia/data/snapshots`       | `/tmp`          | Mounted snapshots for browsing           |
-| `/`                                             | `/data`         | Entire host filesystem (read-only)       |
+| Root Folder                              | Container Folder | Purpose                                  |
+|------------------------------------------|------------------|------------------------------------------|
+| `/runtipi/app-data/kopia/data/config`    | `/app/config`    | Kopia configuration files (TLS certs, config.json, etc.) |
+| `/runtipi/app-data/kopia/data/cache`     | `/app/cache`     | Local cache for performance             |
+| `/runtipi/app-data/kopia/data/logs`      | `/app/logs`      | Application logs                         |
+| `/runtipi/app-data/kopia/data/repository`| `/repository`    | Local filesystem repository storage (if `filesystem` backend is used) |
+| `/runtipi/app-data/kopia/data/snapshots` | `/tmp`           | Mounted snapshots for browsing          |
+| *`<host-path-kept-mount>`*               | `/data`          | Backed-up data path (read-only); see `KOPIA_DATA_PATH` |
