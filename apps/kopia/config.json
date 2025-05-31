@@ -121,7 +121,7 @@
       "label": "Backup > Data Directory to Mount",
       "placeholder": "/data",
       "env_variable": "KOPIA_DATA_PATH",
-      "default": "/data"
+      "default": "/"
     },
     {
       "type": "text",
@@ -137,6 +137,138 @@
       ],
       "env_variable": "KOPIA_REPO_TYPE",
       "default": "filesystem"
+    },
+
+    {
+      "type": "text",
+      "label": "S3 > Bucket",
+      "placeholder": "my-s3-bucket",
+      "env_variable": "KOPIA_S3_BUCKET",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "label": "S3 > Prefix",
+      "placeholder": "kopia/repo/",
+      "env_variable": "KOPIA_S3_PREFIX",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "label": "S3 > Region",
+      "placeholder": "us-east-1",
+      "env_variable": "KOPIA_S3_REGION",
+      "default": ""
+    },
+
+    {
+      "type": "text",
+      "label": "GCS > Bucket",
+      "placeholder": "my-gcs-bucket",
+      "env_variable": "KOPIA_GCS_BUCKET",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "label": "GCS > Prefix",
+      "placeholder": "kopia/repo/",
+      "env_variable": "KOPIA_GCS_PREFIX",
+      "default": ""
+    },
+
+    {
+      "type": "text",
+      "label": "Azure > Account Name",
+      "placeholder": "myazureaccount",
+      "env_variable": "KOPIA_AZURE_ACCOUNT",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "label": "Azure > Container Name",
+      "placeholder": "kopia-backups",
+      "env_variable": "KOPIA_AZURE_CONTAINER",
+      "default": ""
+    },
+
+    {
+      "type": "text",
+      "label": "Backblaze B2 > Bucket",
+      "placeholder": "my-b2-bucket",
+      "env_variable": "KOPIA_B2_BUCKET",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "label": "Backblaze B2 > Prefix",
+      "placeholder": "kopia/repo/",
+      "env_variable": "KOPIA_B2_PREFIX",
+      "default": ""
+    },
+
+    {
+      "type": "text",
+      "label": "SFTP > Host",
+      "placeholder": "sftp.example.com",
+      "env_variable": "KOPIA_SFTP_HOST",
+      "default": ""
+    },
+    {
+      "type": "number",
+      "label": "SFTP > Port",
+      "placeholder": "22",
+      "env_variable": "KOPIA_SFTP_PORT",
+      "default": 22
+    },
+    {
+      "type": "text",
+      "label": "SFTP > Username",
+      "placeholder": "sftpuser",
+      "env_variable": "KOPIA_SFTP_USER",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "label": "SFTP > SSH Key File Path",
+      "placeholder": "/app/config/id_rsa",
+      "env_variable": "KOPIA_SFTP_KEYFILE",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "label": "SFTP > Remote Path",
+      "placeholder": "/home/sftpuser/kopia",
+      "env_variable": "KOPIA_SFTP_PATH",
+      "default": ""
+    },
+
+    {
+      "type": "text",
+      "label": "WebDAV > URL",
+      "placeholder": "https://nas.example.com/remote.php/webdav/kopia",
+      "env_variable": "KOPIA_WEBDAV_URL",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "label": "WebDAV > Username",
+      "placeholder": "webdavuser",
+      "env_variable": "KOPIA_WEBDAV_USER",
+      "default": ""
+    },
+    {
+      "type": "password",
+      "label": "WebDAV > Password",
+      "placeholder": "WebDAV password",
+      "env_variable": "KOPIA_WEBDAV_PASSWORD",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "label": "WebDAV > Path",
+      "placeholder": "/remote.php/webdav/kopia",
+      "env_variable": "KOPIA_WEBDAV_PATH",
+      "default": ""
     }
   ],
   "supported_architectures": ["arm64", "amd64"],
