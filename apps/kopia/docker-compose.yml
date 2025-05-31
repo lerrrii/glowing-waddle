@@ -38,7 +38,7 @@ services:
       - "${APP_DATA_DIR}/data/snapshots:/tmp:shared"    # (5) Needed to browse mounted snapshots
       - "/:${KOPIA_DATA_PATH}:ro"                       # (6) Host path (e.g. `/home/dietpi`) to back up
 
-    command: >
+    entrypoint: >
       sh -c "
       set -e;
       echo \"${KOPIA_PASSWORD}\" > /tmp/kopia_pass && chmod 600 /tmp/kopia_pass;
