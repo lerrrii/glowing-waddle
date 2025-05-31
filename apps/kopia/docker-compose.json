@@ -5,22 +5,67 @@
       "name": "kopia",
       "image": "kopia/kopia:latest",
       "isMain": true,
+      "hostname": "${KOPIA_HOSTNAME:-kopia-server}",   // Docker container’s hostname
       "internalPort": 51515,
       "environment": {
-        "TZ": "${TZ:-Europe/Prague}",
-        "KOPIA_PASSWORD": "${KOPIA_PASSWORD}",
-        "PUID": "${KOPIA_PUID:-1000}",
-        "PGID": "${KOPIA_PGID:-1000}"
+        // ─── Core “run‐as” variables ─────────
+        "PUID": "${KOPIA_PUID:-1000}",                 // Host UID to run Kopia as
+        "PGID": "${KOPIA_PGID:-1000}",                 // Host GID
+
+        "TZ": "${TZ:-Europe/Prague}",                  // Timezone (default Europe/Prague)
+
+        // ─── Repository & HTTP UI credentials ──────
+        "KOPIA_PASSWORD": "${KOPIA_PASSWORD}",          // Repo encryption master password (required)
+        "KOPIA_SERVER_USERNAME": "${KOPIA_SERVER_USERNAME:-admin}", // HTTP UI user
+        "KOPIA_SERVER_PASSWORD": "${KOPIA_SERVER_PASSWORD}",        // HTTP UI pass
+
+        // ─── Security / TLS / Debug ───────────────
+        "KOPIA_DISABLE_CSRF": "${KOPIA_DISABLE_CSRF:-false}",      // Disable CSRF if true
+        "KOPIA_ENABLE_TLS": "${KOPIA_ENABLE_TLS:-false}",          // Serve HTTPS if true
+        "KOPIA_TLS_CERT_FILE": "${KOPIA_TLS_CERT_FILE:-}",         // Path inside container (e.g. /app/config/server.crt)
+        "KOPIA_TLS_KEY_FILE": "${KOPIA_TLS_KEY_FILE:-}",           // Path inside container (e.g. /app/config/server.key)
+        "KOPIA_LOG_DEBUG": "${KOPIA_LOG_DEBUG:-false}",            // Enable debug logs if true
+
+        // ─── Repository behaviour ────────────────
+        "KOPIA_DEFAULT_COMPRESSION": "${KOPIA_DEFAULT_COMPRESSION:-zstd}", // none, gzip, zstd, lz4, deflate
+        "KOPIA_AUTO_MAINTENANCE": "${KOPIA_AUTO_MAINTENANCE:-true}",       // Auto‐maintenance if true
+
+        // ─── Backup scope ─────────────────────────
+        "KOPIA_DATA_PATH": "${KOPIA_DATA_PATH:-/}",            // What host path to mount for backup
+
+        // ─── Repository backend & cloud creds ────
+        "KOPIA_REPO_TYPE": "${KOPIA_REPO_TYPE:-filesystem}",   // filesystem, s3, gcs, azure, b2, sftp, webdav
+
+        // S3-specific (if KOPIA_REPO_TYPE="s3")
+        "KOPIA_S3_BUCKET": "${KOPIA_S3_BUCKET:-}",             // e.g. "my-s3-bucket"
+        "KOPIA_S3_PREFIX": "${KOPIA_S3_PREFIX:-}",             // e.g. "kopia/backup/"
+        "KOPIA_S3_REGION": "${KOPIA_S3_REGION:-}",             // e.g. "us-east-1"
+
+        // GCS-specific (if KOPIA_REPO_TYPE="gcs")
+        "KOPIA_GCS_BUCKET": "${KOPIA_GCS_BUCKET:-}",
+        "KOPIA_GCS_PREFIX": "${KOPIA_GCS_PREFIX:-}",
+
+        // Azure-specific (if KOPIA_REPO_TYPE="azure")
+        "KOPIA_AZURE_ACCOUNT": "${KOPIA_AZURE_ACCOUNT:-}",
+        "KOPIA_AZURE_CONTAINER": "${KOPIA_AZURE_CONTAINER:-}",
+
+        // B2-specific (if KOPIA_REPO_TYPE="b2")
+        "KOPIA_B2_BUCKET": "${KOPIA_B2_BUCKET:-}",
+        "KOPIA_B2_PREFIX": "${KOPIA_B2_PREFIX:-}",
+
+        // SFTP-specific (if KOPIA_REPO_TYPE="sftp")
+        "KOPIA_SFTP_HOST": "${KOPIA_SFTP_HOST:-}",
+        "KOPIA_SFTP_PORT": "${KOPIA_SFTP_PORT:-22}",
+        "KOPIA_SFTP_USER": "${KOPIA_SFTP_USER:-}",
+        "KOPIA_SFTP_KEYFILE": "${KOPIA_SFTP_KEYFILE:-}",
+        "KOPIA_SFTP_PATH": "${KOPIA_SFTP_PATH:-}",
+
+        // WebDAV-specific (if KOPIA_REPO_TYPE="webdav")
+        "KOPIA_WEBDAV_URL": "${KOPIA_WEBDAV_URL:-}",
+        "KOPIA_WEBDAV_USER": "${KOPIA_WEBDAV_USER:-}",
+        "KOPIA_WEBDAV_PASSWORD": "${KOPIA_WEBDAV_PASSWORD:-}",
+        "KOPIA_WEBDAV_PATH": "${KOPIA_WEBDAV_PATH:-}"
       },
-      "command": [
-        "server",
-        "start",
-        "--disable-csrf-token-checks",
-        "--insecure",
-        "--address=0.0.0.0:51515",
-        "--server-username=${KOPIA_SERVER_USERNAME:-admin}",
-        "--server-password=${KOPIA_SERVER_PASSWORD}"
-      ],
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/data/config",
@@ -45,17 +90,164 @@
         },
         {
           "hostPath": "/",
-          "containerPath": "/data",
+          "containerPath": "${KOPIA_DATA_PATH}",
           "options": "ro"
         }
       ],
-      "hostname": "${KOPIA_HOSTNAME:-kopia-server}",
+      "command": [
+        "sh",
+        "-c",
+        "\
+        set -e; \
+        echo \"${KOPIA_PASSWORD}\" > /tmp/kopia_pass && chmod 600 /tmp/kopia_pass; \
+        if [ ! -d /repository ] || [ -z \"$(ls -A /repository)\" ]; then \
+          echo \"→ Initializing Kopia repo: type='${KOPIA_REPO_TYPE}'\"; \
+          case \"${KOPIA_REPO_TYPE}\" in \
+            filesystem) \
+              kopia repository create filesystem \
+                --path=/repository \
+                --encryption=passphrase \
+                --master-password-file=/tmp/kopia_pass \
+                --default-compression=\"${KOPIA_DEFAULT_COMPRESSION}\" \
+                $( [ \"${KOPIA_AUTO_MAINTENANCE}\" = \"true\" ] && echo \"--auto-maintenance\" ); \
+              ;; \
+            s3) \
+              kopia repository create s3 \
+                --bucket=\"${KOPIA_S3_BUCKET}\" \
+                --prefix=\"${KOPIA_S3_PREFIX}\" \
+                --region=\"${KOPIA_S3_REGION}\" \
+                --encryption=passphrase \
+                --master-password-file=/tmp/kopia_pass; \
+              ;; \
+            gcs) \
+              kopia repository create gcs \
+                --bucket=\"${KOPIA_GCS_BUCKET}\" \
+                --prefix=\"${KOPIA_GCS_PREFIX}\" \
+                --encryption=passphrase \
+                --master-password-file=/tmp/kopia_pass; \
+              ;; \
+            azure) \
+              kopia repository create azure \
+                --account-name=\"${KOPIA_AZURE_ACCOUNT}\" \
+                --container=\"${KOPIA_AZURE_CONTAINER}\" \
+                --encryption=passphrase \
+                --master-password-file=/tmp/kopia_pass; \
+              ;; \
+            b2) \
+              kopia repository create b2 \
+                --bucket=\"${KOPIA_B2_BUCKET}\" \
+                --prefix=\"${KOPIA_B2_PREFIX}\" \
+                --encryption=passphrase \
+                --master-password-file=/tmp/kopia_pass; \
+              ;; \
+            sftp) \
+              kopia repository create sftp \
+                --host=\"${KOPIA_SFTP_HOST}\" \
+                --port=\"${KOPIA_SFTP_PORT}\" \
+                --username=\"${KOPIA_SFTP_USER}\" \
+                --ssh-key-file=\"${KOPIA_SFTP_KEYFILE}\" \
+                --path=\"${KOPIA_SFTP_PATH}\" \
+                --encryption=passphrase \
+                --master-password-file=/tmp/kopia_pass; \
+              ;; \
+            webdav) \
+              kopia repository create webdav \
+                --url=\"${KOPIA_WEBDAV_URL}\" \
+                --username=\"${KOPIA_WEBDAV_USER}\" \
+                --password=\"${KOPIA_WEBDAV_PASSWORD}\" \
+                --path=\"${KOPIA_WEBDAV_PATH}\" \
+                --encryption=passphrase \
+                --master-password-file=/tmp/kopia_pass; \
+              ;; \
+            *) \
+              echo \"ERROR: Unsupported KOPIA_REPO_TYPE='${KOPIA_REPO_TYPE}'\" >&2; \
+              exit 1; \
+              ;; \
+          esac; \
+        fi; \
+        FLAGS=\"\"; \
+        [ \"${KOPIA_DISABLE_CSRF}\" = \"true\" ] && FLAGS=\"$FLAGS --disable-csrf-token-checks\"; \
+        if [ \"${KOPIA_ENABLE_TLS}\" = \"true\" ]; then \
+          FLAGS=\"$FLAGS --tls-cert-file=${KOPIA_TLS_CERT_FILE} --tls-key-file=${KOPIA_TLS_KEY_FILE}\"; \
+        else \
+          FLAGS=\"$FLAGS --insecure\"; \
+        fi; \
+        [ \"${KOPIA_LOG_DEBUG}\" = \"true\" ] && FLAGS=\"$FLAGS --log-level=debug\"; \
+        echo \"→ Starting Kopia server with flags:${FLAGS}\"; \
+        exec kopia server start $FLAGS --address=0.0.0.0:51515 --server-username=\"${KOPIA_SERVER_USERNAME}\" --server-password=\"${KOPIA_SERVER_PASSWORD}\" \
+        "
+      ],
+      "volumes": {
+        "kopia_config": {
+          "hostPath": "${APP_DATA_DIR}/data/config",
+          "containerPath": "/app/config"
+        },
+        "kopia_cache": {
+          "hostPath": "${APP_DATA_DIR}/data/cache",
+          "containerPath": "/app/cache"
+        },
+        "kopia_logs": {
+          "hostPath": "${APP_DATA_DIR}/data/logs",
+          "containerPath": "/app/logs"
+        },
+        "kopia_repository": {
+          "hostPath": "${APP_DATA_DIR}/data/repository",
+          "containerPath": "/repository"
+        },
+        "kopia_snapshots": {
+          "hostPath": "${APP_DATA_DIR}/data/snapshots",
+          "containerPath": "/tmp",
+          "options": "shared"
+        },
+        "kopia_data": {
+          "hostPath": "/",
+          "containerPath": "${KOPIA_DATA_PATH}",
+          "options": "ro"
+        }
+      },
       "logging": {
         "driver": "json-file",
         "options": {
           "max-size": "10m",
           "max-file": "3"
         }
+      },
+      "networks": {
+        "tipi_main_network": {
+          "external": true
+        }
+      },
+      "labels": {
+        "traefik.enable": "true",
+
+        // HTTP → HTTPS redirect
+        "traefik.http.middlewares.kopia-web-redirect.redirectscheme.scheme": "https",
+
+        // Insecure (HTTP) router
+        "traefik.http.routers.kopia-insecure.rule": "Host(`${APP_DOMAIN}`)",
+        "traefik.http.routers.kopia-insecure.entrypoints": "web",
+        "traefik.http.routers.kopia-insecure.middlewares": "kopia-web-redirect",
+        "traefik.http.routers.kopia-insecure.service": "kopia",
+
+        // Secure (HTTPS) router
+        "traefik.http.routers.kopia.rule": "Host(`${APP_DOMAIN}`)",
+        "traefik.http.routers.kopia.entrypoints": "websecure",
+        "traefik.http.routers.kopia.tls.certresolver": "myresolver",
+        "traefik.http.routers.kopia.service": "kopia",
+
+        // Local-dev HTTP router
+        "traefik.http.routers.kopia-local-insecure.rule": "Host(`kopia.${LOCAL_DOMAIN}`)",
+        "traefik.http.routers.kopia-local-insecure.entrypoints": "web",
+        "traefik.http.routers.kopia-local-insecure.middlewares": "kopia-web-redirect",
+        "traefik.http.routers.kopia-local-insecure.service": "kopia",
+
+        // Local-dev HTTPS router
+        "traefik.http.routers.kopia-local.rule": "Host(`kopia.${LOCAL_DOMAIN}`)",
+        "traefik.http.routers.kopia-local.entrypoints": "websecure",
+        "traefik.http.routers.kopia-local.tls": "true",
+        "traefik.http.routers.kopia-local.service": "kopia",
+
+        "runtipi.managed": "true"
       }
     }
   ]
