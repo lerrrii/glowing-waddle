@@ -11,13 +11,25 @@ Watchtower is a Docker container that automatically monitors and updates your ru
 * **Notifications**: Email, Slack, MS Teams or Gotify.
 * **Cleanup**: Remove old images via `--cleanup`.
 * **Rollback**: Roll back on failure via `--rollback-on-update-error`.
+* **Docker Hub Authentication**: Bypass rate limits with Docker Hub credentials.
 * **Extra flags**: Pass any other Watchtower CLI flags (`--include-stopped`, `--rolling-restart`, etc.).
 
 ---
 
 ## Configuration Guide
 
-Below is a quick reference for the key environment variables and form fields you’ll see in Runtipi’s UI.
+Below is a quick reference for the key environment variables and form fields you'll see in Runtipi's UI.
+
+### Docker Hub Authentication
+
+To bypass Docker Hub rate limits, provide your Docker Hub credentials:
+
+* **DOCKER_HUB_USERNAME**: Your Docker Hub username
+* **DOCKER_HUB_PASSWORD**: Your Docker Hub password or access token
+
+**When to use**: Always recommended to avoid hitting Docker Hub's anonymous pull rate limits (100 pulls per 6 hours per IP).
+
+---
 
 ### Label Selector (`WATCHTOWER_LABEL_ENABLE`)
 
@@ -165,7 +177,8 @@ services:
 ## Quick Tips
 
 * **Build & Test**: Use [Crontab.guru](https://crontab.guru/) to draft your 6-field expression and verify it runs when you expect.
-* **Time Zone**: Set `TZ` so your 03:00 means your local 3 AM, not UTC.
-* **No Dual Modes**: Don’t combine `--schedule` and `--interval`—Watchtower honors only one.
+* **Time Zone**: Set `TZ` so your 03:00 means your local 3 AM, not UTC.
+* **No Dual Modes**: Don't combine `--schedule` and `--interval`—Watchtower honors only one.
+* **Docker Hub Limits**: Always set Docker Hub credentials to avoid rate limiting issues.
 
 Happy auto-updating! 🚀
