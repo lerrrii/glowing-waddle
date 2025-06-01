@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  stremthru:
+    container_name: stremthru
+    image: muniftanjim/stremthru:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - TZ=${TZ:-Europe/Prague}
+      - STREMTHRU_HTTP_PROXY=${STREMTHRU_HTTP_PROXY}
+      - STREMTHRU_TUNNEL=${STREMTHRU_TUNNEL}
+      - STREMTHRU_PROXY_AUTH=${STREMTHRU_PROXY_AUTH}
+      - STREMTHRU_STORE_AUTH=${STREMTHRU_STORE_AUTH}
+      - STREMTHRU_PEER_URI=${STREMTHRU_PEER_URI}
+      - STREMTHRU_REDIS_URI=${STREMTHRU_REDIS_URI}
+      - STREMTHRU_DATABASE_URI=${STREMTHRU_DATABASE_URI:-sqlite://./data/stremthru.db}
+      - STREMTHRU_STREMIO_ADDON=${STREMTHRU_STREMIO_ADDON}
+    restart: unless-stopped
+    volumes:
+      - ${APP_DATA_DIR}/data/stremthru:/app/data
+    networks:
+      - tipi_main_network
+    labels:
+      runtipi.managed: "true"
+      
+  redis:
+    container_name: stremthru-redis
+    image: redis:7-alpine
+    ports:
+      - "8089:6379"
+    volumes:
+      - ${APP_DATA_DIR}/data/redis:/data
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    labels:
+      runtipi.managed: "true"
+    profiles:
+      - redis
+      
+  postgres:
+    container_name: stremthru-postgres
+    image: postgres:16.6-alpine
+    ports:
+      - "8088:5432"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-stremthru}
+      - POSTGRES_USER=${POSTGRES_USER:-stremthru}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-stremthru}
+    restart: unless-stopped
+    volumes:
+      - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql/data
+    networks:
+      - tipi_main_network
+    labels:
+      runtipi.managed: "true"
+    profiles:
+      - postgres
+
+networks:
+  tipi_main_network:
+    external: true

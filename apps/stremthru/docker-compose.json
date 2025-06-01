@@ -1,0 +1,77 @@
+{
+  "$schema": "../dynamic-compose-schema.json",
+  "services": [
+    {
+      "name": "stremthru",
+      "image": "muniftanjim/stremthru:latest",
+      "isMain": true,
+      "ports": [
+        {
+          "hostPort": 8080,
+          "containerPort": 8080
+        }
+      ],
+      "environment": {
+        "PUID": "${PUID-1000}",
+        "PGID": "${PGID-1000}",
+        "TZ": "${TZ-Europe/Prague}",
+        "STREMTHRU_HTTP_PROXY": "${STREMTHRU_HTTP_PROXY}",
+        "STREMTHRU_TUNNEL": "${STREMTHRU_TUNNEL}",
+        "STREMTHRU_PROXY_AUTH": "${STREMTHRU_PROXY_AUTH}",
+        "STREMTHRU_STORE_AUTH": "${STREMTHRU_STORE_AUTH}",
+        "STREMTHRU_PEER_URI": "${STREMTHRU_PEER_URI}",
+        "STREMTHRU_REDIS_URI": "${STREMTHRU_REDIS_URI}",
+        "STREMTHRU_DATABASE_URI": "${STREMTHRU_DATABASE_URI-sqlite://./data/stremthru.db}",
+        "STREMTHRU_STREMIO_ADDON": "${STREMTHRU_STREMIO_ADDON}"
+      },
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/stremthru",
+          "containerPath": "/app/data"
+        }
+      ],
+      "restart": "unless-stopped"
+    },
+    {
+      "name": "redis",
+      "image": "redis:7-alpine",
+      "condition": "${ENABLE_REDIS-false}",
+      "ports": [
+        {
+          "hostPort": 8089,
+          "containerPort": 6379
+        }
+      ],
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/redis",
+          "containerPath": "/data"
+        }
+      ],
+      "restart": "unless-stopped"
+    },
+    {
+      "name": "postgres",
+      "image": "postgres:16.6-alpine",
+      "condition": "${ENABLE_POSTGRES-false}",
+      "ports": [
+        {
+          "hostPort": 8088,
+          "containerPort": 5432
+        }
+      ],
+      "environment": {
+        "POSTGRES_DB": "${POSTGRES_DB-stremthru}",
+        "POSTGRES_USER": "${POSTGRES_USER-stremthru}",
+        "POSTGRES_PASSWORD": "${POSTGRES_PASSWORD-stremthru}"
+      },
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/postgres",
+          "containerPath": "/var/lib/postgresql/data"
+        }
+      ],
+      "restart": "unless-stopped"
+    }
+  ]
+}

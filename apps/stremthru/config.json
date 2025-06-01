@@ -1,0 +1,134 @@
+{
+  "$schema": "../app-info-schema.json",
+  "name": "Stremthru+",
+  "id": "stremthru",
+  "available": true,
+  "exposable": true,
+  "dynamic_config": true,
+  "port": 8080,
+  "tipi_version": 1,
+  "version": "latest",
+  "categories": ["media", "entertainment", "utilities"],
+  "author": "MunifTanjim + Runtipi community",
+  "description": "Companion for Stremio - acts as an interface for external content stores with proxy capabilities.",
+  "short_desc": "Stremio companion with content proxy support.",
+  "source": "https://github.com/MunifTanjim/stremthru",
+  "form_fields": [
+    {
+      "type": "text",
+      "label": "User ID (PUID)",
+      "hint": "User ID to run the container as (default: 1000)",
+      "env_variable": "PUID",
+      "default": "1000"
+    },
+    {
+      "type": "text",
+      "label": "Group ID (PGID)", 
+      "hint": "Group ID to run the container as (default: 1000)",
+      "env_variable": "PGID",
+      "default": "1000"
+    },
+    {
+      "type": "text",
+      "label": "Timezone",
+      "hint": "Timezone for the application (default: Europe/Prague)",
+      "env_variable": "TZ",
+      "default": "Europe/Prague"
+    },
+    {
+      "type": "url",
+      "label": "HTTP Proxy",
+      "hint": "HTTP proxy URL (optional, e.g., http://proxy.example.com:8080)",
+      "env_variable": "STREMTHRU_HTTP_PROXY",
+      "required": false
+    },
+    {
+      "type": "text",
+      "label": "Tunnel Configuration",
+      "hint": "Tunnel configuration (optional)",
+      "env_variable": "STREMTHRU_TUNNEL",
+      "required": false
+    },
+    {
+      "type": "text",
+      "label": "Proxy Authentication",
+      "hint": "Proxy authentication credentials (optional, format: username:password)",
+      "env_variable": "STREMTHRU_PROXY_AUTH",
+      "required": false
+    },
+    {
+      "type": "text",
+      "label": "Store Authentication",
+      "hint": "Store authentication credentials (optional)",
+      "env_variable": "STREMTHRU_STORE_AUTH",
+      "required": false
+    },
+    {
+      "type": "url",
+      "label": "Peer URI",
+      "hint": "Peer URI for distributed setups (optional)",
+      "env_variable": "STREMTHRU_PEER_URI",
+      "required": false
+    },
+    {
+      "type": "boolean",
+      "label": "Enable Redis",
+      "hint": "Enable Redis service for caching",
+      "env_variable": "ENABLE_REDIS",
+      "default": false
+    },
+    {
+      "type": "text",
+      "label": "Redis URI",
+      "hint": "Redis connection URI (auto-configured if Redis is enabled)",
+      "env_variable": "STREMTHRU_REDIS_URI",
+      "default": "",
+      "required": false
+    },
+    {
+      "type": "boolean",
+      "label": "Enable PostgreSQL",
+      "hint": "Enable PostgreSQL database (uses SQLite by default)",
+      "env_variable": "ENABLE_POSTGRES",
+      "default": false
+    },
+    {
+      "type": "text",
+      "label": "Database URI",
+      "hint": "Database connection URI (auto-configured based on database choice)",
+      "env_variable": "STREMTHRU_DATABASE_URI",
+      "default": "sqlite://./data/stremthru.db"
+    },
+    {
+      "type": "text",
+      "label": "PostgreSQL Database Name",
+      "hint": "PostgreSQL database name (used when PostgreSQL is enabled)",
+      "env_variable": "POSTGRES_DB",
+      "default": "stremthru"
+    },
+    {
+      "type": "text",
+      "label": "PostgreSQL Username", 
+      "hint": "PostgreSQL username (used when PostgreSQL is enabled)",
+      "env_variable": "POSTGRES_USER",
+      "default": "stremthru"
+    },
+    {
+      "type": "password",
+      "label": "PostgreSQL Password",
+      "hint": "PostgreSQL password (used when PostgreSQL is enabled)",
+      "env_variable": "POSTGRES_PASSWORD",
+      "default": "stremthru"
+    },
+    {
+      "type": "url",
+      "label": "Stremio Addon URL",
+      "hint": "Stremio addon endpoint URL (optional, auto-configured if not set)",
+      "env_variable": "STREMTHRU_STREMIO_ADDON",
+      "required": false
+    }
+  ],
+  "supported_architectures": ["amd64", "arm64"],
+  "created_at": 1740000000000,
+  "updated_at": 1740000000000
+}
