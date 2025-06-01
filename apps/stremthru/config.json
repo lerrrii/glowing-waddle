@@ -8,7 +8,7 @@
   "port": 8080,
   "tipi_version": 1,
   "version": "latest",
-  "categories": ["media", "entertainment", "utilities"],
+  "categories": ["media", "utilities"],
   "author": "MunifTanjim + Runtipi community",
   "description": "Companion for Stremio - acts as an interface for external content stores with proxy capabilities.",
   "short_desc": "Stremio companion with content proxy support.",
