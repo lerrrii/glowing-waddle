@@ -63,8 +63,8 @@ To bypass Docker Hub rate limits, provide your Docker Hub credentials:
 
 Controls which containers Watchtower will watch and update:
 
-* **true** (default): only monitors containers with `com.centurylinklabs.watchtower.enable=true` label
-* **false**: no label filtering, monitors containers based on other criteria
+* **false** (default): no label filtering, monitors containers based on other criteria
+* **true**: only monitors containers with `com.centurylinklabs.watchtower.enable=true` label
 
 **Example** in your service definitions:
 
