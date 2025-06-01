@@ -10,6 +10,8 @@ services:
       - --rollback-on-update-error
     environment:
       - WATCHTOWER_HTTP_API_UPDATE=true
+      - REPO_USER=${DOCKER_HUB_USERNAME}
+      - REPO_PASS=${DOCKER_HUB_PASSWORD}
       - WATCHTOWER_LABEL_ENABLE=${WATCHTOWER_LABEL_ENABLE}
       - WATCHTOWER_SCHEDULE=${WATCHTOWER_SCHEDULE}
       - TZ=Europe/Prague
