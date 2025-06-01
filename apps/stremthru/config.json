@@ -14,27 +14,7 @@
   "short_desc": "Stremio companion with content proxy support.",
   "source": "https://github.com/MunifTanjim/stremthru",
   "form_fields": [
-    {
-      "type": "text",
-      "label": "User ID (PUID)",
-      "hint": "User ID to run the container as (default: 1000)",
-      "env_variable": "PUID",
-      "default": "1000"
-    },
-    {
-      "type": "text",
-      "label": "Group ID (PGID)", 
-      "hint": "Group ID to run the container as (default: 1000)",
-      "env_variable": "PGID",
-      "default": "1000"
-    },
-    {
-      "type": "text",
-      "label": "Timezone",
-      "hint": "Timezone for the application (default: Europe/Prague)",
-      "env_variable": "TZ",
-      "default": "Europe/Prague"
-    },
+
     {
       "type": "url",
       "label": "HTTP Proxy",
