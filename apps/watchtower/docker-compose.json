@@ -3,7 +3,7 @@
   "services": [
     {
       "name": "watchtower",
-      "image": "containrrr/watchtower:latest",
+      "image": "beatkind/watchtower:latest",
       "isMain": true,
       "command": "${WATCHTOWER_EXTRA_ARGS}",
       "environment": {
