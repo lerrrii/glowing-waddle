@@ -10,9 +10,34 @@ Watchtower is a Docker container that automatically monitors and updates your ru
 * **Time-zone support**: Logs and cron scheduling respect your `TZ` choice.
 * **Notifications**: Email, Slack, MS Teams or Gotify.
 * **Cleanup**: Remove old images via `--cleanup`.
-* **Rollback**: Roll back on failure via `--rollback-on-update-error`.
+* **Rollback**: Roll back on failure via `--rollback-on-failure`.
 * **Docker Hub Authentication**: Bypass rate limits with Docker Hub credentials.
+* **HTTP API**: Trigger updates manually via HTTP endpoints.
 * **Extra flags**: Pass any other Watchtower CLI flags (`--include-stopped`, `--rolling-restart`, etc.).
+
+### Advanced Configuration Options
+
+#### Include Restarting Containers (`WATCHTOWER_INCLUDE_RESTARTING`)
+* **false** (default): ignore containers that are restarting
+* **true**: monitor and update containers even if they're currently restarting
+
+#### Revive Stopped Containers (`WATCHTOWER_REVIVE_STOPPED`)  
+* **false** (default): don't start stopped containers
+* **true**: automatically start stopped containers when updates are available
+
+#### HTTP API & Metrics (`WATCHTOWER_HTTP_API_METRICS`, `WATCHTOWER_HTTP_API_TOKEN`, `WATCHTOWER_HTTP_API_UPDATE`)
+* **HTTP API Metrics**: Enable `/v1/metrics` endpoint for monitoring integration
+* **HTTP API Update**: Enable `/v1/update` endpoint for manual updates
+* **HTTP API Token**: Optional security token for API access
+
+#### Debug Mode (`WATCHTOWER_DEBUG`)
+* **false** (default): standard logging
+* **true**: verbose debug output for troubleshooting
+
+#### Target Specific Containers (`WATCHTOWER_WATCH`)
+* Comma-separated list of container names to monitor exclusively
+* Example: `container1,container2,container3`
+* Leave empty to use label-based filtering instead
 
 ---
 
@@ -54,7 +79,7 @@ runtipi.managed=true
 
 ---
 
-### Rollback on Failure (`WATCHTOWER_ROLLBACK`)
+### Rollback on Failure (`WATCHTOWER_ROLLBACK_ON_FAILURE`)
 
 If an image update fails or the container crashes after updating, Watchtower can automatically roll back to the previous image digest.
 
@@ -67,22 +92,21 @@ If an image update fails or the container crashes after updating, Watchtower can
 
 ### Extra Watchtower Arguments (`WATCHTOWER_EXTRA_ARGS`)
 
-Pass any other CLI flags not exposed directly in the Runtipi form.  Separate multiple flags with spaces.
+Pass any other CLI flags not exposed directly in the Runtipi form.
+
+Separate multiple flags with spaces.
 
 **Examples**:
 
 * Watch stopped containers as well as running ones:
-
   ```text
   --include-stopped
   ```
 * Perform rolling restarts rather than stopping all at once:
-
   ```text
   --rolling-restart
   ```
 * Customize notifications behavior (send on every run, not just updates):
-
   ```text
   --notifications-on-update-only=false
   ```
