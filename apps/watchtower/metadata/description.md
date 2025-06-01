@@ -10,7 +10,6 @@ Watchtower is a Docker container that automatically monitors and updates your ru
 * **Time-zone support**: Logs and cron scheduling respect your `TZ` choice.
 * **Notifications**: Email, Slack, MS Teams or Gotify.
 * **Cleanup**: Remove old images via `--cleanup`.
-* **Rollback**: Roll back on failure via `--rollback-on-failure`.
 * **Docker Hub Authentication**: Bypass rate limits with Docker Hub credentials.
 * **HTTP API**: Trigger updates manually via HTTP endpoints.
 * **Extra flags**: Pass any other Watchtower CLI flags (`--include-stopped`, `--rolling-restart`, etc.).
@@ -21,23 +20,27 @@ Watchtower is a Docker container that automatically monitors and updates your ru
 * **false** (default): ignore containers that are restarting
 * **true**: monitor and update containers even if they're currently restarting
 
+#### Include Stopped Containers (`WATCHTOWER_INCLUDE_STOPPED`)
+* **false** (default): don't monitor stopped containers
+* **true**: also monitor created and exited containers
+
 #### Revive Stopped Containers (`WATCHTOWER_REVIVE_STOPPED`)  
 * **false** (default): don't start stopped containers
-* **true**: automatically start stopped containers when updates are available
+* **true**: automatically start stopped containers when updates are available (requires `WATCHTOWER_INCLUDE_STOPPED=true`)
 
 #### HTTP API & Metrics (`WATCHTOWER_HTTP_API_METRICS`, `WATCHTOWER_HTTP_API_TOKEN`, `WATCHTOWER_HTTP_API_UPDATE`)
-* **HTTP API Metrics**: Enable `/v1/metrics` endpoint for monitoring integration
 * **HTTP API Update**: Enable `/v1/update` endpoint for manual updates
+* **HTTP API Metrics**: Enable `/v1/metrics` endpoint for monitoring integration
 * **HTTP API Token**: Optional security token for API access
+* **HTTP API Periodic Polls**: Keep running periodic updates even when HTTP API is enabled
 
 #### Debug Mode (`WATCHTOWER_DEBUG`)
 * **false** (default): standard logging
 * **true**: verbose debug output for troubleshooting
 
-#### Target Specific Containers (`WATCHTOWER_WATCH`)
-* Comma-separated list of container names to monitor exclusively
-* Example: `container1,container2,container3`
-* Leave empty to use label-based filtering instead
+#### Monitor Only Mode (`WATCHTOWER_MONITOR_ONLY`)
+* **false** (default): update containers when new images are found
+* **true**: only monitor and notify, don't actually update containers
 
 ---
 
@@ -49,8 +52,8 @@ Below is a quick reference for the key environment variables and form fields you
 
 To bypass Docker Hub rate limits, provide your Docker Hub credentials:
 
-* **DOCKER_HUB_USERNAME**: Your Docker Hub username
-* **DOCKER_HUB_PASSWORD**: Your Docker Hub password or access token
+* **REPO_USER**: Your Docker Hub username
+* **REPO_PASS**: Your Docker Hub password or access token
 
 **When to use**: Always recommended to avoid hitting Docker Hub's anonymous pull rate limits (100 pulls per 6 hours per IP).
 
@@ -60,33 +63,18 @@ To bypass Docker Hub rate limits, provide your Docker Hub credentials:
 
 Controls which containers Watchtower will watch and update:
 
-* **Empty** (default): no filter, all running containers are monitored.
-* **Key only** (e.g. `runtipi.managed`): monitors containers with *any* value set on that label.
-* **Key=value** (e.g. `runtipi.managed=true`): monitors only containers whose label matches exactly.
+* **false** (default): no label filtering, monitors containers based on other criteria
+* **true**: only monitors containers with `com.centurylinklabs.watchtower.enable=true` label
 
 **Example** in your service definitions:
 
 ```yaml
 labels:
+  com.centurylinklabs.watchtower.enable: "true"
   runtipi.managed: "true"
 ```
 
-Then set **Label selector** to:
-
-```
-runtipi.managed=true
-```
-
----
-
-### Rollback on Failure (`WATCHTOWER_ROLLBACK_ON_FAILURE`)
-
-If an image update fails or the container crashes after updating, Watchtower can automatically roll back to the previous image digest.
-
-* **false** (default): no rollback.
-* **true**: enable automatic rollback on update error.
-
-**When to use**: critical services where uptime is paramount, and you want to revert if a new image is broken.
+Then set **Label Enable** to `true`.
 
 ---
 
@@ -106,9 +94,13 @@ Separate multiple flags with spaces.
   ```text
   --rolling-restart
   ```
-* Customize notifications behavior (send on every run, not just updates):
+* Only monitor specific containers by name:
   ```text
-  --notifications-on-update-only=false
+  nginx redis postgres
+  ```
+* Use a custom label for filtering:
+  ```text
+  --label-enable com.example.watchtower=true
   ```
 
 ---
@@ -128,18 +120,6 @@ For each channel you include, set the corresponding URL or SMTP variables:
 | **Gotify**   | `WATCHTOWER_NOTIFICATION_GOTIFY_URL`                                                                                                                                                                           | Your Gotify server endpoint.                         |
 | **Email**    | `WATCHTOWER_NOTIFICATION_EMAIL_FROM`, `WATCHTOWER_NOTIFICATION_EMAIL_TO`, `WATCHTOWER_NOTIFICATION_EMAIL_SERVER`, `WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER`, `WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD` | SMTP settings. `EMAIL_SERVER` is `host:port` format. |
 
-**Example for Slack + Email**:
-
-```env
-WATCHTOWER_NOTIFICATIONS=slack,email
-WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL=https://hooks.slack.com/services/…
-WATCHTOWER_NOTIFICATION_EMAIL_FROM=watchtower@example.com
-WATCHTOWER_NOTIFICATION_EMAIL_TO=ops-team@example.com
-WATCHTOWER_NOTIFICATION_EMAIL_SERVER=smtp.example.com:587
-WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER=user
-WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD=secret
-```
-
 ---
 
 ## Disabling Containers Explicitly
@@ -156,22 +136,6 @@ services:
     labels:
       runtipi.managed: "true"
       com.centurylinklabs.watchtower.enable: "false"
-```
-
-Alternatively, you can define your own disable key via the `--label-disable` flag in **Extra Watchtower args**:
-
-```text
-# In the Runtipi UI under "Extra Watchtower args":
---label-disable custom.skip.update
-```
-
-Then tag services to skip with your custom key:
-
-```yaml
-services:
-  old_service:
-    labels:
-      custom.skip.update: "true"
 ```
 
 ---
@@ -204,5 +168,6 @@ services:
 * **Time Zone**: Set `TZ` so your 03:00 means your local 3 AM, not UTC.
 * **No Dual Modes**: Don't combine `--schedule` and `--interval`—Watchtower honors only one.
 * **Docker Hub Limits**: Always set Docker Hub credentials to avoid rate limiting issues.
+* **No Rollback**: Watchtower doesn't have rollback functionality - test updates carefully!
 
 Happy auto-updating! 🚀
