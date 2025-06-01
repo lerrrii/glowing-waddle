@@ -2,21 +2,25 @@ version: '3.7'
 
 services:
   watchtower:
-    image: beatkind/watchtower:latest
+    image: containrrr/watchtower:latest
     container_name: watchtower
-    command:
-      - --http-api-update
-      - --cleanup
-      - --rollback-on-update-error
+    command: ${WATCHTOWER_EXTRA_ARGS}
     environment:
-      - WATCHTOWER_HTTP_API_UPDATE=true
       - REPO_USER=${DOCKER_HUB_USERNAME}
       - REPO_PASS=${DOCKER_HUB_PASSWORD}
       - WATCHTOWER_LABEL_ENABLE=${WATCHTOWER_LABEL_ENABLE}
       - WATCHTOWER_SCHEDULE=${WATCHTOWER_SCHEDULE}
       - TZ=Europe/Prague
       - WATCHTOWER_CLEANUP=${WATCHTOWER_CLEANUP}
-      - WATCHTOWER_ROLLBACK=${WATCHTOWER_ROLLBACK}
+      - WATCHTOWER_MONITOR_ONLY=${WATCHTOWER_MONITOR_ONLY}
+      - WATCHTOWER_HTTP_API_UPDATE=${WATCHTOWER_HTTP_API_UPDATE}
+      - WATCHTOWER_HTTP_API_PERIODIC_POLLS=${WATCHTOWER_HTTP_API_PERIODIC_POLLS}
+      - WATCHTOWER_INCLUDE_RESTARTING=${WATCHTOWER_INCLUDE_RESTARTING}
+      - WATCHTOWER_INCLUDE_STOPPED=${WATCHTOWER_INCLUDE_STOPPED}
+      - WATCHTOWER_REVIVE_STOPPED=${WATCHTOWER_REVIVE_STOPPED}
+      - WATCHTOWER_HTTP_API_METRICS=${WATCHTOWER_HTTP_API_METRICS}
+      - WATCHTOWER_HTTP_API_TOKEN=${WATCHTOWER_HTTP_API_TOKEN}
+      - WATCHTOWER_DEBUG=${WATCHTOWER_DEBUG}
       - WATCHTOWER_NOTIFICATIONS=${WATCHTOWER_NOTIFICATIONS}
       - WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL=${WATCHTOWER_NOTIFICATION_SLACK_HOOK_URL}
       - WATCHTOWER_NOTIFICATION_MSTEAMS_HOOK_URL=${WATCHTOWER_NOTIFICATION_MSTEAMS_HOOK_URL}
@@ -26,48 +30,17 @@ services:
       - WATCHTOWER_NOTIFICATION_EMAIL_SERVER=${WATCHTOWER_NOTIFICATION_EMAIL_SERVER}
       - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER=${WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER}
       - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD=${WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD}
-      - WATCHTOWER_EXTRA_ARGS=${WATCHTOWER_EXTRA_ARGS}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     networks:
       - tipi_main_network
     restart: unless-stopped
     labels:
-      # Enable Traefik discovery
-      traefik.enable: "true"
-      
-      # Redirect HTTP → HTTPS
-      traefik.http.middlewares.watchtower-redirect.redirectscheme.scheme: https
-
-      # Internal port
-      traefik.http.services.watchtower.loadbalancer.server.port: "8080"
-
-      # HTTP router (insecure)
-      traefik.http.routers.watchtower-insecure.rule: "Host(`${APP_DOMAIN}`)"
-      traefik.http.routers.watchtower-insecure.entrypoints: "web"
-      traefik.http.routers.watchtower-insecure.service: "watchtower"
-      traefik.http.routers.watchtower-insecure.middlewares: "watchtower-redirect"
-
-      # HTTPS router (secure)
-      traefik.http.routers.watchtower.rule: "Host(`${APP_DOMAIN}`)"
-      traefik.http.routers.watchtower.entrypoints: "websecure"
-      traefik.http.routers.watchtower.service: "watchtower"
-      traefik.http.routers.watchtower.tls.certresolver: "myresolver"
-
-      # Local HTTP (insecure)
-      traefik.http.routers.watchtower-local-insecure.rule: "Host(`watchtower.${LOCAL_DOMAIN}`)"
-      traefik.http.routers.watchtower-local-insecure.entrypoints: "web"
-      traefik.http.routers.watchtower-local-insecure.service: "watchtower"
-      traefik.http.routers.watchtower-local-insecure.middlewares: "watchtower-redirect"
-
-      # Local HTTPS (secure)
-      traefik.http.routers.watchtower-local.rule: "Host(`watchtower.${LOCAL_DOMAIN}`)"
-      traefik.http.routers.watchtower-local.entrypoints: "websecure"
-      traefik.http.routers.watchtower-local.service: "watchtower"
-      traefik.http.routers.watchtower-local.tls: "true"
-
-      # Mark as managed by Runtipi
+      # Mark as managed by Runtipi but don't let it update itself
       runtipi.managed: "true"
+      com.centurylinklabs.watchtower.enable: "false"
 
 networks:
   tipi_main_network:
