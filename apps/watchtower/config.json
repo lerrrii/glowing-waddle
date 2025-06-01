@@ -1,16 +1,16 @@
 {
   "$schema": "../app-info-schema.json",
-  "name": "Watchtower+",
+  "name": "Watchtower",
   "id": "watchtower",
   "available": true,
-  "exposable": true,
+  "exposable": false,
   "dynamic_config": true,
   "port": 8080,
   "tipi_version": 1,
   "version": "latest",
   "categories": ["utilities", "automation", "security"],
   "author": "containrrr + Runtipi community",
-  "description": "Auto-update Docker containers with cron, time-zone, notifications and optional UI.",
+  "description": "Auto-update Docker containers with cron, time-zone, and notifications support.",
   "short_desc": "Docker auto-updater with notifications.",
   "source": "https://github.com/containrrr/watchtower",
   "form_fields": [
@@ -29,16 +29,16 @@
       "required": false
     },
     {
-      "type": "text",
-      "label": "Label selector",
-      "hint": "Only containers with this label=true will be watched; leave empty to watch all.",
+      "type": "boolean",
+      "label": "Enable label filtering",
+      "hint": "Only update containers with com.centurylinklabs.watchtower.enable=true label",
       "env_variable": "WATCHTOWER_LABEL_ENABLE",
-      "default": "runtipi.managed=true"
+      "default": true
     },
     {
       "type": "text",
       "label": "Cron schedule (6 fields)",
-      "placeholder": "(empty → 24 h rolling interval)",
+      "placeholder": "e.g., 0 0 4 * * * for daily at 4 AM",
       "env_variable": "WATCHTOWER_SCHEDULE",
       "default": ""
     },
@@ -50,8 +50,65 @@
     },
     {
       "type": "boolean",
-      "label": "Rollback on failure",
-      "env_variable": "WATCHTOWER_ROLLBACK",
+      "label": "Monitor only (no updates)",
+      "hint": "Only monitor and notify, don't actually update containers",
+      "env_variable": "WATCHTOWER_MONITOR_ONLY",
+      "default": false
+    },
+    {
+      "type": "boolean",
+      "label": "Enable HTTP API updates",
+      "hint": "Allow triggering updates via HTTP API endpoint",
+      "env_variable": "WATCHTOWER_HTTP_API_UPDATE",
+      "default": false
+    },
+    {
+      "type": "boolean",
+      "label": "Enable HTTP API periodic polls",
+      "hint": "Keep running periodic updates when HTTP API is enabled",
+      "env_variable": "WATCHTOWER_HTTP_API_PERIODIC_POLLS",
+      "default": false
+    },
+    {
+      "type": "boolean",
+      "label": "Include restarting containers",
+      "hint": "Watch containers that are restarting",
+      "env_variable": "WATCHTOWER_INCLUDE_RESTARTING",
+      "default": false
+    },
+    {
+      "type": "boolean",
+      "label": "Include stopped containers",
+      "hint": "Also monitor created and exited containers",
+      "env_variable": "WATCHTOWER_INCLUDE_STOPPED",
+      "default": false
+    },
+    {
+      "type": "boolean",
+      "label": "Revive stopped containers",
+      "hint": "Start stopped containers when updates are available (requires include stopped)",
+      "env_variable": "WATCHTOWER_REVIVE_STOPPED",
+      "default": false
+    },
+    {
+      "type": "boolean",
+      "label": "Enable HTTP API metrics",
+      "hint": "Enable metrics endpoint for monitoring",
+      "env_variable": "WATCHTOWER_HTTP_API_METRICS",
+      "default": false
+    },
+    {
+      "type": "text",
+      "label": "HTTP API Token",
+      "hint": "Token for securing HTTP API access (optional)",
+      "env_variable": "WATCHTOWER_HTTP_API_TOKEN",
+      "required": false
+    },
+    {
+      "type": "boolean",
+      "label": "Enable debug logging",
+      "hint": "Enable detailed debug output",
+      "env_variable": "WATCHTOWER_DEBUG",
       "default": false
     },
     {
@@ -112,7 +169,7 @@
     {
       "type": "text",
       "label": "Extra Watchtower args",
-      "hint": "e.g. --include-stopped --rolling-restart",
+      "hint": "e.g. --rolling-restart or container names to watch",
       "env_variable": "WATCHTOWER_EXTRA_ARGS",
       "default": ""
     }
