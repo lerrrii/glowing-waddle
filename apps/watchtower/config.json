@@ -54,7 +54,7 @@
       "label": "Enable label filtering",
       "hint": "Only update containers with com.centurylinklabs.watchtower.enable=true label",
       "env_variable": "WATCHTOWER_LABEL_ENABLE",
-      "default": true
+      "default": false
     },
     {
       "type": "text",
