@@ -16,6 +16,20 @@
   "form_fields": [
     {
       "type": "text",
+      "label": "Docker Hub Username",
+      "hint": "Your Docker Hub username to bypass rate limits",
+      "env_variable": "DOCKER_HUB_USERNAME",
+      "required": false
+    },
+    {
+      "type": "password",
+      "label": "Docker Hub Password",
+      "hint": "Your Docker Hub password or access token to bypass rate limits",
+      "env_variable": "DOCKER_HUB_PASSWORD",
+      "required": false
+    },
+    {
+      "type": "text",
       "label": "Label selector",
       "hint": "Only containers with this label=true will be watched; leave empty to watch all.",
       "env_variable": "WATCHTOWER_LABEL_ENABLE",
