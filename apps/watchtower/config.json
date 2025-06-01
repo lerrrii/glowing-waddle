@@ -59,14 +59,6 @@
     },
     {
       "type": "text",
-      "label": "Custom label selector",
-      "hint": "Custom label like 'runtipi.managed=true' (overrides official boolean if set)",
-      "env_variable": "WATCHTOWER_CUSTOM_LABEL",
-      "default": "runtipi.managed=true",
-      "required": false
-    },
-    {
-      "type": "text",
       "label": "Cron schedule (6 fields)",
       "placeholder": "e.g., 0 0 3 * * * for daily at 3 AM",
       "env_variable": "WATCHTOWER_SCHEDULE",
