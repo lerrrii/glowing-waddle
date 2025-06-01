@@ -54,7 +54,16 @@
       "label": "Enable label filtering",
       "hint": "Only update containers with com.centurylinklabs.watchtower.enable=true label",
       "env_variable": "WATCHTOWER_LABEL_ENABLE",
-      "default": false
+      "default": false,
+      "required": false
+    },
+    {
+      "type": "text",
+      "label": "Custom label selector",
+      "hint": "Custom label like 'runtipi.managed=true' (overrides official boolean if set)",
+      "env_variable": "WATCHTOWER_CUSTOM_LABEL",
+      "default": "runtipi.managed=true",
+      "required": false
     },
     {
       "type": "text",
