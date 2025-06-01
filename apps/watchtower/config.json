@@ -50,13 +50,6 @@
       "required": false
     },
     {
-      "type": "text",
-      "label": "Label selector",
-      "hint": "Only containers with this label=true will be watched; leave empty to watch all.",
-      "env_variable": "WATCHTOWER_LABEL_ENABLE",
-      "default": "runtipi.managed=true"
-    },
-    {
       "type": "boolean",
       "label": "Enable label filtering",
       "hint": "Only update containers with com.centurylinklabs.watchtower.enable=true label",
