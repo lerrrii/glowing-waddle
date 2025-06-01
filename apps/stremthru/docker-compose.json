@@ -12,9 +12,6 @@
         }
       ],
       "environment": {
-        "PUID": "${PUID-1000}",
-        "PGID": "${PGID-1000}",
-        "TZ": "${TZ-Europe/Prague}",
         "STREMTHRU_HTTP_PROXY": "${STREMTHRU_HTTP_PROXY}",
         "STREMTHRU_TUNNEL": "${STREMTHRU_TUNNEL}",
         "STREMTHRU_PROXY_AUTH": "${STREMTHRU_PROXY_AUTH}",
