@@ -7,6 +7,8 @@
       "isMain": true,
       "internalPort": 8080,
       "environment": {
+        "REPO_USER": "${DOCKER_HUB_USERNAME}",
+        "REPO_PASS": "${DOCKER_HUB_PASSWORD}",
         "WATCHTOWER_LABEL_ENABLE": "${WATCHTOWER_LABEL_ENABLE}",
         "WATCHTOWER_SCHEDULE": "${WATCHTOWER_SCHEDULE}",
         "TZ": "Europe/Prague",
