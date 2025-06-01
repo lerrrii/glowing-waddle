@@ -59,9 +59,9 @@
     {
       "type": "text",
       "label": "Cron schedule (6 fields)",
-      "placeholder": "e.g., 0 0 4 * * * for daily at 4 AM",
+      "placeholder": "e.g., 0 0 3 * * * for daily at 3 AM",
       "env_variable": "WATCHTOWER_SCHEDULE",
-      "default": "0 0 4 * * *"
+      "default": "0 0 3 * * *"
     },
     {
       "type": "boolean",
