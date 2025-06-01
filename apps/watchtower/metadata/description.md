@@ -34,9 +34,10 @@ Watchtower is a Docker container that automatically monitors and updates your ru
 * **HTTP API Token**: Optional security token for API access
 * **HTTP API Periodic Polls**: Keep running periodic updates even when HTTP API is enabled
 
-#### Debug Mode (`WATCHTOWER_DEBUG`)
-* **false** (default): standard logging
-* **true**: verbose debug output for troubleshooting
+#### Debug Mode (`WATCHTOWER_DEBUG`, `WATCHTOWER_LOG_LEVEL`, `WATCHTOWER_TRACE`)
+* **WATCHTOWER_DEBUG**: Enable/disable debug mode
+* **WATCHTOWER_LOG_LEVEL**: Set logging verbosity (panic, fatal, error, warn, info, debug, trace)
+* **WATCHTOWER_TRACE**: Enable trace mode for maximum verbosity (WARNING: exposes credentials in logs)
 
 #### Monitor Only Mode (`WATCHTOWER_MONITOR_ONLY`)
 * **false** (default): update containers when new images are found
@@ -169,5 +170,6 @@ services:
 * **No Dual Modes**: Don't combine `--schedule` and `--interval`—Watchtower honors only one.
 * **Docker Hub Limits**: Always set Docker Hub credentials to avoid rate limiting issues.
 * **No Rollback**: Watchtower doesn't have rollback functionality - test updates carefully!
+* **Debug Logging**: Use trace mode only temporarily as it exposes credentials in logs.
 
 Happy auto-updating! 🚀
