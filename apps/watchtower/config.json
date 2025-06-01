@@ -39,14 +39,14 @@
       "type": "text",
       "label": "Docker Hub Username",
       "hint": "Your Docker Hub username to bypass rate limits",
-      "env_variable": "DOCKER_HUB_USERNAME",
+      "env_variable": "REPO_USER",
       "required": false
     },
     {
       "type": "password",
       "label": "Docker Hub Password",
       "hint": "Your Docker Hub password or access token to bypass rate limits",
-      "env_variable": "DOCKER_HUB_PASSWORD",
+      "env_variable": "REPO_PASS",
       "required": false
     },
     {
@@ -130,6 +130,20 @@
       "label": "Enable debug logging",
       "hint": "Enable detailed debug output",
       "env_variable": "WATCHTOWER_DEBUG",
+      "default": false
+    },
+    {
+      "type": "text",
+      "label": "Log Level",
+      "hint": "panic, fatal, error, warn, info, debug, trace (default: info)",
+      "env_variable": "WATCHTOWER_LOG_LEVEL",
+      "default": "info"
+    },
+    {
+      "type": "boolean",
+      "label": "Enable trace logging",
+      "hint": "Very verbose logging - WARNING: exposes credentials in logs!",
+      "env_variable": "WATCHTOWER_TRACE",
       "default": false
     },
     {
