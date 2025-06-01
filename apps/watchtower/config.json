@@ -16,6 +16,27 @@
   "form_fields": [
     {
       "type": "text",
+      "label": "User ID (PUID)",
+      "hint": "User ID to run the container as (default: 1000)",
+      "env_variable": "PUID",
+      "default": "1000"
+    },
+    {
+      "type": "text",
+      "label": "Group ID (PGID)",
+      "hint": "Group ID to run the container as (default: 1000)",
+      "env_variable": "PGID",
+      "default": "1000"
+    },
+    {
+      "type": "text",
+      "label": "Timezone",
+      "hint": "Timezone for scheduling and logs (default: Europe/Prague)",
+      "env_variable": "TZ",
+      "default": "Europe/Prague"
+    },
+    {
+      "type": "text",
       "label": "Docker Hub Username",
       "hint": "Your Docker Hub username to bypass rate limits",
       "env_variable": "DOCKER_HUB_USERNAME",
@@ -40,7 +61,7 @@
       "label": "Cron schedule (6 fields)",
       "placeholder": "e.g., 0 0 4 * * * for daily at 4 AM",
       "env_variable": "WATCHTOWER_SCHEDULE",
-      "default": ""
+      "default": "0 0 4 * * *"
     },
     {
       "type": "boolean",
