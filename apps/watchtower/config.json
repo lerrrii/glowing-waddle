@@ -50,10 +50,18 @@
       "required": false
     },
     {
-      "type": "text",
-      "label": "Label selector",
-      "hint": "Containers with this label=true will be watched. Use 'runtipi.managed=true' for Runtipi apps or 'com.centurylinklabs.watchtower.enable=true' for official Watchtower label. Leave empty to watch ALL containers.",
+      "type": "boolean",
+      "label": "Enable label filtering",
+      "hint": "Only update containers with com.centurylinklabs.watchtower.enable=true label",
       "env_variable": "WATCHTOWER_LABEL_ENABLE",
+      "default": false,
+      "required": false
+    },
+    {
+      "type": "text",
+      "label": "Custom label selector",
+      "hint": "Custom label like 'runtipi.managed=true' (overrides official boolean if set)",
+      "env_variable": "WATCHTOWER_CUSTOM_LABEL",
       "default": "runtipi.managed=true",
       "required": false
     },
