@@ -57,7 +57,7 @@ services:
       COMET_URL: "${COMET_URL-https://comet.elfhosted.com/}"
       DEFAULT_COMET_TIMEOUT: "${DEFAULT_COMET_TIMEOUT-15000}"
       # FORCE_COMET_HOSTNAME: "${FORCE_COMET_HOSTNAME}"   -> ADD to compose.json: "FORCE_COMET_HOSTNAME": "${FORCE_COMET_HOSTNAME}",
-      FORCE_COMET_PORT: "${FORCE_COMET_PORT}"
+      FORCE_COMET_PORT: "${FORCE_COMET_PORT-}"
       # FORCE_COMET_PROTOCOL: "${FORCE_COMET_PROTOCOL}"   -> ADD to compose.json: "FORCE_COMET_PROTOCOL": "${FORCE_COMET_PROTOCOL}",
       
       # MediaFusion Configuration
