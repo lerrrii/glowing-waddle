@@ -22,40 +22,6 @@ services:
       - tipi_main_network
     labels:
       runtipi.managed: "true"
-      
-  redis:
-    container_name: stremthru-redis
-    image: redis:7-alpine
-    ports:
-      - "8089:6379"
-    volumes:
-      - ${APP_DATA_DIR}/data/redis:/data
-    restart: unless-stopped
-    networks:
-      - tipi_main_network
-    labels:
-      runtipi.managed: "true"
-    profiles:
-      - redis
-      
-  postgres:
-    container_name: stremthru-postgres
-    image: postgres:16.6-alpine
-    ports:
-      - "8088:5432"
-    environment:
-      - POSTGRES_DB=${POSTGRES_DB:-stremthru}
-      - POSTGRES_USER=${POSTGRES_USER:-stremthru}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-stremthru}
-    restart: unless-stopped
-    volumes:
-      - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql/data
-    networks:
-      - tipi_main_network
-    labels:
-      runtipi.managed: "true"
-    profiles:
-      - postgres
 
 networks:
   tipi_main_network:
