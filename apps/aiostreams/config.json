@@ -206,8 +206,7 @@
       "type": "url",
       "label": "Default MediaFlow URL",
       "env_variable": "DEFAULT_MEDIAFLOW_URL",
-      "default": "https://mediaflow.elfhosted.com/",
-      "placeholder": "https://mediaflow.elfhosted.com/",
+      "placeholder": "https://mediaflow.example.com/",
       "hint": "Default MediaFlow URL, forces use if set."
     },
     {
