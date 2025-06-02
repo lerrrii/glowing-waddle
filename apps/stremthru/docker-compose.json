@@ -23,6 +23,45 @@
         }
       ],
       "restart": "unless-stopped"
+    },
+    {
+      "name": "redis",
+      "image": "redis:7-alpine",
+      "ports": [
+        {
+          "hostPort": 8089,
+          "containerPort": 6379
+        }
+      ],
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/redis",
+          "containerPath": "/data"
+        }
+      ],
+      "restart": "unless-stopped"
+    },
+    {
+      "name": "postgres",
+      "image": "postgres:16.6-alpine",
+      "ports": [
+        {
+          "hostPort": 8088,
+          "containerPort": 5432
+        }
+      ],
+      "environment": {
+        "POSTGRES_DB": "stremthru",
+        "POSTGRES_USER": "stremthru",
+        "POSTGRES_PASSWORD": "stremthru"
+      },
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/data/postgres",
+          "containerPath": "/var/lib/postgresql/data"
+        }
+      ],
+      "restart": "unless-stopped"
     }
   ]
 }
