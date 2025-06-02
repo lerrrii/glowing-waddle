@@ -6,13 +6,14 @@
   "exposable": true,
   "dynamic_config": true,
   "port": 8080,
-  "tipi_version": 1,
+  "tipi_version": 16,
   "version": "latest",
   "categories": ["media", "utilities"],
-  "author": "MunifTanjim + Runtipi community",
   "description": "Companion for Stremio - acts as an interface for external content stores with proxy capabilities.",
   "short_desc": "Stremio companion with content proxy support.",
+  "author": "MunifTanjim",
   "source": "https://github.com/MunifTanjim/stremthru",
+  "website": "https://github.com/MunifTanjim/stremthru",
   "form_fields": [
     {
       "type": "url",
