@@ -24,8 +24,6 @@
         "LOG_LEVEL": "${LOG_LEVEL-info}",
         "LOG_FORMAT": "${LOG_FORMAT-text}",
         "LOG_SENSITIVE_INFO": "${LOG_SENSITIVE_INFO-true}",
-        "ADDON_PROXY": "${ADDON_PROXY-}",
-        "ADDON_PROXY_CONFIG": "${ADDON_PROXY_CONFIG-}",
 
         "MAX_ADDONS": "${MAX_ADDONS-15}",
         "MAX_KEYWORD_FILTERS": "${MAX_KEYWORD_FILTERS-30}",
