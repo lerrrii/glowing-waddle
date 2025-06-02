@@ -54,7 +54,6 @@
       "env_variable": "SECRET_KEY",
       "encoding": "hex",
       "min": 64,
-      "required": true,
       "hint": "Auto-generated 64-character hex string for config encryption"
     },
     {
