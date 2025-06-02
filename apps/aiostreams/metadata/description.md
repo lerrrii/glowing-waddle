@@ -4,7 +4,7 @@ Aggregate and filter multiple Stremio addons and debrid services into one config
 
 ## Overview
 
-AIOStreams+ is a powerful Stremio addon aggregator that combines multiple upstream addons and debrid services into a single, highly configurable interface. It provides advanced filtering, sorting, deduplication, and proxy capabilities to streamline your streaming experience.
+AIOStreams is a powerful Stremio addon aggregator that combines multiple upstream addons and debrid services into a single, highly configurable interface. It provides advanced filtering, sorting, deduplication, and proxy capabilities to streamline your streaming experience.
 
 ## Key Features
 
