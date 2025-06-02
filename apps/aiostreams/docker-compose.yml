@@ -21,8 +21,8 @@ services:
       LOG_SENSITIVE_INFO: "${LOG_SENSITIVE_INFO-true}"
       
       # Proxy Configuration
-      ADDON_PROXY: "${ADDON_PROXY-}"
-      ADDON_PROXY_CONFIG: "${ADDON_PROXY_CONFIG-}"
+      # ADDON_PROXY: "${ADDON_PROXY}"   -> ADD to compose.json: "ADDON_PROXY": "${ADDON_PROXY}",
+      # ADDON_PROXY_CONFIG: "${ADDON_PROXY_CONFIG}"   -> ADD to compose.json: "ADDON_PROXY_CONFIG": "${ADDON_PROXY_CONFIG}",
       
       # Limits
       MAX_ADDONS: "${MAX_ADDONS-15}"
