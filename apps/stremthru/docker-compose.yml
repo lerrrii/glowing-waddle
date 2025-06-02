@@ -4,8 +4,6 @@ services:
   stremthru:
     container_name: stremthru
     image: muniftanjim/stremthru:latest
-    ports:
-      - ${APP_PORT}:8080
     environment:
       - STREMTHRU_HTTP_PROXY=${STREMTHRU_HTTP_PROXY}
       - STREMTHRU_TUNNEL=${STREMTHRU_TUNNEL}
@@ -18,6 +16,8 @@ services:
     restart: unless-stopped
     volumes:
       - ${APP_DATA_DIR}/data/stremthru:/app/data
+    ports:
+      - ${APP_PORT}:8080
     networks:
       - tipi_main_network
     labels:
@@ -45,6 +45,36 @@ services:
       traefik.http.routers.stremthru-local.entrypoints: websecure
       traefik.http.routers.stremthru-local.service: stremthru
       traefik.http.routers.stremthru-local.tls: true
+      runtipi.managed: true
+
+  redis:
+    container_name: stremthru-redis
+    image: redis:7-alpine
+    ports:
+      - "8089:6379"
+    volumes:
+      - ${APP_DATA_DIR}/data/redis:/data
+    restart: unless-stopped
+    networks:
+      - tipi_main_network
+    labels:
+      runtipi.managed: true
+
+  postgres:
+    container_name: stremthru-postgres
+    image: postgres:16.6-alpine
+    ports:
+      - "8088:5432"
+    environment:
+      - POSTGRES_DB=stremthru
+      - POSTGRES_USER=stremthru
+      - POSTGRES_PASSWORD=stremthru
+    restart: unless-stopped
+    volumes:
+      - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql/data
+    networks:
+      - tipi_main_network
+    labels:
       runtipi.managed: true
 
 networks:
