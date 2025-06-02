@@ -14,7 +14,6 @@
   "short_desc": "Stremio companion with content proxy support.",
   "source": "https://github.com/MunifTanjim/stremthru",
   "form_fields": [
-
     {
       "type": "url",
       "label": "HTTP Proxy",
@@ -51,54 +50,19 @@
       "required": false
     },
     {
-      "type": "boolean",
-      "label": "Enable Redis",
-      "hint": "Enable Redis service for caching",
-      "env_variable": "ENABLE_REDIS",
-      "default": false
-    },
-    {
       "type": "text",
       "label": "Redis URI",
-      "hint": "Redis connection URI (auto-configured if Redis is enabled)",
+      "hint": "Redis connection URI (optional, e.g., redis://localhost:6379)",
       "env_variable": "STREMTHRU_REDIS_URI",
-      "default": "",
       "required": false
-    },
-    {
-      "type": "boolean",
-      "label": "Enable PostgreSQL",
-      "hint": "Enable PostgreSQL database (uses SQLite by default)",
-      "env_variable": "ENABLE_POSTGRES",
-      "default": false
     },
     {
       "type": "text",
       "label": "Database URI",
-      "hint": "Database connection URI (auto-configured based on database choice)",
+      "hint": "Database connection URI (default: sqlite://./data/stremthru.db)",
       "env_variable": "STREMTHRU_DATABASE_URI",
-      "default": "sqlite://./data/stremthru.db"
-    },
-    {
-      "type": "text",
-      "label": "PostgreSQL Database Name",
-      "hint": "PostgreSQL database name (used when PostgreSQL is enabled)",
-      "env_variable": "POSTGRES_DB",
-      "default": "stremthru"
-    },
-    {
-      "type": "text",
-      "label": "PostgreSQL Username", 
-      "hint": "PostgreSQL username (used when PostgreSQL is enabled)",
-      "env_variable": "POSTGRES_USER",
-      "default": "stremthru"
-    },
-    {
-      "type": "password",
-      "label": "PostgreSQL Password",
-      "hint": "PostgreSQL password (used when PostgreSQL is enabled)",
-      "env_variable": "POSTGRES_PASSWORD",
-      "default": "stremthru"
+      "default": "sqlite://./data/stremthru.db",
+      "required": false
     },
     {
       "type": "url",
