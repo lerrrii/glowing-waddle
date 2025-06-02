@@ -10,7 +10,7 @@ Stremthru is a companion service for Stremio that acts as an interface for exter
 * **HTTP Proxy Support**: Configurable HTTP proxy support
 * **Tunnel Support**: Built-in tunneling capabilities
 * **Authentication**: Support for proxy and store authentication
-* **Database Options**: Supports both SQLite and PostgreSQL databases
+* **Database Options**: Supports SQLite database
 * **Redis Support**: Optional Redis integration for caching
 * **Peer Connectivity**: Configurable peer URI for distributed setups
 
@@ -18,10 +18,8 @@ Stremthru is a companion service for Stremio that acts as an interface for exter
 
 ### Database Configuration
 
-Stremthru supports multiple database backends:
-
+Stremthru uses SQLite database:
 * **SQLite** (default): `sqlite://./data/stremthru.db`
-* **PostgreSQL**: `postgresql://user:password@host:port/database`
 
 ### Redis Configuration
 
@@ -46,15 +44,12 @@ Configure authentication for external content stores:
 ## Quick Setup
 
 1. **Basic Setup**: The default configuration uses SQLite and requires no additional setup
-2. **With PostgreSQL**: Enable the PostgreSQL service and set `STREMTHRU_DATABASE_URI`
-3. **With Redis**: Enable the Redis service and set `STREMTHRU_REDIS_URI`
-4. **Configure Authentication**: Set store and proxy authentication as needed
-5. **Install in Stremio**: Use the provided addon URL in Stremio
+2. **Configure Authentication**: Set store and proxy authentication as needed
+3. **Install in Stremio**: Use the provided addon URL in Stremio
 
 ## Security Notes
 
 * Store authentication credentials securely
-* Use strong passwords for database connections
 * Consider using environment-specific configurations for production
 
 Happy streaming! 🎬
