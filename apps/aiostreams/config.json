@@ -49,12 +49,13 @@
       "hint": "Port on which the addon listens."
     },
     {
-      "type": "password",
-      "label": "Secret Key (64-hex chars)",
+      "type": "random",
+      "label": "Secret Key",
       "env_variable": "SECRET_KEY",
-      "placeholder": "(no auto-generated if blank)",
-      "hint": "64-char hex string to encrypt config; generate via openssl rand -hex 32.",
-      "required": true
+      "encoding": "hex",
+      "min": 64,
+      "required": true,
+      "hint": "Auto-generated 64-character hex string for config encryption"
     },
     {
       "type": "text",
