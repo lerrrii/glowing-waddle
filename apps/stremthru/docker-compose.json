@@ -5,12 +5,7 @@
       "name": "stremthru",
       "image": "muniftanjim/stremthru:latest",
       "isMain": true,
-      "ports": [
-        {
-          "hostPort": 8080,
-          "containerPort": 8080
-        }
-      ],
+      "internalPort": 8080,
       "environment": {
         "STREMTHRU_HTTP_PROXY": "${STREMTHRU_HTTP_PROXY}",
         "STREMTHRU_TUNNEL": "${STREMTHRU_TUNNEL}",
