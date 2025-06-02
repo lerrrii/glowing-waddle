@@ -1,7 +1,7 @@
 {
   "$schema": "../app-info-schema.json",
   "id": "comet",
-  "name": "Comet",
+  "name": "Comet+",
   "version": "latest",
   "tipi_version": 1,
   "available": true,
