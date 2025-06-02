@@ -5,7 +5,7 @@ services:
     container_name: stremthru
     image: muniftanjim/stremthru:latest
     ports:
-      - "8080:8080"
+      - ${APP_PORT}:8080
     environment:
       - STREMTHRU_HTTP_PROXY=${STREMTHRU_HTTP_PROXY}
       - STREMTHRU_TUNNEL=${STREMTHRU_TUNNEL}
@@ -21,7 +21,31 @@ services:
     networks:
       - tipi_main_network
     labels:
-      runtipi.managed: "true"
+      # Main
+      traefik.enable: true
+      traefik.http.middlewares.stremthru-web-redirect.redirectscheme.scheme: https
+      traefik.http.services.stremthru.loadbalancer.server.port: 8080
+      # Web
+      traefik.http.routers.stremthru-insecure.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.stremthru-insecure.entrypoints: web
+      traefik.http.routers.stremthru-insecure.service: stremthru
+      traefik.http.routers.stremthru-insecure.middlewares: stremthru-web-redirect
+      # Websecure
+      traefik.http.routers.stremthru.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.stremthru.entrypoints: websecure
+      traefik.http.routers.stremthru.service: stremthru
+      traefik.http.routers.stremthru.tls.certresolver: myresolver
+      # Local domain
+      traefik.http.routers.stremthru-local-insecure.rule: Host(`stremthru.${LOCAL_DOMAIN}`)
+      traefik.http.routers.stremthru-local-insecure.entrypoints: web
+      traefik.http.routers.stremthru-local-insecure.service: stremthru
+      traefik.http.routers.stremthru-local-insecure.middlewares: stremthru-web-redirect
+      # Local domain secure
+      traefik.http.routers.stremthru-local.rule: Host(`stremthru.${LOCAL_DOMAIN}`)
+      traefik.http.routers.stremthru-local.entrypoints: websecure
+      traefik.http.routers.stremthru-local.service: stremthru
+      traefik.http.routers.stremthru-local.tls: true
+      runtipi.managed: true
 
 networks:
   tipi_main_network:
