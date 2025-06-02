@@ -103,7 +103,7 @@ AIOStreams is a powerful Stremio addon aggregator that combines multiple upstrea
 ### **MediaFlow Proxy Settings**
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| **MediaFlow URL** | url | `https://mediaflow.elfhosted.com/` | MediaFlow proxy service |
+| **MediaFlow URL** | url | `https://mediaflow.example.com/` | MediaFlow proxy service |
 | **MediaFlow API Password** | text | *(blank)* | Self-hosted MediaFlow password |
 | **MediaFlow Public IP** | text | *(blank)* | Override public IP |
 | **Encrypt MediaFlow URLs** | boolean | `true` | Enable URL encryption |
