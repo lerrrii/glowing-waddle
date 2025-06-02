@@ -1,0 +1,63 @@
+{
+  "$schema": "../dynamic-compose-schema.json",
+  "services": [
+    {
+      "name": "comet",
+      "image": "g0ldyy/comet:latest",
+      "isMain": true,
+      "internalPort": 8000,
+      "healthcheck": {
+        "test": ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"],
+        "interval": "1m",
+        "timeout": "10s",
+        "retries": 5,
+        "start_period": "30s"
+      },
+      "environment": {
+        "ADDON_ID": "${ADDON_ID-stremio.comet.fast}",
+        "ADDON_NAME": "${ADDON_NAME-Comet}",
+        "FASTAPI_HOST": "${FASTAPI_HOST-0.0.0.0}",
+        "FASTAPI_PORT": "${FASTAPI_PORT-8000}",
+        "FASTAPI_WORKERS": "${FASTAPI_WORKERS-1}",
+        "USE_GUNICORN": "${USE_GUNICORN-True}",
+        "DASHBOARD_ADMIN_PASSWORD": "${DASHBOARD_ADMIN_PASSWORD}",
+        "DATABASE_TYPE": "${DATABASE_TYPE-sqlite}",
+        "DATABASE_URL": "${DATABASE_URL-}",
+        "DATABASE_PATH": "${DATABASE_PATH-data/comet.db}",
+        "METADATA_CACHE_TTL": "${METADATA_CACHE_TTL-2592000}",
+        "TORRENT_CACHE_TTL": "${TORRENT_CACHE_TTL-1296000}",
+        "DEBRID_CACHE_TTL": "${DEBRID_CACHE_TTL-86400}",
+        "DEBRID_PROXY_URL": "${DEBRID_PROXY_URL-}",
+        "INDEXER_MANAGER_TYPE": "${INDEXER_MANAGER_TYPE-none}",
+        "INDEXER_MANAGER_URL": "${INDEXER_MANAGER_URL-}",
+        "INDEXER_MANAGER_API_KEY": "${INDEXER_MANAGER_API_KEY-}",
+        "INDEXER_MANAGER_TIMEOUT": "${INDEXER_MANAGER_TIMEOUT-60}",
+        "INDEXER_MANAGER_INDEXERS": "${INDEXER_MANAGER_INDEXERS-[]}",
+        "GET_TORRENT_TIMEOUT": "${GET_TORRENT_TIMEOUT-5}",
+        "DOWNLOAD_TORRENT_FILES": "${DOWNLOAD_TORRENT_FILES-True}",
+        "SCRAPE_COMET": "${SCRAPE_COMET-true}",
+        "COMET_URL": "${COMET_URL-https://comet.elfhosted.com}",
+        "SCRAPE_ZILEAN": "${SCRAPE_ZILEAN-true}",
+        "ZILEAN_URL": "${ZILEAN_URL-https://zilean.elfhosted.com}",
+        "SCRAPE_TORRENTIO": "${SCRAPE_TORRENTIO-true}",
+        "TORRENTIO_URL": "${TORRENTIO_URL-https://torrentio.strem.fun}",
+        "SCRAPE_MEDIAFUSION": "${SCRAPE_MEDIAFUSION-true}",
+        "MEDIAFUSION_URL": "${MEDIAFUSION_URL-https://mediafusion.elfhosted.com}",
+        "PROXY_DEBRID_STREAM": "${PROXY_DEBRID_STREAM-True}",
+        "PROXY_DEBRID_STREAM_PASSWORD": "${PROXY_DEBRID_STREAM_PASSWORD-}",
+        "PROXY_DEBRID_STREAM_MAX_CONNECTIONS": "${PROXY_DEBRID_STREAM_MAX_CONNECTIONS--1}",
+        "PROXY_DEBRID_STREAM_DEBRID_DEFAULT_SERVICE": "${PROXY_DEBRID_STREAM_DEBRID_DEFAULT_SERVICE-realdebrid}",
+        "PROXY_DEBRID_STREAM_DEBRID_DEFAULT_APIKEY": "${PROXY_DEBRID_STREAM_DEBRID_DEFAULT_APIKEY-}",
+        "REMOVE_ADULT_CONTENT": "${REMOVE_ADULT_CONTENT-False}",
+        "CUSTOM_HEADER_HTML": "${CUSTOM_HEADER_HTML-}",
+        "STREMTHRU_URL": "${STREMTHRU_URL-https://stremthru.13377001.xyz}"
+      },
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/comet",
+          "containerPath": "/data"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,311 @@
+{
+  "$schema": "../app-info-schema.json",
+  "id": "comet",
+  "name": "Comet",
+  "version": "latest",
+  "tipi_version": 1,
+  "available": true,
+  "exposable": true,
+  "dynamic_config": true,
+  "port": 8000,
+  "categories": [
+    "media"
+  ],
+  "author": "g0ldyy + Runtipi community",
+  "description": "Advanced Stremio addon for streaming torrents with debrid services, indexer support, and comprehensive filtering.",
+  "short_desc": "Stremio addon with debrid integration and advanced torrent indexing.",
+  "source": "https://github.com/g0ldyy/comet",
+  "form_fields": [
+    {
+      "type": "text",
+      "label": "Addon ID",
+      "env_variable": "ADDON_ID",
+      "default": "stremio.comet.fast",
+      "placeholder": "stremio.comet.fast",
+      "hint": "Unique identifier for the Stremio addon."
+    },
+    {
+      "type": "text",
+      "label": "Addon Name",
+      "env_variable": "ADDON_NAME",
+      "default": "Comet",
+      "placeholder": "Comet",
+      "hint": "Display name of the addon in Stremio."
+    },
+    {
+      "type": "text",
+      "label": "FastAPI Host",
+      "env_variable": "FASTAPI_HOST",
+      "default": "0.0.0.0",
+      "placeholder": "0.0.0.0",
+      "hint": "Server bind address."
+    },
+    {
+      "type": "number",
+      "label": "FastAPI Port",
+      "env_variable": "FASTAPI_PORT",
+      "default": 8000,
+      "placeholder": "8000",
+      "hint": "Port on which the server listens."
+    },
+    {
+      "type": "number",
+      "label": "FastAPI Workers",
+      "env_variable": "FASTAPI_WORKERS",
+      "default": 1,
+      "placeholder": "1",
+      "hint": "Number of worker processes."
+    },
+    {
+      "type": "boolean",
+      "label": "Use Gunicorn",
+      "env_variable": "USE_GUNICORN",
+      "default": true,
+      "placeholder": "true",
+      "hint": "Use Gunicorn server instead of uvicorn."
+    },
+    {
+      "type": "password",
+      "label": "Dashboard Admin Password",
+      "env_variable": "DASHBOARD_ADMIN_PASSWORD",
+      "required": true,
+      "hint": "Password to access the admin dashboard."
+    },
+    {
+      "type": "text",
+      "label": "Database Type",
+      "env_variable": "DATABASE_TYPE",
+      "default": "sqlite",
+      "placeholder": "sqlite",
+      "hint": "Database engine: sqlite or postgresql."
+    },
+    {
+      "type": "text",
+      "label": "Database URL",
+      "env_variable": "DATABASE_URL",
+      "placeholder": "user:pass@host:port",
+      "hint": "PostgreSQL connection string (leave blank for SQLite)."
+    },
+    {
+      "type": "text",
+      "label": "Database Path",
+      "env_variable": "DATABASE_PATH",
+      "default": "data/comet.db",
+      "placeholder": "data/comet.db",
+      "hint": "SQLite database file path."
+    },
+    {
+      "type": "number",
+      "label": "Metadata Cache TTL",
+      "env_variable": "METADATA_CACHE_TTL",
+      "default": 2592000,
+      "placeholder": "2592000",
+      "hint": "Metadata cache duration in seconds (30 days)."
+    },
+    {
+      "type": "number",
+      "label": "Torrent Cache TTL",
+      "env_variable": "TORRENT_CACHE_TTL",
+      "default": 1296000,
+      "placeholder": "1296000",
+      "hint": "Torrent cache duration in seconds (15 days)."
+    },
+    {
+      "type": "number",
+      "label": "Debrid Cache TTL",
+      "env_variable": "DEBRID_CACHE_TTL",
+      "default": 86400,
+      "placeholder": "86400",
+      "hint": "Debrid cache duration in seconds (1 day)."
+    },
+    {
+      "type": "text",
+      "label": "Debrid Proxy URL",
+      "env_variable": "DEBRID_PROXY_URL",
+      "placeholder": "http://warp:1080",
+      "hint": "Proxy URL to bypass debrid service restrictions."
+    },
+    {
+      "type": "text",
+      "label": "Indexer Manager Type",
+      "env_variable": "INDEXER_MANAGER_TYPE",
+      "default": "none",
+      "placeholder": "none",
+      "hint": "Indexer type: jackett, prowlarr, or none."
+    },
+    {
+      "type": "text",
+      "label": "Indexer Manager URL",
+      "env_variable": "INDEXER_MANAGER_URL",
+      "placeholder": "http://127.0.0.1:9117",
+      "hint": "URL of Jackett or Prowlarr service."
+    },
+    {
+      "type": "password",
+      "label": "Indexer Manager API Key",
+      "env_variable": "INDEXER_MANAGER_API_KEY",
+      "hint": "API key for Jackett or Prowlarr."
+    },
+    {
+      "type": "number",
+      "label": "Indexer Manager Timeout",
+      "env_variable": "INDEXER_MANAGER_TIMEOUT",
+      "default": 60,
+      "placeholder": "60",
+      "hint": "Search timeout in seconds."
+    },
+    {
+      "type": "text",
+      "label": "Indexer Manager Indexers",
+      "env_variable": "INDEXER_MANAGER_INDEXERS",
+      "default": "[]",
+      "placeholder": "[\"indexer1\", \"indexer2\"]",
+      "hint": "JSON array of indexer IDs to use."
+    },
+    {
+      "type": "number",
+      "label": "Get Torrent Timeout",
+      "env_variable": "GET_TORRENT_TIMEOUT",
+      "default": 5,
+      "placeholder": "5",
+      "hint": "Timeout for obtaining torrent info hash (seconds)."
+    },
+    {
+      "type": "boolean",
+      "label": "Download Torrent Files",
+      "env_variable": "DOWNLOAD_TORRENT_FILES",
+      "default": true,
+      "placeholder": "true",
+      "hint": "Enable torrent file retrieval instead of magnet links only."
+    },
+    {
+      "type": "boolean",
+      "label": "Scrape Comet",
+      "env_variable": "SCRAPE_COMET",
+      "default": true,
+      "placeholder": "true",
+      "hint": "Enable scraping from Comet sources."
+    },
+    {
+      "type": "text",
+      "label": "Comet URL",
+      "env_variable": "COMET_URL",
+      "default": "https://comet.elfhosted.com",
+      "placeholder": "https://comet.elfhosted.com",
+      "hint": "Comet service endpoint URL."
+    },
+    {
+      "type": "boolean",
+      "label": "Scrape Zilean",
+      "env_variable": "SCRAPE_ZILEAN",
+      "default": true,
+      "placeholder": "true",
+      "hint": "Enable scraping from Zilean."
+    },
+    {
+      "type": "text",
+      "label": "Zilean URL",
+      "env_variable": "ZILEAN_URL",
+      "default": "https://zilean.elfhosted.com",
+      "placeholder": "https://zilean.elfhosted.com",
+      "hint": "Zilean service endpoint URL."
+    },
+    {
+      "type": "boolean",
+      "label": "Scrape Torrentio",
+      "env_variable": "SCRAPE_TORRENTIO",
+      "default": true,
+      "placeholder": "true",
+      "hint": "Enable scraping from Torrentio."
+    },
+    {
+      "type": "text",
+      "label": "Torrentio URL",
+      "env_variable": "TORRENTIO_URL",
+      "default": "https://torrentio.strem.fun",
+      "placeholder": "https://torrentio.strem.fun",
+      "hint": "Torrentio service endpoint URL."
+    },
+    {
+      "type": "boolean",
+      "label": "Scrape MediaFusion",
+      "env_variable": "SCRAPE_MEDIAFUSION",
+      "default": true,
+      "placeholder": "true",
+      "hint": "Enable scraping from MediaFusion."
+    },
+    {
+      "type": "text",
+      "label": "MediaFusion URL",
+      "env_variable": "MEDIAFUSION_URL",
+      "default": "https://mediafusion.elfhosted.com",
+      "placeholder": "https://mediafusion.elfhosted.com",
+      "hint": "MediaFusion service endpoint URL."
+    },
+    {
+      "type": "boolean",
+      "label": "Proxy Debrid Stream",
+      "env_variable": "PROXY_DEBRID_STREAM",
+      "default": true,
+      "placeholder": "true",
+      "hint": "Enable debrid stream proxying through Comet."
+    },
+    {
+      "type": "password",
+      "label": "Proxy Debrid Stream Password",
+      "env_variable": "PROXY_DEBRID_STREAM_PASSWORD",
+      "hint": "Password for accessing proxied debrid streams."
+    },
+    {
+      "type": "number",
+      "label": "Proxy Max Connections",
+      "env_variable": "PROXY_DEBRID_STREAM_MAX_CONNECTIONS",
+      "default": -1,
+      "placeholder": "-1",
+      "hint": "Maximum concurrent connections (-1 to disable)."
+    },
+    {
+      "type": "text",
+      "label": "Default Debrid Service",
+      "env_variable": "PROXY_DEBRID_STREAM_DEBRID_DEFAULT_SERVICE",
+      "default": "realdebrid",
+      "placeholder": "realdebrid",
+      "hint": "Default debrid service for proxy."
+    },
+    {
+      "type": "password",
+      "label": "Default Debrid API Key",
+      "env_variable": "PROXY_DEBRID_STREAM_DEBRID_DEFAULT_APIKEY",
+      "hint": "Default API key for debrid service."
+    },
+    {
+      "type": "boolean",
+      "label": "Remove Adult Content",
+      "env_variable": "REMOVE_ADULT_CONTENT",
+      "default": false,
+      "placeholder": "false",
+      "hint": "Filter out adult content automatically."
+    },
+    {
+      "type": "text",
+      "label": "Custom Header HTML",
+      "env_variable": "CUSTOM_HEADER_HTML",
+      "placeholder": "<style>body { background: #000; }</style>",
+      "hint": "Custom HTML to inject in the header."
+    },
+    {
+      "type": "text",
+      "label": "StremThru URL",
+      "env_variable": "STREMTHRU_URL",
+      "default": "https://stremthru.13377001.xyz",
+      "placeholder": "https://stremthru.13377001.xyz",
+      "hint": "StremThru service URL for integration."
+    }
+  ],
+  "supported_architectures": [
+    "amd64",
+    "arm64"
+  ],
+  "created_at": 1716899794000,
+  "updated_at": 1716899794000
+}

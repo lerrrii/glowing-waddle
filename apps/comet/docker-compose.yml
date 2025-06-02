@@ -1,0 +1,146 @@
+version: '3.7'
+
+services:
+  comet:
+    image: g0ldyy/comet:latest
+    container_name: comet
+    restart: unless-stopped
+    environment:
+      # ==============================
+      # Stremio Addon Configuration
+      # ==============================
+      ADDON_ID: "${ADDON_ID-stremio.comet.fast}"
+      ADDON_NAME: "${ADDON_NAME-Comet}"
+
+      # ==============================
+      # FastAPI Server Configuration
+      # ==============================
+      FASTAPI_HOST: "${FASTAPI_HOST-0.0.0.0}"
+      FASTAPI_PORT: "${FASTAPI_PORT-8000}"
+      FASTAPI_WORKERS: "${FASTAPI_WORKERS-1}"
+      USE_GUNICORN: "${USE_GUNICORN-True}"
+
+      # ==============================
+      # Dashboard Settings
+      # ==============================
+      DASHBOARD_ADMIN_PASSWORD: "${DASHBOARD_ADMIN_PASSWORD}"
+
+      # ==============================
+      # Database Configuration
+      # ==============================
+      DATABASE_TYPE: "${DATABASE_TYPE-sqlite}"
+      DATABASE_URL: "${DATABASE_URL-}"
+      DATABASE_PATH: "${DATABASE_PATH-data/comet.db}"
+
+      # ==============================
+      # Cache Settings (Seconds)
+      # ==============================
+      METADATA_CACHE_TTL: "${METADATA_CACHE_TTL-2592000}"
+      TORRENT_CACHE_TTL: "${TORRENT_CACHE_TTL-1296000}"
+      DEBRID_CACHE_TTL: "${DEBRID_CACHE_TTL-86400}"
+
+      # ==============================
+      # Debrid Proxy Configuration
+      # ==============================
+      DEBRID_PROXY_URL: "${DEBRID_PROXY_URL-}"
+
+      # ==============================
+      # Indexer Manager Settings
+      # ==============================
+      INDEXER_MANAGER_TYPE: "${INDEXER_MANAGER_TYPE-none}"
+      INDEXER_MANAGER_URL: "${INDEXER_MANAGER_URL-}"
+      INDEXER_MANAGER_API_KEY: "${INDEXER_MANAGER_API_KEY-}"
+      INDEXER_MANAGER_TIMEOUT: "${INDEXER_MANAGER_TIMEOUT-60}"
+      INDEXER_MANAGER_INDEXERS: "${INDEXER_MANAGER_INDEXERS-[]}"
+
+      # ==============================
+      # Torrent Settings
+      # ==============================
+      GET_TORRENT_TIMEOUT: "${GET_TORRENT_TIMEOUT-5}"
+      DOWNLOAD_TORRENT_FILES: "${DOWNLOAD_TORRENT_FILES-True}"
+
+      # ==============================
+      # Scraping Configuration
+      # ==============================
+      SCRAPE_COMET: "${SCRAPE_COMET-true}"
+      COMET_URL: "${COMET_URL-https://comet.elfhosted.com}"
+      SCRAPE_ZILEAN: "${SCRAPE_ZILEAN-true}"
+      ZILEAN_URL: "${ZILEAN_URL-https://zilean.elfhosted.com}"
+      SCRAPE_TORRENTIO: "${SCRAPE_TORRENTIO-true}"
+      TORRENTIO_URL: "${TORRENTIO_URL-https://torrentio.strem.fun}"
+      SCRAPE_MEDIAFUSION: "${SCRAPE_MEDIAFUSION-true}"
+      MEDIAFUSION_URL: "${MEDIAFUSION_URL-https://mediafusion.elfhosted.com}"
+
+      # ==============================
+      # Debrid Stream Proxy Settings
+      # ==============================
+      PROXY_DEBRID_STREAM: "${PROXY_DEBRID_STREAM-True}"
+      PROXY_DEBRID_STREAM_PASSWORD: "${PROXY_DEBRID_STREAM_PASSWORD-}"
+      PROXY_DEBRID_STREAM_MAX_CONNECTIONS: "${PROXY_DEBRID_STREAM_MAX_CONNECTIONS--1}"
+      PROXY_DEBRID_STREAM_DEBRID_DEFAULT_SERVICE: "${PROXY_DEBRID_STREAM_DEBRID_DEFAULT_SERVICE-realdebrid}"
+      PROXY_DEBRID_STREAM_DEBRID_DEFAULT_APIKEY: "${PROXY_DEBRID_STREAM_DEBRID_DEFAULT_APIKEY-}"
+
+      # ==============================
+      # Content Filtering
+      # ==============================
+      REMOVE_ADULT_CONTENT: "${REMOVE_ADULT_CONTENT-False}"
+
+      # ==============================
+      # UI Customization
+      # ==============================
+      CUSTOM_HEADER_HTML: "${CUSTOM_HEADER_HTML-}"
+
+      # ==============================
+      # StremThru Integration
+      # ==============================
+      STREMTHRU_URL: "${STREMTHRU_URL-https://stremthru.13377001.xyz}"
+
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 1m
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - ${APP_DATA_DIR}/comet:/data
+    networks:
+      - tipi_main_network
+    labels:
+      traefik.enable: "true"
+
+      # Redirect HTTP → HTTPS
+      traefik.http.middlewares.comet-redirect.redirectscheme.scheme: https
+
+      # Internal port
+      traefik.http.services.comet.loadbalancer.server.port: "8000"
+
+      # HTTP router (insecure)
+      traefik.http.routers.comet-insecure.rule: "Host(`${APP_DOMAIN}`)"
+      traefik.http.routers.comet-insecure.entrypoints: "web"
+      traefik.http.routers.comet-insecure.service: "comet"
+      traefik.http.routers.comet-insecure.middlewares: "comet-redirect"
+
+      # HTTPS router (secure)
+      traefik.http.routers.comet.rule: "Host(`${APP_DOMAIN}`)"
+      traefik.http.routers.comet.entrypoints: "websecure"
+      traefik.http.routers.comet.service: "comet"
+      traefik.http.routers.comet.tls.certresolver: "myresolver"
+
+      # Local HTTP (insecure)
+      traefik.http.routers.comet-local-insecure.rule: "Host(`comet.${LOCAL_DOMAIN}`)"
+      traefik.http.routers.comet-local-insecure.entrypoints: "web"
+      traefik.http.routers.comet-local-insecure.service: "comet"
+      traefik.http.routers.comet-local-insecure.middlewares: "comet-redirect"
+
+      # Local HTTPS (secure)
+      traefik.http.routers.comet-local.rule: "Host(`comet.${LOCAL_DOMAIN}`)"
+      traefik.http.routers.comet-local.entrypoints: "websecure"
+      traefik.http.routers.comet-local.service: "comet"
+      traefik.http.routers.comet-local.tls: "true"
+
+      # Managed by Runtipi
+      runtipi.managed: "true"
+
+networks:
+  tipi_main_network:
+    external: true
