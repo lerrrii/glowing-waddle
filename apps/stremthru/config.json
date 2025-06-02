@@ -17,6 +17,45 @@
   "form_fields": [
     {
       "type": "url",
+      "label": "Base URL",
+      "hint": "Base URL for StremThru (auto-configured if not set)",
+      "env_variable": "STREMTHRU_BASE_URL",
+      "required": false
+    },
+    {
+      "type": "text",
+      "label": "Port",
+      "hint": "Port to listen on (default: 8080)",
+      "env_variable": "STREMTHRU_PORT",
+      "default": "8080",
+      "required": false
+    },
+    {
+      "type": "text",
+      "label": "Log Level",
+      "hint": "Log level: DEBUG, INFO, WARN, ERROR (default: INFO)",
+      "env_variable": "STREMTHRU_LOG_LEVEL",
+      "default": "INFO",
+      "required": false
+    },
+    {
+      "type": "text",
+      "label": "Log Format",
+      "hint": "Log format: json or text (default: json)",
+      "env_variable": "STREMTHRU_LOG_FORMAT",
+      "default": "json",
+      "required": false
+    },
+    {
+      "type": "text",
+      "label": "Data Directory",
+      "hint": "Data directory path (default: /app/data)",
+      "env_variable": "STREMTHRU_DATA_DIR",
+      "default": "/app/data",
+      "required": false
+    },
+    {
+      "type": "url",
       "label": "HTTP Proxy",
       "hint": "HTTP proxy URL (optional, e.g., http://proxy.example.com:8080)",
       "env_variable": "STREMTHRU_HTTP_PROXY",
@@ -25,7 +64,7 @@
     {
       "type": "text",
       "label": "Tunnel Configuration",
-      "hint": "Tunnel configuration (optional)",
+      "hint": "Tunnel configuration (optional, format: hostname:true/false)",
       "env_variable": "STREMTHRU_TUNNEL",
       "required": false
     },
@@ -38,9 +77,44 @@
     },
     {
       "type": "text",
+      "label": "Admin Users",
+      "hint": "Comma separated list of admin usernames (optional)",
+      "env_variable": "STREMTHRU_AUTH_ADMIN",
+      "required": false
+    },
+    {
+      "type": "text",
       "label": "Store Authentication",
-      "hint": "Store authentication credentials (optional)",
+      "hint": "Store authentication credentials (optional, format: username:store_name:store_token)",
       "env_variable": "STREMTHRU_STORE_AUTH",
+      "required": false
+    },
+    {
+      "type": "text",
+      "label": "Store Tunnel Configuration",
+      "hint": "Store tunnel config (optional, format: store_name:true/false/api)",
+      "env_variable": "STREMTHRU_STORE_TUNNEL",
+      "required": false
+    },
+    {
+      "type": "text",
+      "label": "Store Content Proxy",
+      "hint": "Store content proxy config (optional, format: store_name:true/false)",
+      "env_variable": "STREMTHRU_STORE_CONTENT_PROXY",
+      "required": false
+    },
+    {
+      "type": "text",
+      "label": "Content Proxy Connection Limit",
+      "hint": "Connection limit per user (optional, format: username:limit)",
+      "env_variable": "STREMTHRU_CONTENT_PROXY_CONNECTION_LIMIT",
+      "required": false
+    },
+    {
+      "type": "text",
+      "label": "Store Content Cached Stale Time",
+      "hint": "Cache stale time (optional, format: store_name:cached_time:uncached_time)",
+      "env_variable": "STREMTHRU_STORE_CONTENT_CACHED_STALE_TIME",
       "required": false
     },
     {
@@ -70,6 +144,27 @@
       "label": "Stremio Addon URL",
       "hint": "Stremio addon endpoint URL (optional, auto-configured if not set)",
       "env_variable": "STREMTHRU_STREMIO_ADDON",
+      "required": false
+    },
+    {
+      "type": "text",
+      "label": "Trakt.tv Client ID",
+      "hint": "Trakt.tv OAuth App Client ID (optional, for Trakt.tv integration)",
+      "env_variable": "STREMTHRU_INTEGRATION_TRAKT_CLIENT_ID",
+      "required": false
+    },
+    {
+      "type": "password",
+      "label": "Trakt.tv Client Secret",
+      "hint": "Trakt.tv OAuth App Client Secret (optional, for Trakt.tv integration)",
+      "env_variable": "STREMTHRU_INTEGRATION_TRAKT_CLIENT_SECRET",
+      "required": false
+    },
+    {
+      "type": "text",
+      "label": "Features",
+      "hint": "Feature toggles (optional, format: +feature1,-feature2)",
+      "env_variable": "STREMTHRU_FEATURE",
       "required": false
     }
   ],
