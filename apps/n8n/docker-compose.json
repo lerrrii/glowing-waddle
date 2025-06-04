@@ -6,10 +6,9 @@
       "image": "n8nio/n8n:latest",
       "isMain": true,
       "internalPort": 5678,
-      "user": "1000:1000",
       "environment": {
         "N8N_EDITOR_BASE_URL": "${APP_PROTOCOL:-http}://${APP_DOMAIN}",
-        "N8N_SECURE_COOKIE": "false",
+        "N8N_SECURE_COOKIE": "false", 
         "WEBHOOK_URL": "${APP_PROTOCOL:-http}://${APP_DOMAIN}",
         "DB_TYPE": "postgresdb",
         "DB_POSTGRESDB_HOST": "n8n-db",
@@ -17,10 +16,7 @@
         "DB_POSTGRESDB_DATABASE": "n8n",
         "DB_POSTGRESDB_USER": "n8n",
         "DB_POSTGRESDB_PASSWORD": "${N8N_NR_DB_PASSWORD}",
-        "N8N_DEFAULT_BINARY_DATA_MODE": "filesystem",
-        "N8N_LOG_LEVEL": "info",
-        "N8N_METRICS": "false",
-        "N8N_DISABLE_PRODUCTION_MAIN_PROCESS": "true"
+        "N8N_DEFAULT_BINARY_DATA_MODE": "filesystem"
       },
       "dependsOn": {
         "n8n-db": {
@@ -36,14 +32,13 @@
     },
     {
       "name": "n8n-db",
-      "image": "postgres:16.4-alpine",
+      "image": "postgres:16-alpine",
       "environment": {
         "POSTGRES_USER": "tipi",
         "POSTGRES_PASSWORD": "${N8N_DB_PASSWORD}",
         "POSTGRES_DB": "n8n",
         "POSTGRES_NON_ROOT_USER": "n8n",
-        "POSTGRES_NON_ROOT_PASSWORD": "${N8N_NR_DB_PASSWORD}",
-        "POSTGRES_INITDB_ARGS": "--auth-local=trust --auth-host=scram-sha-256"
+        "POSTGRES_NON_ROOT_PASSWORD": "${N8N_NR_DB_PASSWORD}"
       },
       "volumes": [
         {
@@ -56,11 +51,10 @@
         }
       ],
       "healthCheck": {
-        "interval": "10s",
+        "interval": "5s",
         "timeout": "5s",
-        "retries": 5,
-        "test": "pg_isready -h localhost -U $$POSTGRES_USER -d $$POSTGRES_DB",
-        "startPeriod": "30s"
+        "retries": 10,
+        "test": "pg_isready -h localhost -U $$POSTGRES_USER -d $$POSTGRES_DB"
       }
     }
   ]
