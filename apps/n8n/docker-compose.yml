@@ -40,6 +40,10 @@ services:
       - DB_POSTGRESDB_PASSWORD=${N8N_DB_PASSWORD}
       - N8N_DEFAULT_BINARY_DATA_MODE=filesystem
       - N8N_RUNNERS_ENABLED=true
+
+      # Timezone settings:
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
+      - TZ=${TZ}
     user: "1000:1000"
     depends_on:
       n8n-db:
