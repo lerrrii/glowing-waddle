@@ -2,13 +2,13 @@
   "$schema": "../dynamic-compose-schema.json",
   "services": [
     {
-      "name": "n8n",
-      "image": "n8nio/n8n:latest",
+      "name": "n8n-1",
+      "image": "n8nio/n8n:1.97.0",
       "isMain": true,
       "internalPort": 5678,
       "environment": {
         "N8N_EDITOR_BASE_URL": "${APP_PROTOCOL:-http}://${APP_DOMAIN}",
-        "N8N_SECURE_COOKIE": "false", 
+        "N8N_SECURE_COOKIE": "false",
         "WEBHOOK_URL": "${APP_PROTOCOL:-http}://${APP_DOMAIN}",
         "DB_TYPE": "postgresdb",
         "DB_POSTGRESDB_HOST": "n8n-db",
@@ -32,7 +32,7 @@
     },
     {
       "name": "n8n-db",
-      "image": "postgres:16-alpine",
+      "image": "postgres:11",
       "environment": {
         "POSTGRES_USER": "tipi",
         "POSTGRES_PASSWORD": "${N8N_DB_PASSWORD}",
