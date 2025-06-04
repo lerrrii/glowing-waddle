@@ -8,11 +8,8 @@ services:
       - POSTGRES_USER=tipi
       - POSTGRES_PASSWORD=${N8N_DB_PASSWORD}
       - POSTGRES_DB=n8n
-      - POSTGRES_NON_ROOT_USER=n8n
-      - POSTGRES_NON_ROOT_PASSWORD=${N8N_NR_DB_PASSWORD}
     volumes:
       - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql/data
-      - ${APP_DATA_DIR}/data/init-data.sh:/docker-entrypoint-initdb.d/init-data.sh
     healthcheck:
       test:
         - CMD-SHELL
@@ -20,18 +17,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-    labels:
-      runtipi.managed: true
-
-  n8n-init:
-    container_name: n8n-init
-    image: bash:5.2.37
-    command:
-      - sh
-      - '-c'
-      - chown -R 1000:1000 /home/node/.n8n
-    volumes:
-      - ${APP_DATA_DIR}/data/n8n:/home/node/.n8n
     labels:
       runtipi.managed: true
 
@@ -51,15 +36,13 @@ services:
       - DB_POSTGRESDB_HOST=n8n-db
       - DB_POSTGRESDB_PORT=5432
       - DB_POSTGRESDB_DATABASE=n8n
-      - DB_POSTGRESDB_USER=n8n
-      - DB_POSTGRESDB_PASSWORD=${N8N_NR_DB_PASSWORD}
+      - DB_POSTGRESDB_USER=tipi
+      - DB_POSTGRESDB_PASSWORD=${N8N_DB_PASSWORD}
       - N8N_DEFAULT_BINARY_DATA_MODE=filesystem
     user: "1000:1000"
     depends_on:
       n8n-db:
         condition: service_healthy
-      n8n-init:
-        condition: service_completed_successfully
     networks:
       - tipi_main_network
     labels:
