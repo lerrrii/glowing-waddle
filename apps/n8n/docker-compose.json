@@ -7,16 +7,22 @@
       "isMain": true,
       "internalPort": 5678,
       "environment": {
+        "N8N_HOST": "0.0.0.0",
+        "N8N_PORT": "5678",
+        "N8N_PROTOCOL": "${APP_PROTOCOL:-http}",
         "N8N_EDITOR_BASE_URL": "${APP_PROTOCOL:-http}://${APP_DOMAIN}",
-        "N8N_SECURE_COOKIE": "false",
         "WEBHOOK_URL": "${APP_PROTOCOL:-http}://${APP_DOMAIN}",
+        "N8N_SECURE_COOKIE": "false",
+        "N8N_ENCRYPTION_KEY": "${N8N_ENCRYPTION_KEY}",
         "DB_TYPE": "postgresdb",
         "DB_POSTGRESDB_HOST": "n8n-db",
         "DB_POSTGRESDB_PORT": "5432",
         "DB_POSTGRESDB_DATABASE": "n8n",
         "DB_POSTGRESDB_USER": "n8n",
         "DB_POSTGRESDB_PASSWORD": "${N8N_NR_DB_PASSWORD}",
-        "N8N_DEFAULT_BINARY_DATA_MODE": "filesystem"
+        "N8N_DEFAULT_BINARY_DATA_MODE": "filesystem",
+        "N8N_METRICS": "false",
+        "N8N_DIAGNOSTICS_ENABLED": "false"
       },
       "dependsOn": {
         "n8n-db": {
@@ -38,7 +44,8 @@
         "POSTGRES_PASSWORD": "${N8N_DB_PASSWORD}",
         "POSTGRES_DB": "n8n",
         "POSTGRES_NON_ROOT_USER": "n8n",
-        "POSTGRES_NON_ROOT_PASSWORD": "${N8N_NR_DB_PASSWORD}"
+        "POSTGRES_NON_ROOT_PASSWORD": "${N8N_NR_DB_PASSWORD}",
+        "PGDATA": "/var/lib/postgresql/data/pgdata"
       },
       "volumes": [
         {
@@ -51,9 +58,9 @@
         }
       ],
       "healthCheck": {
-        "interval": "5s",
+        "interval": "10s",
         "timeout": "5s",
-        "retries": 10,
+        "retries": 5,
         "test": "pg_isready -h localhost -U $$POSTGRES_USER -d $$POSTGRES_DB"
       }
     }
