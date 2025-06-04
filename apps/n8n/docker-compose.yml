@@ -21,7 +21,7 @@ services:
       runtipi.managed: true
 
   n8n-1:
-    container_name: n8n-1
+    container_name: n8n
     image: n8nio/n8n:latest
     restart: unless-stopped
     ports:
@@ -44,6 +44,10 @@ services:
       # Timezone settings:
       - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
       - TZ=${TZ}
+
+      # Enforce correct settings-file permissions
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+
     user: "1000:1000"
     depends_on:
       n8n-db:
