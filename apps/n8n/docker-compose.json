@@ -2,21 +2,11 @@
   "$schema": "../dynamic-compose-schema.json",
   "services": [
     {
-      "name": "n8n-init",
-      "image": "alpine:3.20",
-      "command": ["sh", "-c", "chown -R 1000:1000 /home/node/.n8n && chmod -R 755 /home/node/.n8n"],
-      "volumes": [
-        {
-          "hostPath": "${APP_DATA_DIR}/data/n8n",
-          "containerPath": "/home/node/.n8n"
-        }
-      ]
-    },
-    {
       "name": "n8n",
       "image": "n8nio/n8n:latest",
       "isMain": true,
       "internalPort": 5678,
+      "user": "1000:1000",
       "environment": {
         "N8N_EDITOR_BASE_URL": "${APP_PROTOCOL:-http}://${APP_DOMAIN}",
         "N8N_SECURE_COOKIE": "false",
@@ -33,9 +23,6 @@
         "N8N_DISABLE_PRODUCTION_MAIN_PROCESS": "true"
       },
       "dependsOn": {
-        "n8n-init": {
-          "condition": "service_completed_successfully"
-        },
         "n8n-db": {
           "condition": "service_healthy"
         }
