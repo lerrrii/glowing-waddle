@@ -3,7 +3,7 @@
   "services": [
     {
       "name": "n8n",
-      "image": "n8nio/n8n:latest",
+      "image": "docker.n8n.io/n8nio/n8n:latest",
       "isMain": true,
       "internalPort": 5678,
       "environment": {
