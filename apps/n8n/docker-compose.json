@@ -23,7 +23,7 @@
       }
     },
     {
-      "name": "n8n-1",
+      "name": "n8n",
       "image": "n8nio/n8n:latest",
       "isMain": true,
       "internalPort": 5678,
@@ -40,7 +40,8 @@
         "N8N_DEFAULT_BINARY_DATA_MODE": "filesystem",
         "N8N_RUNNERS_ENABLED": "true",
         "GENERIC_TIMEZONE": "${GENERIC_TIMEZONE}",
-        "TZ": "${TZ}"
+        "TZ": "${TZ}",
+        "N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS": "true"
       },
       "dependsOn": {
         "n8n-db": { "condition": "service_healthy" }
