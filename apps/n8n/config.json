@@ -1,6 +1,6 @@
 {
   "$schema": "../app-info-schema.json",
-  "name": "n8n+",
+  "name": "n8n",
   "available": true,
   "exposable": true,
   "dynamic_config": true,
@@ -23,12 +23,18 @@
     },
     {
       "type": "random",
-      "label": "Database Non Root Password",
+      "label": "Database Non Root Password", 
       "min": 32,
       "env_variable": "N8N_NR_DB_PASSWORD"
+    },
+    {
+      "type": "random",
+      "label": "n8n Encryption Key",
+      "min": 32,
+      "env_variable": "N8N_ENCRYPTION_KEY"
     }
   ],
   "supported_architectures": ["arm64", "amd64"],
   "created_at": 1691943801422,
   "updated_at": 1748992202212
-}
+}+
