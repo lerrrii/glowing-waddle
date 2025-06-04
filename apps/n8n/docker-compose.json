@@ -38,7 +38,9 @@
         "DB_POSTGRESDB_USER": "tipi",
         "DB_POSTGRESDB_PASSWORD": "${N8N_DB_PASSWORD}",
         "N8N_DEFAULT_BINARY_DATA_MODE": "filesystem",
-        "N8N_RUNNERS_ENABLED": "true"
+        "N8N_RUNNERS_ENABLED": "true",
+        "GENERIC_TIMEZONE": "${GENERIC_TIMEZONE}",
+        "TZ": "${TZ}"
       },
       "dependsOn": {
         "n8n-db": { "condition": "service_healthy" }
