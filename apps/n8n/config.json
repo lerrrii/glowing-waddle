@@ -5,7 +5,7 @@
   "exposable": true,
   "dynamic_config": true,
   "port": 8215,
-  "id": "n8n",
+  "id": "n8n-1",
   "tipi_version": 18,
   "version": "latest",
   "categories": ["automation"],
