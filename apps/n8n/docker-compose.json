@@ -2,8 +2,8 @@
   "$schema": "../dynamic-compose-schema.json",
   "services": [
     {
-      "name": "n8n-1",
-      "image": "n8nio/n8n:1.97.0",
+      "name": "n8n",
+      "image": "n8nio/n8n:latest",
       "isMain": true,
       "internalPort": 5678,
       "environment": {
@@ -32,7 +32,7 @@
     },
     {
       "name": "n8n-db",
-      "image": "postgres:11",
+      "image": "postgres:16-alpine",
       "environment": {
         "POSTGRES_USER": "tipi",
         "POSTGRES_PASSWORD": "${N8N_DB_PASSWORD}",
