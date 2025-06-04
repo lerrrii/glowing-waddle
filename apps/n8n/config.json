@@ -1,6 +1,6 @@
 {
   "$schema": "../app-info-schema.json",
-  "name": "N8n+",
+  "name": "n8n+",
   "available": true,
   "exposable": true,
   "dynamic_config": true,
@@ -26,6 +26,20 @@
       "label": "Database Non Root Password",
       "min": 32,
       "env_variable": "N8N_NR_DB_PASSWORD"
+    },
+    {
+      "type": "text",
+      "label": "Generic Timezone ▶ Controls n8n’s internal timezone (e.g. for Schedule node)",
+      "placeholder": "Europe/Prague",
+      "env_variable": "GENERIC_TIMEZONE",
+      "default": "Europe/Prague"
+    },
+    {
+      "type": "text",
+      "label": "TZ ▶ Container OS Timezone (affects `date`, etc.)",
+      "placeholder": "Europe/Prague",
+      "env_variable": "TZ",
+      "default": "Europe/Prague"
     }
   ],
   "supported_architectures": ["arm64", "amd64"],
