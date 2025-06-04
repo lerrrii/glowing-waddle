@@ -31,17 +31,18 @@
     {
       "name": "n8n-init",
       "image": "bash:5.2.37",
-      "command": [
-        "sh",
-        "-c",
-        "chown -R 1000:1000 /home/node/.n8n"
-      ],
+      "command": ["sh", "-c", "chown -R 1000:1000 /home/node/.n8n"],
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/data/n8n",
           "containerPath": "/home/node/.n8n"
         }
       ]
+      /* 
+        No explicit `dependsOn` here—this will run immediately when the volume is mounted. 
+        Runtipi guarantees that volumes exist before any containers run. 
+        As soon as `n8n-init` finishes (exit code 0), `n8n-1` may start.
+      */
     },
     {
       "name": "n8n-1",
@@ -73,7 +74,8 @@
           "hostPath": "${APP_DATA_DIR}/data/n8n",
           "containerPath": "/home/node/.n8n"
         }
-      ]
+      ],
+      "user": "1000:1000"
     }
   ]
-}
+      }
