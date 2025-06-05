@@ -7,43 +7,58 @@
   "dynamic_config": true,
   "id": "nodered",
   "tipi_version": 25,
-  "version": "latest",
+  "version": "4.0.9",
   "categories": ["automation"],
   "description": "Node-RED is a programming tool for wiring together hardware devices, APIs and online services in new and interesting ways. It provides a browser-based editor that makes it easy to wire together flows using the wide range of nodes in the palette that can be deployed to its runtime in a single-click.",
   "short_desc": "Low-code programming for event-driven applications",
   "author": "node-red",
   "source": "https://github.com/node-red/node-red",
-  "form_fields": [
-    {
-      "type": "text",
-      "label": "Admin Username",
-      "hint": "Username for Node-RED admin interface",
-      "env_variable": "NODE_RED_USERNAME",
-      "required": true
-    },
-    {
-      "type": "password",
-      "label": "Admin Password",
-      "hint": "Password for Node-RED admin interface",
-      "env_variable": "NODE_RED_PASSWORD",
-      "required": true
-    },
-    {
-      "type": "text",
-      "label": "Credential Secret",
-      "hint": "Secret key for encrypting credentials (change this from default)",
-      "env_variable": "NODE_RED_CREDENTIAL_SECRET",
-      "required": false
-    },
-    {
-      "type": "text",
-      "label": "Timezone",
-      "hint": "Timezone (e.g., Europe/Prague, America/New_York)",
-      "env_variable": "TZ",
-      "required": false
-    }
-  ],
+  "form_fields": [],
   "supported_architectures": ["arm64", "amd64"],
   "created_at": 1691943801422,
-  "updated_at": 1739574401000
+  "updated_at": 1739574401000,
+
+  /**
+   * Add an "env" block so that Runtipi will inject these as environment
+   * variables when launching your Node-RED process. You can override them
+   * via Runtipi’s dashboard or CLI, or leave them as shown below.
+   */
+  "env": {
+    /**
+     * Set your desired timezone. Node.js picks this up automatically.
+     * For example: "Europe/Prague", "America/New_York", etc.
+     */
+    "TZ": "Europe/Prague",
+
+    /**
+     * The admin username you want to use. If you name your user "admin",
+     * change this to something else to avoid the default.
+     */
+    "NODE_RED_USERNAME": "your_custom_username",
+
+    /**
+     * The plain-text admin password that will be hashed at startup.
+     * (bcrypt with 8 salt rounds). Change to your own strong password.
+     */
+    "NODE_RED_PASSWORD": "your_custom_password",
+
+    /**
+     * The credentialSecret is used to encrypt the stored credentials
+     * (e.g. passwords in HTTP Request nodes). Make it long/complex.
+     * Do NOT change this once flows are in production, or credentials
+     * on disk will not be decryptable.
+     */
+    "NODE_RED_CREDENTIAL_SECRET": "some_long_random_string_here"
+  },
+
+  /**
+   * If your version of Runtipi requires a different structure for env
+   * variables (e.g. a top-level "environment" instead of "env"), adjust
+   * accordingly. The key idea is: do NOT hard-code credentials/TZ inside
+   * settings.js—Runtipi will inject them from here at runtime.
+   */
+  "environment": {
+    // (In some Runtipi versions, "environment" instead of "env" may be required.
+    //  If that’s the case, simply copy the same block under "environment".)
+  }
 }
