@@ -80,7 +80,16 @@ module.exports = {
   //        permissions: "*"
   //    }]
   //},
-
+  adminAuth: {
+    type: "credentials",
+    users: [
+      {
+        username: process.env.NODE_RED_ADMIN_USER,
+        password: process.env.NODE_RED_ADMIN_PASSWORD_HASH,
+        permissions: "*"
+      }
+    ]
+  },
   /** The following property can be used to enable HTTPS
    * This property can be either an object, containing both a (private) key
    * and a (public) certificate, or a function that returns such an object.
