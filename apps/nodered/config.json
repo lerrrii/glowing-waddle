@@ -16,32 +16,31 @@
   "form_fields": [
     {
       "type": "text",
-      "label": "TZ ▶ Container OS Timezone",
-      "hint": "Affects date, logs, scheduler nodes (default: Europe/Prague)",
-      "env_variable": "TZ",
-      "default": "Europe/Prague",
-      "required": false
+      "label": "Admin Username",
+      "hint": "Username for Node-RED admin interface",
+      "env_variable": "NODE_RED_USERNAME",
+      "required": true
     },
     {
       "type": "password",
-      "label": "Node-RED Credential Secret",
-      "hint": "Used to encrypt stored credentials. If not set, a random key is generated at startup.",
+      "label": "Admin Password",
+      "hint": "Password for Node-RED admin interface",
+      "env_variable": "NODE_RED_PASSWORD",
+      "required": true
+    },
+    {
+      "type": "text",
+      "label": "Credential Secret",
+      "hint": "Secret key for encrypting credentials (change this from default)",
       "env_variable": "NODE_RED_CREDENTIAL_SECRET",
       "required": false
     },
     {
       "type": "text",
-      "label": "Node-RED Admin Username",
-      "hint": "If you set this (along with PASSWORD_HASH), the editor/API will be locked behind basic auth. Otherwise it’s open.",
-      "env_variable": "NODE_RED_ADMIN_USER",
-      "required": true
-    },
-    {
-      "type": "password",
-      "label": "Node-RED Admin Password Hash",
-      "hint": "Bcrypt hash of the admin password. _You can also set these via env vars (NODE_RED_ADMIN_USER / NODE_RED_ADMIN_PASSWORD_HASH), but if you leave it commented out, anyone can open the editor and deploy flows._",
-      "env_variable": "NODE_RED_ADMIN_PASSWORD_HASH",
-      "required": true
+      "label": "Timezone",
+      "hint": "Timezone (e.g., Europe/Prague, America/New_York)",
+      "env_variable": "TZ",
+      "required": false
     }
   ],
   "supported_architectures": ["arm64", "amd64"],
