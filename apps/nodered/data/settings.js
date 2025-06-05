@@ -40,8 +40,8 @@ module.exports = {
    * node-red from being able to decrypt your existing credentials and they will be
    * lost.
    */
-  credentialSecret: process.env.NODE_RED_CREDENTIAL_SECRET || require('crypto').randomBytes(32).toString('hex'),
-  
+  credentialSecret: process.env.NODE_RED_CREDENTIAL_SECRET || "a-secret-key-change-this",
+
   /** By default, the flow JSON will be formatted over multiple lines making
    * it easier to compare changes when using version control.
    * To disable pretty-printing of the JSON set the following property to false.
@@ -72,25 +72,14 @@ module.exports = {
   /** To password protect the Node-RED editor and admin API, the following
    * property can be used. See http://nodered.org/docs/security.html for details.
    */
-  //adminAuth: {
-  //    type: "credentials",
-  //    users: [{
-  //        username: "admin",
-  //        password: "$2a$08$zZWtXTja0fB1pzD4sHCMyOCMYz2Z6dNbM6tl8sJogENOMcxWV9DN.",
-  //        permissions: "*"
-  //    }]
-  //},
-  /** Admin Authentication with proper error handling */
-  adminAuth: process.env.NODE_RED_ADMIN_USER && process.env.NODE_RED_ADMIN_PASSWORD_HASH ? {
+  adminAuth: {
     type: "credentials",
-    users: [
-      {
-        username: process.env.NODE_RED_ADMIN_USER,
-        password: process.env.NODE_RED_ADMIN_PASSWORD_HASH,
+    users: [{
+        username: process.env.NODE_RED_USERNAME || "admin",
+        password: process.env.NODE_RED_PASSWORD || "$2a$08$zZWtXTja0fB1pzD4sHCMyOCMYz2Z6dNbM6tl8sJogENOMcxWV9DN.",
         permissions: "*"
-      }
-    ]
-  } : undefined,
+    }]
+  },
 
   /** The following property can be used to enable HTTPS
    * This property can be either an object, containing both a (private) key
