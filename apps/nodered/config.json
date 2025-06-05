@@ -24,12 +24,14 @@
     {
       "type": "text",
       "label": "Node-RED Admin Username",
-      "env_variable": "NODE_RED_USERNAME"
+      "env_variable": "NODE_RED_USERNAME",
+      "placeholder": "default: admin"
     },
     {
       "type": "password",
       "label": "Node-RED Admin Password",
-      "env_variable": "NODE_RED_PASSWORD"
+      "env_variable": "NODE_RED_PASSWORD",
+      "placeholder": "default: admin"
     },
     {
       "type": "random",
