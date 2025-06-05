@@ -1,11 +1,11 @@
 {
   "$schema": "../app-info-schema.json",
-  "name": "n8n",
+  "name": "n8n+",
   "available": true,
   "exposable": true,
   "dynamic_config": true,
   "port": 8215,
-  "id": "n8n-1",
+  "id": "n8n",
   "tipi_version": 19,
   "version": "latest",
   "categories": ["automation"],
