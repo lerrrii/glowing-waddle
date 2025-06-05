@@ -40,8 +40,8 @@ module.exports = {
    * node-red from being able to decrypt your existing credentials and they will be
    * lost.
    */
-  //credentialSecret: "a-secret-key",
-
+  credentialSecret: process.env.NODE_RED_CREDENTIAL_SECRET || require('crypto').randomBytes(32).toString('hex'),
+  
   /** By default, the flow JSON will be formatted over multiple lines making
    * it easier to compare changes when using version control.
    * To disable pretty-printing of the JSON set the following property to false.
@@ -80,7 +80,8 @@ module.exports = {
   //        permissions: "*"
   //    }]
   //},
-  adminAuth: {
+  /** Admin Authentication with proper error handling */
+  adminAuth: process.env.NODE_RED_ADMIN_USER && process.env.NODE_RED_ADMIN_PASSWORD_HASH ? {
     type: "credentials",
     users: [
       {
@@ -89,7 +90,7 @@ module.exports = {
         permissions: "*"
       }
     ]
-  },
+  } : undefined,
 
   /** The following property can be used to enable HTTPS
    * This property can be either an object, containing both a (private) key
