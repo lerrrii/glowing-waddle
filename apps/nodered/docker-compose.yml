@@ -3,7 +3,7 @@ version: '3.8'
 services:
   nodered:
     container_name: nodered
-    image: nodered/node-red:4.0.9
+    image: nodered/node-red:latest
     environment:
       TZ: "${TZ:-Europe/Prague}"
       NODE_RED_USERNAME: "${NODE_RED_USERNAME}"
