@@ -34,14 +34,14 @@
       "label": "Node-RED Admin Username",
       "hint": "If you set this (along with PASSWORD_HASH), the editor/API will be locked behind basic auth. Otherwise it’s open.",
       "env_variable": "NODE_RED_ADMIN_USER",
-      "required": false
+      "required": true
     },
     {
       "type": "password",
       "label": "Node-RED Admin Password Hash",
       "hint": "Bcrypt hash of the admin password. _You can also set these via env vars (NODE_RED_ADMIN_USER / NODE_RED_ADMIN_PASSWORD_HASH), but if you leave it commented out, anyone can open the editor and deploy flows._",
       "env_variable": "NODE_RED_ADMIN_PASSWORD_HASH",
-      "required": false
+      "required": true
     }
   ],
   "supported_architectures": ["arm64", "amd64"],
