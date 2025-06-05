@@ -6,7 +6,7 @@
       "isMain": true,
       "internalPort": 1880,
       "environment": {
-        "TZ": "${TZ}",
+        "TZ": "${TZ-Europe/Prague}",
         "NODE_RED_USERNAME": "${NODE_RED_USERNAME}",
         "NODE_RED_PASSWORD": "${NODE_RED_PASSWORD}",
         "NODE_RED_CREDENTIAL_SECRET": "${NODE_RED_CREDENTIAL_SECRET}"
