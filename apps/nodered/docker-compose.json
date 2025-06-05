@@ -2,7 +2,7 @@
   "services": [
     {
       "name": "nodered",
-      "image": "nodered/node-red:4.0.9",
+      "image": "nodered/node-red:latest",
       "isMain": true,
       "internalPort": 1880,
       "volumes": [
@@ -10,7 +10,13 @@
           "hostPath": "${APP_DATA_DIR}/data",
           "containerPath": "/data"
         }
-      ]
+      ],
+      "environment": {
+        "TZ": "${TZ-Europe/Prague}",
+        "NODE_RED_CREDENTIAL_SECRET": "${NODE_RED_CREDENTIAL_SECRET}",
+        "NODE_RED_ADMIN_USER": "${NODE_RED_ADMIN_USER}",
+        "NODE_RED_ADMIN_PASSWORD_HASH": "${NODE_RED_ADMIN_PASSWORD_HASH}"
+      }
     }
   ],
   "$schema": "../dynamic-compose-schema.json"
