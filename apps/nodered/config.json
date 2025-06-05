@@ -5,7 +5,7 @@
   "exposable": true,
   "dynamic_config": true,
   "port": 1880,
-  "id": "nodered",
+  "id": "node-red",
   "categories": ["automation"],
   "tipi_version": 25,
   "version": "latest",
