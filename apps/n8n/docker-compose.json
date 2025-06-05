@@ -2,7 +2,7 @@
   "$schema": "../dynamic-compose-schema.json",
   "services": [
     {
-      "name": "n8n",
+      "name": "n8n-1",
       "image": "n8nio/n8n:latest",
       "isMain": true,
       "internalPort": 5678,
