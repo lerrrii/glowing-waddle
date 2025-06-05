@@ -2,21 +2,28 @@
   "services": [
     {
       "name": "nodered",
-      "image": "nodered/node-red:latest",
+      "image": "nodered/node-red:4.0.9",
       "isMain": true,
       "internalPort": 1880,
+      "environment": {
+        "TZ": "${TZ}",
+        "NODE_RED_USERNAME": "${NODE_RED_USERNAME}",
+        "NODE_RED_PASSWORD": "${NODE_RED_PASSWORD}",
+        "NODE_RED_CREDENTIAL_SECRET": "${NODE_RED_CREDENTIAL_SECRET}"
+      },
       "volumes": [
         {
-          "hostPath": "${APP_DATA_DIR}/data",
+          "hostPath": "${APP_DATA_DIR}/data:/data",
           "containerPath": "/data"
         }
       ],
-      "environment": [
-        "TZ=${TZ:-UTC}",
-        "NODE_RED_USERNAME=${NODE_RED_USERNAME}",
-        "NODE_RED_PASSWORD=${NODE_RED_PASSWORD}",
-        "NODE_RED_CREDENTIAL_SECRET=${NODE_RED_CREDENTIAL_SECRET}"
-      ]
+      "dependsOn": {},
+      "healthCheck": {
+        "interval": "5s",
+        "timeout": "5s",
+        "retries": 5,
+        "test": ["CMD-SHELL", "curl --fail http://localhost:1880/ || exit 1"]
+      }
     }
   ],
   "$schema": "../dynamic-compose-schema.json"
