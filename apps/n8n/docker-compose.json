@@ -36,7 +36,7 @@
     },
     {
       "name": "n8n-db",
-      "image": "postgres:11",
+      "image": "postgres:17",
       "environment": {
         "POSTGRES_USER": "tipi",
         "POSTGRES_PASSWORD": "${N8N_DB_PASSWORD}",
