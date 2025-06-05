@@ -7,13 +7,13 @@ services:
     restart: unless-stopped
     ports:
       - ${APP_PORT}:1880
+    environment:
+      - TZ=${TZ:-UTC}
+      - NODE_RED_USERNAME=${NODE_RED_USERNAME}
+      - NODE_RED_PASSWORD=${NODE_RED_PASSWORD}
+      - NODE_RED_CREDENTIAL_SECRET=${NODE_RED_CREDENTIAL_SECRET}
     volumes:
       - ${APP_DATA_DIR}/data:/data
-    environment:
-      - TZ=${TZ:-Europe/Prague}
-      - NODE_RED_CREDENTIAL_SECRET=${NODE_RED_CREDENTIAL_SECRET}
-      - NODE_RED_ADMIN_USER=${NODE_RED_ADMIN_USER}
-      - NODE_RED_ADMIN_PASSWORD_HASH=${NODE_RED_ADMIN_PASSWORD_HASH}
     networks:
       - tipi_main_network
     labels:
@@ -42,7 +42,3 @@ services:
       traefik.http.routers.nodered-local.service: nodered
       traefik.http.routers.nodered-local.tls: true
       runtipi.managed: true
-
-networks:
-  tipi_main_network:
-    external: true
