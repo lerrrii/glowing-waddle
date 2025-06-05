@@ -18,7 +18,8 @@
     {
       "type": "text",
       "label": "Node-RED Timezone (e.g. Europe/Prague)",
-      "env_variable": "TZ"
+      "env_variable": "TZ",
+      "default": "Europe/Prague"
     },
     {
       "type": "text",
