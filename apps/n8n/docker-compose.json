@@ -43,6 +43,7 @@
         "POSTGRES_DB": "n8n",
         "POSTGRES_NON_ROOT_USER": "n8n",
         "POSTGRES_NON_ROOT_PASSWORD": "${N8N_NR_DB_PASSWORD}"
+        "TZ": "${TZ}"	      
       },
       "volumes": [
         {
