@@ -54,7 +54,7 @@ module.exports = {
                 username: process.env.NODE_RED_USERNAME || "admin",
                 password: bcrypt.hashSync(
                     process.env.NODE_RED_PASSWORD || "admin",
-                    8
+                    12
                 ),
                 permissions: "*"
             }
