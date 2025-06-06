@@ -1,16 +1,16 @@
 /**
  * This is the default settings file provided by Node-RED,
- * modified so that TZ, credentialSecret, and adminAuth credentials
- * (username/password) are taken from environment variables.
+ * modified so that TZ, credentialSecret, adminAuth credentials
+ * (username/password) are taken from environment variables,
+ * and context storage is set to persistent.
  */
 
 const bcrypt = require("bcryptjs");
 
 // If TZ is set in the environment, Node.js will automatically
-// pick it up. However, just in case you want to enforce it here:
-if (process.env.TZ) {
-    process.env.TZ = process.env.TZ;
-}
+// pick it up. The JavaScript block that was previously here to
+// redundantly set process.env.TZ has been removed as it's not necessary.
+// The TZ environment variable should be set via Docker or the host environment.
 
 module.exports = {
     /*******************************************************************************
@@ -27,8 +27,8 @@ module.exports = {
      */
     credentialSecret: process.env.NODE_RED_CREDENTIAL_SECRET || false,
 
-    /** 
-     * By default, the flow JSON will be pretty-printed. 
+    /**
+     * By default, the flow JSON will be pretty-printed.
      * Change to false to disable multi-line formatting.
      */
     flowFilePretty: true,
@@ -43,7 +43,7 @@ module.exports = {
      *   NODE_RED_USERNAME      → plain‐text username
      *   NODE_RED_PASSWORD      → plain‐text password
      *
-     * The password is hashed at startup with bcrypt (salt rounds=8).
+     * The password is hashed at startup with bcrypt (salt rounds=12).
      * If either variable is missing, it falls back to:
      *   username: "admin", password: "admin"  (hashed at startup).
      */
@@ -54,7 +54,7 @@ module.exports = {
                 username: process.env.NODE_RED_USERNAME || "admin",
                 password: bcrypt.hashSync(
                     process.env.NODE_RED_PASSWORD || "admin",
-                    12
+                    12 // Salt rounds updated for improved security
                 ),
                 permissions: "*"
             }
@@ -78,11 +78,29 @@ module.exports = {
     /*******************************************************************************
      * Runtime Settings
      ******************************************************************************/
+
+    /**
+     * Context Storage:
+     * The following property enables context data to be stored across restarts.
+     * For Node-RED 1.0 and later, this is an object with 'default' and optional
+     * named store configurations.
+     * We are enabling 'localfilesystem' as the default to make context data
+     * persistent across Node-RED restarts/container restarts.
+     * The data will be stored in a 'context' subdirectory within the userDir.
+     */
+    contextStorage: {
+        default: {
+            module: "localfilesystem"
+        }
+        // Example of an additional, named, memory-only store:
+        // memoryStore: { module: "memory" }
+    },
+
     logging: {
         console: {
             level: process.env.NODE_RED_LOG_LEVEL || "info",
             metrics: false,
-            audit: false
+            audit: false // Set to true to enable audit logging of admin actions
         }
     },
 
@@ -93,6 +111,9 @@ module.exports = {
      * Editor Settings
      ******************************************************************************/
     editorTheme: {
+        // projects: {
+        //     enabled: false // Set to true to enable the Projects feature
+        // },
         // disableEditor: false,
         // other theme options here if needed
     },
