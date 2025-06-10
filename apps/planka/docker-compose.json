@@ -9,7 +9,7 @@
       "environment": {
         "BASE_URL": "${APP_PROTOCOL:-http}://${APP_DOMAIN}",
         "TRUST_PROXY": "1",
-        "DATABASE_URL": "postgresql://postgres@planka-db/planka",
+        "DATABASE_URL": "postgresql://postgres:${POSTGRES_PASSWORD}@planka-db/planka",
         "SECRET_KEY": "${PLANKA_SECRET_KEY}",
         "DEFAULT_ADMIN_EMAIL": "${PLANKA_ADMIN_EMAIL}",
         "DEFAULT_ADMIN_NAME": "${PLANKA_ADMIN_NAME}",
@@ -42,7 +42,8 @@
       "image": "postgres:16-alpine",
       "environment": {
         "POSTGRES_DB": "planka",
-        "POSTGRES_HOST_AUTH_METHOD": "trust",
+        "POSTGRES_USER": "postgres",
+        "POSTGRES_PASSWORD": "${POSTGRES_PASSWORD}",
         "TZ": "${TZ:-Europe/Prague}"
       },
       "volumes": [
