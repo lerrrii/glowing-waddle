@@ -21,7 +21,7 @@ services:
     environment:
       - BASE_URL=${APP_PROTOCOL:-http}://${APP_DOMAIN}
       - TRUST_PROXY=1
-      - DATABASE_URL=postgresql://postgres@postgres/planka
+      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@planka-db/planka
       - SECRET_KEY=${PLANKA_SECRET_KEY}
       - DEFAULT_ADMIN_EMAIL=${PLANKA_ADMIN_EMAIL}
       - DEFAULT_ADMIN_NAME=${PLANKA_ADMIN_NAME}
@@ -52,9 +52,9 @@ services:
       traefik.http.routers.planka-local.tls: true
       runtipi.managed: true
     depends_on:
-      - postgres
+      - planka-db
 
-  postgres:
+  planka-db:
     image: postgres:16-alpine
     container_name: planka-db
     restart: unless-stopped
@@ -62,7 +62,8 @@ services:
       - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: planka
-      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       TZ: ${TZ:-Europe/Prague}
     networks:
       - tipi_main_network
