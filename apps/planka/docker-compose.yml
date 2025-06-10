@@ -28,8 +28,6 @@ services:
       - DEFAULT_ADMIN_USERNAME=${PLANKA_ADMIN_USERNAME}
       - DEFAULT_ADMIN_PASSWORD=${PLANKA_ADMIN_PASSWORD}
       - TZ=${TZ:-Europe/Prague}
-      - PUID=1000
-      - PGID=1000
     networks:
       - tipi_main_network
     labels:
