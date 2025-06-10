@@ -60,6 +60,12 @@
       "label": "Planka Secret Key",
       "min": 32,
       "env_variable": "PLANKA_SECRET_KEY"
+    },
+    {
+      "type": "random",
+      "label": "Database Password",
+      "min": 32,
+      "env_variable": "POSTGRES_PASSWORD"
     }
   ],
   "supported_architectures": ["arm64", "amd64"],
