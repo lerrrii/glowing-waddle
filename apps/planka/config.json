@@ -16,6 +16,15 @@
   "website": "https://docs.planka.cloud/",
   "form_fields": [
     {
+      "type": "text",
+      "label": "Timezone",
+      "max": 50,
+      "min": 3,
+      "required": false,
+      "default": "Europe/Prague",
+      "env_variable": "TZ"
+    },
+    {
       "type": "email",
       "label": "Admin email",
       "max": 50,
