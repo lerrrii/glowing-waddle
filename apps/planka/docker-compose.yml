@@ -15,6 +15,8 @@ services:
     volumes:
       - ${APP_DATA_DIR}/data/user-avatars:/app/public/user-avatars
       - ${APP_DATA_DIR}/data/project-background-images:/app/public/project-background-images
+      - ${APP_DATA_DIR}/data/background-images:/app/public/background-images
+      - ${APP_DATA_DIR}/data/favicons:/app/public/favicons
       - ${APP_DATA_DIR}/data/attachments:/app/private/attachments
     ports:
       - ${APP_PORT}:1337
@@ -27,6 +29,7 @@ services:
       - DEFAULT_ADMIN_NAME=${PLANKA_ADMIN_NAME}
       - DEFAULT_ADMIN_USERNAME=${PLANKA_ADMIN_USERNAME}
       - DEFAULT_ADMIN_PASSWORD=${PLANKA_ADMIN_PASSWORD}
+      - DEFAULT_LANGUAGE=en-US
       - TZ=${TZ:-Europe/Prague}
     networks:
       - tipi_main_network
