@@ -19,6 +19,258 @@
       "type": "random",
       "label": "Vikunja JWT secret",
       "env_variable": "VIKUNJA_SERVICE_JWTSECRET"
+    },
+    {
+      "type": "text",
+      "label": "Public URL (where users can reach Vikunja)",
+      "env_variable": "VIKUNJA_SERVICE_PUBLICURL",
+      "hint": "Used in emails and for API-frontend communication"
+    },
+    {
+      "type": "boolean",
+      "label": "Enable User Registration",
+      "env_variable": "VIKUNJA_SERVICE_ENABLEREGISTRATION",
+      "default": true
+    },
+    {
+      "type": "boolean",
+      "label": "Enable Link Sharing",
+      "env_variable": "VIKUNJA_SERVICE_ENABLELINKSHARING",
+      "default": true
+    },
+    {
+      "type": "boolean",
+      "label": "Enable Task Attachments",
+      "env_variable": "VIKUNJA_SERVICE_ENABLETASKATTACHMENTS",
+      "default": true
+    },
+    {
+      "type": "boolean",
+      "label": "Enable Task Comments",
+      "env_variable": "VIKUNJA_SERVICE_ENABLETASKCOMMENTS",
+      "default": true
+    },
+    {
+      "type": "boolean",
+      "label": "Enable CalDAV",
+      "env_variable": "VIKUNJA_SERVICE_ENABLECALDAV",
+      "default": true
+    },
+    {
+      "type": "boolean",
+      "label": "Allow Icon Changes",
+      "env_variable": "VIKUNJA_SERVICE_ALLOWICONCHANGES",
+      "default": false,
+      "hint": "Allow changing logo and icons based on occasions throughout the year"
+    },
+    {
+      "type": "text",
+      "label": "Custom Logo URL",
+      "env_variable": "VIKUNJA_SERVICE_CUSTOMLOGOURL",
+      "hint": "External URL for custom logo (optional)"
+    },
+    {
+      "type": "text",
+      "label": "Timezone",
+      "env_variable": "VIKUNJA_SERVICE_TIMEZONE",
+      "default": "GMT",
+      "hint": "Timezone for all timestamps (use official tz database names)"
+    },
+    {
+      "type": "text",
+      "label": "MOTD Message",
+      "env_variable": "VIKUNJA_SERVICE_MOTD",
+      "hint": "Message of the day (available from /info endpoint)"
+    },
+    {
+      "type": "number",
+      "label": "Max Items Per Page",
+      "env_variable": "VIKUNJA_SERVICE_MAXITEMSPERPAGE",
+      "default": 50
+    },
+    {
+      "type": "boolean",
+      "label": "Enable Email Reminders",
+      "env_variable": "VIKUNJA_SERVICE_ENABLEEMAILREMINDERS",
+      "default": true
+    },
+    {
+      "type": "boolean",
+      "label": "Enable User Deletion",
+      "env_variable": "VIKUNJA_SERVICE_ENABLEUSERDELETION",
+      "default": true
+    },
+    {
+      "type": "boolean",
+      "label": "Demo Mode",
+      "env_variable": "VIKUNJA_SERVICE_DEMOMODE",
+      "default": false,
+      "hint": "Shows warning not to use for real data"
+    },
+    {
+      "type": "text",
+      "label": "Max File Size",
+      "env_variable": "VIKUNJA_FILES_MAXSIZE",
+      "default": "20MB",
+      "hint": "Maximum size for file uploads"
+    },
+    {
+      "type": "boolean",
+      "label": "Enable Mailer",
+      "env_variable": "VIKUNJA_MAILER_ENABLED",
+      "default": false
+    },
+    {
+      "type": "text",
+      "label": "SMTP Host",
+      "env_variable": "VIKUNJA_MAILER_HOST",
+      "hint": "Required if mailer is enabled"
+    },
+    {
+      "type": "number",
+      "label": "SMTP Port",
+      "env_variable": "VIKUNJA_MAILER_PORT",
+      "default": 587
+    },
+    {
+      "type": "text",
+      "label": "SMTP Username",
+      "env_variable": "VIKUNJA_MAILER_USERNAME"
+    },
+    {
+      "type": "password",
+      "label": "SMTP Password",
+      "env_variable": "VIKUNJA_MAILER_PASSWORD"
+    },
+    {
+      "type": "text",
+      "label": "From Email Address",
+      "env_variable": "VIKUNJA_MAILER_FROMEMAIL",
+      "default": "mail@vikunja"
+    },
+    {
+      "type": "boolean",
+      "label": "Skip TLS Verify (SMTP)",
+      "env_variable": "VIKUNJA_MAILER_SKIPTLSVERIFY",
+      "default": false
+    },
+    {
+      "type": "boolean",
+      "label": "Force SSL (SMTP)",
+      "env_variable": "VIKUNJA_MAILER_FORCESSL",
+      "default": false
+    },
+    {
+      "type": "boolean",
+      "label": "Enable CORS",
+      "env_variable": "VIKUNJA_CORS_ENABLE",
+      "default": false,
+      "hint": "Enable if frontend and API are on different domains/ports"
+    },
+    {
+      "type": "text",
+      "label": "CORS Origins",
+      "env_variable": "VIKUNJA_CORS_ORIGINS",
+      "default": "*",
+      "hint": "Comma-separated list of allowed origins (include protocol and port)"
+    },
+    {
+      "type": "boolean",
+      "label": "Enable Rate Limiting",
+      "env_variable": "VIKUNJA_RATELIMIT_ENABLED",
+      "default": false
+    },
+    {
+      "type": "text",
+      "label": "Rate Limit Kind",
+      "env_variable": "VIKUNJA_RATELIMIT_KIND",
+      "default": "user",
+      "hint": "Rate limit based on 'user' or 'ip'"
+    },
+    {
+      "type": "number",
+      "label": "Rate Limit Period (seconds)",
+      "env_variable": "VIKUNJA_RATELIMIT_PERIOD",
+      "default": 60
+    },
+    {
+      "type": "number",
+      "label": "Rate Limit Max Requests",
+      "env_variable": "VIKUNJA_RATELIMIT_LIMIT",
+      "default": 100
+    },
+    {
+      "type": "boolean",
+      "label": "Enable Backgrounds",
+      "env_variable": "VIKUNJA_BACKGROUNDS_ENABLED",
+      "default": true
+    },
+    {
+      "type": "boolean",
+      "label": "Enable Upload Backgrounds",
+      "env_variable": "VIKUNJA_BACKGROUNDS_PROVIDERS_UPLOAD_ENABLED",
+      "default": true
+    },
+    {
+      "type": "boolean",
+      "label": "Enable Unsplash Backgrounds",
+      "env_variable": "VIKUNJA_BACKGROUNDS_PROVIDERS_UNSPLASH_ENABLED",
+      "default": false
+    },
+    {
+      "type": "text",
+      "label": "Unsplash Access Token",
+      "env_variable": "VIKUNJA_BACKGROUNDS_PROVIDERS_UNSPLASH_ACCESSTOKEN",
+      "hint": "Required if Unsplash backgrounds are enabled"
+    },
+    {
+      "type": "text",
+      "label": "Unsplash Application ID",
+      "env_variable": "VIKUNJA_BACKGROUNDS_PROVIDERS_UNSPLASH_APPLICATIONID",
+      "hint": "Required if Unsplash backgrounds are enabled"
+    },
+    {
+      "type": "text",
+      "label": "Legal Imprint URL",
+      "env_variable": "VIKUNJA_LEGAL_IMPRINTURL",
+      "hint": "URL to legal imprint page"
+    },
+    {
+      "type": "text",
+      "label": "Legal Privacy URL",
+      "env_variable": "VIKUNJA_LEGAL_PRIVACYURL",
+      "hint": "URL to privacy policy page"
+    },
+    {
+      "type": "boolean",
+      "label": "Enable Webhooks",
+      "env_variable": "VIKUNJA_WEBHOOKS_ENABLED",
+      "default": true
+    },
+    {
+      "type": "number",
+      "label": "Webhook Timeout (seconds)",
+      "env_variable": "VIKUNJA_WEBHOOKS_TIMEOUTSECONDS",
+      "default": 30
+    },
+    {
+      "type": "boolean",
+      "label": "Enable Metrics",
+      "env_variable": "VIKUNJA_METRICS_ENABLED",
+      "default": false,
+      "hint": "Enable Prometheus metrics endpoint"
+    },
+    {
+      "type": "text",
+      "label": "Metrics Username",
+      "env_variable": "VIKUNJA_METRICS_USERNAME",
+      "hint": "Basic auth username for metrics endpoint (optional)"
+    },
+    {
+      "type": "password",
+      "label": "Metrics Password",
+      "env_variable": "VIKUNJA_METRICS_PASSWORD",
+      "hint": "Basic auth password for metrics endpoint (optional)"
     }
   ],
   "supported_architectures": ["arm64", "amd64"],
