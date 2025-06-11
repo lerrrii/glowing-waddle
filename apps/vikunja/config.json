@@ -73,7 +73,7 @@
       "type": "text",
       "label": "Timezone",
       "env_variable": "VIKUNJA_SERVICE_TIMEZONE",
-      "default": "GMT",
+      "default": "Europe/Prague",
       "hint": "Timezone for all timestamps (use official tz database names)"
     },
     {
