@@ -15,6 +15,7 @@
         "DEFAULT_ADMIN_NAME": "${PLANKA_ADMIN_NAME}",
         "DEFAULT_ADMIN_USERNAME": "${PLANKA_ADMIN_USERNAME}",
         "DEFAULT_ADMIN_PASSWORD": "${PLANKA_ADMIN_PASSWORD}",
+        "DEFAULT_LANGUAGE": "en-US",
         "TZ": "${TZ:-Europe/Prague}"
       },
       "dependsOn": {
