@@ -1,0 +1,39 @@
+{
+  "name": "Kopia+",
+  "available": true,
+  "exposable": true,
+  "port": 51515,
+  "id": "kopia",
+  "tipi_version": 1,
+  "version": "latest",
+  "categories": ["utilities", "data"],
+  "description": "Fast and secure open-source backup/restore tool with encryption, deduplication, and compression. Supports multiple storage backends with web-based GUI.",
+  "short_desc": "Encrypted, deduplicated backup solution with web interface.",
+  "author": "Kopia Project",
+  "source": "https://github.com/kopia/kopia",
+  "form_fields": [
+    {
+      "type": "password",
+      "label": "Repository Password",
+      "required": true,
+      "placeholder": "Strong password for repository encryption",
+      "env_variable": "KOPIA_PASSWORD"
+    },
+    {
+      "type": "text",
+      "label": "Server Username",
+      "required": true,
+      "placeholder": "admin",
+      "env_variable": "KOPIA_SERVER_USERNAME",
+      "default": "admin"
+    },
+    {
+      "type": "password",
+      "label": "Server Password",
+      "required": true,
+      "placeholder": "Password for web interface access",
+      "env_variable": "KOPIA_SERVER_PASSWORD"
+    }
+  ],
+  "supported_architectures": ["arm64", "amd64"]
+}
