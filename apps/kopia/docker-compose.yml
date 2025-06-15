@@ -30,13 +30,7 @@ services:
       - ${APP_DATA_DIR}/data/logs:/app/logs
       - ${APP_DATA_DIR}/data/repository:/repository
       - ${APP_DATA_DIR}/data/tmp:/tmp:shared
-      # Bind Runtipi root with shared propagation so nested mounts show
-      - type: bind
-        source: /root/runtipi
-        target: /host-runtipi
-        read_only: true
-        bind:
-          propagation: rshared
+      - /root/runtipi:/runtipi:ro
       - /mnt:/mnt:rw
 
     networks:
