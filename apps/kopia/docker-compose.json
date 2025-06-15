@@ -40,13 +40,13 @@
           "options": "shared"
         },
         {
-          "hostPath": "/",
-          "containerPath": "/data",
-          "options": "ro"
-        },
-        {
           "hostPath": "/mnt",
           "containerPath": "/mnt",
+          "options": "rw"
+        },
+        {
+          "hostPath": "/root/runtipi",
+          "containerPath": "/backup-root",
           "options": "rw"
         }
       ],
