@@ -43,7 +43,7 @@
         },
         {
           "hostPath": "/root/runtipi",
-          "containerPath": "/host-runtipi",
+          "containerPath": "/runtipi",
           "options": "ro"
         },
         {
