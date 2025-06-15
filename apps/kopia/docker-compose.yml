@@ -29,6 +29,7 @@ services:
       - ${APP_DATA_DIR}/data/repository:/repository
       - ${APP_DATA_DIR}/data/tmp:/tmp:shared
       - /:/data:ro
+      - /mnt:/mnt:rw
 
     networks:
       - tipi_main_network
