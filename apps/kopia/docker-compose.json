@@ -43,11 +43,8 @@
         },
         {
           "hostPath": "/root/runtipi",
-          "containerPath": "/host-runtipi",
-          "options": "ro",
-          "bindOptions": {
-            "propagation": "rshared"
-          }
+          "containerPath": "/runtipi",
+          "options": "ro"
         },
         {
           "hostPath": "/mnt",
