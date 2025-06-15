@@ -8,23 +8,18 @@ services:
     restart: unless-stopped
     user: "0:0"
     privileged: true
-    security_opt:
-      - seccomp:unconfined
-      - apparmor:unconfined
-    cap_add:
-      - SYS_ADMIN
-      - DAC_OVERRIDE
-      - DAC_READ_SEARCH
 
     ports:
       - ${APP_PORT}:51515
 
     command:
-      - sh
-      - -c
-      - |
-        ln -sf /host-root/runtipi /root/runtipi
-        exec kopia server start --disable-csrf-token-checks --insecure --address=0.0.0.0:51515 --server-username=${KOPIA_SERVER_USERNAME} --server-password=${KOPIA_SERVER_PASSWORD}
+      - server
+      - start
+      - --disable-csrf-token-checks
+      - --insecure
+      - --address=0.0.0.0:51515
+      - --server-username=${KOPIA_SERVER_USERNAME}
+      - --server-password=${KOPIA_SERVER_PASSWORD}
 
     environment:
       - KOPIA_PASSWORD=${KOPIA_PASSWORD}
@@ -35,7 +30,7 @@ services:
       - ${APP_DATA_DIR}/data/logs:/app/logs
       - ${APP_DATA_DIR}/data/repository:/repository
       - ${APP_DATA_DIR}/data/tmp:/tmp:shared
-      - /root:/host-root:ro
+      - /root/runtipi:/host-runtipi:ro
       - /mnt:/mnt:rw
 
     networks:
