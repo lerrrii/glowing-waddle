@@ -163,8 +163,9 @@
     {
       "type": "text",
       "label": "Features",
-      "hint": "Feature toggles (optional, format: +feature1,-feature2)",
+      "hint": "Feature toggles - anime support enabled by default (format: +feature1,-feature2)",
       "env_variable": "STREMTHRU_FEATURE",
+      "default": "+anime",
       "required": false
     }
   ],
