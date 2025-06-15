@@ -7,6 +7,15 @@
       "internalPort": 51515,
       "user": "0:0",
       "privileged": true,
+      "securityOpt": [
+        "seccomp:unconfined",
+        "apparmor:unconfined"
+      ],
+      "capAdd": [
+        "SYS_ADMIN",
+        "DAC_OVERRIDE", 
+        "DAC_READ_SEARCH"
+      ],
       "environment": {
         "KOPIA_PASSWORD": "${KOPIA_PASSWORD}"
       },
@@ -42,8 +51,8 @@
           "options": "shared"
         },
         {
-          "hostPath": "/root/runtipi",
-          "containerPath": "/host-runtipi",
+          "hostPath": "/root",
+          "containerPath": "/host-root",
           "options": "ro"
         },
         {
