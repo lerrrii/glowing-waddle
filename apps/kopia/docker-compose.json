@@ -43,6 +43,11 @@
           "hostPath": "/",
           "containerPath": "/data",
           "options": "ro"
+        },
+        {
+          "hostPath": "/mnt",
+          "containerPath": "/mnt",
+          "options": "rw"
         }
       ],
       "hostname": "kopia-server",
