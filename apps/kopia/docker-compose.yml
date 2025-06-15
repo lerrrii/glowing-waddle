@@ -30,6 +30,7 @@ services:
       - ${APP_DATA_DIR}/data/tmp:/tmp:shared
       - /:/data:ro
       - /mnt:/mnt:rw
+      - /root/runtipi:/backup-root:rw
 
     networks:
       - tipi_main_network
