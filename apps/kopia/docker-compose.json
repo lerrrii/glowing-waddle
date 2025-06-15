@@ -52,7 +52,8 @@
           "max-size": "10m",
           "max-file": "3"
         }
-      }
+      },
+      "networks": ["tipi_main_network"]
     }
   ]
 }
