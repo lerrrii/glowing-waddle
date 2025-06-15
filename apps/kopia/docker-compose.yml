@@ -8,6 +8,13 @@ services:
     restart: unless-stopped
     user: "0:0"
     privileged: true
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    cap_add:
+      - SYS_ADMIN
+      - DAC_OVERRIDE
+      - DAC_READ_SEARCH
 
     ports:
       - ${APP_PORT}:51515
