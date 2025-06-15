@@ -42,8 +42,8 @@
           "options": "shared"
         },
         {
-          "hostPath": "/root",
-          "containerPath": "/host-root",
+          "hostPath": "/root/runtipi",
+          "containerPath": "/host-runtipi",
           "options": "ro"
         },
         {
