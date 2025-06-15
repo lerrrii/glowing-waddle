@@ -6,6 +6,7 @@ services:
     container_name: kopia
     hostname: kopia-server
     restart: unless-stopped
+    user: "0:0"
 
     ports:
       - ${APP_PORT}:51515
@@ -28,9 +29,8 @@ services:
       - ${APP_DATA_DIR}/data/logs:/app/logs
       - ${APP_DATA_DIR}/data/repository:/repository
       - ${APP_DATA_DIR}/data/tmp:/tmp:shared
-      - /:/data:ro
+      - /root/runtipi:/runtipi:ro
       - /mnt:/mnt:rw
-      - /root/runtipi:/backup-root:rw
 
     networks:
       - tipi_main_network
