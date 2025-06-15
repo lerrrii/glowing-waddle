@@ -5,6 +5,7 @@
       "image": "kopia/kopia:latest",
       "isMain": true,
       "internalPort": 51515,
+      "user": "0:0",
       "environment": {
         "KOPIA_PASSWORD": "${KOPIA_PASSWORD}"
       },
@@ -40,13 +41,13 @@
           "options": "shared"
         },
         {
-          "hostPath": "/mnt",
-          "containerPath": "/mnt",
-          "options": "rw"
+          "hostPath": "/root/runtipi",
+          "containerPath": "/runtipi",
+          "options": "ro"
         },
         {
-          "hostPath": "/root/runtipi",
-          "containerPath": "/backup-root",
+          "hostPath": "/mnt",
+          "containerPath": "/mnt",
           "options": "rw"
         }
       ],
