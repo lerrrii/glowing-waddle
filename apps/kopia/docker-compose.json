@@ -12,7 +12,6 @@
         "server",
         "start",
         "--disable-csrf-token-checks",
-        "--insecure",
         "--address=0.0.0.0:51515",
         "--server-username=${KOPIA_SERVER_USERNAME}",
         "--server-password=${KOPIA_SERVER_PASSWORD}"
