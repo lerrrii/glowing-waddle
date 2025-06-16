@@ -8,9 +8,7 @@
       "user": "0:0",
       "privileged": true,
       "environment": {
-        "KOPIA_PASSWORD": "${KOPIA_PASSWORD}",
-        "USER_UID": "1000",
-        "USER_GID": "1000"
+        "KOPIA_PASSWORD": "${KOPIA_PASSWORD}"
       },
       "command": [
         "server",
