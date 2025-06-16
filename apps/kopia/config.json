@@ -35,6 +35,14 @@
       "required": true,
       "placeholder": "Password for web interface access",
       "env_variable": "KOPIA_SERVER_PASSWORD"
+    },
+    {
+      "type": "text",
+      "label": "Timezone",
+      "required": false,
+      "placeholder": "Europe/Prague",
+      "env_variable": "TZ",
+      "default": "Europe/Prague"
     }
   ],
   "supported_architectures": ["arm64", "amd64"]
