@@ -5,7 +5,7 @@
       "image": "kopia/kopia:latest",
       "isMain": true,
       "internalPort": 51515,
-      "user": "0:0",
+      "user": "root",
       "privileged": true,
       "environment": {
         "KOPIA_PASSWORD": "${KOPIA_PASSWORD}"
