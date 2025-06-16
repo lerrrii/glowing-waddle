@@ -25,6 +25,7 @@ services:
 
     environment:
       - KOPIA_PASSWORD=${KOPIA_PASSWORD}
+      - TZ=${TZ:-Europe/Prague}
 
     volumes:
       - ${APP_DATA_DIR}/data/config:/app/config
