@@ -23,6 +23,8 @@ services:
 
     environment:
       - KOPIA_PASSWORD=${KOPIA_PASSWORD}
+      - USER_UID=1000
+      - USER_GID=1000
 
     volumes:
       - ${APP_DATA_DIR}/data/config:/app/config
