@@ -10,7 +10,7 @@
       "environment": {
         "KOPIA_PASSWORD": "${KOPIA_PASSWORD}",
         "USER_UID": "1000",
-        "USER_GID": "1000",
+        "USER_GID": "1000"
       },
       "command": [
         "server",
