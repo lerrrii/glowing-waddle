@@ -1,3 +1,4 @@
+// docker-compose.json
 {
   "services": [
     {
@@ -8,7 +9,8 @@
       "user": "root",
       "privileged": true,
       "environment": {
-        "KOPIA_PASSWORD": "${KOPIA_PASSWORD}"
+        "KOPIA_PASSWORD": "${KOPIA_PASSWORD}",
+        "TZ": "${TZ:-Europe/Prague}"
       },
       "command": [
         "server",
