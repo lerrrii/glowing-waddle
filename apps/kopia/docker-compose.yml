@@ -32,7 +32,7 @@ services:
       - ${APP_DATA_DIR}/data/logs:/app/logs
       - ${APP_DATA_DIR}/data/repository:/repository
       - ${APP_DATA_DIR}/data/tmp:/tmp:shared
-      - /root/runtipi:/runtipi:ro
+      - /root:/root:ro
       - /mnt:/mnt:rw
 
     networks:
