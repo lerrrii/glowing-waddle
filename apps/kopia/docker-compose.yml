@@ -6,7 +6,9 @@ services:
     container_name: kopia
     hostname: kopia-server
     restart: unless-stopped
-    user: "0:0"
+
+    # run as root inside the container
+    user: root
     privileged: true
 
     ports:
