@@ -1,0 +1,39 @@
+version: '3'
+services:
+  flexget:
+    container_name: flexget
+    image: lscr.io/linuxserver/flexget:latest
+    restart: unless-stopped
+    ports:
+      - ${APP_PORT}:5050
+    volumes:
+      - ${APP_DATA_DIR}/data/config:/config
+      - ${APP_DATA_DIR}/data/flexget:/data
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
+      - FG_WEBUI_PASSWORD=${FG_WEBUI_PASSWORD}
+    networks:
+      - tipi_main_network
+    labels:
+      traefik.enable: true
+      traefik.http.middlewares.flexget-web-redirect.redirectscheme.scheme: https
+      traefik.http.services.flexget.loadbalancer.server.port: 5050
+      traefik.http.routers.flexget-insecure.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.flexget-insecure.entrypoints: web
+      traefik.http.routers.flexget-insecure.service: flexget
+      traefik.http.routers.flexget-insecure.middlewares: flexget-web-redirect
+      traefik.http.routers.flexget.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.flexget.entrypoints: websecure
+      traefik.http.routers.flexget.service: flexget
+      traefik.http.routers.flexget.tls.certresolver: myresolver
+      traefik.http.routers.flexget-local-insecure.rule: Host(`flexget.${LOCAL_DOMAIN}`)
+      traefik.http.routers.flexget-local-insecure.entrypoints: web
+      traefik.http.routers.flexget-local-insecure.service: flexget
+      traefik.http.routers.flexget-local-insecure.middlewares: flexget-web-redirect
+      traefik.http.routers.flexget-local.rule: Host(`flexget.${LOCAL_DOMAIN}`)
+      traefik.http.routers.flexget-local.entrypoints: websecure
+      traefik.http.routers.flexget-local.service: flexget
+      traefik.http.routers.flexget-local.tls: true
+      runtipi.managed: true

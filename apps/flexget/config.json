@@ -1,0 +1,52 @@
+{
+  "$schema": "../app-info-schema.json",
+  "name": "FlexGet+",
+  "id": "flexget",
+  "available": true,
+  "exposable": true,
+  "dynamic_config": true,
+  "port": 5050,
+  "tipi_version": 1,
+  "version": "latest",
+  "categories": ["media", "automation", "utilities"],
+  "author": "LinuxServer.io + Runtipi community",
+  "description": "Multipurpose automation tool for all of your media. Support for torrents, nzbs, podcasts, comics, TV, movies, RSS, and more.",
+  "short_desc": "Media automation and RSS management tool.",
+  "source": "https://github.com/Flexget/Flexget",
+  "form_fields": [
+    {
+      "type": "text",
+      "label": "User ID (PUID)",
+      "hint": "User ID to run the container as (default: 1000)",
+      "env_variable": "PUID",
+      "default": "1000",
+      "required": false
+    },
+    {
+      "type": "text",
+      "label": "Group ID (PGID)",
+      "hint": "Group ID to run the container as (default: 1000)",
+      "env_variable": "PGID",
+      "default": "1000",
+      "required": false
+    },
+    {
+      "type": "text",
+      "label": "Timezone",
+      "hint": "Timezone for the application (default: Europe/Prague)",
+      "env_variable": "TZ",
+      "default": "Europe/Prague",
+      "required": false
+    },
+    {
+      "type": "password",
+      "label": "Web UI Password",
+      "hint": "Password for accessing the FlexGet web interface",
+      "env_variable": "FG_WEBUI_PASSWORD",
+      "required": true
+    }
+  ],
+  "supported_architectures": ["amd64", "arm64"],
+  "created_at": 1740000000000,
+  "updated_at": 1740000000000
+}
