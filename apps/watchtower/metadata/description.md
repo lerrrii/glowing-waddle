@@ -85,7 +85,29 @@ Pass any other CLI flags not exposed directly in the Runtipi form.
 
 Separate multiple flags with spaces.
 
-**Examples**:
+**Common Examples**:
+
+* **Protect Runtipi infrastructure (Recommended)**:
+  ```text
+  --disable-containers runtipi,runtipi-db,runtipi-queue,runtipi-reverse-proxy
+  ```
+
+* **Update only specific containers**:
+  ```text
+  nginx redis webapp prometheus
+  ```
+
+* **Exclude critical databases**:
+  ```text
+  --disable-containers postgres,mysql,elasticsearch,vault,grafana
+  ```
+
+* **Test immediately (one-time run)**:
+  ```text
+  --run-once --disable-containers runtipi,runtipi-db,runtipi-queue,runtipi-reverse-proxy
+  ```
+
+**Additional Options**:
 
 * Watch stopped containers as well as running ones:
   ```text
@@ -94,10 +116,6 @@ Separate multiple flags with spaces.
 * Perform rolling restarts rather than stopping all at once:
   ```text
   --rolling-restart
-  ```
-* Only monitor specific containers by name:
-  ```text
-  nginx redis postgres
   ```
 * Use a custom label for filtering:
   ```text
