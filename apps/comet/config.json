@@ -54,7 +54,7 @@
       "env_variable": "FASTAPI_WORKERS",
       "default": 1,
       "placeholder": "1",
-      "hint": "Number of worker processes."
+      "hint": "Number of worker processes (-1 for auto-scaling)."
     },
     {
       "type": "boolean",
@@ -66,10 +66,18 @@
     },
     {
       "type": "password",
-      "label": "Dashboard Admin Password",
-      "env_variable": "DASHBOARD_ADMIN_PASSWORD",
+      "label": "Admin Dashboard Password",
+      "env_variable": "ADMIN_DASHBOARD_PASSWORD",
       "required": true,
       "hint": "Password to access the admin dashboard."
+    },
+    {
+      "type": "boolean",
+      "label": "Public Metrics API",
+      "env_variable": "PUBLIC_METRICS_API",
+      "default": false,
+      "placeholder": "false",
+      "hint": "Allow public access to the metrics API (/admin/api/metrics)."
     },
     {
       "type": "text",
@@ -83,7 +91,7 @@
       "type": "text",
       "label": "Database URL",
       "env_variable": "DATABASE_URL",
-      "placeholder": "user:pass@host:port",
+      "placeholder": "username:password@hostname:port",
       "hint": "PostgreSQL connection string (leave blank for SQLite)."
     },
     {
@@ -93,6 +101,14 @@
       "default": "data/comet.db",
       "placeholder": "data/comet.db",
       "hint": "SQLite database file path."
+    },
+    {
+      "type": "number",
+      "label": "Database Batch Size",
+      "env_variable": "DATABASE_BATCH_SIZE",
+      "default": 20000,
+      "placeholder": "20000",
+      "hint": "Batch size for database import and export operations."
     },
     {
       "type": "number",
@@ -117,6 +133,62 @@
       "default": 86400,
       "placeholder": "86400",
       "hint": "Debrid cache duration in seconds (1 day)."
+    },
+    {
+      "type": "number",
+      "label": "Scrape Lock TTL",
+      "env_variable": "SCRAPE_LOCK_TTL",
+      "default": 300,
+      "placeholder": "300",
+      "hint": "Duration for distributed scraping locks (5 minutes)."
+    },
+    {
+      "type": "number",
+      "label": "Scrape Wait Timeout",
+      "env_variable": "SCRAPE_WAIT_TIMEOUT",
+      "default": 30,
+      "placeholder": "30",
+      "hint": "Max time to wait for other instance to complete scraping (seconds)."
+    },
+    {
+      "type": "boolean",
+      "label": "Background Scraper Enabled",
+      "env_variable": "BACKGROUND_SCRAPER_ENABLED",
+      "default": false,
+      "placeholder": "false",
+      "hint": "Enable background content scraping."
+    },
+    {
+      "type": "number",
+      "label": "Background Scraper Workers",
+      "env_variable": "BACKGROUND_SCRAPER_CONCURRENT_WORKERS",
+      "default": 1,
+      "placeholder": "1",
+      "hint": "Number of concurrent workers for background scraping."
+    },
+    {
+      "type": "number",
+      "label": "Background Scraper Interval",
+      "env_variable": "BACKGROUND_SCRAPER_INTERVAL",
+      "default": 3600,
+      "placeholder": "3600",
+      "hint": "Interval between scraping cycles in seconds (1 hour)."
+    },
+    {
+      "type": "number",
+      "label": "Background Scraper Max Movies",
+      "env_variable": "BACKGROUND_SCRAPER_MAX_MOVIES_PER_RUN",
+      "default": 100,
+      "placeholder": "100",
+      "hint": "Maximum number of movies to scrape per run."
+    },
+    {
+      "type": "number",
+      "label": "Background Scraper Max Series",
+      "env_variable": "BACKGROUND_SCRAPER_MAX_SERIES_PER_RUN",
+      "default": 100,
+      "placeholder": "100",
+      "hint": "Maximum number of series to scrape per run."
     },
     {
       "type": "text",
@@ -147,6 +219,14 @@
       "hint": "API key for Jackett or Prowlarr."
     },
     {
+      "type": "text",
+      "label": "Indexer Manager Mode",
+      "env_variable": "INDEXER_MANAGER_MODE",
+      "default": "both",
+      "placeholder": "both",
+      "hint": "Context mode: live, background, both, false."
+    },
+    {
       "type": "number",
       "label": "Indexer Manager Timeout",
       "env_variable": "INDEXER_MANAGER_TIMEOUT",
@@ -174,17 +254,17 @@
       "type": "boolean",
       "label": "Download Torrent Files",
       "env_variable": "DOWNLOAD_TORRENT_FILES",
-      "default": true,
-      "placeholder": "true",
+      "default": false,
+      "placeholder": "false",
       "hint": "Enable torrent file retrieval instead of magnet links only."
     },
     {
-      "type": "boolean",
+      "type": "text",
       "label": "Scrape Comet",
       "env_variable": "SCRAPE_COMET",
-      "default": true,
-      "placeholder": "true",
-      "hint": "Enable scraping from Comet sources."
+      "default": "false",
+      "placeholder": "false",
+      "hint": "Enable Comet scraping: true, false, live, background, both."
     },
     {
       "type": "text",
@@ -192,15 +272,39 @@
       "env_variable": "COMET_URL",
       "default": "https://comet.elfhosted.com",
       "placeholder": "https://comet.elfhosted.com",
-      "hint": "Comet service endpoint URL."
+      "hint": "Comet service endpoint URL or JSON array for multiple instances."
+    },
+    {
+      "type": "text",
+      "label": "Scrape Nyaa",
+      "env_variable": "SCRAPE_NYAA",
+      "default": "false",
+      "placeholder": "false",
+      "hint": "Enable Nyaa scraping: true, false, live, background, both."
     },
     {
       "type": "boolean",
-      "label": "Scrape Zilean",
-      "env_variable": "SCRAPE_ZILEAN",
+      "label": "Nyaa Anime Only",
+      "env_variable": "NYAA_ANIME_ONLY",
       "default": true,
       "placeholder": "true",
-      "hint": "Enable scraping from Zilean."
+      "hint": "Only scrape Nyaa if the content is anime."
+    },
+    {
+      "type": "number",
+      "label": "Nyaa Max Concurrent Pages",
+      "env_variable": "NYAA_MAX_CONCURRENT_PAGES",
+      "default": 5,
+      "placeholder": "5",
+      "hint": "Maximum number of concurrent requests to Nyaa."
+    },
+    {
+      "type": "text",
+      "label": "Scrape Zilean",
+      "env_variable": "SCRAPE_ZILEAN",
+      "default": "false",
+      "placeholder": "false",
+      "hint": "Enable Zilean scraping: true, false, live, background, both."
     },
     {
       "type": "text",
@@ -208,15 +312,31 @@
       "env_variable": "ZILEAN_URL",
       "default": "https://zilean.elfhosted.com",
       "placeholder": "https://zilean.elfhosted.com",
-      "hint": "Zilean service endpoint URL."
+      "hint": "Zilean service endpoint URL or JSON array for multiple instances."
     },
     {
-      "type": "boolean",
+      "type": "text",
+      "label": "Scrape StremThru",
+      "env_variable": "SCRAPE_STREMTHRU",
+      "default": "false",
+      "placeholder": "false",
+      "hint": "Enable StremThru scraping: true, false, live, background, both."
+    },
+    {
+      "type": "text",
+      "label": "StremThru Scrape URL",
+      "env_variable": "STREMTHRU_SCRAPE_URL",
+      "default": "https://stremthru.13377001.xyz",
+      "placeholder": "https://stremthru.13377001.xyz",
+      "hint": "StremThru scraping endpoint URL or JSON array for multiple instances."
+    },
+    {
+      "type": "text",
       "label": "Scrape Torrentio",
       "env_variable": "SCRAPE_TORRENTIO",
-      "default": true,
-      "placeholder": "true",
-      "hint": "Enable scraping from Torrentio."
+      "default": "false",
+      "placeholder": "false",
+      "hint": "Enable Torrentio scraping: true, false, live, background, both."
     },
     {
       "type": "text",
@@ -224,15 +344,15 @@
       "env_variable": "TORRENTIO_URL",
       "default": "https://torrentio.strem.fun",
       "placeholder": "https://torrentio.strem.fun",
-      "hint": "Torrentio service endpoint URL."
+      "hint": "Torrentio service endpoint URL or JSON array for multiple instances."
     },
     {
-      "type": "boolean",
+      "type": "text",
       "label": "Scrape MediaFusion",
       "env_variable": "SCRAPE_MEDIAFUSION",
-      "default": true,
-      "placeholder": "true",
-      "hint": "Enable scraping from MediaFusion."
+      "default": "false",
+      "placeholder": "false",
+      "hint": "Enable MediaFusion scraping: true, false, live, background, both."
     },
     {
       "type": "text",
@@ -240,14 +360,93 @@
       "env_variable": "MEDIAFUSION_URL",
       "default": "https://mediafusion.elfhosted.com",
       "placeholder": "https://mediafusion.elfhosted.com",
-      "hint": "MediaFusion service endpoint URL."
+      "hint": "MediaFusion service endpoint URL or JSON array for multiple instances."
+    },
+    {
+      "type": "password",
+      "label": "MediaFusion API Password",
+      "env_variable": "MEDIAFUSION_API_PASSWORD",
+      "hint": "API password for MediaFusion instances that require authentication."
+    },
+    {
+      "type": "boolean",
+      "label": "MediaFusion Live Search",
+      "env_variable": "MEDIAFUSION_LIVE_SEARCH",
+      "default": true,
+      "placeholder": "true",
+      "hint": "Enable live search for MediaFusion."
+    },
+    {
+      "type": "text",
+      "label": "Scrape AIOStreams",
+      "env_variable": "SCRAPE_AIOSTREAMS",
+      "default": "false",
+      "placeholder": "false",
+      "hint": "Enable AIOStreams scraping: true, false, live, background, both."
+    },
+    {
+      "type": "text",
+      "label": "AIOStreams URL",
+      "env_variable": "AIOSTREAMS_URL",
+      "placeholder": "https://aio.example.com",
+      "hint": "AIOStreams service endpoint URL or JSON array for multiple instances."
+    },
+    {
+      "type": "password",
+      "label": "AIOStreams User UUID and Password",
+      "env_variable": "AIOSTREAMS_USER_UUID_AND_PASSWORD",
+      "placeholder": "user_uuid:password",
+      "hint": "AIOStreams credentials (user_uuid:password)."
+    },
+    {
+      "type": "text",
+      "label": "Scrape Jackettio",
+      "env_variable": "SCRAPE_JACKETTIO",
+      "default": "false",
+      "placeholder": "false",
+      "hint": "Enable Jackettio scraping: true, false, live, background, both."
+    },
+    {
+      "type": "text",
+      "label": "Jackettio URL",
+      "env_variable": "JACKETTIO_URL",
+      "placeholder": "https://jackettio.example.com",
+      "hint": "Jackettio manifest URL or JSON array for multiple instances."
+    },
+    {
+      "type": "text",
+      "label": "Scrape DebridIO",
+      "env_variable": "SCRAPE_DEBRIDIO",
+      "default": "false",
+      "placeholder": "false",
+      "hint": "Enable DebridIO scraping: true, false, live, background, both."
+    },
+    {
+      "type": "password",
+      "label": "DebridIO API Key",
+      "env_variable": "DEBRIDIO_API_KEY",
+      "hint": "API key for DebridIO service."
+    },
+    {
+      "type": "text",
+      "label": "Scrape TorBox",
+      "env_variable": "SCRAPE_TORBOX",
+      "default": "false",
+      "placeholder": "false",
+      "hint": "Enable TorBox scraping: true, false, live, background, both."
+    },
+    {
+      "type": "password",
+      "label": "TorBox API Key",
+      "env_variable": "TORBOX_API_KEY",
+      "hint": "API key for TorBox service."
     },
     {
       "type": "boolean",
       "label": "Proxy Debrid Stream",
       "env_variable": "PROXY_DEBRID_STREAM",
-      "default": true,
-      "placeholder": "true",
+      "default": false,
+      "placeholder": "false",
       "hint": "Enable debrid stream proxying through Comet."
     },
     {
@@ -299,7 +498,7 @@
       "env_variable": "STREMTHRU_URL",
       "default": "https://stremthru.13377001.xyz",
       "placeholder": "https://stremthru.13377001.xyz",
-      "hint": "StremThru service URL for integration."
+      "hint": "StremThru service URL for debrid services integration."
     }
   ],
   "supported_architectures": [
