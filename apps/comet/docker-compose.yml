@@ -23,7 +23,8 @@ services:
       # ==============================
       # Dashboard Settings
       # ==============================
-      DASHBOARD_ADMIN_PASSWORD: "${DASHBOARD_ADMIN_PASSWORD}"
+      ADMIN_DASHBOARD_PASSWORD: "${ADMIN_DASHBOARD_PASSWORD}"
+      PUBLIC_METRICS_API: "${PUBLIC_METRICS_API-False}"
 
       # ==============================
       # Database Configuration
@@ -31,6 +32,7 @@ services:
       DATABASE_TYPE: "${DATABASE_TYPE-sqlite}"
       DATABASE_URL: "${DATABASE_URL-}"
       DATABASE_PATH: "${DATABASE_PATH-data/comet.db}"
+      DATABASE_BATCH_SIZE: "${DATABASE_BATCH_SIZE-20000}"
 
       # ==============================
       # Cache Settings (Seconds)
@@ -38,6 +40,17 @@ services:
       METADATA_CACHE_TTL: "${METADATA_CACHE_TTL-2592000}"
       TORRENT_CACHE_TTL: "${TORRENT_CACHE_TTL-1296000}"
       DEBRID_CACHE_TTL: "${DEBRID_CACHE_TTL-86400}"
+      SCRAPE_LOCK_TTL: "${SCRAPE_LOCK_TTL-300}"
+      SCRAPE_WAIT_TIMEOUT: "${SCRAPE_WAIT_TIMEOUT-30}"
+
+      # ==============================
+      # Background Scraper Settings
+      # ==============================
+      BACKGROUND_SCRAPER_ENABLED: "${BACKGROUND_SCRAPER_ENABLED-False}"
+      BACKGROUND_SCRAPER_CONCURRENT_WORKERS: "${BACKGROUND_SCRAPER_CONCURRENT_WORKERS-1}"
+      BACKGROUND_SCRAPER_INTERVAL: "${BACKGROUND_SCRAPER_INTERVAL-3600}"
+      BACKGROUND_SCRAPER_MAX_MOVIES_PER_RUN: "${BACKGROUND_SCRAPER_MAX_MOVIES_PER_RUN-100}"
+      BACKGROUND_SCRAPER_MAX_SERIES_PER_RUN: "${BACKGROUND_SCRAPER_MAX_SERIES_PER_RUN-100}"
 
       # ==============================
       # Debrid Proxy Configuration
@@ -50,6 +63,7 @@ services:
       INDEXER_MANAGER_TYPE: "${INDEXER_MANAGER_TYPE-none}"
       INDEXER_MANAGER_URL: "${INDEXER_MANAGER_URL-}"
       INDEXER_MANAGER_API_KEY: "${INDEXER_MANAGER_API_KEY-}"
+      INDEXER_MANAGER_MODE: "${INDEXER_MANAGER_MODE-both}"
       INDEXER_MANAGER_TIMEOUT: "${INDEXER_MANAGER_TIMEOUT-60}"
       INDEXER_MANAGER_INDEXERS: "${INDEXER_MANAGER_INDEXERS-[]}"
 
@@ -57,24 +71,49 @@ services:
       # Torrent Settings
       # ==============================
       GET_TORRENT_TIMEOUT: "${GET_TORRENT_TIMEOUT-5}"
-      DOWNLOAD_TORRENT_FILES: "${DOWNLOAD_TORRENT_FILES-True}"
+      DOWNLOAD_TORRENT_FILES: "${DOWNLOAD_TORRENT_FILES-False}"
 
       # ==============================
       # Scraping Configuration
       # ==============================
-      SCRAPE_COMET: "${SCRAPE_COMET-true}"
+      SCRAPE_COMET: "${SCRAPE_COMET-False}"
       COMET_URL: "${COMET_URL-https://comet.elfhosted.com}"
-      SCRAPE_ZILEAN: "${SCRAPE_ZILEAN-true}"
+
+      SCRAPE_NYAA: "${SCRAPE_NYAA-False}"
+      NYAA_ANIME_ONLY: "${NYAA_ANIME_ONLY-True}"
+      NYAA_MAX_CONCURRENT_PAGES: "${NYAA_MAX_CONCURRENT_PAGES-5}"
+
+      SCRAPE_ZILEAN: "${SCRAPE_ZILEAN-False}"
       ZILEAN_URL: "${ZILEAN_URL-https://zilean.elfhosted.com}"
-      SCRAPE_TORRENTIO: "${SCRAPE_TORRENTIO-true}"
+
+      SCRAPE_STREMTHRU: "${SCRAPE_STREMTHRU-False}"
+      STREMTHRU_SCRAPE_URL: "${STREMTHRU_SCRAPE_URL-https://stremthru.13377001.xyz}"
+
+      SCRAPE_TORRENTIO: "${SCRAPE_TORRENTIO-False}"
       TORRENTIO_URL: "${TORRENTIO_URL-https://torrentio.strem.fun}"
-      SCRAPE_MEDIAFUSION: "${SCRAPE_MEDIAFUSION-true}"
+
+      SCRAPE_MEDIAFUSION: "${SCRAPE_MEDIAFUSION-False}"
       MEDIAFUSION_URL: "${MEDIAFUSION_URL-https://mediafusion.elfhosted.com}"
+      MEDIAFUSION_API_PASSWORD: "${MEDIAFUSION_API_PASSWORD-}"
+      MEDIAFUSION_LIVE_SEARCH: "${MEDIAFUSION_LIVE_SEARCH-True}"
+
+      SCRAPE_AIOSTREAMS: "${SCRAPE_AIOSTREAMS-False}"
+      AIOSTREAMS_URL: "${AIOSTREAMS_URL-}"
+      AIOSTREAMS_USER_UUID_AND_PASSWORD: "${AIOSTREAMS_USER_UUID_AND_PASSWORD-}"
+
+      SCRAPE_JACKETTIO: "${SCRAPE_JACKETTIO-False}"
+      JACKETTIO_URL: "${JACKETTIO_URL-}"
+
+      SCRAPE_DEBRIDIO: "${SCRAPE_DEBRIDIO-False}"
+      DEBRIDIO_API_KEY: "${DEBRIDIO_API_KEY-}"
+
+      SCRAPE_TORBOX: "${SCRAPE_TORBOX-False}"
+      TORBOX_API_KEY: "${TORBOX_API_KEY-}"
 
       # ==============================
       # Debrid Stream Proxy Settings
       # ==============================
-      PROXY_DEBRID_STREAM: "${PROXY_DEBRID_STREAM-True}"
+      PROXY_DEBRID_STREAM: "${PROXY_DEBRID_STREAM-False}"
       PROXY_DEBRID_STREAM_PASSWORD: "${PROXY_DEBRID_STREAM_PASSWORD-}"
       PROXY_DEBRID_STREAM_MAX_CONNECTIONS: "${PROXY_DEBRID_STREAM_MAX_CONNECTIONS--1}"
       PROXY_DEBRID_STREAM_DEBRID_DEFAULT_SERVICE: "${PROXY_DEBRID_STREAM_DEBRID_DEFAULT_SERVICE-realdebrid}"
