@@ -5,7 +5,7 @@
       "name": "watchtower",
       "image": "beatkind/watchtower:latest",
       "isMain": true,
-      "command": "${WATCHTOWER_EXTRA_ARGS}",
+      "command": "${WATCHTOWER_EXTRA_ARGS---disable-containers runtipi,runtipi-db,runtipi-queue,runtipi-reverse-proxy}",
       "environment": {
         "PUID": "${PUID-1000}",
         "PGID": "${PGID-1000}",
