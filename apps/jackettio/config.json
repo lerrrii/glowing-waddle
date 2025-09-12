@@ -1,0 +1,382 @@
+{
+  "$schema": "../app-info-schema.json",
+  "id": "jackettio",
+  "name": "Jackettio+",
+  "version": "latest",
+  "tipi_version": 2,
+  "available": true,
+  "exposable": true,
+  "dynamic_config": true,
+  "port": 4000,
+  "categories": [
+    "media"
+  ],
+  "author": "arvida42 + Runtipi community",
+  "description": "Selfhosted Stremio addon that resolves streams using Jackett and Debrid services with private tracker support.",
+  "short_desc": "Stremio addon bridging Jackett indexers with debrid services.",
+  "source": "https://github.com/arvida42/jackettio",
+  "form_fields": [
+    {
+      "type": "text",
+      "label": "Addon ID",
+      "env_variable": "ADDON_ID",
+      "default": "community.stremio.jackettio",
+      "placeholder": "community.stremio.jackettio",
+      "hint": "Unique identifier for the Stremio addon."
+    },
+    {
+      "type": "text",
+      "label": "Addon Name",
+      "env_variable": "ADDON_NAME",
+      "default": "Jackettio",
+      "placeholder": "Jackettio",
+      "hint": "Display name of the addon in Stremio."
+    },
+    {
+      "type": "text",
+      "label": "Addon Description",
+      "env_variable": "ADDON_DESCRIPTION",
+      "default": "Stremio addon that resolve streams using Jackett and Debrid. It seamlessly integrates with private trackers.",
+      "placeholder": "Custom addon description",
+      "hint": "Description shown in the Stremio addon catalog."
+    },
+    {
+      "type": "text",
+      "label": "Addon Icon",
+      "env_variable": "ADDON_ICON",
+      "default": "https://avatars.githubusercontent.com/u/15383019?s=48&v=4",
+      "placeholder": "https://example.com/icon.png",
+      "hint": "URL of the addon icon."
+    },
+    {
+      "type": "number",
+      "label": "Server Port",
+      "env_variable": "PORT",
+      "default": 4000,
+      "placeholder": "4000",
+      "hint": "Port on which the server listens."
+    },
+    {
+      "type": "text",
+      "label": "Trust Proxy",
+      "env_variable": "TRUST_PROXY",
+      "default": "loopback, linklocal, uniquelocal",
+      "placeholder": "loopback, linklocal, uniquelocal",
+      "hint": "Express.js proxy trust settings for load balancers."
+    },
+    {
+      "type": "text",
+      "label": "Data Folder",
+      "env_variable": "DATA_FOLDER",
+      "default": "/data",
+      "placeholder": "/data",
+      "hint": "Persistent data storage path inside container."
+    },
+    {
+      "type": "text",
+      "label": "Jackett URL",
+      "env_variable": "JACKETT_URL",
+      "default": "http://localhost:9117",
+      "placeholder": "http://jackett:9117",
+      "hint": "URL of your Jackett instance.",
+      "required": true
+    },
+    {
+      "type": "password",
+      "label": "Jackett API Key",
+      "env_variable": "JACKETT_API_KEY",
+      "hint": "API key from your Jackett dashboard.",
+      "required": true
+    },
+    {
+      "type": "password",
+      "label": "TMDB Access Token",
+      "env_variable": "TMDB_ACCESS_TOKEN",
+      "placeholder": "Bearer token for TMDB API",
+      "hint": "The Movie Database access token for enhanced metadata (optional)."
+    },
+    {
+      "type": "boolean",
+      "label": "Enable Localtunnel",
+      "env_variable": "LOCALTUNNEL",
+      "default": false,
+      "placeholder": "false",
+      "hint": "Enable public access via localtunnel service."
+    },
+    {
+      "type": "text",
+      "label": "Cache Type",
+      "env_variable": "CACHE_TYPE",
+      "default": "sqlite",
+      "placeholder": "sqlite",
+      "hint": "Cache storage type: 'sqlite' or 'redis'."
+    },
+    {
+      "type": "text",
+      "label": "Redis Host",
+      "env_variable": "REDIS_HOST",
+      "default": "localhost",
+      "placeholder": "redis",
+      "hint": "Redis server hostname (only if using redis cache)."
+    },
+    {
+      "type": "number",
+      "label": "Redis Port",
+      "env_variable": "REDIS_PORT",
+      "default": 6379,
+      "placeholder": "6379",
+      "hint": "Redis server port."
+    },
+    {
+      "type": "number",
+      "label": "Redis Database",
+      "env_variable": "REDIS_DB",
+      "default": 0,
+      "placeholder": "0",
+      "hint": "Redis database index to use."
+    },
+    {
+      "type": "password",
+      "label": "Redis Password",
+      "env_variable": "REDIS_PASSWORD",
+      "placeholder": "redis_password",
+      "hint": "Redis authentication password (if required)."
+    },
+    {
+      "type": "number",
+      "label": "Rate Limit Window (seconds)",
+      "env_variable": "RATE_LIMIT_WINDOW",
+      "default": 3600,
+      "placeholder": "3600",
+      "hint": "Rate limit time window in seconds (1 hour)."
+    },
+    {
+      "type": "number",
+      "label": "Rate Limit Requests",
+      "env_variable": "RATE_LIMIT_REQUEST",
+      "default": 150,
+      "placeholder": "150",
+      "hint": "Maximum requests allowed per rate limit window."
+    },
+    {
+      "type": "number",
+      "label": "Slow Indexer Duration (seconds)",
+      "env_variable": "SLOW_INDEXER_DURATION",
+      "default": 20,
+      "placeholder": "20",
+      "hint": "Time in seconds to identify an indexer as slow."
+    },
+    {
+      "type": "number",
+      "label": "Slow Indexer Window (seconds)",
+      "env_variable": "SLOW_INDEXER_WINDOW",
+      "default": 1800,
+      "placeholder": "1800",
+      "hint": "Monitoring window for slow indexer detection (30 minutes)."
+    },
+    {
+      "type": "number",
+      "label": "Slow Indexer Request Threshold",
+      "env_variable": "SLOW_INDEXER_REQUEST",
+      "default": 5,
+      "placeholder": "5",
+      "hint": "Consecutive slow requests before disabling indexer."
+    },
+    {
+      "type": "password",
+      "label": "Replace Passkey",
+      "env_variable": "REPLACE_PASSKEY",
+      "placeholder": "your_private_tracker_passkey",
+      "hint": "Your passkey to be replaced with user's passkey for private trackers."
+    },
+    {
+      "type": "text",
+      "label": "Passkey Info URL",
+      "env_variable": "REPLACE_PASSKEY_INFO_URL",
+      "placeholder": "https://tracker.example.com/usercp.php",
+      "hint": "URL where users can find their passkey."
+    },
+    {
+      "type": "text",
+      "label": "Passkey Pattern",
+      "env_variable": "REPLACE_PASSKEY_PATTERN",
+      "default": "[a-zA-Z0-9]+",
+      "placeholder": "[a-zA-Z0-9]+",
+      "hint": "Regular expression pattern for passkey validation."
+    },
+    {
+      "type": "text",
+      "label": "Immutable User Config Keys",
+      "env_variable": "IMMULATABLE_USER_CONFIG_KEYS",
+      "placeholder": "maxTorrents,priotizePackTorrents",
+      "hint": "Comma-separated config keys that users cannot modify."
+    },
+    {
+      "type": "text",
+      "label": "Welcome Message",
+      "env_variable": "WELCOME_MESSAGE",
+      "placeholder": "Welcome to our Jackettio instance!",
+      "hint": "Custom welcome message in Markdown format for /configure page."
+    },
+    {
+      "type": "boolean",
+      "label": "Trust CloudFlare IP Header",
+      "env_variable": "TRUST_CF_IP_HEADER",
+      "default": false,
+      "placeholder": "false",
+      "hint": "Trust cf-connecting-ip header for rate limiting."
+    },
+    {
+      "type": "text",
+      "label": "Default Qualities",
+      "env_variable": "DEFAULT_QUALITIES",
+      "default": "0, 720, 1080",
+      "placeholder": "0, 720, 1080",
+      "hint": "Comma-separated quality values (0=Unknown, 360, 480, 720, 1080, 2160)."
+    },
+    {
+      "type": "text",
+      "label": "Default Exclude Keywords",
+      "env_variable": "DEFAULT_EXCLUDE_KEYWORDS",
+      "placeholder": "cam, ts, hardcoded",
+      "hint": "Comma-separated keywords to exclude from search results."
+    },
+    {
+      "type": "number",
+      "label": "Default Max Torrents",
+      "env_variable": "DEFAULT_MAX_TORRENTS",
+      "default": 8,
+      "placeholder": "8",
+      "hint": "Maximum number of torrents to display per search."
+    },
+    {
+      "type": "text",
+      "label": "Default Prioritize Languages",
+      "env_variable": "DEFAULT_PRIOTIZE_LANGUAGES",
+      "placeholder": "english, french",
+      "hint": "Comma-separated language priorities (e.g., english, french, german)."
+    },
+    {
+      "type": "number",
+      "label": "Default Prioritize Pack Torrents",
+      "env_variable": "DEFAULT_PRIOTIZE_PACK_TORRENTS",
+      "default": 2,
+      "placeholder": "2",
+      "hint": "TV pack priority level (0=disabled, 1=low, 2=high)."
+    },
+    {
+      "type": "boolean",
+      "label": "Default Force Cache Next Episode",
+      "env_variable": "DEFAULT_FORCE_CACHE_NEXT_EPISODE",
+      "default": false,
+      "placeholder": "false",
+      "hint": "Automatically cache next episode when watching series."
+    },
+    {
+      "type": "text",
+      "label": "Default Sort Cached",
+      "env_variable": "DEFAULT_SORT_CACHED",
+      "default": "quality:true, size:true",
+      "placeholder": "quality:true, size:true",
+      "hint": "Sort order for cached torrents (key:reverse format)."
+    },
+    {
+      "type": "text",
+      "label": "Default Sort Uncached",
+      "env_variable": "DEFAULT_SORT_UNCACHED",
+      "default": "seeders:true",
+      "placeholder": "seeders:true",
+      "hint": "Sort order for uncached torrents."
+    },
+    {
+      "type": "boolean",
+      "label": "Default Hide Uncached",
+      "env_variable": "DEFAULT_HIDE_UNCACHED",
+      "default": false,
+      "placeholder": "false",
+      "hint": "Hide torrents not available in debrid cache by default."
+    },
+    {
+      "type": "text",
+      "label": "Default Indexers",
+      "env_variable": "DEFAULT_INDEXERS",
+      "default": "all",
+      "placeholder": "all",
+      "hint": "Comma-separated indexer IDs or 'all' to use all configured indexers."
+    },
+    {
+      "type": "number",
+      "label": "Default Indexer Timeout (seconds)",
+      "env_variable": "DEFAULT_INDEXER_TIMEOUT_SEC",
+      "default": 60,
+      "placeholder": "60",
+      "hint": "Timeout in seconds for indexer search requests."
+    },
+    {
+      "type": "text",
+      "label": "Default Meta Language",
+      "env_variable": "DEFAULT_META_LANGUAGE",
+      "placeholder": "en",
+      "hint": "ISO 639-1 language code for metadata (e.g., en, fr, de)."
+    },
+    {
+      "type": "boolean",
+      "label": "Default Enable MediaFlow",
+      "env_variable": "DEFAULT_ENABLE_MEDIAFLOW",
+      "default": false,
+      "placeholder": "false",
+      "hint": "Enable MediaFlow proxy integration by default."
+    },
+    {
+      "type": "text",
+      "label": "Default MediaFlow Proxy URL",
+      "env_variable": "DEFAULT_MEDIAFLOW_PROXY_URL",
+      "placeholder": "http://mediaflow:8000",
+      "hint": "MediaFlow proxy service URL."
+    },
+    {
+      "type": "password",
+      "label": "Default MediaFlow API Password",
+      "env_variable": "DEFAULT_MEDIAFLOW_API_PASSWORD",
+      "placeholder": "mediaflow_password",
+      "hint": "MediaFlow API password for authentication."
+    },
+    {
+      "type": "text",
+      "label": "Default MediaFlow Public IP",
+      "env_variable": "DEFAULT_MEDIAFLOW_PUBLIC_IP",
+      "placeholder": "192.168.1.100",
+      "hint": "Public IP address for MediaFlow configuration."
+    },
+    {
+      "type": "boolean",
+      "label": "Default Use StremThru",
+      "env_variable": "DEFAULT_USE_STREMTHRU",
+      "default": true,
+      "placeholder": "true",
+      "hint": "Enable StremThru integration by default."
+    },
+    {
+      "type": "text",
+      "label": "StremThru URL",
+      "env_variable": "STREMTHRU_URL",
+      "default": "https://stremthru.13377001.xyz",
+      "placeholder": "https://stremthru.13377001.xyz",
+      "hint": "StremThru service URL for debrid integration."
+    },
+    {
+      "type": "text",
+      "label": "Default Debrid Service",
+      "env_variable": "DEFAULT_DEBRID_ID",
+      "default": "realdebrid",
+      "placeholder": "realdebrid",
+      "hint": "Default debrid service (realdebrid, alldebrid, debridlink)."
+    }
+  ],
+  "supported_architectures": [
+    "amd64",
+    "arm64"
+  ],
+  "created_at": 1716899794000,
+  "updated_at": 1716899794000
+}

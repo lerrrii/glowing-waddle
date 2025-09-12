@@ -1,0 +1,159 @@
+version: '3.7'
+
+services:
+  jackettio:
+    image: jakaerc/jackettio:latest
+    container_name: jackettio
+    restart: unless-stopped
+    environment:
+      # ==============================
+      # Server Configuration
+      # ==============================
+      PORT: "${PORT-4000}"
+      TRUST_PROXY: "${TRUST_PROXY-loopback, linklocal, uniquelocal}"
+      DATA_FOLDER: "${DATA_FOLDER-/data}"
+
+      # ==============================
+      # Stremio Addon Configuration
+      # ==============================
+      ADDON_ID: "${ADDON_ID-community.stremio.jackettio}"
+      ADDON_NAME: "${ADDON_NAME-Jackettio}"
+      ADDON_DESCRIPTION: "${ADDON_DESCRIPTION-Stremio addon that resolve streams using Jackett and Debrid. It seamlessly integrates with private trackers.}"
+      ADDON_ICON: "${ADDON_ICON-https://avatars.githubusercontent.com/u/15383019?s=48&v=4}"
+
+      # ==============================
+      # Jackett Integration
+      # ==============================
+      JACKETT_URL: "${JACKETT_URL}"
+      JACKETT_API_KEY: "${JACKETT_API_KEY}"
+
+      # ==============================
+      # External Services
+      # ==============================
+      TMDB_ACCESS_TOKEN: "${TMDB_ACCESS_TOKEN-}"
+      LOCALTUNNEL: "${LOCALTUNNEL-false}"
+
+      # ==============================
+      # Cache Configuration
+      # ==============================
+      CACHE_TYPE: "${CACHE_TYPE-sqlite}"
+      REDIS_HOST: "${REDIS_HOST-localhost}"
+      REDIS_PORT: "${REDIS_PORT-6379}"
+      REDIS_DB: "${REDIS_DB-0}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD-}"
+
+      # ==============================
+      # Rate Limiting & Performance
+      # ==============================
+      RATE_LIMIT_WINDOW: "${RATE_LIMIT_WINDOW-3600}"
+      RATE_LIMIT_REQUEST: "${RATE_LIMIT_REQUEST-150}"
+      SLOW_INDEXER_DURATION: "${SLOW_INDEXER_DURATION-20}"
+      SLOW_INDEXER_WINDOW: "${SLOW_INDEXER_WINDOW-1800}"
+      SLOW_INDEXER_REQUEST: "${SLOW_INDEXER_REQUEST-5}"
+
+      # ==============================
+      # Private Tracker Security
+      # ==============================
+      REPLACE_PASSKEY: "${REPLACE_PASSKEY-}"
+      REPLACE_PASSKEY_INFO_URL: "${REPLACE_PASSKEY_INFO_URL-}"
+      REPLACE_PASSKEY_PATTERN: "${REPLACE_PASSKEY_PATTERN-[a-zA-Z0-9]+}"
+
+      # ==============================
+      # Admin Controls
+      # ==============================
+      IMMULATABLE_USER_CONFIG_KEYS: "${IMMULATABLE_USER_CONFIG_KEYS-}"
+      WELCOME_MESSAGE: "${WELCOME_MESSAGE-}"
+      TRUST_CF_IP_HEADER: "${TRUST_CF_IP_HEADER-false}"
+
+      # ==============================
+      # Default User Settings - Quality & Filtering
+      # ==============================
+      DEFAULT_QUALITIES: "${DEFAULT_QUALITIES-0, 720, 1080}"
+      DEFAULT_EXCLUDE_KEYWORDS: "${DEFAULT_EXCLUDE_KEYWORDS-}"
+      DEFAULT_MAX_TORRENTS: "${DEFAULT_MAX_TORRENTS-8}"
+
+      # ==============================
+      # Default User Settings - Language & Priority
+      # ==============================
+      DEFAULT_PRIOTIZE_LANGUAGES: "${DEFAULT_PRIOTIZE_LANGUAGES-}"
+      DEFAULT_PRIOTIZE_PACK_TORRENTS: "${DEFAULT_PRIOTIZE_PACK_TORRENTS-2}"
+      DEFAULT_META_LANGUAGE: "${DEFAULT_META_LANGUAGE-}"
+
+      # ==============================
+      # Default User Settings - Caching & Performance
+      # ==============================
+      DEFAULT_FORCE_CACHE_NEXT_EPISODE: "${DEFAULT_FORCE_CACHE_NEXT_EPISODE-false}"
+      DEFAULT_INDEXER_TIMEOUT_SEC: "${DEFAULT_INDEXER_TIMEOUT_SEC-60}"
+      DEFAULT_INDEXERS: "${DEFAULT_INDEXERS-all}"
+
+      # ==============================
+      # Default User Settings - Sorting & Display
+      # ==============================
+      DEFAULT_SORT_CACHED: "${DEFAULT_SORT_CACHED-quality:true, size:true}"
+      DEFAULT_SORT_UNCACHED: "${DEFAULT_SORT_UNCACHED-seeders:true}"
+      DEFAULT_HIDE_UNCACHED: "${DEFAULT_HIDE_UNCACHED-false}"
+
+      # ==============================
+      # Default User Settings - Debrid & Streaming
+      # ==============================
+      DEFAULT_DEBRID_ID: "${DEFAULT_DEBRID_ID-realdebrid}"
+      DEFAULT_USE_STREMTHRU: "${DEFAULT_USE_STREMTHRU-true}"
+      STREMTHRU_URL: "${STREMTHRU_URL-https://stremthru.13377001.xyz}"
+
+      # ==============================
+      # Default User Settings - MediaFlow Integration
+      # ==============================
+      DEFAULT_ENABLE_MEDIAFLOW: "${DEFAULT_ENABLE_MEDIAFLOW-false}"
+      DEFAULT_MEDIAFLOW_PROXY_URL: "${DEFAULT_MEDIAFLOW_PROXY_URL-}"
+      DEFAULT_MEDIAFLOW_API_PASSWORD: "${DEFAULT_MEDIAFLOW_API_PASSWORD-}"
+      DEFAULT_MEDIAFLOW_PUBLIC_IP: "${DEFAULT_MEDIAFLOW_PUBLIC_IP-}"
+
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:4000/health || exit 1"]
+      interval: 1m
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - ${APP_DATA_DIR}/jackettio:/data
+    networks:
+      - tipi_main_network
+    labels:
+      traefik.enable: "true"
+
+      # Redirect HTTP → HTTPS
+      traefik.http.middlewares.jackettio-redirect.redirectscheme.scheme: https
+
+      # Internal port
+      traefik.http.services.jackettio.loadbalancer.server.port: "4000"
+
+      # HTTP router (insecure)
+      traefik.http.routers.jackettio-insecure.rule: "Host(`${APP_DOMAIN}`)"
+      traefik.http.routers.jackettio-insecure.entrypoints: "web"
+      traefik.http.routers.jackettio-insecure.service: "jackettio"
+      traefik.http.routers.jackettio-insecure.middlewares: "jackettio-redirect"
+
+      # HTTPS router (secure)
+      traefik.http.routers.jackettio.rule: "Host(`${APP_DOMAIN}`)"
+      traefik.http.routers.jackettio.entrypoints: "websecure"
+      traefik.http.routers.jackettio.service: "jackettio"
+      traefik.http.routers.jackettio.tls.certresolver: "myresolver"
+
+      # Local HTTP (insecure)
+      traefik.http.routers.jackettio-local-insecure.rule: "Host(`jackettio.${LOCAL_DOMAIN}`)"
+      traefik.http.routers.jackettio-local-insecure.entrypoints: "web"
+      traefik.http.routers.jackettio-local-insecure.service: "jackettio"
+      traefik.http.routers.jackettio-local-insecure.middlewares: "jackettio-redirect"
+
+      # Local HTTPS (secure)
+      traefik.http.routers.jackettio-local.rule: "Host(`jackettio.${LOCAL_DOMAIN}`)"
+      traefik.http.routers.jackettio-local.entrypoints: "websecure"
+      traefik.http.routers.jackettio-local.service: "jackettio"
+      traefik.http.routers.jackettio-local.tls: "true"
+
+      # Managed by Runtipi
+      runtipi.managed: "true"
+
+networks:
+  tipi_main_network:
+    external: true

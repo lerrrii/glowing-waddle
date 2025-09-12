@@ -1,0 +1,72 @@
+{
+  "$schema": "../dynamic-compose-schema.json",
+  "services": [
+    {
+      "name": "jackettio",
+      "image": "jakaerc/jackettio:latest",
+      "isMain": true,
+      "internalPort": 4000,
+      "healthcheck": {
+        "test": ["CMD-SHELL", "curl -f http://localhost:4000/health || exit 1"],
+        "interval": "1m",
+        "timeout": "10s",
+        "retries": 5,
+        "start_period": "30s"
+      },
+      "environment": {
+        "PORT": "${PORT-4000}",
+        "TRUST_PROXY": "${TRUST_PROXY-loopback, linklocal, uniquelocal}",
+        "JACKETT_URL": "${JACKETT_URL}",
+        "JACKETT_API_KEY": "${JACKETT_API_KEY}",
+        "TMDB_ACCESS_TOKEN": "${TMDB_ACCESS_TOKEN-}",
+        "DATA_FOLDER": "${DATA_FOLDER-/data}",
+        "CACHE_TYPE": "${CACHE_TYPE-sqlite}",
+        "REDIS_HOST": "${REDIS_HOST-localhost}",
+        "REDIS_PORT": "${REDIS_PORT-6379}",
+        "REDIS_DB": "${REDIS_DB-0}",
+        "REDIS_PASSWORD": "${REDIS_PASSWORD-}",
+        "LOCALTUNNEL": "${LOCALTUNNEL-false}",
+        "ADDON_ID": "${ADDON_ID-community.stremio.jackettio}",
+        "ADDON_NAME": "${ADDON_NAME-Jackettio}",
+        "ADDON_DESCRIPTION": "${ADDON_DESCRIPTION-Stremio addon that resolve streams using Jackett and Debrid. It seamlessly integrates with private trackers.}",
+        "ADDON_ICON": "${ADDON_ICON-https://avatars.githubusercontent.com/u/15383019?s=48&v=4}",
+        "REPLACE_PASSKEY": "${REPLACE_PASSKEY-}",
+        "REPLACE_PASSKEY_INFO_URL": "${REPLACE_PASSKEY_INFO_URL-}",
+        "REPLACE_PASSKEY_PATTERN": "${REPLACE_PASSKEY_PATTERN-[a-zA-Z0-9]+}",
+        "IMMULATABLE_USER_CONFIG_KEYS": "${IMMULATABLE_USER_CONFIG_KEYS-}",
+        "WELCOME_MESSAGE": "${WELCOME_MESSAGE-}",
+        "TRUST_CF_IP_HEADER": "${TRUST_CF_IP_HEADER-false}",
+        "RATE_LIMIT_WINDOW": "${RATE_LIMIT_WINDOW-3600}",
+        "RATE_LIMIT_REQUEST": "${RATE_LIMIT_REQUEST-150}",
+        "SLOW_INDEXER_DURATION": "${SLOW_INDEXER_DURATION-20}",
+        "SLOW_INDEXER_WINDOW": "${SLOW_INDEXER_WINDOW-1800}",
+        "SLOW_INDEXER_REQUEST": "${SLOW_INDEXER_REQUEST-5}",
+        "DEFAULT_QUALITIES": "${DEFAULT_QUALITIES-0, 720, 1080}",
+        "DEFAULT_EXCLUDE_KEYWORDS": "${DEFAULT_EXCLUDE_KEYWORDS-}",
+        "DEFAULT_MAX_TORRENTS": "${DEFAULT_MAX_TORRENTS-8}",
+        "DEFAULT_PRIOTIZE_LANGUAGES": "${DEFAULT_PRIOTIZE_LANGUAGES-}",
+        "DEFAULT_PRIOTIZE_PACK_TORRENTS": "${DEFAULT_PRIOTIZE_PACK_TORRENTS-2}",
+        "DEFAULT_FORCE_CACHE_NEXT_EPISODE": "${DEFAULT_FORCE_CACHE_NEXT_EPISODE-false}",
+        "DEFAULT_SORT_CACHED": "${DEFAULT_SORT_CACHED-quality:true, size:true}",
+        "DEFAULT_SORT_UNCACHED": "${DEFAULT_SORT_UNCACHED-seeders:true}",
+        "DEFAULT_HIDE_UNCACHED": "${DEFAULT_HIDE_UNCACHED-false}",
+        "DEFAULT_INDEXERS": "${DEFAULT_INDEXERS-all}",
+        "DEFAULT_INDEXER_TIMEOUT_SEC": "${DEFAULT_INDEXER_TIMEOUT_SEC-60}",
+        "DEFAULT_META_LANGUAGE": "${DEFAULT_META_LANGUAGE-}",
+        "DEFAULT_ENABLE_MEDIAFLOW": "${DEFAULT_ENABLE_MEDIAFLOW-false}",
+        "DEFAULT_MEDIAFLOW_PROXY_URL": "${DEFAULT_MEDIAFLOW_PROXY_URL-}",
+        "DEFAULT_MEDIAFLOW_API_PASSWORD": "${DEFAULT_MEDIAFLOW_API_PASSWORD-}",
+        "DEFAULT_MEDIAFLOW_PUBLIC_IP": "${DEFAULT_MEDIAFLOW_PUBLIC_IP-}",
+        "DEFAULT_USE_STREMTHRU": "${DEFAULT_USE_STREMTHRU-true}",
+        "STREMTHRU_URL": "${STREMTHRU_URL-https://stremthru.13377001.xyz}",
+        "DEFAULT_DEBRID_ID": "${DEFAULT_DEBRID_ID-realdebrid}"
+      },
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/jackettio",
+          "containerPath": "/data"
+        }
+      ]
+    }
+  ]
+}
