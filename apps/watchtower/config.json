@@ -206,8 +206,9 @@
       "type": "text",
       "label": "Extra Watchtower args",
       "hint": "e.g. --rolling-restart or container names to watch",
+      "placeholder": "default: --disable-containers runtipi,runtipi-db,runtipi-queue,runtipi-reverse-proxy",
       "env_variable": "WATCHTOWER_EXTRA_ARGS",
-      "default": ""
+      "default": "--disable-containers runtipi,runtipi-db,runtipi-queue,runtipi-reverse-proxy"
     }
   ],
   "supported_architectures": ["amd64", "arm64"],
