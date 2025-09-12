@@ -7,7 +7,7 @@
   "port": 8135,
   "id": "vikunja",
   "categories": ["utilities"],
-  "tipi_version": 16,
+  "tipi_version": 17,
   "version": "latest",
   "description": "The Todo-app to organize your life.",
   "short_desc": "The Todo-app to organize your life.",
@@ -24,7 +24,9 @@
       "type": "text",
       "label": "Public URL (where users can reach Vikunja)",
       "env_variable": "VIKUNJA_SERVICE_PUBLICURL",
-      "hint": "Used in emails and for API-frontend communication"
+      "hint": "Must include protocol (http:// or https://). Example: http://192.168.1.100:8135 or https://vikunja.example.com",
+      "placeholder": "(not required) or http://192.168.1.100:8135",
+      "required": false
     },
     {
       "type": "boolean",
