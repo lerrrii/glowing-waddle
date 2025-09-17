@@ -1,0 +1,270 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: mediafusion-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: mediafusion
+    volumes:
+      - ${APP_DATA_DIR}/mongodb:/data/db
+    command: ["mongod", "--bind_ip_all"]
+    networks:
+      - tipi_main_network
+    labels:
+      runtipi.managed: "true"
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: mediafusion-redis
+    restart: unless-stopped
+    volumes:
+      - ${APP_DATA_DIR}/redis:/data
+    command: ["redis-server", "--appendonly", "yes"]
+    networks:
+      - tipi_main_network
+    labels:
+      runtipi.managed: "true"
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: mediafusion-prowlarr
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+    volumes:
+      - ${APP_DATA_DIR}/prowlarr/config:/config
+    networks:
+      - tipi_main_network
+    labels:
+      runtipi.managed: "true"
+
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: mediafusion-flaresolverr
+    restart: unless-stopped
+    environment:
+      - LOG_LEVEL=info
+      - LOG_HTML=false
+      - CAPTCHA_SOLVER=none
+    networks:
+      - tipi_main_network
+    labels:
+      runtipi.managed: "true"
+
+  browserless:
+    image: browserless/chrome:latest
+    container_name: mediafusion-browserless
+    restart: unless-stopped
+    environment:
+      - CONNECTION_TIMEOUT=600000
+      - MAX_CONCURRENT_SESSIONS=10
+      - PREBOOT_CHROME=true
+    networks:
+      - tipi_main_network
+    labels:
+      runtipi.managed: "true"
+
+  mediafusion:
+    image: mhdzumair/mediafusion:latest
+    container_name: mediafusion
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+      - redis
+      - prowlarr
+      - flaresolverr
+      - browserless
+    environment:
+      # ==============================
+      # Core Application Settings
+      # ==============================
+      addon_name: "${ADDON_NAME-MediaFusion}"
+      host_url: "${HOST_URL}"
+      secret_key: "${SECRET_KEY}"
+      api_password: "${API_PASSWORD}"
+      contact_email: "${CONTACT_EMAIL-admin@mediafusion.local}"
+      description: "${DESCRIPTION-}"
+      logging_level: "${LOGGING_LEVEL-INFO}"
+      is_public_instance: "${IS_PUBLIC_INSTANCE-False}"
+
+      # ==============================
+      # Database and Cache Settings
+      # ==============================
+      mongo_uri: "${MONGO_URI-mongodb://mongodb:27017/mediafusion}"
+      db_max_connections: "${DB_MAX_CONNECTIONS-50}"
+      redis_url: "${REDIS_URL-redis://redis:6379}"
+      redis_max_connections: "${REDIS_MAX_CONNECTIONS-100}"
+
+      # ==============================
+      # External Service Settings
+      # ==============================
+      requests_proxy_url: "${REQUESTS_PROXY_URL-}"
+      playwright_cdp_url: "${PLAYWRIGHT_CDP_URL-ws://browserless:3000?blockAds=true&stealth=true}"
+      flaresolverr_url: "${FLARESOLVERR_URL-http://flaresolverr:8191/v1}"
+      tmdb_api_key: "${TMDB_API_KEY-}"
+
+      # ==============================
+      # Prowlarr Settings
+      # ==============================
+      is_scrap_from_prowlarr: "${IS_SCRAP_FROM_PROWLARR-True}"
+      prowlarr_url: "${PROWLARR_URL-http://prowlarr:9696}"
+      prowlarr_api_key: "${PROWLARR_API_KEY-}"
+      prowlarr_live_title_search: "${PROWLARR_LIVE_TITLE_SEARCH-True}"
+      prowlarr_background_title_search: "${PROWLARR_BACKGROUND_TITLE_SEARCH-True}"
+      prowlarr_search_query_timeout: "${PROWLARR_SEARCH_QUERY_TIMEOUT-30}"
+      prowlarr_search_interval_hour: "${PROWLARR_SEARCH_INTERVAL_HOUR-72}"
+      prowlarr_immediate_max_process: "${PROWLARR_IMMEDIATE_MAX_PROCESS-10}"
+      prowlarr_immediate_max_process_time: "${PROWLARR_IMMEDIATE_MAX_PROCESS_TIME-15}"
+      prowlarr_feed_scrape_interval_hour: "${PROWLARR_FEED_SCRAPE_INTERVAL_HOUR-3}"
+
+      # ==============================
+      # Torrentio Settings
+      # ==============================
+      is_scrap_from_torrentio: "${IS_SCRAP_FROM_TORRENTIO-False}"
+      torrentio_url: "${TORRENTIO_URL-https://torrentio.strem.fun}"
+      torrentio_search_interval_days: "${TORRENTIO_SEARCH_INTERVAL_DAYS-3}"
+
+      # ==============================
+      # MediaFusion Settings
+      # ==============================
+      is_scrap_from_mediafusion: "${IS_SCRAP_FROM_MEDIAFUSION-False}"
+      mediafusion_url: "${MEDIAFUSION_URL-https://mediafusion.elfhosted.com}"
+      mediafusion_search_interval_days: "${MEDIAFUSION_SEARCH_INTERVAL_DAYS-3}"
+      sync_debrid_cache_streams: "${SYNC_DEBRID_CACHE_STREAMS-True}"
+
+      # ==============================
+      # Zilean Settings
+      # ==============================
+      is_scrap_from_zilean: "${IS_SCRAP_FROM_ZILEAN-False}"
+      zilean_url: "${ZILEAN_URL-https://zilean.elfhosted.com}"
+      zilean_search_interval_hour: "${ZILEAN_SEARCH_INTERVAL_HOUR-24}"
+
+      # ==============================
+      # BT4G Settings
+      # ==============================
+      is_scrap_from_bt4g: "${IS_SCRAP_FROM_BT4G-True}"
+      bt4g_url: "${BT4G_URL-https://bt4gprx.com}"
+      bt4g_search_interval_hour: "${BT4G_SEARCH_INTERVAL_HOUR-72}"
+      bt4g_search_timeout: "${BT4G_SEARCH_TIMEOUT-10}"
+      bt4g_immediate_max_process: "${BT4G_IMMEDIATE_MAX_PROCESS-15}"
+      bt4g_immediate_max_process_time: "${BT4G_IMMEDIATE_MAX_PROCESS_TIME-15}"
+
+      # ==============================
+      # Jackett Settings
+      # ==============================
+      is_scrap_from_jackett: "${IS_SCRAP_FROM_JACKETT-False}"
+      jackett_url: "${JACKETT_URL-http://jackett:9117}"
+      jackett_api_key: "${JACKETT_API_KEY-}"
+      jackett_search_interval_hour: "${JACKETT_SEARCH_INTERVAL_HOUR-72}"
+      jackett_search_query_timeout: "${JACKETT_SEARCH_QUERY_TIMEOUT-30}"
+      jackett_immediate_max_process: "${JACKETT_IMMEDIATE_MAX_PROCESS-10}"
+      jackett_immediate_max_process_time: "${JACKETT_IMMEDIATE_MAX_PROCESS_TIME-15}"
+      jackett_live_title_search: "${JACKETT_LIVE_TITLE_SEARCH-True}"
+      jackett_background_title_search: "${JACKETT_BACKGROUND_TITLE_SEARCH-True}"
+      jackett_feed_scrape_interval_hour: "${JACKETT_FEED_SCRAPE_INTERVAL_HOUR-3}"
+
+      # ==============================
+      # Provider Settings
+      # ==============================
+      disabled_providers: "${DISABLED_PROVIDERS-[]}"
+
+      # ==============================
+      # Premiumize Settings
+      # ==============================
+      premiumize_oauth_client_id: "${PREMIUMIZE_OAUTH_CLIENT_ID-}"
+      premiumize_oauth_client_secret: "${PREMIUMIZE_OAUTH_CLIENT_SECRET-}"
+
+      # ==============================
+      # Feature Toggles
+      # ==============================
+      enable_rate_limit: "${ENABLE_RATE_LIMIT-False}"
+      validate_m3u8_urls_liveness: "${VALIDATE_M3U8_URLS_LIVENESS-True}"
+      store_stremthru_magnet_cache: "${STORE_STREMTHRU_MAGNET_CACHE-False}"
+      is_scrap_from_yts: "${IS_SCRAP_FROM_YTS-True}"
+      scrape_with_aka_titles: "${SCRAPE_WITH_AKA_TITLES-True}"
+      enable_fetching_torrent_metadata_from_p2p: "${ENABLE_FETCHING_TORRENT_METADATA_FROM_P2P-True}"
+
+      # ==============================
+      # Content Filtering Settings
+      # ==============================
+      adult_content_filter_in_torrent_title: "${ADULT_CONTENT_FILTER_IN_TORRENT_TITLE-True}"
+      adult_content_regex_keywords: "${ADULT_CONTENT_REGEX_KEYWORDS-}"
+
+      # ==============================
+      # Time-related Settings
+      # ==============================
+      meta_cache_ttl: "${META_CACHE_TTL-1800}"
+      worker_max_tasks_per_child: "${WORKER_MAX_TASKS_PER_CHILD-20}"
+
+      # ==============================
+      # Scheduler Settings
+      # ==============================
+      background_search_interval_hours: "${BACKGROUND_SEARCH_INTERVAL_HOURS-72}"
+      background_search_crontab: "${BACKGROUND_SEARCH_CRONTAB-*/5 * * * *}"
+      disable_all_scheduler: "${DISABLE_ALL_SCHEDULER-False}"
+
+      # ==============================
+      # Telegram Settings
+      # ==============================
+      telegram_bot_token: "${TELEGRAM_BOT_TOKEN-}"
+      telegram_chat_id: "${TELEGRAM_CHAT_ID-}"
+
+      # ==============================
+      # Metadata Settings
+      # ==============================
+      metadata_primary_source: "${METADATA_PRIMARY_SOURCE-imdb}"
+      min_scraping_video_size: "${MIN_SCRAPING_VIDEO_SIZE-26214400}"
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 1m
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - ${APP_DATA_DIR}/mediafusion:/app/data
+    networks:
+      - tipi_main_network
+    labels:
+      traefik.enable: "true"
+
+      # Redirect HTTP → HTTPS
+      traefik.http.middlewares.mediafusion-redirect.redirectscheme.scheme: https
+
+      # Internal port
+      traefik.http.services.mediafusion.loadbalancer.server.port: "8000"
+
+      # HTTP router (insecure)
+      traefik.http.routers.mediafusion-insecure.rule: "Host(`${APP_DOMAIN}`)"
+      traefik.http.routers.mediafusion-insecure.entrypoints: "web"
+      traefik.http.routers.mediafusion-insecure.service: "mediafusion"
+      traefik.http.routers.mediafusion-insecure.middlewares: "mediafusion-redirect"
+
+      # HTTPS router (secure)
+      traefik.http.routers.mediafusion.rule: "Host(`${APP_DOMAIN}`)"
+      traefik.http.routers.mediafusion.entrypoints: "websecure"
+      traefik.http.routers.mediafusion.service: "mediafusion"
+      traefik.http.routers.mediafusion.tls.certresolver: "myresolver"
+
+      # Local HTTP (insecure)
+      traefik.http.routers.mediafusion-local-insecure.rule: "Host(`mediafusion.${LOCAL_DOMAIN}`)"
+      traefik.http.routers.mediafusion-local-insecure.entrypoints: "web"
+      traefik.http.routers.mediafusion-local-insecure.service: "mediafusion"
+      traefik.http.routers.mediafusion-local-insecure.middlewares: "mediafusion-redirect"
+
+      # Local HTTPS (secure)
+      traefik.http.routers.mediafusion-local.rule: "Host(`mediafusion.${LOCAL_DOMAIN}`)"
+      traefik.http.routers.mediafusion-local.entrypoints: "websecure"
+      traefik.http.routers.mediafusion-local.service: "mediafusion"
+      traefik.http.routers.mediafusion-local.tls: "true"
+
+      # Managed by Runtipi
+      runtipi.managed: "true"
+
+networks:
+  tipi_main_network:
+    external: true

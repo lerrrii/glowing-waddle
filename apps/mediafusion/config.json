@@ -1,0 +1,409 @@
+{
+  "$schema": "../app-info-schema.json",
+  "id": "mediafusion",
+  "name": "MediaFusion+",
+  "version": "latest",
+  "tipi_version": 2,
+  "available": true,
+  "exposable": true,
+  "dynamic_config": true,
+  "port": 8000,
+  "categories": [
+    "media"
+  ],
+  "author": "mhdzumair + Runtipi community",
+  "description": "Advanced Stremio addon with torrent streaming, debrid integration, and comprehensive scraping from multiple sources including Prowlarr, Jackett, and public trackers.",
+  "short_desc": "Stremio addon with advanced torrent streaming and multi-source scraping.",
+  "source": "https://github.com/mhdzumair/MediaFusion",
+  "form_fields": [
+    {
+      "type": "text",
+      "label": "Addon Name",
+      "env_variable": "ADDON_NAME",
+      "default": "MediaFusion",
+      "placeholder": "MediaFusion",
+      "hint": "Display name of the addon in Stremio."
+    },
+    {
+      "type": "text",
+      "label": "Host URL",
+      "env_variable": "HOST_URL",
+      "required": true,
+      "placeholder": "https://mediafusion.yourdomain.com",
+      "hint": "The URL where MediaFusion is hosted (required)."
+    },
+    {
+      "type": "password",
+      "label": "Secret Key",
+      "env_variable": "SECRET_KEY",
+      "required": true,
+      "hint": "32-character secret key for session signing (will be auto-generated if not provided)."
+    },
+    {
+      "type": "password",
+      "label": "API Password",
+      "env_variable": "API_PASSWORD",
+      "required": true,
+      "hint": "Password for accessing API endpoints and admin features."
+    },
+    {
+      "type": "text",
+      "label": "Contact Email",
+      "env_variable": "CONTACT_EMAIL",
+      "default": "admin@mediafusion.local",
+      "placeholder": "admin@mediafusion.local",
+      "hint": "Contact email for the MediaFusion addon."
+    },
+    {
+      "type": "text",
+      "label": "Description",
+      "env_variable": "DESCRIPTION",
+      "placeholder": "Advanced Stremio addon with torrent streaming",
+      "hint": "Brief description shown on Stremio addon page."
+    },
+    {
+      "type": "text",
+      "label": "Logging Level",
+      "env_variable": "LOGGING_LEVEL",
+      "default": "INFO",
+      "placeholder": "INFO",
+      "hint": "Application logging level: DEBUG, INFO, WARNING, ERROR, CRITICAL."
+    },
+    {
+      "type": "boolean",
+      "label": "Public Instance",
+      "env_variable": "IS_PUBLIC_INSTANCE",
+      "default": false,
+      "hint": "Enable for community instances (no auth except /scraper endpoint)."
+    },
+    {
+      "type": "text",
+      "label": "MongoDB URI",
+      "env_variable": "MONGO_URI",
+      "default": "mongodb://mongodb:27017/mediafusion",
+      "placeholder": "mongodb://mongodb:27017/mediafusion",
+      "hint": "MongoDB connection URI."
+    },
+    {
+      "type": "number",
+      "label": "Max Database Connections",
+      "env_variable": "DB_MAX_CONNECTIONS",
+      "default": 50,
+      "placeholder": "50",
+      "hint": "Maximum database connections."
+    },
+    {
+      "type": "text",
+      "label": "Redis URL",
+      "env_variable": "REDIS_URL",
+      "default": "redis://redis:6379",
+      "placeholder": "redis://redis:6379",
+      "hint": "Redis service URL for caching and tasks."
+    },
+    {
+      "type": "number",
+      "label": "Max Redis Connections",
+      "env_variable": "REDIS_MAX_CONNECTIONS",
+      "default": 100,
+      "placeholder": "100",
+      "hint": "Maximum Redis connections."
+    },
+    {
+      "type": "text",
+      "label": "Requests Proxy URL",
+      "env_variable": "REQUESTS_PROXY_URL",
+      "placeholder": "http://proxy:8080",
+      "hint": "Optional proxy URL for requests."
+    },
+    {
+      "type": "text",
+      "label": "TMDB API Key",
+      "env_variable": "TMDB_API_KEY",
+      "placeholder": "your_tmdb_api_key",
+      "hint": "TMDB API key for metadata fetching."
+    },
+    {
+      "type": "boolean",
+      "label": "Enable Prowlarr Scraping",
+      "env_variable": "IS_SCRAP_FROM_PROWLARR",
+      "default": true,
+      "hint": "Enable/disable Prowlarr scraping."
+    },
+    {
+      "type": "text",
+      "label": "Prowlarr URL",
+      "env_variable": "PROWLARR_URL",
+      "default": "http://prowlarr:9696",
+      "placeholder": "http://prowlarr:9696",
+      "hint": "Prowlarr service URL."
+    },
+    {
+      "type": "password",
+      "label": "Prowlarr API Key",
+      "env_variable": "PROWLARR_API_KEY",
+      "hint": "Prowlarr API key for authentication."
+    },
+    {
+      "type": "boolean",
+      "label": "Prowlarr Live Title Search",
+      "env_variable": "PROWLARR_LIVE_TITLE_SEARCH",
+      "default": true,
+      "hint": "Enable live title search in Prowlarr."
+    },
+    {
+      "type": "boolean",
+      "label": "Prowlarr Background Title Search",
+      "env_variable": "PROWLARR_BACKGROUND_TITLE_SEARCH",
+      "default": true,
+      "hint": "Enable background title search in Prowlarr."
+    },
+    {
+      "type": "number",
+      "label": "Prowlarr Search Query Timeout",
+      "env_variable": "PROWLARR_SEARCH_QUERY_TIMEOUT",
+      "default": 30,
+      "placeholder": "30",
+      "hint": "Prowlarr search query timeout in seconds."
+    },
+    {
+      "type": "number",
+      "label": "Prowlarr Search Interval (Hours)",
+      "env_variable": "PROWLARR_SEARCH_INTERVAL_HOUR",
+      "default": 72,
+      "placeholder": "72",
+      "hint": "Prowlarr search interval in hours."
+    },
+    {
+      "type": "number",
+      "label": "Prowlarr Max Immediate Processes",
+      "env_variable": "PROWLARR_IMMEDIATE_MAX_PROCESS",
+      "default": 10,
+      "placeholder": "10",
+      "hint": "Maximum immediate processes for Prowlarr."
+    },
+    {
+      "type": "number",
+      "label": "Prowlarr Max Process Time",
+      "env_variable": "PROWLARR_IMMEDIATE_MAX_PROCESS_TIME",
+      "default": 15,
+      "placeholder": "15",
+      "hint": "Maximum process time for Prowlarr in seconds."
+    },
+    {
+      "type": "boolean",
+      "label": "Enable Torrentio Scraping",
+      "env_variable": "IS_SCRAP_FROM_TORRENTIO",
+      "default": false,
+      "hint": "Enable/disable Torrentio scraping."
+    },
+    {
+      "type": "text",
+      "label": "Torrentio URL",
+      "env_variable": "TORRENTIO_URL",
+      "default": "https://torrentio.strem.fun",
+      "placeholder": "https://torrentio.strem.fun",
+      "hint": "Torrentio service URL."
+    },
+    {
+      "type": "number",
+      "label": "Torrentio Search Interval (Days)",
+      "env_variable": "TORRENTIO_SEARCH_INTERVAL_DAYS",
+      "default": 3,
+      "placeholder": "3",
+      "hint": "Torrentio search interval in days."
+    },
+    {
+      "type": "boolean",
+      "label": "Enable MediaFusion Scraping",
+      "env_variable": "IS_SCRAP_FROM_MEDIAFUSION",
+      "default": false,
+      "hint": "Enable/disable MediaFusion scraping from other instances."
+    },
+    {
+      "type": "text",
+      "label": "MediaFusion URL",
+      "env_variable": "MEDIAFUSION_URL",
+      "default": "https://mediafusion.elfhosted.com",
+      "placeholder": "https://mediafusion.elfhosted.com",
+      "hint": "External MediaFusion service URL."
+    },
+    {
+      "type": "number",
+      "label": "MediaFusion Search Interval (Days)",
+      "env_variable": "MEDIAFUSION_SEARCH_INTERVAL_DAYS",
+      "default": 3,
+      "placeholder": "3",
+      "hint": "MediaFusion search interval in days."
+    },
+    {
+      "type": "boolean",
+      "label": "Enable Zilean Scraping",
+      "env_variable": "IS_SCRAP_FROM_ZILEAN",
+      "default": false,
+      "hint": "Enable/disable Zilean scraping."
+    },
+    {
+      "type": "text",
+      "label": "Zilean URL",
+      "env_variable": "ZILEAN_URL",
+      "default": "https://zilean.elfhosted.com",
+      "placeholder": "https://zilean.elfhosted.com",
+      "hint": "Zilean service URL."
+    },
+    {
+      "type": "number",
+      "label": "Zilean Search Interval (Hours)",
+      "env_variable": "ZILEAN_SEARCH_INTERVAL_HOUR",
+      "default": 24,
+      "placeholder": "24",
+      "hint": "Zilean search interval in hours."
+    },
+    {
+      "type": "boolean",
+      "label": "Enable BT4G Scraping",
+      "env_variable": "IS_SCRAP_FROM_BT4G",
+      "default": true,
+      "hint": "Enable/disable BT4G scraping."
+    },
+    {
+      "type": "text",
+      "label": "BT4G URL",
+      "env_variable": "BT4G_URL",
+      "default": "https://bt4gprx.com",
+      "placeholder": "https://bt4gprx.com",
+      "hint": "BT4G service URL."
+    },
+    {
+      "type": "boolean",
+      "label": "Enable Jackett Scraping",
+      "env_variable": "IS_SCRAP_FROM_JACKETT",
+      "default": false,
+      "hint": "Enable/disable Jackett scraping."
+    },
+    {
+      "type": "text",
+      "label": "Jackett URL",
+      "env_variable": "JACKETT_URL",
+      "default": "http://jackett:9117",
+      "placeholder": "http://jackett:9117",
+      "hint": "Jackett service URL."
+    },
+    {
+      "type": "password",
+      "label": "Jackett API Key",
+      "env_variable": "JACKETT_API_KEY",
+      "hint": "Jackett API key for authentication."
+    },
+    {
+      "type": "text",
+      "label": "Disabled Providers",
+      "env_variable": "DISABLED_PROVIDERS",
+      "default": "[]",
+      "placeholder": "[\"p2p\", \"torbox\"]",
+      "hint": "JSON array of disabled streaming providers."
+    },
+    {
+      "type": "password",
+      "label": "Premiumize OAuth Client ID",
+      "env_variable": "PREMIUMIZE_OAUTH_CLIENT_ID",
+      "hint": "Premiumize OAuth client ID for integration."
+    },
+    {
+      "type": "password",
+      "label": "Premiumize OAuth Client Secret",
+      "env_variable": "PREMIUMIZE_OAUTH_CLIENT_SECRET",
+      "hint": "Premiumize OAuth client secret."
+    },
+    {
+      "type": "boolean",
+      "label": "Enable Rate Limiting",
+      "env_variable": "ENABLE_RATE_LIMIT",
+      "default": false,
+      "hint": "Enable/disable API rate limiting."
+    },
+    {
+      "type": "boolean",
+      "label": "Validate M3U8 URLs",
+      "env_variable": "VALIDATE_M3U8_URLS_LIVENESS",
+      "default": true,
+      "hint": "Validate M3U8 URLs for liveness before serving."
+    },
+    {
+      "type": "boolean",
+      "label": "Store StremThru Cache",
+      "env_variable": "STORE_STREMTHRU_MAGNET_CACHE",
+      "default": false,
+      "hint": "Store StremThru magnet cache locally."
+    },
+    {
+      "type": "boolean",
+      "label": "Enable YTS Scraping",
+      "env_variable": "IS_SCRAP_FROM_YTS",
+      "default": true,
+      "hint": "Enable/disable YTS scraping."
+    },
+    {
+      "type": "boolean",
+      "label": "Scrape with Alternative Titles",
+      "env_variable": "SCRAPE_WITH_AKA_TITLES",
+      "default": true,
+      "hint": "Include alternative titles in scraping."
+    },
+    {
+      "type": "boolean",
+      "label": "Adult Content Filter",
+      "env_variable": "ADULT_CONTENT_FILTER_IN_TORRENT_TITLE",
+      "default": true,
+      "hint": "Enable adult content filtering in torrent titles."
+    },
+    {
+      "type": "text",
+      "label": "Adult Content Regex",
+      "env_variable": "ADULT_CONTENT_REGEX_KEYWORDS",
+      "placeholder": "xxx|porn|adult",
+      "hint": "Regex pattern for filtering adult content keywords."
+    },
+    {
+      "type": "number",
+      "label": "Metadata Cache TTL (seconds)",
+      "env_variable": "META_CACHE_TTL",
+      "default": 1800,
+      "placeholder": "1800",
+      "hint": "Metadata cache TTL in seconds (30 minutes)."
+    },
+    {
+      "type": "number",
+      "label": "Background Search Interval (Hours)",
+      "env_variable": "BACKGROUND_SEARCH_INTERVAL_HOURS",
+      "default": 72,
+      "placeholder": "72",
+      "hint": "Background search interval in hours."
+    },
+    {
+      "type": "boolean",
+      "label": "Disable All Schedulers",
+      "env_variable": "DISABLE_ALL_SCHEDULER",
+      "default": false,
+      "hint": "Disable all background schedulers."
+    },
+    {
+      "type": "password",
+      "label": "Telegram Bot Token",
+      "env_variable": "TELEGRAM_BOT_TOKEN",
+      "hint": "Telegram bot token for notifications."
+    },
+    {
+      "type": "text",
+      "label": "Telegram Chat ID",
+      "env_variable": "TELEGRAM_CHAT_ID",
+      "placeholder": "-1001234567890",
+      "hint": "Telegram chat ID for notifications."
+    }
+  ],
+  "supported_architectures": [
+    "amd64",
+    "arm64"
+  ],
+  "created_at": 1716899794000,
+  "updated_at": 1716899794000
+}

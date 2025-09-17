@@ -1,0 +1,162 @@
+{
+  "$schema": "../dynamic-compose-schema.json",
+  "services": [
+    {
+      "name": "mongodb",
+      "image": "mongo:7.0",
+      "isMain": false,
+      "internalPort": 27017,
+      "environment": {
+        "MONGO_INITDB_DATABASE": "mediafusion"
+      },
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/mongodb",
+          "containerPath": "/data/db"
+        }
+      ],
+      "command": ["mongod", "--bind_ip_all"]
+    },
+    {
+      "name": "redis",
+      "image": "redis:7.2-alpine",
+      "isMain": false,
+      "internalPort": 6379,
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/redis",
+          "containerPath": "/data"
+        }
+      ],
+      "command": ["redis-server", "--appendonly", "yes"]
+    },
+    {
+      "name": "prowlarr",
+      "image": "lscr.io/linuxserver/prowlarr:latest",
+      "isMain": false,
+      "internalPort": 9696,
+      "environment": {
+        "PUID": "1000",
+        "PGID": "1000",
+        "TZ": "UTC"
+      },
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/prowlarr/config",
+          "containerPath": "/config"
+        }
+      ]
+    },
+    {
+      "name": "flaresolverr",
+      "image": "ghcr.io/flaresolverr/flaresolverr:latest",
+      "isMain": false,
+      "internalPort": 8191,
+      "environment": {
+        "LOG_LEVEL": "info",
+        "LOG_HTML": "false",
+        "CAPTCHA_SOLVER": "none"
+      }
+    },
+    {
+      "name": "browserless",
+      "image": "browserless/chrome:latest",
+      "isMain": false,
+      "internalPort": 3000,
+      "environment": {
+        "CONNECTION_TIMEOUT": "600000",
+        "MAX_CONCURRENT_SESSIONS": "10",
+        "PREBOOT_CHROME": "true"
+      }
+    },
+    {
+      "name": "mediafusion",
+      "image": "mhdzumair/mediafusion:latest",
+      "isMain": true,
+      "internalPort": 8000,
+      "dependsOn": ["mongodb", "redis", "prowlarr", "flaresolverr", "browserless"],
+      "healthcheck": {
+        "test": ["CMD", "curl", "-f", "http://localhost:8000/health"],
+        "interval": "1m",
+        "timeout": "10s",
+        "retries": 5,
+        "start_period": "30s"
+      },
+      "environment": {
+        "addon_name": "${ADDON_NAME-MediaFusion}",
+        "host_url": "${HOST_URL}",
+        "secret_key": "${SECRET_KEY}",
+        "api_password": "${API_PASSWORD}",
+        "contact_email": "${CONTACT_EMAIL-admin@mediafusion.local}",
+        "description": "${DESCRIPTION-}",
+        "logging_level": "${LOGGING_LEVEL-INFO}",
+        "is_public_instance": "${IS_PUBLIC_INSTANCE-False}",
+        "mongo_uri": "${MONGO_URI-mongodb://mongodb:27017/mediafusion}",
+        "db_max_connections": "${DB_MAX_CONNECTIONS-50}",
+        "redis_url": "${REDIS_URL-redis://redis:6379}",
+        "redis_max_connections": "${REDIS_MAX_CONNECTIONS-100}",
+        "requests_proxy_url": "${REQUESTS_PROXY_URL-}",
+        "playwright_cdp_url": "${PLAYWRIGHT_CDP_URL-ws://browserless:3000?blockAds=true&stealth=true}",
+        "flaresolverr_url": "${FLARESOLVERR_URL-http://flaresolverr:8191/v1}",
+        "tmdb_api_key": "${TMDB_API_KEY-}",
+        "is_scrap_from_prowlarr": "${IS_SCRAP_FROM_PROWLARR-True}",
+        "prowlarr_url": "${PROWLARR_URL-http://prowlarr:9696}",
+        "prowlarr_api_key": "${PROWLARR_API_KEY-}",
+        "prowlarr_live_title_search": "${PROWLARR_LIVE_TITLE_SEARCH-True}",
+        "prowlarr_background_title_search": "${PROWLARR_BACKGROUND_TITLE_SEARCH-True}",
+        "prowlarr_search_query_timeout": "${PROWLARR_SEARCH_QUERY_TIMEOUT-30}",
+        "prowlarr_search_interval_hour": "${PROWLARR_SEARCH_INTERVAL_HOUR-72}",
+        "prowlarr_immediate_max_process": "${PROWLARR_IMMEDIATE_MAX_PROCESS-10}",
+        "prowlarr_immediate_max_process_time": "${PROWLARR_IMMEDIATE_MAX_PROCESS_TIME-15}",
+        "is_scrap_from_torrentio": "${IS_SCRAP_FROM_TORRENTIO-False}",
+        "torrentio_url": "${TORRENTIO_URL-https://torrentio.strem.fun}",
+        "torrentio_search_interval_days": "${TORRENTIO_SEARCH_INTERVAL_DAYS-3}",
+        "is_scrap_from_mediafusion": "${IS_SCRAP_FROM_MEDIAFUSION-False}",
+        "mediafusion_url": "${MEDIAFUSION_URL-https://mediafusion.elfhosted.com}",
+        "mediafusion_search_interval_days": "${MEDIAFUSION_SEARCH_INTERVAL_DAYS-3}",
+        "sync_debrid_cache_streams": "${SYNC_DEBRID_CACHE_STREAMS-True}",
+        "is_scrap_from_zilean": "${IS_SCRAP_FROM_ZILEAN-False}",
+        "zilean_url": "${ZILEAN_URL-https://zilean.elfhosted.com}",
+        "zilean_search_interval_hour": "${ZILEAN_SEARCH_INTERVAL_HOUR-24}",
+        "is_scrap_from_bt4g": "${IS_SCRAP_FROM_BT4G-True}",
+        "bt4g_url": "${BT4G_URL-https://bt4gprx.com}",
+        "bt4g_search_interval_hour": "${BT4G_SEARCH_INTERVAL_HOUR-72}",
+        "bt4g_search_timeout": "${BT4G_SEARCH_TIMEOUT-10}",
+        "bt4g_immediate_max_process": "${BT4G_IMMEDIATE_MAX_PROCESS-15}",
+        "bt4g_immediate_max_process_time": "${BT4G_IMMEDIATE_MAX_PROCESS_TIME-15}",
+        "is_scrap_from_jackett": "${IS_SCRAP_FROM_JACKETT-False}",
+        "jackett_url": "${JACKETT_URL-http://jackett:9117}",
+        "jackett_api_key": "${JACKETT_API_KEY-}",
+        "jackett_search_interval_hour": "${JACKETT_SEARCH_INTERVAL_HOUR-72}",
+        "jackett_search_query_timeout": "${JACKETT_SEARCH_QUERY_TIMEOUT-30}",
+        "jackett_immediate_max_process": "${JACKETT_IMMEDIATE_MAX_PROCESS-10}",
+        "jackett_immediate_max_process_time": "${JACKETT_IMMEDIATE_MAX_PROCESS_TIME-15}",
+        "jackett_live_title_search": "${JACKETT_LIVE_TITLE_SEARCH-True}",
+        "jackett_background_title_search": "${JACKETT_BACKGROUND_TITLE_SEARCH-True}",
+        "disabled_providers": "${DISABLED_PROVIDERS-[]}",
+        "premiumize_oauth_client_id": "${PREMIUMIZE_OAUTH_CLIENT_ID-}",
+        "premiumize_oauth_client_secret": "${PREMIUMIZE_OAUTH_CLIENT_SECRET-}",
+        "enable_rate_limit": "${ENABLE_RATE_LIMIT-False}",
+        "validate_m3u8_urls_liveness": "${VALIDATE_M3U8_URLS_LIVENESS-True}",
+        "store_stremthru_magnet_cache": "${STORE_STREMTHRU_MAGNET_CACHE-False}",
+        "is_scrap_from_yts": "${IS_SCRAP_FROM_YTS-True}",
+        "scrape_with_aka_titles": "${SCRAPE_WITH_AKA_TITLES-True}",
+        "enable_fetching_torrent_metadata_from_p2p": "${ENABLE_FETCHING_TORRENT_METADATA_FROM_P2P-True}",
+        "adult_content_filter_in_torrent_title": "${ADULT_CONTENT_FILTER_IN_TORRENT_TITLE-True}",
+        "adult_content_regex_keywords": "${ADULT_CONTENT_REGEX_KEYWORDS-}",
+        "meta_cache_ttl": "${META_CACHE_TTL-1800}",
+        "worker_max_tasks_per_child": "${WORKER_MAX_TASKS_PER_CHILD-20}",
+        "background_search_interval_hours": "${BACKGROUND_SEARCH_INTERVAL_HOURS-72}",
+        "disable_all_scheduler": "${DISABLE_ALL_SCHEDULER-False}",
+        "telegram_bot_token": "${TELEGRAM_BOT_TOKEN-}",
+        "telegram_chat_id": "${TELEGRAM_CHAT_ID-}"
+      },
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/mediafusion",
+          "containerPath": "/app/data"
+        }
+      ]
+    }
+  ]
+}
