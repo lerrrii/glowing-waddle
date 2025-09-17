@@ -3,7 +3,7 @@
   "id": "mediafusion",
   "name": "MediaFusion+",
   "version": "latest",
-  "tipi_version": 6,
+  "tipi_version": 7,
   "available": true,
   "exposable": true,
   "dynamic_config": true,
