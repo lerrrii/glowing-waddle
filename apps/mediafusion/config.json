@@ -2,7 +2,7 @@
   "$schema": "../app-info-schema.json",
   "id": "mediafusion",
   "name": "MediaFusion+",
-  "version": "4.3.35",
+  "version": "latest",
   "tipi_version": 14,
   "available": true,
   "exposable": true,
