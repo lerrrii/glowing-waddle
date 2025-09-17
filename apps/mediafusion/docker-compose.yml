@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   mongodb:
-    image: mongo:8.0  # Updated to latest stable version
+    image: mongo:latest  # Auto-updated by Watchtower
     container_name: mongodb  # Fixed: matches service name
     restart: unless-stopped
     environment:
@@ -16,7 +16,7 @@ services:
       runtipi.managed: "true"
 
   redis:
-    image: redis:7.4-alpine  # Updated to latest stable version
+    image: redis:latest  # Auto-updated by Watchtower
     container_name: redis  # Fixed: matches service name
     restart: unless-stopped
     volumes:
