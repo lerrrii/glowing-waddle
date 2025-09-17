@@ -114,7 +114,7 @@ services:
       runtipi.managed: "true"
 
   dramatiq-worker:
-    image: mhdzumair/mediafusion:4.3.35
+    image: mhdzumair/mediafusion:latest
     container_name: dramatiq-worker
     restart: unless-stopped
     command: ["dramatiq", "api.task", "-p", "1", "-t", "4"]
@@ -274,7 +274,7 @@ services:
       runtipi.managed: "true"
 
   mediafusion:
-    image: mhdzumair/mediafusion:4.3.35
+    image: mhdzumair/mediafusion:latest
     container_name: mediafusion
     restart: unless-stopped
     depends_on:
