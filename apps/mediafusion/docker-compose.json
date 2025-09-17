@@ -74,13 +74,7 @@
       "image": "mhdzumair/mediafusion:latest",
       "isMain": true,
       "internalPort": 8000,
-      "dependsOn": {
-        "mongodb": {},
-        "redis": {},
-        "prowlarr": {},
-        "flaresolverr": {},
-        "browserless": {}
-      },
+      "dependsOn": ["mongodb", "redis", "prowlarr", "flaresolverr", "browserless"],
       "healthcheck": {
         "test": ["CMD", "curl", "-f", "http://localhost:8000/health"],
         "interval": "1m",
