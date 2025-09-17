@@ -2,8 +2,9 @@ version: '3.8'
 
 services:
   mongodb:
-    image: mongo:latest  # Auto-updated by Watchtower
-    container_name: mongodb  # Fixed: matches service name
+    # Use MongoDB 4.4 which doesn't require AVX support
+    image: mongo:4.4
+    container_name: mongodb
     restart: unless-stopped
     environment:
       MONGO_INITDB_DATABASE: mediafusion
@@ -14,10 +15,17 @@ services:
       - tipi_main_network
     labels:
       runtipi.managed: "true"
+    # Add health check for MongoDB
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
 
   redis:
-    image: redis:latest  # Auto-updated by Watchtower
-    container_name: redis  # Fixed: matches service name
+    image: redis:7.4-alpine
+    container_name: redis
     restart: unless-stopped
     volumes:
       - ${APP_DATA_DIR}/redis:/data
@@ -26,10 +34,17 @@ services:
       - tipi_main_network
     labels:
       runtipi.managed: "true"
+    # Add health check for Redis
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
-    container_name: prowlarr  # Fixed: matches service name
+    container_name: prowlarr
     restart: unless-stopped
     environment:
       - PUID=1000
@@ -44,7 +59,7 @@ services:
 
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:latest
-    container_name: flaresolverr  # Fixed: matches service name
+    container_name: flaresolverr
     restart: unless-stopped
     environment:
       - LOG_LEVEL=info
@@ -57,7 +72,7 @@ services:
 
   browserless:
     image: browserless/chrome:latest
-    container_name: browserless  # Fixed: matches service name
+    container_name: browserless
     restart: unless-stopped
     environment:
       - CONNECTION_TIMEOUT=600000
@@ -73,11 +88,16 @@ services:
     container_name: mediafusion
     restart: unless-stopped
     depends_on:
-      - mongodb
-      - redis
-      - prowlarr
-      - flaresolverr
-      - browserless
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      prowlarr:
+        condition: service_started
+      flaresolverr:
+        condition: service_started
+      browserless:
+        condition: service_started
     environment:
       # ==============================
       # Core Application Settings
@@ -94,24 +114,24 @@ services:
       # ==============================
       # Database and Cache Settings
       # ==============================
-      mongo_uri: "${MONGO_URI-mongodb://mongodb:27017/mediafusion}"  # Fixed: now matches container name
+      mongo_uri: "${MONGO_URI-mongodb://mongodb:27017/mediafusion}"
       db_max_connections: "${DB_MAX_CONNECTIONS-50}"
-      redis_url: "${REDIS_URL-redis://redis:6379}"  # Fixed: now matches container name
+      redis_url: "${REDIS_URL-redis://redis:6379}"
       redis_max_connections: "${REDIS_MAX_CONNECTIONS-100}"
 
       # ==============================
       # External Service Settings
       # ==============================
       requests_proxy_url: "${REQUESTS_PROXY_URL-}"
-      playwright_cdp_url: "${PLAYWRIGHT_CDP_URL-ws://browserless:3000?blockAds=true&stealth=true}"  # Fixed: matches container name
-      flaresolverr_url: "${FLARESOLVERR_URL-http://flaresolverr:8191/v1}"  # Fixed: matches container name
+      playwright_cdp_url: "${PLAYWRIGHT_CDP_URL-ws://browserless:3000?blockAds=true&stealth=true}"
+      flaresolverr_url: "${FLARESOLVERR_URL-http://flaresolverr:8191/v1}"
       tmdb_api_key: "${TMDB_API_KEY-}"
 
       # ==============================
       # Prowlarr Settings
       # ==============================
       is_scrap_from_prowlarr: "${IS_SCRAP_FROM_PROWLARR-True}"
-      prowlarr_url: "${PROWLARR_URL-http://prowlarr:9696}"  # Fixed: matches container name
+      prowlarr_url: "${PROWLARR_URL-http://prowlarr:9696}"
       prowlarr_api_key: "${PROWLARR_API_KEY-}"
       prowlarr_live_title_search: "${PROWLARR_LIVE_TITLE_SEARCH-True}"
       prowlarr_background_title_search: "${PROWLARR_BACKGROUND_TITLE_SEARCH-True}"
@@ -224,7 +244,7 @@ services:
       interval: 1m
       timeout: 10s
       retries: 5
-      start_period: 30s
+      start_period: 60s  # Increased start period to allow dependencies to fully start
     volumes:
       - ${APP_DATA_DIR}/mediafusion:/app/data
     networks:
