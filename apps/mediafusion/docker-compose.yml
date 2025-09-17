@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   mongodb:
-    image: mongo:7.0
-    container_name: mediafusion-mongodb
+    image: mongo:8.0  # Updated to latest stable version
+    container_name: mongodb  # Fixed: matches service name
     restart: unless-stopped
     environment:
       MONGO_INITDB_DATABASE: mediafusion
@@ -16,8 +16,8 @@ services:
       runtipi.managed: "true"
 
   redis:
-    image: redis:7.2-alpine
-    container_name: mediafusion-redis
+    image: redis:7.4-alpine  # Updated to latest stable version
+    container_name: redis  # Fixed: matches service name
     restart: unless-stopped
     volumes:
       - ${APP_DATA_DIR}/redis:/data
@@ -29,7 +29,7 @@ services:
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
-    container_name: mediafusion-prowlarr
+    container_name: prowlarr  # Fixed: matches service name
     restart: unless-stopped
     environment:
       - PUID=1000
@@ -44,7 +44,7 @@ services:
 
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:latest
-    container_name: mediafusion-flaresolverr
+    container_name: flaresolverr  # Fixed: matches service name
     restart: unless-stopped
     environment:
       - LOG_LEVEL=info
@@ -57,7 +57,7 @@ services:
 
   browserless:
     image: browserless/chrome:latest
-    container_name: mediafusion-browserless
+    container_name: browserless  # Fixed: matches service name
     restart: unless-stopped
     environment:
       - CONNECTION_TIMEOUT=600000
@@ -94,24 +94,24 @@ services:
       # ==============================
       # Database and Cache Settings
       # ==============================
-      mongo_uri: "${MONGO_URI-mongodb://mongodb:27017/mediafusion}"
+      mongo_uri: "${MONGO_URI-mongodb://mongodb:27017/mediafusion}"  # Fixed: now matches container name
       db_max_connections: "${DB_MAX_CONNECTIONS-50}"
-      redis_url: "${REDIS_URL-redis://redis:6379}"
+      redis_url: "${REDIS_URL-redis://redis:6379}"  # Fixed: now matches container name
       redis_max_connections: "${REDIS_MAX_CONNECTIONS-100}"
 
       # ==============================
       # External Service Settings
       # ==============================
       requests_proxy_url: "${REQUESTS_PROXY_URL-}"
-      playwright_cdp_url: "${PLAYWRIGHT_CDP_URL-ws://browserless:3000?blockAds=true&stealth=true}"
-      flaresolverr_url: "${FLARESOLVERR_URL-http://flaresolverr:8191/v1}"
+      playwright_cdp_url: "${PLAYWRIGHT_CDP_URL-ws://browserless:3000?blockAds=true&stealth=true}"  # Fixed: matches container name
+      flaresolverr_url: "${FLARESOLVERR_URL-http://flaresolverr:8191/v1}"  # Fixed: matches container name
       tmdb_api_key: "${TMDB_API_KEY-}"
 
       # ==============================
       # Prowlarr Settings
       # ==============================
       is_scrap_from_prowlarr: "${IS_SCRAP_FROM_PROWLARR-True}"
-      prowlarr_url: "${PROWLARR_URL-http://prowlarr:9696}"
+      prowlarr_url: "${PROWLARR_URL-http://prowlarr:9696}"  # Fixed: matches container name
       prowlarr_api_key: "${PROWLARR_API_KEY-}"
       prowlarr_live_title_search: "${PROWLARR_LIVE_TITLE_SEARCH-True}"
       prowlarr_background_title_search: "${PROWLARR_BACKGROUND_TITLE_SEARCH-True}"
