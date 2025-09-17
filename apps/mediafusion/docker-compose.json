@@ -3,7 +3,7 @@
   "services": [
     {
       "name": "mongodb",
-      "image": "mongo:8.0",
+      "image": "mongo:latest",
       "isMain": false,
       "internalPort": 27017,
       "environment": {
@@ -19,7 +19,7 @@
     },
     {
       "name": "redis",
-      "image": "redis:7.4-alpine",
+      "image": "redis:latest",
       "isMain": false,
       "internalPort": 6379,
       "volumes": [
