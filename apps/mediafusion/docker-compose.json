@@ -221,3 +221,109 @@
         "TELEGRAM_CHAT_ID": "${TELEGRAM_CHAT_ID:-}"
       }
     },
+    {
+      "name": "mediafusion",
+      "image": "mhdzumair/mediafusion:4.3.35",
+      "isMain": true,
+      "internalPort": 8000,
+      "dependsOn": [
+        {
+          "name": "mongodb",
+          "condition": "service_healthy"
+        },
+        {
+          "name": "redis", 
+          "condition": "service_healthy"
+        }
+      ],
+      "healthcheck": {
+        "test": ["CMD", "curl", "-f", "http://localhost:8000/health"],
+        "interval": "60s",
+        "timeout": "10s",
+        "retries": 5,
+        "start_period": "1200s"
+      },
+      "environment": {
+        "ADDON_NAME": "${ADDON_NAME:-MediaFusion}",
+        "HOST_URL": "${HOST_URL}",
+        "SECRET_KEY": "${SECRET_KEY}",
+        "API_PASSWORD": "${API_PASSWORD}",
+        "CONTACT_EMAIL": "${CONTACT_EMAIL:-admin@mediafusion.local}",
+        "DESCRIPTION": "${DESCRIPTION:-Advanced Stremio addon with torrent streaming, debrid integration, and comprehensive scraping from multiple sources including Prowlarr, Jackett, and public trackers.}",
+        "TZ": "${TZ:-UTC}",
+        "LOGGING_LEVEL": "${LOGGING_LEVEL:-INFO}",
+        "IS_PUBLIC_INSTANCE": "${IS_PUBLIC_INSTANCE:-false}",
+        "MONGO_URI": "${MONGO_URI:-mongodb://mongodb:27017/mediafusion}",
+        "DB_MAX_CONNECTIONS": "${DB_MAX_CONNECTIONS:-50}",
+        "REDIS_URL": "${REDIS_URL:-redis://redis:6379}",
+        "REDIS_MAX_CONNECTIONS": "${REDIS_MAX_CONNECTIONS:-100}",
+        "REQUESTS_PROXY_URL": "${REQUESTS_PROXY_URL:-}",
+        "PLAYWRIGHT_CDP_URL": "${PLAYWRIGHT_CDP_URL:-ws://browserless:3000?blockAds=true&stealth=true}",
+        "FLARESOLVERR_URL": "${FLARESOLVERR_URL:-http://flaresolverr:8191/v1}",
+        "TMDB_API_KEY": "${TMDB_API_KEY:-}",
+        "IS_SCRAP_FROM_PROWLARR": "${IS_SCRAP_FROM_PROWLARR:-true}",
+        "PROWLARR_URL": "${PROWLARR_URL:-http://prowlarr:9696}",
+        "PROWLARR_API_KEY": "${PROWLARR_API_KEY:-}",
+        "PROWLARR_LIVE_TITLE_SEARCH": "${PROWLARR_LIVE_TITLE_SEARCH:-true}",
+        "PROWLARR_BACKGROUND_TITLE_SEARCH": "${PROWLARR_BACKGROUND_TITLE_SEARCH:-true}",
+        "PROWLARR_SEARCH_QUERY_TIMEOUT": "${PROWLARR_SEARCH_QUERY_TIMEOUT:-30}",
+        "PROWLARR_SEARCH_INTERVAL_HOUR": "${PROWLARR_SEARCH_INTERVAL_HOUR:-72}",
+        "PROWLARR_IMMEDIATE_MAX_PROCESS": "${PROWLARR_IMMEDIATE_MAX_PROCESS:-10}",
+        "PROWLARR_IMMEDIATE_MAX_PROCESS_TIME": "${PROWLARR_IMMEDIATE_MAX_PROCESS_TIME:-15}",
+        "PROWLARR_FEED_SCRAPE_INTERVAL_HOUR": "${PROWLARR_FEED_SCRAPE_INTERVAL_HOUR:-3}",
+        "IS_SCRAP_FROM_TORRENTIO": "${IS_SCRAP_FROM_TORRENTIO:-false}",
+        "TORRENTIO_URL": "${TORRENTIO_URL:-https://torrentio.strem.fun}",
+        "TORRENTIO_SEARCH_INTERVAL_DAYS": "${TORRENTIO_SEARCH_INTERVAL_DAYS:-3}",
+        "IS_SCRAP_FROM_MEDIAFUSION": "${IS_SCRAP_FROM_MEDIAFUSION:-false}",
+        "MEDIAFUSION_URL": "${MEDIAFUSION_URL:-https://mediafusion.elfhosted.com}",
+        "MEDIAFUSION_SEARCH_INTERVAL_DAYS": "${MEDIAFUSION_SEARCH_INTERVAL_DAYS:-3}",
+        "SYNC_DEBRID_CACHE_STREAMS": "${SYNC_DEBRID_CACHE_STREAMS:-true}",
+        "IS_SCRAP_FROM_ZILEAN": "${IS_SCRAP_FROM_ZILEAN:-false}",
+        "ZILEAN_URL": "${ZILEAN_URL:-https://zilean.elfhosted.com}",
+        "ZILEAN_SEARCH_INTERVAL_HOUR": "${ZILEAN_SEARCH_INTERVAL_HOUR:-24}",
+        "IS_SCRAP_FROM_BT4G": "${IS_SCRAP_FROM_BT4G:-true}",
+        "BT4G_URL": "${BT4G_URL:-https://bt4gprx.com}",
+        "BT4G_SEARCH_INTERVAL_HOUR": "${BT4G_SEARCH_INTERVAL_HOUR:-72}",
+        "BT4G_SEARCH_TIMEOUT": "${BT4G_SEARCH_TIMEOUT:-10}",
+        "BT4G_IMMEDIATE_MAX_PROCESS": "${BT4G_IMMEDIATE_MAX_PROCESS:-15}",
+        "BT4G_IMMEDIATE_MAX_PROCESS_TIME": "${BT4G_IMMEDIATE_MAX_PROCESS_TIME:-15}",
+        "IS_SCRAP_FROM_JACKETT": "${IS_SCRAP_FROM_JACKETT:-false}",
+        "JACKETT_URL": "${JACKETT_URL:-http://jackett:9117}",
+        "JACKETT_API_KEY": "${JACKETT_API_KEY:-}",
+        "JACKETT_SEARCH_INTERVAL_HOUR": "${JACKETT_SEARCH_INTERVAL_HOUR:-72}",
+        "JACKETT_SEARCH_QUERY_TIMEOUT": "${JACKETT_SEARCH_QUERY_TIMEOUT:-30}",
+        "JACKETT_IMMEDIATE_MAX_PROCESS": "${JACKETT_IMMEDIATE_MAX_PROCESS:-10}",
+        "JACKETT_IMMEDIATE_MAX_PROCESS_TIME": "${JACKETT_IMMEDIATE_MAX_PROCESS_TIME:-15}",
+        "JACKETT_LIVE_TITLE_SEARCH": "${JACKETT_LIVE_TITLE_SEARCH:-true}",
+        "JACKETT_BACKGROUND_TITLE_SEARCH": "${JACKETT_BACKGROUND_TITLE_SEARCH:-true}",
+        "JACKETT_FEED_SCRAPE_INTERVAL_HOUR": "${JACKETT_FEED_SCRAPE_INTERVAL_HOUR:-3}",
+        "DISABLED_PROVIDERS": "${DISABLED_PROVIDERS:-[]}",
+        "PREMIUMIZE_OAUTH_CLIENT_ID": "${PREMIUMIZE_OAUTH_CLIENT_ID:-}",
+        "PREMIUMIZE_OAUTH_CLIENT_SECRET": "${PREMIUMIZE_OAUTH_CLIENT_SECRET:-}",
+        "ENABLE_RATE_LIMIT": "${ENABLE_RATE_LIMIT:-false}",
+        "VALIDATE_M3U8_URLS_LIVENESS": "${VALIDATE_M3U8_URLS_LIVENESS:-true}",
+        "STORE_STREMTHRU_MAGNET_CACHE": "${STORE_STREMTHRU_MAGNET_CACHE:-false}",
+        "IS_SCRAP_FROM_YTS": "${IS_SCRAP_FROM_YTS:-true}",
+        "SCRAPE_WITH_AKA_TITLES": "${SCRAPE_WITH_AKA_TITLES:-true}",
+        "ENABLE_FETCHING_TORRENT_METADATA_FROM_P2P": "${ENABLE_FETCHING_TORRENT_METADATA_FROM_P2P:-true}",
+        "ADULT_CONTENT_FILTER_IN_TORRENT_TITLE": "${ADULT_CONTENT_FILTER_IN_TORRENT_TITLE:-true}",
+        "ADULT_CONTENT_REGEX_KEYWORDS": "${ADULT_CONTENT_REGEX_KEYWORDS:-}",
+        "META_CACHE_TTL": "${META_CACHE_TTL:-1800}",
+        "WORKER_MAX_TASKS_PER_CHILD": "${WORKER_MAX_TASKS_PER_CHILD:-20}",
+        "BACKGROUND_SEARCH_INTERVAL_HOURS": "${BACKGROUND_SEARCH_INTERVAL_HOURS:-72}",
+        "BACKGROUND_SEARCH_CRONTAB": "${BACKGROUND_SEARCH_CRONTAB:-*/5 * * * *}",
+        "DISABLE_ALL_SCHEDULER": "${DISABLE_ALL_SCHEDULER:-false}",
+        "METADATA_PRIMARY_SOURCE": "${METADATA_PRIMARY_SOURCE:-imdb}",
+        "MIN_SCRAPING_VIDEO_SIZE": "${MIN_SCRAPING_VIDEO_SIZE:-26214400}",
+        "TELEGRAM_BOT_TOKEN": "${TELEGRAM_BOT_TOKEN:-}",
+        "TELEGRAM_CHAT_ID": "${TELEGRAM_CHAT_ID:-}"
+      },
+      "volumes": [
+        {
+          "hostPath": "${APP_DATA_DIR}/mediafusion",
+          "containerPath": "/app/data"
+        }
+      ]
+    }
+  ]
+}
