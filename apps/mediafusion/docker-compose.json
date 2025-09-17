@@ -70,31 +70,6 @@
       }
     },
     {
-      "name": "jackett",
-      "image": "ghcr.io/hotio/jackett:latest",
-      "isMain": false,
-      "internalPort": 9117,
-      "environment": {
-        "PUID": "1000",
-        "PGID": "1000",
-        "UMASK": "002",
-        "TZ": "${TZ:-UTC}"
-      },
-      "volumes": [
-        {
-          "hostPath": "${APP_DATA_DIR}/jackett/config",
-          "containerPath": "/config"
-        }
-      ],
-      "healthcheck": {
-        "test": ["CMD", "curl", "-f", "http://localhost:9117/api/v2.0/server/config"],
-        "interval": "30s",
-        "timeout": "10s",
-        "retries": 3,
-        "start_period": "120s"
-      }
-    },
-    {
       "name": "flaresolverr",
       "image": "ghcr.io/flaresolverr/flaresolverr:latest",
       "isMain": false,
