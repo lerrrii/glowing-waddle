@@ -132,7 +132,7 @@
     },
     {
       "name": "dramatiq-worker",
-      "image": "mhdzumair/mediafusion:4.3.35",
+      "image": "mhdzumair/mediafusion:latest",
       "isMain": false,
       "dependsOn": [
         "mongodb",
@@ -217,7 +217,7 @@
     },
     {
       "name": "mediafusion",
-      "image": "mhdzumair/mediafusion:4.3.35",
+      "image": "mhdzumair/mediafusion:latest",
       "isMain": true,
       "internalPort": 8000,
       "dependsOn": [
