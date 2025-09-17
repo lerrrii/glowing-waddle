@@ -2,8 +2,8 @@
   "$schema": "../app-info-schema.json",
   "id": "mediafusion",
   "name": "MediaFusion+",
-  "version": "latest",
-  "tipi_version": 12,
+  "version": "4.3.35",
+  "tipi_version": 13,
   "available": true,
   "exposable": true,
   "dynamic_config": true,
@@ -35,7 +35,7 @@
     {
       "type": "random",
       "label": "Secret Key",
-	  "min": 32,
+      "min": 32,
       "env_variable": "SECRET_KEY",
       "required": true,
       "hint": "32-character secret key for session signing (will be auto-generated if not provided)."
@@ -61,6 +61,14 @@
       "env_variable": "DESCRIPTION",
       "placeholder": "Advanced Stremio addon with torrent streaming",
       "hint": "Brief description shown on Stremio addon page."
+    },
+    {
+      "type": "text",
+      "label": "Timezone",
+      "env_variable": "TZ",
+      "default": "UTC",
+      "placeholder": "UTC",
+      "hint": "Timezone for the application (e.g., Europe/London, America/New_York)."
     },
     {
       "type": "text",
@@ -115,6 +123,22 @@
       "env_variable": "REQUESTS_PROXY_URL",
       "placeholder": "http://proxy:8080",
       "hint": "Optional proxy URL for requests."
+    },
+    {
+      "type": "text",
+      "label": "Playwright CDP URL",
+      "env_variable": "PLAYWRIGHT_CDP_URL",
+      "default": "ws://browserless:3000?blockAds=true&stealth=true",
+      "placeholder": "ws://browserless:3000?blockAds=true&stealth=true",
+      "hint": "Playwright Chrome DevTools Protocol URL for browserless integration."
+    },
+    {
+      "type": "text",
+      "label": "FlareSolverr URL",
+      "env_variable": "FLARESOLVERR_URL",
+      "default": "http://flaresolverr:8191/v1",
+      "placeholder": "http://flaresolverr:8191/v1",
+      "hint": "FlareSolverr service URL for Cloudflare bypass."
     },
     {
       "type": "text",
@@ -238,6 +262,13 @@
     },
     {
       "type": "boolean",
+      "label": "Sync Debrid Cache Streams",
+      "env_variable": "SYNC_DEBRID_CACHE_STREAMS",
+      "default": true,
+      "hint": "Sync debrid cache streams for better performance."
+    },
+    {
+      "type": "boolean",
       "label": "Enable Zilean Scraping",
       "env_variable": "IS_SCRAP_FROM_ZILEAN",
       "default": false,
@@ -352,6 +383,13 @@
     },
     {
       "type": "boolean",
+      "label": "Enable P2P Torrent Metadata Fetching",
+      "env_variable": "ENABLE_FETCHING_TORRENT_METADATA_FROM_P2P",
+      "default": true,
+      "hint": "Enable fetching torrent metadata from P2P networks."
+    },
+    {
+      "type": "boolean",
       "label": "Adult Content Filter",
       "env_variable": "ADULT_CONTENT_FILTER_IN_TORRENT_TITLE",
       "default": true,
@@ -374,6 +412,14 @@
     },
     {
       "type": "number",
+      "label": "Worker Max Tasks Per Child",
+      "env_variable": "WORKER_MAX_TASKS_PER_CHILD",
+      "default": 20,
+      "placeholder": "20",
+      "hint": "Maximum tasks per worker child process before recycling."
+    },
+    {
+      "type": "number",
       "label": "Background Search Interval (Hours)",
       "env_variable": "BACKGROUND_SEARCH_INTERVAL_HOURS",
       "default": 72,
@@ -381,11 +427,35 @@
       "hint": "Background search interval in hours."
     },
     {
+      "type": "text",
+      "label": "Background Search Crontab",
+      "env_variable": "BACKGROUND_SEARCH_CRONTAB",
+      "default": "*/5 * * * *",
+      "placeholder": "*/5 * * * *",
+      "hint": "Cron expression for background search scheduling."
+    },
+    {
       "type": "boolean",
       "label": "Disable All Schedulers",
       "env_variable": "DISABLE_ALL_SCHEDULER",
       "default": false,
       "hint": "Disable all background schedulers."
+    },
+    {
+      "type": "text",
+      "label": "Metadata Primary Source",
+      "env_variable": "METADATA_PRIMARY_SOURCE",
+      "default": "imdb",
+      "placeholder": "imdb",
+      "hint": "Primary source for metadata (imdb, tmdb, etc.)."
+    },
+    {
+      "type": "number",
+      "label": "Min Scraping Video Size (bytes)",
+      "env_variable": "MIN_SCRAPING_VIDEO_SIZE",
+      "default": 26214400,
+      "placeholder": "26214400",
+      "hint": "Minimum video file size for scraping (25MB default)."
     },
     {
       "type": "password",
