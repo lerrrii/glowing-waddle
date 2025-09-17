@@ -3,7 +3,7 @@
   "id": "mediafusion",
   "name": "MediaFusion+",
   "version": "latest",
-  "tipi_version": 17,
+  "tipi_version": 18,
   "available": true,
   "exposable": true,
   "dynamic_config": true,
@@ -94,35 +94,12 @@
       "hint": "MongoDB connection URI."
     },
     {
-      "type": "number",
-      "label": "Max Database Connections",
-      "env_variable": "DB_MAX_CONNECTIONS",
-      "default": 50,
-      "placeholder": "50",
-      "hint": "Maximum database connections."
-    },
-    {
       "type": "text",
       "label": "Redis URL",
       "env_variable": "REDIS_URL",
       "default": "redis://redis:6379",
       "placeholder": "redis://redis:6379",
       "hint": "Redis service URL for caching and tasks."
-    },
-    {
-      "type": "number",
-      "label": "Max Redis Connections",
-      "env_variable": "REDIS_MAX_CONNECTIONS",
-      "default": 100,
-      "placeholder": "100",
-      "hint": "Maximum Redis connections."
-    },
-    {
-      "type": "text",
-      "label": "Requests Proxy URL",
-      "env_variable": "REQUESTS_PROXY_URL",
-      "placeholder": "http://proxy:8080",
-      "hint": "Optional proxy URL for requests."
     },
     {
       "type": "text",
@@ -213,6 +190,14 @@
       "default": 15,
       "placeholder": "15",
       "hint": "Maximum process time for Prowlarr in seconds."
+    },
+    {
+      "type": "number",
+      "label": "Prowlarr Feed Scrape Interval (Hours)",
+      "env_variable": "PROWLARR_FEED_SCRAPE_INTERVAL_HOUR",
+      "default": 3,
+      "placeholder": "3",
+      "hint": "Prowlarr feed scrape interval in hours."
     },
     {
       "type": "boolean",
@@ -306,6 +291,38 @@
       "hint": "BT4G service URL."
     },
     {
+      "type": "number",
+      "label": "BT4G Search Interval (Hours)",
+      "env_variable": "BT4G_SEARCH_INTERVAL_HOUR",
+      "default": 72,
+      "placeholder": "72",
+      "hint": "BT4G search interval in hours."
+    },
+    {
+      "type": "number",
+      "label": "BT4G Search Timeout",
+      "env_variable": "BT4G_SEARCH_TIMEOUT",
+      "default": 10,
+      "placeholder": "10",
+      "hint": "BT4G search timeout in seconds."
+    },
+    {
+      "type": "number",
+      "label": "BT4G Max Immediate Processes",
+      "env_variable": "BT4G_IMMEDIATE_MAX_PROCESS",
+      "default": 15,
+      "placeholder": "15",
+      "hint": "Maximum immediate processes for BT4G."
+    },
+    {
+      "type": "number",
+      "label": "BT4G Max Process Time",
+      "env_variable": "BT4G_IMMEDIATE_MAX_PROCESS_TIME",
+      "default": 15,
+      "placeholder": "15",
+      "hint": "Maximum process time for BT4G in seconds."
+    },
+    {
       "type": "boolean",
       "label": "Enable Jackett Scraping",
       "env_variable": "IS_SCRAP_FROM_JACKETT",
@@ -325,6 +342,60 @@
       "label": "Jackett API Key",
       "env_variable": "JACKETT_API_KEY",
       "hint": "Jackett API key for authentication."
+    },
+    {
+      "type": "number",
+      "label": "Jackett Search Interval (Hours)",
+      "env_variable": "JACKETT_SEARCH_INTERVAL_HOUR",
+      "default": 72,
+      "placeholder": "72",
+      "hint": "Jackett search interval in hours."
+    },
+    {
+      "type": "number",
+      "label": "Jackett Search Query Timeout",
+      "env_variable": "JACKETT_SEARCH_QUERY_TIMEOUT",
+      "default": 30,
+      "placeholder": "30",
+      "hint": "Jackett search query timeout in seconds."
+    },
+    {
+      "type": "number",
+      "label": "Jackett Max Immediate Processes",
+      "env_variable": "JACKETT_IMMEDIATE_MAX_PROCESS",
+      "default": 10,
+      "placeholder": "10",
+      "hint": "Maximum immediate processes for Jackett."
+    },
+    {
+      "type": "number",
+      "label": "Jackett Max Process Time",
+      "env_variable": "JACKETT_IMMEDIATE_MAX_PROCESS_TIME",
+      "default": 15,
+      "placeholder": "15",
+      "hint": "Maximum process time for Jackett in seconds."
+    },
+    {
+      "type": "boolean",
+      "label": "Jackett Live Title Search",
+      "env_variable": "JACKETT_LIVE_TITLE_SEARCH",
+      "default": true,
+      "hint": "Enable live title search in Jackett."
+    },
+    {
+      "type": "boolean",
+      "label": "Jackett Background Title Search",
+      "env_variable": "JACKETT_BACKGROUND_TITLE_SEARCH",
+      "default": true,
+      "hint": "Enable background title search in Jackett."
+    },
+    {
+      "type": "number",
+      "label": "Jackett Feed Scrape Interval (Hours)",
+      "env_variable": "JACKETT_FEED_SCRAPE_INTERVAL_HOUR",
+      "default": 3,
+      "placeholder": "3",
+      "hint": "Jackett feed scrape interval in hours."
     },
     {
       "type": "text",
@@ -469,6 +540,29 @@
       "env_variable": "TELEGRAM_CHAT_ID",
       "placeholder": "-1001234567890",
       "hint": "Telegram chat ID for notifications."
+    },
+    {
+      "type": "number",
+      "label": "Max Database Connections",
+      "env_variable": "DB_MAX_CONNECTIONS",
+      "default": 50,
+      "placeholder": "50",
+      "hint": "Maximum database connections."
+    },
+    {
+      "type": "number",
+      "label": "Max Redis Connections",
+      "env_variable": "REDIS_MAX_CONNECTIONS",
+      "default": 100,
+      "placeholder": "100",
+      "hint": "Maximum Redis connections."
+    },
+    {
+      "type": "text",
+      "label": "Requests Proxy URL",
+      "env_variable": "REQUESTS_PROXY_URL",
+      "placeholder": "http://proxy:8080",
+      "hint": "Optional proxy URL for requests."
     }
   ],
   "supported_architectures": [
