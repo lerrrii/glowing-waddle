@@ -3,7 +3,7 @@
   "services": [
     {
       "name": "mongodb",
-      "image": "mongo:7.0",
+      "image": "mongo:4.4",
       "isMain": false,
       "internalPort": 27017,
       "environment": {
@@ -19,7 +19,7 @@
     },
     {
       "name": "redis",
-      "image": "redis:7.2-alpine",
+      "image": "redis:7.4-alpine",
       "isMain": false,
       "internalPort": 6379,
       "volumes": [
@@ -74,7 +74,13 @@
       "image": "mhdzumair/mediafusion:latest",
       "isMain": true,
       "internalPort": 8000,
-      "dependsOn": ["mongodb", "redis", "prowlarr", "flaresolverr", "browserless"],
+      "dependsOn": [
+        "mongodb",
+        "redis",
+        "prowlarr",
+        "flaresolverr",
+        "browserless"
+      ],
       "healthcheck": {
         "test": ["CMD", "curl", "-f", "http://localhost:8000/health"],
         "interval": "1m",
@@ -133,6 +139,7 @@
         "jackett_immediate_max_process_time": "${JACKETT_IMMEDIATE_MAX_PROCESS_TIME-15}",
         "jackett_live_title_search": "${JACKETT_LIVE_TITLE_SEARCH-True}",
         "jackett_background_title_search": "${JACKETT_BACKGROUND_TITLE_SEARCH-True}",
+        "jackett_feed_scrape_interval_hour": "${JACKETT_FEED_SCRAPE_INTERVAL_HOUR-3}",
         "disabled_providers": "${DISABLED_PROVIDERS-[]}",
         "premiumize_oauth_client_id": "${PREMIUMIZE_OAUTH_CLIENT_ID-}",
         "premiumize_oauth_client_secret": "${PREMIUMIZE_OAUTH_CLIENT_SECRET-}",
