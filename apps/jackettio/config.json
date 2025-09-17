@@ -3,7 +3,7 @@
   "id": "jackettio",
   "name": "Jackettio+",
   "version": "latest",
-  "tipi_version": 2,
+  "tipi_version": 3,
   "available": true,
   "exposable": true,
   "dynamic_config": true,
