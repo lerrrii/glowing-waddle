@@ -132,17 +132,11 @@
     },
     {
       "name": "dramatiq-worker",
-      "image": "mhdzumair/mediafusion:latest",
+      "image": "mhdzumair/mediafusion:4.3.35",
       "isMain": false,
       "dependsOn": [
-        {
-          "name": "mongodb",
-          "condition": "service_healthy"
-        },
-        {
-          "name": "redis",
-          "condition": "service_healthy"
-        }
+        "mongodb",
+        "redis"
       ],
       "command": ["dramatiq", "api.task", "-p", "1", "-t", "4"],
       "environment": {
@@ -223,18 +217,12 @@
     },
     {
       "name": "mediafusion",
-      "image": "mhdzumair/mediafusion:latest",
+      "image": "mhdzumair/mediafusion:4.3.35",
       "isMain": true,
       "internalPort": 8000,
       "dependsOn": [
-        {
-          "name": "mongodb",
-          "condition": "service_healthy"
-        },
-        {
-          "name": "redis", 
-          "condition": "service_healthy"
-        }
+        "mongodb",
+        "redis"
       ],
       "healthcheck": {
         "test": ["CMD", "curl", "-f", "http://localhost:8000/health"],
