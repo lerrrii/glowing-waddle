@@ -3,7 +3,7 @@
   "services": [
     {
       "name": "mongodb",
-      "image": "mongo:latest",
+      "image": "mongo:4.4",
       "isMain": false,
       "internalPort": 27017,
       "environment": {
@@ -15,11 +15,18 @@
           "containerPath": "/data/db"
         }
       ],
-      "command": ["mongod", "--bind_ip_all"]
+      "command": ["mongod", "--bind_ip_all"],
+      "healthcheck": {
+        "test": ["CMD", "mongo", "--eval", "db.adminCommand('ping')"],
+        "interval": "30s",
+        "timeout": "10s",
+        "retries": 5,
+        "start_period": "40s"
+      }
     },
     {
       "name": "redis",
-      "image": "redis:latest",
+      "image": "redis:7.4-alpine",
       "isMain": false,
       "internalPort": 6379,
       "volumes": [
@@ -28,7 +35,14 @@
           "containerPath": "/data"
         }
       ],
-      "command": ["redis-server", "--appendonly", "yes"]
+      "command": ["redis-server", "--appendonly", "yes"],
+      "healthcheck": {
+        "test": ["CMD", "redis-cli", "ping"],
+        "interval": "30s",
+        "timeout": "10s",
+        "retries": 5,
+        "start_period": "30s"
+      }
     },
     {
       "name": "prowlarr",
@@ -74,13 +88,34 @@
       "image": "mhdzumair/mediafusion:latest",
       "isMain": true,
       "internalPort": 8000,
-      "dependsOn": ["mongodb", "redis", "prowlarr", "flaresolverr", "browserless"],
+      "dependsOn": [
+        {
+          "name": "mongodb",
+          "condition": "service_healthy"
+        },
+        {
+          "name": "redis",
+          "condition": "service_healthy"
+        },
+        {
+          "name": "prowlarr",
+          "condition": "service_started"
+        },
+        {
+          "name": "flaresolverr",
+          "condition": "service_started"
+        },
+        {
+          "name": "browserless",
+          "condition": "service_started"
+        }
+      ],
       "healthcheck": {
         "test": ["CMD", "curl", "-f", "http://localhost:8000/health"],
         "interval": "1m",
         "timeout": "10s",
         "retries": 5,
-        "start_period": "30s"
+        "start_period": "60s"
       },
       "environment": {
         "addon_name": "${ADDON_NAME-MediaFusion}",
