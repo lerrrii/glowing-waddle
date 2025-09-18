@@ -46,7 +46,7 @@
     },
     {
       "name": "mediafusion",
-      "image": "mhdzumair/mediafusion:v4.2.0",
+      "image": "mhdzumair/mediafusion:4.3.35",
       "isMain": true,
       "internalPort": 8000,
       "dependsOn": [
