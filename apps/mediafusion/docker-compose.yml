@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   mediafusion:
-    image: mhdzumair/mediafusion:latest
+    image: mhdzumair/mediafusion:v4.2.0
     container_name: mediafusion
     restart: unless-stopped
     depends_on:
