@@ -11,6 +11,7 @@ services:
       redis:
         condition: service_healthy
     environment:
+      # Core Configuration
       ADDON_NAME: "${ADDON_NAME:-MediaFusion}"
       HOST_URL: "${HOST_URL}"
       SECRET_KEY: "${SECRET_KEY}"
@@ -20,16 +21,20 @@ services:
       TZ: "${TZ:-UTC}"
       LOGGING_LEVEL: "${LOGGING_LEVEL:-INFO}"
       IS_PUBLIC_INSTANCE: "${IS_PUBLIC_INSTANCE:-false}"
+      
+      # Database Configuration
       MONGO_URI: "${MONGO_URI:-mongodb://mongodb:27017/mediafusion}"
       DB_MAX_CONNECTIONS: "${DB_MAX_CONNECTIONS:-50}"
       REDIS_URL: "${REDIS_URL:-redis://redis:6379}"
       REDIS_MAX_CONNECTIONS: "${REDIS_MAX_CONNECTIONS:-100}"
       REQUESTS_PROXY_URL: "${REQUESTS_PROXY_URL:-}"
-      PLAYWRIGHT_CDP_URL: "${PLAYWRIGHT_CDP_URL:-ws://browserless:3000?blockAds=true&stealth=true}"
-      FLARESOLVERR_URL: "${FLARESOLVERR_URL:-http://flaresolverr:8191/v1}"
+      
+      # External Services
       TMDB_API_KEY: "${TMDB_API_KEY:-}"
-      IS_SCRAP_FROM_PROWLARR: "${IS_SCRAP_FROM_PROWLARR:-true}"
-      PROWLARR_URL: "${PROWLARR_URL:-http://prowlarr:9696}"
+      
+      # Prowlarr Configuration
+      IS_SCRAP_FROM_PROWLARR: "${IS_SCRAP_FROM_PROWLARR:-false}"
+      PROWLARR_URL: "${PROWLARR_URL:-}"
       PROWLARR_API_KEY: "${PROWLARR_API_KEY:-}"
       PROWLARR_LIVE_TITLE_SEARCH: "${PROWLARR_LIVE_TITLE_SEARCH:-true}"
       PROWLARR_BACKGROUND_TITLE_SEARCH: "${PROWLARR_BACKGROUND_TITLE_SEARCH:-true}"
@@ -38,24 +43,34 @@ services:
       PROWLARR_IMMEDIATE_MAX_PROCESS: "${PROWLARR_IMMEDIATE_MAX_PROCESS:-10}"
       PROWLARR_IMMEDIATE_MAX_PROCESS_TIME: "${PROWLARR_IMMEDIATE_MAX_PROCESS_TIME:-15}"
       PROWLARR_FEED_SCRAPE_INTERVAL_HOUR: "${PROWLARR_FEED_SCRAPE_INTERVAL_HOUR:-3}"
+      
+      # Torrentio Configuration
       IS_SCRAP_FROM_TORRENTIO: "${IS_SCRAP_FROM_TORRENTIO:-false}"
       TORRENTIO_URL: "${TORRENTIO_URL:-https://torrentio.strem.fun}"
       TORRENTIO_SEARCH_INTERVAL_DAYS: "${TORRENTIO_SEARCH_INTERVAL_DAYS:-3}"
+      
+      # MediaFusion Scraping Configuration
       IS_SCRAP_FROM_MEDIAFUSION: "${IS_SCRAP_FROM_MEDIAFUSION:-false}"
       MEDIAFUSION_URL: "${MEDIAFUSION_URL:-https://mediafusion.elfhosted.com}"
       MEDIAFUSION_SEARCH_INTERVAL_DAYS: "${MEDIAFUSION_SEARCH_INTERVAL_DAYS:-3}"
       SYNC_DEBRID_CACHE_STREAMS: "${SYNC_DEBRID_CACHE_STREAMS:-true}"
+      
+      # Zilean Configuration
       IS_SCRAP_FROM_ZILEAN: "${IS_SCRAP_FROM_ZILEAN:-false}"
       ZILEAN_URL: "${ZILEAN_URL:-https://zilean.elfhosted.com}"
       ZILEAN_SEARCH_INTERVAL_HOUR: "${ZILEAN_SEARCH_INTERVAL_HOUR:-24}"
+      
+      # BT4G Configuration
       IS_SCRAP_FROM_BT4G: "${IS_SCRAP_FROM_BT4G:-true}"
       BT4G_URL: "${BT4G_URL:-https://bt4gprx.com}"
       BT4G_SEARCH_INTERVAL_HOUR: "${BT4G_SEARCH_INTERVAL_HOUR:-72}"
       BT4G_SEARCH_TIMEOUT: "${BT4G_SEARCH_TIMEOUT:-10}"
       BT4G_IMMEDIATE_MAX_PROCESS: "${BT4G_IMMEDIATE_MAX_PROCESS:-15}"
       BT4G_IMMEDIATE_MAX_PROCESS_TIME: "${BT4G_IMMEDIATE_MAX_PROCESS_TIME:-15}"
+      
+      # Jackett Configuration
       IS_SCRAP_FROM_JACKETT: "${IS_SCRAP_FROM_JACKETT:-false}"
-      JACKETT_URL: "${JACKETT_URL:-http://jackett:9117}"
+      JACKETT_URL: "${JACKETT_URL:-}"
       JACKETT_API_KEY: "${JACKETT_API_KEY:-}"
       JACKETT_SEARCH_INTERVAL_HOUR: "${JACKETT_SEARCH_INTERVAL_HOUR:-72}"
       JACKETT_SEARCH_QUERY_TIMEOUT: "${JACKETT_SEARCH_QUERY_TIMEOUT:-30}"
@@ -64,23 +79,43 @@ services:
       JACKETT_LIVE_TITLE_SEARCH: "${JACKETT_LIVE_TITLE_SEARCH:-true}"
       JACKETT_BACKGROUND_TITLE_SEARCH: "${JACKETT_BACKGROUND_TITLE_SEARCH:-true}"
       JACKETT_FEED_SCRAPE_INTERVAL_HOUR: "${JACKETT_FEED_SCRAPE_INTERVAL_HOUR:-3}"
+      
+      # Provider Configuration
       DISABLED_PROVIDERS: "${DISABLED_PROVIDERS:-[]}"
+      
+      # Premium Services Configuration
       PREMIUMIZE_OAUTH_CLIENT_ID: "${PREMIUMIZE_OAUTH_CLIENT_ID:-}"
       PREMIUMIZE_OAUTH_CLIENT_SECRET: "${PREMIUMIZE_OAUTH_CLIENT_SECRET:-}"
+      
+      # Application Configuration
       ENABLE_RATE_LIMIT: "${ENABLE_RATE_LIMIT:-false}"
       VALIDATE_M3U8_URLS_LIVENESS: "${VALIDATE_M3U8_URLS_LIVENESS:-true}"
       STORE_STREMTHRU_MAGNET_CACHE: "${STORE_STREMTHRU_MAGNET_CACHE:-false}"
       IS_SCRAP_FROM_YTS: "${IS_SCRAP_FROM_YTS:-true}"
       SCRAPE_WITH_AKA_TITLES: "${SCRAPE_WITH_AKA_TITLES:-true}"
       ENABLE_FETCHING_TORRENT_METADATA_FROM_P2P: "${ENABLE_FETCHING_TORRENT_METADATA_FROM_P2P:-true}"
+      
+      # Content Filtering
       ADULT_CONTENT_FILTER_IN_TORRENT_TITLE: "${ADULT_CONTENT_FILTER_IN_TORRENT_TITLE:-true}"
       ADULT_CONTENT_REGEX_KEYWORDS: "${ADULT_CONTENT_REGEX_KEYWORDS:-}"
+      
+      # Performance Configuration
       META_CACHE_TTL: "${META_CACHE_TTL:-1800}"
       WORKER_MAX_TASKS_PER_CHILD: "${WORKER_MAX_TASKS_PER_CHILD:-20}"
+      
+      # Background Tasks Configuration
       BACKGROUND_SEARCH_INTERVAL_HOURS: "${BACKGROUND_SEARCH_INTERVAL_HOURS:-72}"
       BACKGROUND_SEARCH_CRONTAB: "${BACKGROUND_SEARCH_CRONTAB:-*/5 * * * *}"
       DISABLE_ALL_SCHEDULER: "${DISABLE_ALL_SCHEDULER:-false}"
+      
+      # Metadata Configuration
       METADATA_PRIMARY_SOURCE: "${METADATA_PRIMARY_SOURCE:-imdb}"
+      MIN_SCRAPING_VIDEO_SIZE: "${MIN_SCRAPING_VIDEO_SIZE:-26214400}"
+      
+      # Notification Configuration
+      TELEGRAM_BOT_TOKEN: "${TELEGRAM_BOT_TOKEN:-}"
+      TELEGRAM_CHAT_ID: "${TELEGRAM_CHAT_ID:-}"
+      
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 1m
@@ -164,171 +199,11 @@ services:
       - ${APP_DATA_DIR}/redis:/data
     command: ["redis-server", "--appendonly", "yes", "--save", "60", "1"]
     healthcheck:
-      test: ["CMD-SHELL", "redis-cli --raw INFO | grep -q '^loading:0$'"]
+      test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-    networks:
-      - tipi_main_network
-    labels:
-      runtipi.managed: "true"
-
-  dramatiq-worker:
-    image: mhdzumair/mediafusion:latest
-    container_name: dramatiq-worker
-    restart: unless-stopped
-    command: ["dramatiq", "api.task", "-p", "1", "-t", "4"]
-    depends_on:
-      mongodb:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    environment:
-      ADDON_NAME: "${ADDON_NAME:-MediaFusion}"
-      HOST_URL: "${HOST_URL}"
-      SECRET_KEY: "${SECRET_KEY}"
-      API_PASSWORD: "${API_PASSWORD}"
-      CONTACT_EMAIL: "${CONTACT_EMAIL:-admin@mediafusion.local}"
-      DESCRIPTION: "${DESCRIPTION:-Advanced Stremio addon with torrent streaming, debrid integration, and comprehensive scraping from multiple sources including Prowlarr, Jackett, and public trackers.}"
-      TZ: "${TZ:-UTC}"
-      LOGGING_LEVEL: "${LOGGING_LEVEL:-INFO}"
-      IS_PUBLIC_INSTANCE: "${IS_PUBLIC_INSTANCE:-false}"
-      MONGO_URI: "${MONGO_URI:-mongodb://mongodb:27017/mediafusion}"
-      DB_MAX_CONNECTIONS: "${DB_MAX_CONNECTIONS:-50}"
-      REDIS_URL: "${REDIS_URL:-redis://redis:6379}"
-      REDIS_MAX_CONNECTIONS: "${REDIS_MAX_CONNECTIONS:-100}"
-      REQUESTS_PROXY_URL: "${REQUESTS_PROXY_URL:-}"
-      PLAYWRIGHT_CDP_URL: "${PLAYWRIGHT_CDP_URL:-ws://browserless:3000?blockAds=true&stealth=true}"
-      FLARESOLVERR_URL: "${FLARESOLVERR_URL:-http://flaresolverr:8191/v1}"
-      TMDB_API_KEY: "${TMDB_API_KEY:-}"
-      IS_SCRAP_FROM_PROWLARR: "${IS_SCRAP_FROM_PROWLARR:-true}"
-      PROWLARR_URL: "${PROWLARR_URL:-http://prowlarr:9696}"
-      PROWLARR_API_KEY: "${PROWLARR_API_KEY:-}"
-      PROWLARR_LIVE_TITLE_SEARCH: "${PROWLARR_LIVE_TITLE_SEARCH:-true}"
-      PROWLARR_BACKGROUND_TITLE_SEARCH: "${PROWLARR_BACKGROUND_TITLE_SEARCH:-true}"
-      PROWLARR_SEARCH_QUERY_TIMEOUT: "${PROWLARR_SEARCH_QUERY_TIMEOUT:-30}"
-      PROWLARR_SEARCH_INTERVAL_HOUR: "${PROWLARR_SEARCH_INTERVAL_HOUR:-72}"
-      PROWLARR_IMMEDIATE_MAX_PROCESS: "${PROWLARR_IMMEDIATE_MAX_PROCESS:-10}"
-      PROWLARR_IMMEDIATE_MAX_PROCESS_TIME: "${PROWLARR_IMMEDIATE_MAX_PROCESS_TIME:-15}"
-      PROWLARR_FEED_SCRAPE_INTERVAL_HOUR: "${PROWLARR_FEED_SCRAPE_INTERVAL_HOUR:-3}"
-      IS_SCRAP_FROM_TORRENTIO: "${IS_SCRAP_FROM_TORRENTIO:-false}"
-      TORRENTIO_URL: "${TORRENTIO_URL:-https://torrentio.strem.fun}"
-      TORRENTIO_SEARCH_INTERVAL_DAYS: "${TORRENTIO_SEARCH_INTERVAL_DAYS:-3}"
-      IS_SCRAP_FROM_MEDIAFUSION: "${IS_SCRAP_FROM_MEDIAFUSION:-false}"
-      MEDIAFUSION_URL: "${MEDIAFUSION_URL:-https://mediafusion.elfhosted.com}"
-      MEDIAFUSION_SEARCH_INTERVAL_DAYS: "${MEDIAFUSION_SEARCH_INTERVAL_DAYS:-3}"
-      SYNC_DEBRID_CACHE_STREAMS: "${SYNC_DEBRID_CACHE_STREAMS:-true}"
-      IS_SCRAP_FROM_ZILEAN: "${IS_SCRAP_FROM_ZILEAN:-false}"
-      ZILEAN_URL: "${ZILEAN_URL:-https://zilean.elfhosted.com}"
-      ZILEAN_SEARCH_INTERVAL_HOUR: "${ZILEAN_SEARCH_INTERVAL_HOUR:-24}"
-      IS_SCRAP_FROM_BT4G: "${IS_SCRAP_FROM_BT4G:-true}"
-      BT4G_URL: "${BT4G_URL:-https://bt4gprx.com}"
-      BT4G_SEARCH_INTERVAL_HOUR: "${BT4G_SEARCH_INTERVAL_HOUR:-72}"
-      BT4G_SEARCH_TIMEOUT: "${BT4G_SEARCH_TIMEOUT:-10}"
-      BT4G_IMMEDIATE_MAX_PROCESS: "${BT4G_IMMEDIATE_MAX_PROCESS:-15}"
-      BT4G_IMMEDIATE_MAX_PROCESS_TIME: "${BT4G_IMMEDIATE_MAX_PROCESS_TIME:-15}"
-      IS_SCRAP_FROM_JACKETT: "${IS_SCRAP_FROM_JACKETT:-false}"
-      JACKETT_URL: "${JACKETT_URL:-http://jackett:9117}"
-      JACKETT_API_KEY: "${JACKETT_API_KEY:-}"
-      JACKETT_SEARCH_INTERVAL_HOUR: "${JACKETT_SEARCH_INTERVAL_HOUR:-72}"
-      JACKETT_SEARCH_QUERY_TIMEOUT: "${JACKETT_SEARCH_QUERY_TIMEOUT:-30}"
-      JACKETT_IMMEDIATE_MAX_PROCESS: "${JACKETT_IMMEDIATE_MAX_PROCESS:-10}"
-      JACKETT_IMMEDIATE_MAX_PROCESS_TIME: "${JACKETT_IMMEDIATE_MAX_PROCESS_TIME:-15}"
-      JACKETT_LIVE_TITLE_SEARCH: "${JACKETT_LIVE_TITLE_SEARCH:-true}"
-      JACKETT_BACKGROUND_TITLE_SEARCH: "${JACKETT_BACKGROUND_TITLE_SEARCH:-true}"
-      JACKETT_FEED_SCRAPE_INTERVAL_HOUR: "${JACKETT_FEED_SCRAPE_INTERVAL_HOUR:-3}"
-      DISABLED_PROVIDERS: "${DISABLED_PROVIDERS:-[]}"
-      PREMIUMIZE_OAUTH_CLIENT_ID: "${PREMIUMIZE_OAUTH_CLIENT_ID:-}"
-      PREMIUMIZE_OAUTH_CLIENT_SECRET: "${PREMIUMIZE_OAUTH_CLIENT_SECRET:-}"
-      ENABLE_RATE_LIMIT: "${ENABLE_RATE_LIMIT:-false}"
-      VALIDATE_M3U8_URLS_LIVENESS: "${VALIDATE_M3U8_URLS_LIVENESS:-true}"
-      STORE_STREMTHRU_MAGNET_CACHE: "${STORE_STREMTHRU_MAGNET_CACHE:-false}"
-      IS_SCRAP_FROM_YTS: "${IS_SCRAP_FROM_YTS:-true}"
-      SCRAPE_WITH_AKA_TITLES: "${SCRAPE_WITH_AKA_TITLES:-true}"
-      ENABLE_FETCHING_TORRENT_METADATA_FROM_P2P: "${ENABLE_FETCHING_TORRENT_METADATA_FROM_P2P:-true}"
-      ADULT_CONTENT_FILTER_IN_TORRENT_TITLE: "${ADULT_CONTENT_FILTER_IN_TORRENT_TITLE:-true}"
-      ADULT_CONTENT_REGEX_KEYWORDS: "${ADULT_CONTENT_REGEX_KEYWORDS:-}"
-      META_CACHE_TTL: "${META_CACHE_TTL:-1800}"
-      WORKER_MAX_TASKS_PER_CHILD: "${WORKER_MAX_TASKS_PER_CHILD:-20}"
-      BACKGROUND_SEARCH_INTERVAL_HOURS: "${BACKGROUND_SEARCH_INTERVAL_HOURS:-72}"
-      BACKGROUND_SEARCH_CRONTAB: "${BACKGROUND_SEARCH_CRONTAB:-*/5 * * * *}"
-      DISABLE_ALL_SCHEDULER: "${DISABLE_ALL_SCHEDULER:-false}"
-      METADATA_PRIMARY_SOURCE: "${METADATA_PRIMARY_SOURCE:-imdb}"
-      MIN_SCRAPING_VIDEO_SIZE: "${MIN_SCRAPING_VIDEO_SIZE:-26214400}"
-      TELEGRAM_BOT_TOKEN: "${TELEGRAM_BOT_TOKEN:-}"
-      TELEGRAM_CHAT_ID: "${TELEGRAM_CHAT_ID:-}"
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-    networks:
-      - tipi_main_network
-    labels:
-      runtipi.managed: "true"
-
-  prowlarr:
-    image: ghcr.io/hotio/prowlarr:latest
-    container_name: prowlarr
-    restart: unless-stopped
-    environment:
-      PUID: "1000"
-      PGID: "1000"
-      UMASK: "002"
-      TZ: "${TZ:-UTC}"
-    volumes:
-      - ${APP_DATA_DIR}/prowlarr/config:/config
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-    networks:
-      - tipi_main_network
-    labels:
-      runtipi.managed: "true"
-
-  flaresolverr:
-    image: ghcr.io/flaresolverr/flaresolverr:latest
-    container_name: flaresolverr
-    restart: unless-stopped
-    environment:
-      LOG_LEVEL: "info"
-      LOG_HTML: "false"
-      CAPTCHA_SOLVER: "none"
-      TZ: "${TZ:-UTC}"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8191/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-    networks:
-      - tipi_main_network
-    labels:
-      runtipi.managed: "true"
-
-  browserless:
-    image: ghcr.io/browserless/chromium
-    container_name: browserless
-    restart: unless-stopped
-    environment:
-      TIMEOUT: "-1"
-      TZ: "${TZ:-UTC}"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/json/version"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      start_period: 10s
     logging:
       driver: "json-file"
       options:
