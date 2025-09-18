@@ -103,22 +103,6 @@
     },
     {
       "type": "text",
-      "label": "Playwright CDP URL",
-      "env_variable": "PLAYWRIGHT_CDP_URL",
-      "default": "ws://browserless:3000?blockAds=true&stealth=true",
-      "placeholder": "ws://browserless:3000?blockAds=true&stealth=true",
-      "hint": "Playwright Chrome DevTools Protocol URL for browserless integration."
-    },
-    {
-      "type": "text",
-      "label": "FlareSolverr URL",
-      "env_variable": "FLARESOLVERR_URL",
-      "default": "http://flaresolverr:8191/v1",
-      "placeholder": "http://flaresolverr:8191/v1",
-      "hint": "FlareSolverr service URL for Cloudflare bypass."
-    },
-    {
-      "type": "text",
       "label": "TMDB API Key",
       "env_variable": "TMDB_API_KEY",
       "placeholder": "your_tmdb_api_key",
@@ -128,16 +112,15 @@
       "type": "boolean",
       "label": "Enable Prowlarr Scraping",
       "env_variable": "IS_SCRAP_FROM_PROWLARR",
-      "default": true,
-      "hint": "Enable/disable Prowlarr scraping."
+      "default": false,
+      "hint": "Enable/disable Prowlarr scraping (requires external Prowlarr instance)."
     },
     {
       "type": "text",
       "label": "Prowlarr URL",
       "env_variable": "PROWLARR_URL",
-      "default": "http://prowlarr:9696",
-      "placeholder": "http://prowlarr:9696",
-      "hint": "Prowlarr service URL."
+      "placeholder": "http://your-prowlarr:9696",
+      "hint": "External Prowlarr service URL."
     },
     {
       "type": "password",
@@ -327,15 +310,14 @@
       "label": "Enable Jackett Scraping",
       "env_variable": "IS_SCRAP_FROM_JACKETT",
       "default": false,
-      "hint": "Enable/disable Jackett scraping."
+      "hint": "Enable/disable Jackett scraping (requires external Jackett instance)."
     },
     {
       "type": "text",
       "label": "Jackett URL",
       "env_variable": "JACKETT_URL",
-      "default": "http://jackett:9117",
-      "placeholder": "http://jackett:9117",
-      "hint": "Jackett service URL."
+      "placeholder": "http://your-jackett:9117",
+      "hint": "External Jackett service URL."
     },
     {
       "type": "password",
