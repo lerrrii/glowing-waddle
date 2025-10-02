@@ -1,0 +1,65 @@
+version: "3.7"
+
+services:
+  czstreams-addon:
+    image: node:23-alpine
+    container_name: czstreams-addon
+    restart: unless-stopped
+    working_dir: /app
+    
+    volumes:
+      - ${APP_DATA_DIR}/data:/app
+      - ${APP_DATA_DIR}/node_modules:/app/node_modules
+    
+    ports:
+      - ${APP_PORT}:52932
+    
+    environment:
+      - NODE_ENV=production
+      - PORT=52932
+    
+    command: >
+      sh -c "
+      npm install &&
+      npm start
+      "
+    
+    networks:
+      - tipi_main_network
+    
+    labels:
+      # Main service configuration
+      traefik.enable: true
+      traefik.http.middlewares.czstreams-addon-web-redirect.redirectscheme.scheme: https
+      traefik.http.services.czstreams-addon.loadbalancer.server.port: 52932
+      
+      # Web (insecure HTTP)
+      traefik.http.routers.czstreams-addon-insecure.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.czstreams-addon-insecure.entrypoints: web
+      traefik.http.routers.czstreams-addon-insecure.service: czstreams-addon
+      traefik.http.routers.czstreams-addon-insecure.middlewares: czstreams-addon-web-redirect
+      
+      # Websecure (HTTPS with public domain)
+      traefik.http.routers.czstreams-addon.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.czstreams-addon.entrypoints: websecure
+      traefik.http.routers.czstreams-addon.service: czstreams-addon
+      traefik.http.routers.czstreams-addon.tls.certresolver: myresolver
+      
+      # Local domain (insecure HTTP)
+      traefik.http.routers.czstreams-addon-local-insecure.rule: Host(`czstreams-addon.${LOCAL_DOMAIN}`)
+      traefik.http.routers.czstreams-addon-local-insecure.entrypoints: web
+      traefik.http.routers.czstreams-addon-local-insecure.service: czstreams-addon
+      traefik.http.routers.czstreams-addon-local-insecure.middlewares: czstreams-addon-web-redirect
+      
+      # Local domain (secure HTTPS)
+      traefik.http.routers.czstreams-addon-local.rule: Host(`czstreams-addon.${LOCAL_DOMAIN}`)
+      traefik.http.routers.czstreams-addon-local.entrypoints: websecure
+      traefik.http.routers.czstreams-addon-local.service: czstreams-addon
+      traefik.http.routers.czstreams-addon-local.tls: true
+      
+      # Runtipi management label
+      runtipi.managed: true
+
+networks:
+  tipi_main_network:
+    external: true

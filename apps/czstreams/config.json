@@ -1,0 +1,27 @@
+{
+  "name": "CzStreams",
+  "available": true,
+  "port": 52932,
+  "exposable": true,
+  "dynamic_config": true,
+  "id": "czstreams-addon",
+  "description": "Stremio addon for Czech streaming services",
+  "tipi_version": 1,
+  "version": "0.0.22",
+  "categories": ["media"],
+  "short_desc": "Czech streams addon for Stremio",
+  "author": "Your Name",
+  "source": "https://github.com/...",
+  "form_fields": [
+    {
+      "type": "number",
+      "label": "Server Port",
+      "max": 65535,
+      "min": 1024,
+      "required": false,
+      "env_variable": "PORT",
+      "default": 52932
+    }
+  ],
+  "supported_architectures": ["arm64", "amd64"]
+}

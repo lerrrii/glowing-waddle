@@ -1,0 +1,31 @@
+{
+  "services": [
+    {
+      "name": "czstreams-addon",
+      "image": "node:23-alpine",
+      "isMain": true,
+      "internalPort": 52932,
+      "command": "sh -c 'cd /app && npm install && npm start'",
+      "volumes": [
+        {
+          "hostPath": "{{app_data_path}}/data",
+          "containerPath": "/app"
+        },
+        {
+          "hostPath": "{{app_data_path}}/node_modules",
+          "containerPath": "/app/node_modules"
+        }
+      ],
+      "environment": {
+        "NODE_ENV": "production",
+        "PORT": "52932"
+      },
+      "addPorts": [
+        {
+          "containerPort": 52932,
+          "hostPort": 52932
+        }
+      ]
+    }
+  ]
+}
