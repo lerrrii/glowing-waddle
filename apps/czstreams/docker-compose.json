@@ -19,7 +19,6 @@
         }
       ],
       "environment": {
-        "NODE_ENV": "production",
         "PORT": "52932"
       },
       "addPorts": [

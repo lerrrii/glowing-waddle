@@ -15,7 +15,6 @@ services:
       - ${APP_PORT}:52932
     
     environment:
-      - NODE_ENV=production
       - PORT=52932
     
     command: >
