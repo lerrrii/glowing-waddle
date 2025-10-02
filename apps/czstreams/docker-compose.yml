@@ -2,26 +2,21 @@ version: "3.7"
 
 services:
   czstreams:
-    image: node:23
+    build:
+      context: ${APP_DATA_DIR}/data
+      dockerfile: Dockerfile
     container_name: czstreams
     restart: unless-stopped
-    working_dir: /app
     
     volumes:
+      # Mount data directory for runtime file changes (if needed)
       - ${APP_DATA_DIR}/data:/app
-      - ${APP_DATA_DIR}/node_modules:/app/node_modules
     
     ports:
       - ${APP_PORT}:52932
     
     environment:
       - PORT=52932
-    
-    command: >
-      sh -c "
-      npm install &&
-      npm start
-      "
     
     networks:
       - tipi_main_network
