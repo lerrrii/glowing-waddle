@@ -3,19 +3,16 @@
   "services": [
     {
       "name": "czstreams",
-      "image": "node:23",
+      "build": {
+        "context": "${APP_DATA_DIR}/data",
+        "dockerfile": "Dockerfile"
+      },
       "isMain": true,
       "internalPort": 52932,
-      "workingDir": "/app",
-      "command": "sh -c 'npm install && npm start'",
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/data",
           "containerPath": "/app"
-        },
-        {
-          "hostPath": "${APP_DATA_DIR}/node_modules",
-          "containerPath": "/app/node_modules"
         }
       ],
       "environment": {
