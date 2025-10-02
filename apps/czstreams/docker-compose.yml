@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   czstreams:
-    image: node:23-alpine
+    image: node:23
     container_name: czstreams
     restart: unless-stopped
     working_dir: /app

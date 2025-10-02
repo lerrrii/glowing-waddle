@@ -3,7 +3,7 @@
   "services": [
     {
       "name": "czstreams",
-      "image": "node:23-alpine",
+      "image": "node:23",
       "isMain": true,
       "internalPort": 52932,
       "workingDir": "/app",
