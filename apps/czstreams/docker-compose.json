@@ -1,7 +1,8 @@
 {
+  "$schema": "../dynamic-compose-schema.json",
   "services": [
     {
-      "name": "czstreams-addon",
+      "name": "czstreams",
       "image": "node:23-alpine",
       "isMain": true,
       "internalPort": 52932,
