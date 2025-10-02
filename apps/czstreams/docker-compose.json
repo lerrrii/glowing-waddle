@@ -6,14 +6,15 @@
       "image": "node:23-alpine",
       "isMain": true,
       "internalPort": 52932,
-      "command": "sh -c 'cd /app && npm install && npm start'",
+      "workingDir": "/app",
+      "command": "sh -c 'npm install && npm start'",
       "volumes": [
         {
-          "hostPath": "{{app_data_path}}/data",
+          "hostPath": "${APP_DATA_DIR}/data",
           "containerPath": "/app"
         },
         {
-          "hostPath": "{{app_data_path}}/node_modules",
+          "hostPath": "${APP_DATA_DIR}/node_modules",
           "containerPath": "/app/node_modules"
         }
       ],
@@ -24,9 +25,11 @@
       "addPorts": [
         {
           "containerPort": 52932,
-          "hostPort": 52932
+          "hostPort": "${APP_PORT}",
+          "tcp": true
         }
-      ]
+      ],
+      "restart": "unless-stopped"
     }
   ]
 }
