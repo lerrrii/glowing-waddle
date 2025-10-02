@@ -1,9 +1,9 @@
 version: "3.7"
 
 services:
-  czstreams-addon:
+  czstreams:
     image: node:23-alpine
-    container_name: czstreams-addon
+    container_name: czstreams
     restart: unless-stopped
     working_dir: /app
     
@@ -30,32 +30,32 @@ services:
     labels:
       # Main service configuration
       traefik.enable: true
-      traefik.http.middlewares.czstreams-addon-web-redirect.redirectscheme.scheme: https
-      traefik.http.services.czstreams-addon.loadbalancer.server.port: 52932
+      traefik.http.middlewares.czstreams-web-redirect.redirectscheme.scheme: https
+      traefik.http.services.czstreams.loadbalancer.server.port: 52932
       
       # Web (insecure HTTP)
-      traefik.http.routers.czstreams-addon-insecure.rule: Host(`${APP_DOMAIN}`)
-      traefik.http.routers.czstreams-addon-insecure.entrypoints: web
-      traefik.http.routers.czstreams-addon-insecure.service: czstreams-addon
-      traefik.http.routers.czstreams-addon-insecure.middlewares: czstreams-addon-web-redirect
+      traefik.http.routers.czstreams-insecure.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.czstreams-insecure.entrypoints: web
+      traefik.http.routers.czstreams-insecure.service: czstreams
+      traefik.http.routers.czstreams-insecure.middlewares: czstreams-web-redirect
       
       # Websecure (HTTPS with public domain)
-      traefik.http.routers.czstreams-addon.rule: Host(`${APP_DOMAIN}`)
-      traefik.http.routers.czstreams-addon.entrypoints: websecure
-      traefik.http.routers.czstreams-addon.service: czstreams-addon
-      traefik.http.routers.czstreams-addon.tls.certresolver: myresolver
+      traefik.http.routers.czstreams.rule: Host(`${APP_DOMAIN}`)
+      traefik.http.routers.czstreams.entrypoints: websecure
+      traefik.http.routers.czstreams.service: czstreams
+      traefik.http.routers.czstreams.tls.certresolver: myresolver
       
       # Local domain (insecure HTTP)
-      traefik.http.routers.czstreams-addon-local-insecure.rule: Host(`czstreams-addon.${LOCAL_DOMAIN}`)
-      traefik.http.routers.czstreams-addon-local-insecure.entrypoints: web
-      traefik.http.routers.czstreams-addon-local-insecure.service: czstreams-addon
-      traefik.http.routers.czstreams-addon-local-insecure.middlewares: czstreams-addon-web-redirect
+      traefik.http.routers.czstreams-local-insecure.rule: Host(`czstreams.${LOCAL_DOMAIN}`)
+      traefik.http.routers.czstreams-local-insecure.entrypoints: web
+      traefik.http.routers.czstreams-local-insecure.service: czstreams
+      traefik.http.routers.czstreams-local-insecure.middlewares: czstreams-web-redirect
       
       # Local domain (secure HTTPS)
-      traefik.http.routers.czstreams-addon-local.rule: Host(`czstreams-addon.${LOCAL_DOMAIN}`)
-      traefik.http.routers.czstreams-addon-local.entrypoints: websecure
-      traefik.http.routers.czstreams-addon-local.service: czstreams-addon
-      traefik.http.routers.czstreams-addon-local.tls: true
+      traefik.http.routers.czstreams-local.rule: Host(`czstreams.${LOCAL_DOMAIN}`)
+      traefik.http.routers.czstreams-local.entrypoints: websecure
+      traefik.http.routers.czstreams-local.service: czstreams
+      traefik.http.routers.czstreams-local.tls: true
       
       # Runtipi management label
       runtipi.managed: true
