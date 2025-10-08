@@ -15,8 +15,8 @@
       },
       "volumes": [
         {
-          "hostPath": "${HOST_MOUNT_DIR-torbox-data}",
-          "containerPath": "${MOUNT_PATH-/torbox}"
+          "hostPath": "${APP_DATA_DIR}/data/torbox",
+          "containerPath": "/torbox"
         }
       ],
       "extraOptions": {
