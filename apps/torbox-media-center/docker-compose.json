@@ -1,0 +1,29 @@
+{
+  "$schema": "../dynamic-compose-schema.json",
+  "services": [
+    {
+      "name": "torbox-media-center",
+      "image": "anonymoussystems/torbox-media-center:main",
+      "isMain": true,
+      "addPorts": false,
+      "environment": {
+        "PUID": "${PUID-1000}",
+        "PGID": "${PGID-1000}",
+        "TZ": "${TZ-Europe/Prague}",
+        "TORBOX_API_KEY": "${TORBOX_API_KEY}",
+        "MOUNT_METHOD": "${MOUNT_METHOD-strm}",
+        "MOUNT_PATH": "${MOUNT_PATH-/torbox}"
+      },
+      "volumes": [
+        {
+          "hostPath": "${HOST_MOUNT_DIR-torbox-data}",
+          "containerPath": "${MOUNT_PATH-/torbox}"
+        }
+      ],
+      "extraOptions": {
+        "stdin_open": true,
+        "tty": true
+      }
+    }
+  ]
+}

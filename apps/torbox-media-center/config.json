@@ -1,0 +1,70 @@
+{
+  "$schema": "../app-info-schema.json",
+  "name": "TorBox Media Center",
+  "id": "torbox-media-center",
+  "available": true,
+  "exposable": false,
+  "dynamic_config": true,
+  "port": 8080,
+  "tipi_version": 4,
+  "version": "main",
+  "categories": ["media", "utilities", "data"],
+  "author": "Anonymous Systems",
+  "description": "Mount your TorBox cloud storage locally for seamless media server integration with Plex, Jellyfin, and Emby.",
+  "short_desc": "TorBox cloud storage integration for media servers.",
+  "source": "https://github.com/anonymoussystems/torbox-media-center",
+  "form_fields": [
+    {
+      "type": "text",
+      "label": "User ID (PUID)",
+      "hint": "User ID to run the container as (default: 1000)",
+      "env_variable": "PUID",
+      "default": "1000"
+    },
+    {
+      "type": "text",
+      "label": "Group ID (PGID)",
+      "hint": "Group ID to run the container as (default: 1000)",
+      "env_variable": "PGID",
+      "default": "1000"
+    },
+    {
+      "type": "text",
+      "label": "Timezone",
+      "hint": "Timezone for logs and scheduling (default: Europe/Prague)",
+      "env_variable": "TZ",
+      "default": "Europe/Prague"
+    },
+    {
+      "type": "password",
+      "label": "TorBox API Key",
+      "hint": "Your TorBox API key from torbox.app (required)",
+      "env_variable": "TORBOX_API_KEY",
+      "required": true
+    },
+    {
+      "type": "text",
+      "label": "Mount Method",
+      "hint": "How to mount TorBox content: strm, webdav, or rclone (default: strm)",
+      "env_variable": "MOUNT_METHOD",
+      "default": "strm"
+    },
+    {
+      "type": "text",
+      "label": "Mount Path",
+      "hint": "Container path where TorBox content will be mounted (default: /torbox)",
+      "env_variable": "MOUNT_PATH",
+      "default": "/torbox"
+    },
+    {
+      "type": "text",
+      "label": "Host Mount Directory",
+      "hint": "Host directory to mount (default: torbox-data in app directory)",
+      "env_variable": "HOST_MOUNT_DIR",
+      "default": "torbox-data"
+    }
+  ],
+  "supported_architectures": ["amd64", "arm64"],
+  "created_at": 1740000000000,
+  "updated_at": 1740000000000
+}
