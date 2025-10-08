@@ -15,7 +15,7 @@ services:
       - MOUNT_METHOD=${MOUNT_METHOD:-strm}
       - MOUNT_PATH=${MOUNT_PATH:-/torbox}
     volumes:
-      - ${APP_DATA_DIR}/data/torbox-data:${MOUNT_PATH:-/torbox}
+      - ${APP_DATA_DIR}/data/torbox-data:/torbox
     networks:
       - tipi_main_network
     labels:
