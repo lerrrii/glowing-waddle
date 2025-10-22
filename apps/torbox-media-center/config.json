@@ -1,12 +1,12 @@
 {
   "$schema": "../app-info-schema.json",
-  "name": "TorBox Media Center",
+  "name": "TorBox Media Center+",
   "id": "torbox-media-center",
   "available": true,
   "exposable": false,
   "dynamic_config": true,
   "port": 8080,
-  "tipi_version": 4,
+  "tipi_version": 5,
   "version": "main",
   "categories": ["media", "utilities", "data"],
   "author": "Anonymous Systems",
@@ -38,14 +38,14 @@
     {
       "type": "password",
       "label": "TorBox API Key",
-      "hint": "Your TorBox API key from torbox.app (required)",
+      "hint": "Your TorBox API key from torbox.app (REQUIRED)",
       "env_variable": "TORBOX_API_KEY",
       "required": true
     },
     {
       "type": "text",
       "label": "Mount Method",
-      "hint": "How to mount TorBox content: strm, webdav, or rclone (default: strm)",
+      "hint": "How to mount: strm (default) or fuse",
       "env_variable": "MOUNT_METHOD",
       "default": "strm"
     },
@@ -58,10 +58,17 @@
     },
     {
       "type": "text",
-      "label": "Host Mount Directory",
-      "hint": "Host directory to mount (default: torbox-data in app directory)",
-      "env_variable": "HOST_MOUNT_DIR",
-      "default": "torbox-data"
+      "label": "Mount Refresh Time",
+      "hint": "How often to check for new files: slowest (24h), very_slow (12h), slow (6h), normal (3h, default), fast (2h), ultra_fast (1h), instant (6min, requires metadata scanning)",
+      "env_variable": "MOUNT_REFRESH_TIME",
+      "default": "normal"
+    },
+    {
+      "type": "boolean",
+      "label": "Scan Metadata",
+      "hint": "Enable metadata scanning to organize files into movies/series folders. If disabled, all videos go to movies folder. WARNING: Enables rate limiting and 429 errors are common. Only enable if your media server requires it.",
+      "env_variable": "SCAN_METADATA",
+      "default": false
     }
   ],
   "supported_architectures": ["amd64", "arm64"],
