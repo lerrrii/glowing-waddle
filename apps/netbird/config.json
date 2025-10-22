@@ -6,7 +6,7 @@
   "dynamic_config": true,
   "no_gui": true,
   "id": "netbird",
-  "tipi_version": 3,
+  "tipi_version": 4,
   "version": "latest",
   "categories": ["network", "security"],
   "description": "Connect your devices into a single secure private WireGuard®-based mesh network with SSO/MFA and simple access controls.",
@@ -31,10 +31,10 @@
     },
     {
       "type": "text",
-      "label": "DNS Resolver Address > Override default DNS port if needed",
-      "placeholder": "Default :22054, use 127.0.0.1:22054",
+      "label": "DNS Resolver Address > Override default DNS if needed",
+      "placeholder": "Leave empty to use system default (e.g. 1.1.1.1:53)",
       "env_variable": "NB_DNS_RESOLVER_ADDRESS",
-      "hint": "Leave empty to use port 22054. Set 127.0.0.1:22054 for Pi-hole/AdGuard conflics."
+      "hint": "Leave empty for automatic DNS. Set to your host’s IP (e.g. 192.168.1.10:53) if using Pi-hole/AdGuard on the same machine."
     }
   ],
   "supported_architectures": ["arm64", "amd64"],
