@@ -14,6 +14,8 @@ services:
       - TORBOX_API_KEY=${TORBOX_API_KEY}
       - MOUNT_METHOD=${MOUNT_METHOD:-strm}
       - MOUNT_PATH=${MOUNT_PATH:-/torbox}
+      - MOUNT_REFRESH_TIME=${MOUNT_REFRESH_TIME:-normal}
+      - SCAN_METADATA=${SCAN_METADATA:-false}
     volumes:
       - ${APP_DATA_DIR}/data/torbox:/torbox
     networks:
