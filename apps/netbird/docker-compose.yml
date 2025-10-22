@@ -5,7 +5,7 @@ services:
     environment:
       - NB_SETUP_KEY=${NB_SETUP_KEY}
       - NB_LOG_LEVEL=${NB_LOG_LEVEL-info}
-      - NB_DNS_RESOLVER_ADDRESS=${NB_DNS_RESOLVER_ADDRESS}
+      - NB_DNS_RESOLVER_ADDRESS=${NB_DNS_RESOLVER_ADDRESS-127.0.0.1:22054}
     cap_add:
       - NET_ADMIN
       - SYS_ADMIN
