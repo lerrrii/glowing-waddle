@@ -13,7 +13,7 @@
         "MOUNT_METHOD": "${MOUNT_METHOD-strm}",
         "MOUNT_PATH": "${MOUNT_PATH-/torbox}",
         "MOUNT_REFRESH_TIME": "${MOUNT_REFRESH_TIME-normal}",
-        "SCAN_METADATA": "${SCAN_METADATA-false}"
+        "ENABLE_METADATA": "${ENABLE_METADATA-false}"
       },
       "volumes": [
         {
