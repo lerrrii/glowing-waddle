@@ -6,7 +6,7 @@
   "exposable": false,
   "dynamic_config": true,
   "port": 8080,
-  "tipi_version": 5,
+  "tipi_version": 6,
   "version": "main",
   "categories": ["media", "utilities", "data"],
   "author": "Anonymous Systems",
@@ -67,7 +67,7 @@
       "type": "boolean",
       "label": "Scan Metadata",
       "hint": "Enable metadata scanning to organize files into movies/series folders. If disabled, all videos go to movies folder. WARNING: Enables rate limiting and 429 errors are common. Only enable if your media server requires it.",
-      "env_variable": "SCAN_METADATA",
+      "env_variable": "ENABLE_METADATA",
       "default": false
     }
   ],
