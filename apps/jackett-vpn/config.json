@@ -132,6 +132,15 @@
       "placeholder": "24h",
       "env_variable": "JACKETT_DNS_UPDATE_PERIOD",
       "default": "24h"
+    },
+    {
+      "type": "text",
+      "label": "Security > Firewall Outbound Subnets",
+      "hint": "Allowed subnets outside VPN (comma-separated). Docker internal: 172.16.0.0/12, LAN example: 192.168.1.0/24",
+      "placeholder": "172.16.0.0/12",
+      "env_variable": "JACKETT_FIREWALL_OUTBOUND_SUBNETS",
+      "default": "172.16.0.0/12",
+      "required": true
     }
   ],
   "supported_architectures": ["arm64", "amd64"],
