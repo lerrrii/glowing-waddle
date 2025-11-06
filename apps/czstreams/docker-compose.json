@@ -21,13 +21,6 @@
       "environment": {
         "PORT": "52932"
       },
-      "addPorts": [
-        {
-          "containerPort": 52932,
-          "hostPort": "${APP_PORT}",
-          "tcp": true
-        }
-      ],
       "restart": "unless-stopped"
     }
   ]
