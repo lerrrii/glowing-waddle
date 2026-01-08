@@ -5,7 +5,7 @@
   "dynamic_config": true,
   "port": 9117,
   "id": "jackett-vpn",
-  "tipi_version": 3,
+  "tipi_version": 4,
   "version": "latest",
   "categories": ["media", "utilities", "security"],
   "description": "Jackett works as a proxy server, it translates queries from apps into tracker-site-specific http queries, parses the html response, and then sends results back. Running behind Gluetun VPN for privacy and security.",
@@ -40,7 +40,7 @@
         {"label": "Windscribe", "value": "windscribe"}
       ],
       "env_variable": "JACKETT_VPN_SERVICE_PROVIDER",
-      "hint": "Choose 'ProtonVPN (Static IP)' if configuring specific server endpoint below"
+      "hint": "Choose 'ProtonVPN (Static IP)' for static server configuration. Choose 'ProtonVPN (Auto)' for random server selection."
     },
     {
       "label": "VPN > Type",
@@ -60,28 +60,28 @@
     {
       "type": "text",
       "label": "VPN > WireGuard Server Public Key",
-      "hint": "From [Peer] PublicKey. REQUIRED when using 'ProtonVPN (Static IP)'",
+      "hint": "ONLY for 'ProtonVPN (Static IP)'. From [Peer] PublicKey in your config file.",
       "env_variable": "JACKETT_WIREGUARD_PUBLIC_KEY"
     },
     {
       "type": "text",
       "label": "VPN > WireGuard Endpoint IP",
       "placeholder": "217.23.3.76",
-      "hint": "From [Peer] Endpoint IP. REQUIRED when using 'ProtonVPN (Static IP)'",
+      "hint": "ONLY for 'ProtonVPN (Static IP)'. From [Peer] Endpoint IP in your config file.",
       "env_variable": "JACKETT_WIREGUARD_ENDPOINT_IP"
     },
     {
       "type": "number",
       "label": "VPN > WireGuard Endpoint Port",
       "placeholder": "51820",
-      "hint": "From [Peer] Endpoint Port. REQUIRED when using 'ProtonVPN (Static IP)'",
+      "hint": "ONLY for 'ProtonVPN (Static IP)'. From [Peer] Endpoint Port in your config file.",
       "env_variable": "JACKETT_WIREGUARD_ENDPOINT_PORT"
     },
     {
       "type": "text",
       "label": "VPN > WireGuard Interface Address",
       "placeholder": "10.2.0.2/32",
-      "hint": "From [Interface] Address. REQUIRED when using 'ProtonVPN (Static IP)'",
+      "hint": "ONLY for 'ProtonVPN (Static IP)'. From [Interface] Address in your config file.",
       "env_variable": "JACKETT_WIREGUARD_ADDRESSES"
     },
     {
@@ -98,12 +98,13 @@
       "type": "text",
       "label": "VPN > Server Countries",
       "placeholder": "Netherlands,United States,Japan",
-      "hint": "Only used with 'ProtonVPN (Auto)' mode. Ignored with static IP config",
+      "hint": "ONLY for 'ProtonVPN (Auto)' mode. Leave EMPTY when using 'ProtonVPN (Static IP)'.",
       "env_variable": "JACKETT_SERVER_COUNTRIES"
     },
     {
       "type": "boolean",
       "label": "VPN > Free Only",
+      "hint": "ONLY for 'ProtonVPN (Auto)' mode. Ignored when using 'ProtonVPN (Static IP)'.",
       "env_variable": "JACKETT_FREE_ONLY",
       "default": false
     },
