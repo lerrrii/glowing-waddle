@@ -5,7 +5,7 @@
   "dynamic_config": true,
   "port": 9117,
   "id": "jackett-vpn",
-  "tipi_version": 4,
+  "tipi_version": 5,
   "version": "latest",
   "categories": ["media", "utilities", "security"],
   "description": "Jackett works as a proxy server, it translates queries from apps into tracker-site-specific http queries, parses the html response, and then sends results back. Running behind Gluetun VPN for privacy and security.",
@@ -104,9 +104,8 @@
     {
       "type": "boolean",
       "label": "VPN > Free Only",
-      "hint": "ONLY for 'ProtonVPN (Auto)' mode. Ignored when using 'ProtonVPN (Static IP)'.",
-      "env_variable": "JACKETT_FREE_ONLY",
-      "default": false
+      "hint": "ONLY for 'ProtonVPN (Auto)' mode. Leave UNCHECKED when using 'ProtonVPN (Static IP)'.",
+      "env_variable": "JACKETT_FREE_ONLY"
     },
     {
       "type": "boolean",
