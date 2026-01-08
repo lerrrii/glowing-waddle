@@ -10,7 +10,14 @@ services:
       - VPN_SERVICE_PROVIDER=${JACKETT_VPN_SERVICE_PROVIDER}
       - VPN_TYPE=${JACKETT_VPN_TYPE}
       - WIREGUARD_PRIVATE_KEY=${JACKETT_WIREGUARD_PRIVATE_KEY}
-      - SERVER_COUNTRIES=${JACKETT_SERVER_COUNTRIES-Netherlands,United States,Japan}
+      - VPN_ENDPOINT_IP=${JACKETT_VPN_ENDPOINT_IP}
+      - VPN_ENDPOINT_PORT=${JACKETT_VPN_ENDPOINT_PORT-51820}
+      - WIREGUARD_PUBLIC_KEY=${JACKETT_WIREGUARD_PUBLIC_KEY}
+      - WIREGUARD_ADDRESSES=${JACKETT_WIREGUARD_ADDRESSES}
+      - WIREGUARD_PRESHARED_KEY=${JACKETT_WIREGUARD_PRESHARED_KEY}
+      - OPENVPN_USER=${JACKETT_OPENVPN_USER}
+      - OPENVPN_PASSWORD=${JACKETT_OPENVPN_PASSWORD}
+      - SERVER_COUNTRIES=${JACKETT_SERVER_COUNTRIES}
       - FREE_ONLY=${JACKETT_FREE_ONLY-on}
       - VPN_PORT_FORWARDING=${JACKETT_VPN_PORT_FORWARDING-off}
       - FIREWALL_ENABLED_DISABLING_IT_SHOOTS_YOU_IN_YOUR_FOOT=${JACKETT_FIREWALL-on}
@@ -26,6 +33,7 @@ services:
       - PUBLICIP_ENABLED=on
       - PUBLICIP_API=ipinfo,ifconfigco,ip2location,cloudflare
       - WIREGUARD_MTU=${JACKETT_WIREGUARD_MTU-1320}
+      - TZ=${TZ-Europe/London}
     volumes:
       - ${APP_DATA_DIR}/data/gluetun:/gluetun
     networks:
@@ -39,7 +47,6 @@ services:
     restart: unless-stopped
     labels:
       traefik.enable: true
-      # … your existing Traefik labels …
       runtipi.managed: true
 
   jackett:
@@ -57,40 +64,25 @@ services:
       - gluetun
     restart: unless-stopped
     labels:
-      # Enable Traefik on this service
       traefik.enable: true
-
-      # Redirect HTTP → HTTPS middleware
       traefik.http.middlewares.jackett-web-redirect.redirectscheme.scheme: https
-
-      # Traefik service definition (exposes container port 9117)
       traefik.http.services.jackett.loadbalancer.server.port: 9117
-
-      # Insecure router (HTTP)
       traefik.http.routers.jackett-insecure.rule: Host(`${APP_DOMAIN}`)
       traefik.http.routers.jackett-insecure.entrypoints: web
       traefik.http.routers.jackett-insecure.service: jackett
       traefik.http.routers.jackett-insecure.middlewares: jackett-web-redirect
-
-      # Secure router (HTTPS)
       traefik.http.routers.jackett.rule: Host(`${APP_DOMAIN}`)
       traefik.http.routers.jackett.entrypoints: websecure
       traefik.http.routers.jackett.service: jackett
       traefik.http.routers.jackett.tls.certresolver: myresolver
-
-      # Local (insecure) router for LAN access
       traefik.http.routers.jackett-local-insecure.rule: Host(`jackett.${LOCAL_DOMAIN}`)
       traefik.http.routers.jackett-local-insecure.entrypoints: web
       traefik.http.routers.jackett-local-insecure.service: jackett
       traefik.http.routers.jackett-local-insecure.middlewares: jackett-web-redirect
-
-      # Local (secure) router for LAN access
       traefik.http.routers.jackett-local.rule: Host(`jackett.${LOCAL_DOMAIN}`)
       traefik.http.routers.jackett-local.entrypoints: websecure
       traefik.http.routers.jackett-local.service: jackett
       traefik.http.routers.jackett-local.tls: true
-
-      # Managed marker
       runtipi.managed: true
 
 networks:
