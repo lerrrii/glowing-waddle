@@ -5,7 +5,7 @@
   "dynamic_config": true,
   "port": 9117,
   "id": "jackett-vpn",
-  "tipi_version": 5,
+  "tipi_version": 6,
   "version": "latest",
   "categories": ["media", "utilities", "security"],
   "description": "Jackett works as a proxy server, it translates queries from apps into tracker-site-specific http queries, parses the html response, and then sends results back. Running behind Gluetun VPN for privacy and security.",
@@ -30,8 +30,7 @@
       "type": "text",
       "required": true,
       "options": [
-        {"label": "ProtonVPN (Auto)", "value": "protonvpn"},
-        {"label": "ProtonVPN (Static IP)", "value": "custom"},
+        {"label": "ProtonVPN", "value": "protonvpn"},
         {"label": "Mullvad",    "value": "mullvad"},
         {"label": "NordVPN",    "value": "nordvpn"},
         {"label": "PIA",        "value": "private internet access"},
@@ -39,8 +38,7 @@
         {"label": "Ivpn",       "value": "ivpn"},
         {"label": "Windscribe", "value": "windscribe"}
       ],
-      "env_variable": "JACKETT_VPN_SERVICE_PROVIDER",
-      "hint": "Choose 'ProtonVPN (Static IP)' for static server configuration. Choose 'ProtonVPN (Auto)' for random server selection."
+      "env_variable": "JACKETT_VPN_SERVICE_PROVIDER"
     },
     {
       "label": "VPN > Type",
@@ -59,33 +57,6 @@
     },
     {
       "type": "text",
-      "label": "VPN > WireGuard Server Public Key",
-      "hint": "ONLY for 'ProtonVPN (Static IP)'. From [Peer] PublicKey in your config file.",
-      "env_variable": "JACKETT_WIREGUARD_PUBLIC_KEY"
-    },
-    {
-      "type": "text",
-      "label": "VPN > WireGuard Endpoint IP",
-      "placeholder": "217.23.3.76",
-      "hint": "ONLY for 'ProtonVPN (Static IP)'. From [Peer] Endpoint IP in your config file.",
-      "env_variable": "JACKETT_WIREGUARD_ENDPOINT_IP"
-    },
-    {
-      "type": "number",
-      "label": "VPN > WireGuard Endpoint Port",
-      "placeholder": "51820",
-      "hint": "ONLY for 'ProtonVPN (Static IP)'. From [Peer] Endpoint Port in your config file.",
-      "env_variable": "JACKETT_WIREGUARD_ENDPOINT_PORT"
-    },
-    {
-      "type": "text",
-      "label": "VPN > WireGuard Interface Address",
-      "placeholder": "10.2.0.2/32",
-      "hint": "ONLY for 'ProtonVPN (Static IP)'. From [Interface] Address in your config file.",
-      "env_variable": "JACKETT_WIREGUARD_ADDRESSES"
-    },
-    {
-      "type": "text",
       "label": "VPN > OpenVPN Username",
       "env_variable": "JACKETT_OPENVPN_USER"
     },
@@ -98,14 +69,13 @@
       "type": "text",
       "label": "VPN > Server Countries",
       "placeholder": "Netherlands,United States,Japan",
-      "hint": "ONLY for 'ProtonVPN (Auto)' mode. Leave EMPTY when using 'ProtonVPN (Static IP)'.",
       "env_variable": "JACKETT_SERVER_COUNTRIES"
     },
     {
       "type": "boolean",
       "label": "VPN > Free Only",
-      "hint": "ONLY for 'ProtonVPN (Auto)' mode. Leave UNCHECKED when using 'ProtonVPN (Static IP)'.",
-      "env_variable": "JACKETT_FREE_ONLY"
+      "env_variable": "JACKETT_FREE_ONLY",
+      "default": false
     },
     {
       "type": "boolean",
