@@ -7,35 +7,116 @@
       "internalPort": 9117,
       "capAdd": ["NET_ADMIN"],
       "devices": ["/dev/net/tun"],
-      "environment": {
-        "VPN_SERVICE_PROVIDER": "${JACKETT_VPN_SERVICE_PROVIDER}",
-        "VPN_TYPE": "${JACKETT_VPN_TYPE}",
-        "WIREGUARD_PRIVATE_KEY": "${JACKETT_WIREGUARD_PRIVATE_KEY}",
-        "VPN_ENDPOINT_IP": "${JACKETT_VPN_ENDPOINT_IP}",
-        "VPN_ENDPOINT_PORT": "${JACKETT_VPN_ENDPOINT_PORT}",
-        "WIREGUARD_PUBLIC_KEY": "${JACKETT_WIREGUARD_PUBLIC_KEY}",
-        "WIREGUARD_ADDRESSES": "${JACKETT_WIREGUARD_ADDRESSES}",
-        "WIREGUARD_PRESHARED_KEY": "${JACKETT_WIREGUARD_PRESHARED_KEY}",
-        "OPENVPN_USER": "${JACKETT_OPENVPN_USER}",
-        "OPENVPN_PASSWORD": "${JACKETT_OPENVPN_PASSWORD}",
-        "SERVER_COUNTRIES": "${JACKETT_SERVER_COUNTRIES}",
-        "FREE_ONLY": "${JACKETT_FREE_ONLY}",
-        "VPN_PORT_FORWARDING": "${JACKETT_VPN_PORT_FORWARDING}",
-        "FIREWALL_ENABLED_DISABLING_IT_SHOOTS_YOU_IN_YOUR_FOOT": "${JACKETT_FIREWALL}",
-        "FIREWALL_VPN_INPUT_PORTS": "9117",
-        "DOT": "${JACKETT_DNS}",
-        "DOT_IPV6": "${JACKETT_DOT_IPV6}",
-        "DNS_ADDRESS": "127.0.0.1",
-        "DNS_KEEP_NAMESERVER": "off",
-        "BLOCK_MALICIOUS": "${JACKETT_BLOCK_MALICIOUS}",
-        "BLOCK_ADS": "${JACKETT_BLOCK_ADS}",
-        "BLOCK_SURVEILLANCE": "${JACKETT_BLOCK_SURVEILLANCE}",
-        "DNS_UPDATE_PERIOD": "${JACKETT_DNS_UPDATE_PERIOD}",
-        "PUBLICIP_ENABLED": "on",
-        "PUBLICIP_API": "ipinfo,ifconfigco,ip2location,cloudflare",
-        "WIREGUARD_MTU": "${JACKETT_WIREGUARD_MTU}",
-        "TZ": "${TZ-Europe/London}"
-      },
+      "environment": [
+        {
+          "key": "VPN_SERVICE_PROVIDER",
+          "value": "${JACKETT_VPN_SERVICE_PROVIDER}"
+        },
+        {
+          "key": "VPN_TYPE",
+          "value": "${JACKETT_VPN_TYPE}"
+        },
+        {
+          "key": "WIREGUARD_PRIVATE_KEY",
+          "value": "${JACKETT_WIREGUARD_PRIVATE_KEY}"
+        },
+        {
+          "key": "VPN_ENDPOINT_IP",
+          "value": "${JACKETT_VPN_ENDPOINT_IP}"
+        },
+        {
+          "key": "VPN_ENDPOINT_PORT",
+          "value": "${JACKETT_VPN_ENDPOINT_PORT}"
+        },
+        {
+          "key": "WIREGUARD_PUBLIC_KEY",
+          "value": "${JACKETT_WIREGUARD_PUBLIC_KEY}"
+        },
+        {
+          "key": "WIREGUARD_ADDRESSES",
+          "value": "${JACKETT_WIREGUARD_ADDRESSES}"
+        },
+        {
+          "key": "WIREGUARD_PRESHARED_KEY",
+          "value": "${JACKETT_WIREGUARD_PRESHARED_KEY}"
+        },
+        {
+          "key": "OPENVPN_USER",
+          "value": "${JACKETT_OPENVPN_USER}"
+        },
+        {
+          "key": "OPENVPN_PASSWORD",
+          "value": "${JACKETT_OPENVPN_PASSWORD}"
+        },
+        {
+          "key": "SERVER_COUNTRIES",
+          "value": "${JACKETT_SERVER_COUNTRIES}"
+        },
+        {
+          "key": "FREE_ONLY",
+          "value": "${JACKETT_FREE_ONLY}"
+        },
+        {
+          "key": "VPN_PORT_FORWARDING",
+          "value": "${JACKETT_VPN_PORT_FORWARDING}"
+        },
+        {
+          "key": "FIREWALL_ENABLED_DISABLING_IT_SHOOTS_YOU_IN_YOUR_FOOT",
+          "value": "${JACKETT_FIREWALL}"
+        },
+        {
+          "key": "FIREWALL_VPN_INPUT_PORTS",
+          "value": "9117"
+        },
+        {
+          "key": "DOT",
+          "value": "${JACKETT_DNS}"
+        },
+        {
+          "key": "DOT_IPV6",
+          "value": "${JACKETT_DOT_IPV6}"
+        },
+        {
+          "key": "DNS_ADDRESS",
+          "value": "127.0.0.1"
+        },
+        {
+          "key": "DNS_KEEP_NAMESERVER",
+          "value": "off"
+        },
+        {
+          "key": "BLOCK_MALICIOUS",
+          "value": "${JACKETT_BLOCK_MALICIOUS}"
+        },
+        {
+          "key": "BLOCK_ADS",
+          "value": "${JACKETT_BLOCK_ADS}"
+        },
+        {
+          "key": "BLOCK_SURVEILLANCE",
+          "value": "${JACKETT_BLOCK_SURVEILLANCE}"
+        },
+        {
+          "key": "DNS_UPDATE_PERIOD",
+          "value": "${JACKETT_DNS_UPDATE_PERIOD}"
+        },
+        {
+          "key": "PUBLICIP_ENABLED",
+          "value": "on"
+        },
+        {
+          "key": "PUBLICIP_API",
+          "value": "ipinfo,ifconfigco,ip2location,cloudflare"
+        },
+        {
+          "key": "WIREGUARD_MTU",
+          "value": "${JACKETT_WIREGUARD_MTU}"
+        },
+        {
+          "key": "TZ",
+          "value": "${TZ-Europe/London}"
+        }
+      ],
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/data/gluetun",
@@ -53,11 +134,20 @@
       "name": "jackett",
       "image": "linuxserver/jackett:latest",
       "networkMode": "service:gluetun",
-      "environment": {
-        "PUID": "${JACKETT_PUID-1000}",
-        "PGID": "${JACKETT_PGID-1000}",
-        "TZ": "${TZ-Europe/London}"
-      },
+      "environment": [
+        {
+          "key": "PUID",
+          "value": "${JACKETT_PUID-1000}"
+        },
+        {
+          "key": "PGID",
+          "value": "${JACKETT_PGID-1000}"
+        },
+        {
+          "key": "TZ",
+          "value": "${TZ-Europe/London}"
+        }
+      ],
       "volumes": [
         {
           "hostPath": "${APP_DATA_DIR}/data/config",
